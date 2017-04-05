@@ -1,0 +1,116 @@
+{
+  "lastUpdate": 1476753359094,
+  "outputs": [
+    {
+      "activityId": "2c17766f-98e5-4ee0-8b33-3e2116850881",
+      "data": {
+        "comments": "Some swan",
+        "identificationConfidence": "Uncertain",
+        "individualCount": "1",
+        "locationAccuracy": 10,
+        "locationLatitude": -35.307841060728215,
+        "locationLocality": "Parliament House, Parliament Drive, Capital Hill, Canberra, District of Canberra Central, Australian Capital Territory, 2600, Australia",
+        "locationLongitude": 149.12427932024002,
+        "locationNotes": "Swanny lives here.",
+        "locationSource": "other",
+        "notes": "It's a swan",
+        "recordedBy": "Simon Bear",
+        "sightingPhoto": [
+          {
+            "activityId": "2c17766f-98e5-4ee0-8b33-3e2116850881",
+            "attribution": "Some newspaper",
+            "contentType": "image/jpeg",
+            "dateTaken": "2016-10-18T01:14:43Z",
+            "documentId": "2287ef3e-19ac-4c2c-b361-ac429777a23c",
+            "filename": "432570-121221-wayne-swan.jpg",
+            "filepath": "2016-10",
+            "filesize": 30209,
+            "formattedSize": "30.21 KB",
+            "identifier": "https://biocollect-test.ala.org.au/image?id=432570-121221-wayne-swan.jpg",
+            "licence": "CC BY",
+            "name": "432570-121221-wayne-swan.jpg",
+            "notes": "It's a Swanny",
+            "outputId": "d9d87ef3-6e54-4353-8945-e20e4fa8a370",
+            "role": "surveyImage",
+            "status": "active",
+            "type": "image"
+          }
+        ],
+        "species": {
+          "commonName": "black swan",
+          "guid": "CAAB:40071002",
+          "name": "Cygnus atratus (black swan)",
+          "outputSpeciesId": "aa8817aa-6cac-44d6-80c1-65999f238cc2",
+          "scientificName": "Cygnus atratus"
+        },
+        "surveyDate": "2016-10-17T13:00:00Z",
+        "surveyStartTime": "12:11 PM",
+        "tags": [
+          "Birds, Fowls"
+        ]
+      },
+      "dateCreated": "2016-10-18T01:15:55Z",
+      "id": "580577cbe4b0c637a31efc6c",
+      "lastUpdated": "2016-10-18T01:15:56Z",
+      "name": "Single Sighting - Advanced",
+      "outputId": "d9d87ef3-6e54-4353-8945-e20e4fa8a370",
+      "outputNotCompleted": false,
+      "status": "active"
+    }
+  ],
+  "projectActivity": {
+    "alerts": null,
+    "class": "au.org.ala.ecodata.ProjectActivity",
+    "commentsAllowed": false,
+    "description": "General template for individuals to log single sightings of flora, fauna or fungi into the Atlas of Living Australia",
+    "endDate": null,
+    "id": "5684b570e4b08504362f817d",
+    "name": "Individual sighting",
+    "pActivityFormName": "OzAtlas Sightings",
+    "projectActivityId": "d57961a1-517d-42f2-8446-c373c0c59579",
+    "projectId": "b3d8e243-1137-4d26-9e15-c5a6f90815eb",
+    "publicAccess": true,
+    "restrictRecordToSites": false,
+    "sites": [
+      "ebc1fa08-df43-4c57-9ae9-a26fe175c0b0"
+    ],
+    "startDate": "2009-12-31T13:00:00Z",
+    "status": "active",
+    "visibility": {
+      "class": "au.org.ala.ecodata.VisibilityConstraint",
+      "embargoForDays": null,
+      "embargoOption": {
+        "enumType": "au.org.ala.ecodata.EmbargoOption",
+        "name": "NONE"
+      },
+      "embargoUntil": null,
+      "id": null
+    }
+  },
+  "records": [
+    {
+      "activityId": "2c17766f-98e5-4ee0-8b33-3e2116850881",
+      "class": "au.org.ala.ecodata.Record",
+      "coordinateUncertaintyInMeters": null,
+      "dateCreated": "2016-10-18T01:15:56Z",
+      "decimalLatitude": -35.307841060728215,
+      "decimalLongitude": 149.12427932024002,
+      "eventDate": "2016-10-17T13:00:00Z",
+      "generalizedDecimalLatitude": null,
+      "generalizedDecimalLongitude": null,
+      "id": "580577cce4b0c637a31efc6e",
+      "individualCount": 1,
+      "json": null,
+      "lastUpdated": "2016-10-18T01:15:59Z",
+      "numberOfOrganisms": null,
+      "occurrenceID": "4743fec3-8a3a-4599-802f-ee3b4beeae61",
+      "outputId": "d9d87ef3-6e54-4353-8945-e20e4fa8a370",
+      "outputItemId": null,
+      "outputSpeciesId": "aa8817aa-6cac-44d6-80c1-65999f238cc2",
+      "projectActivityId": "d57961a1-517d-42f2-8446-c373c0c59579",
+      "projectId": "b3d8e243-1137-4d26-9e15-c5a6f90815eb",
+      "status": "active",
+      "userId": "8373"
+    }
+  ]
+}

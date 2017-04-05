@@ -1,48 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="au.org.ala.mobile.ozatlas.MainActivity">
 
-    <Button
-        android:text="@string/main_button_record_sighting"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <FrameLayout android:id="@+id/main_tab_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true"
-        android:id="@+id/button_record"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true"
+        android:layout_above="@+id/main_bottom_tab_bar">
 
-    <Button
-        android:text="@string/main_button_species_search"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_record"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button_species_search"
-        android:layout_alignParentEnd="true" />
+    </FrameLayout>
 
-    <Button
-        android:text="@string/main_button_explore_your_area"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_species_search"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button_explore_your_area"
-        android:layout_alignParentEnd="true" />
+    <com.roughike.bottombar.BottomBar
+        android:id="@+id/main_bottom_tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/colorPrimary"
+        app:bb_activeTabColor="@android:color/primary_text_dark"
+        app:bb_inActiveTabColor="@android:color/primary_text_dark"
+        app:bb_inActiveTabAlpha="0.5"
+        app:bb_tabXmlResource="@xml/main_activity_tabs" />
 
-    <Button
-        android:text="@string/main_button_about_atlas"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/button_explore_your_area"
-        android:layout_alignParentStart="true"
-        android:id="@+id/button_about_atlas"
-        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

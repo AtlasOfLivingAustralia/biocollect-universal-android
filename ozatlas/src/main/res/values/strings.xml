@@ -4,4 +4,48 @@
     <string name="main_button_species_search">Species search</string>
     <string name="main_button_explore_your_area">Explore Your Area</string>
     <string name="main_button_about_atlas">About the Atlas</string>
+    <string name="title_activity_ala_authenticator">Sign in</string>
+
+    <string name="main_tab_sightings">Sightings</string>
+    <string name="main_tab_explore">Explore</string>
+    <string name="main_tab_browse">Browse</string>
+
+
+    <!-- Strings related to login -->
+    <string name="ala_account_type" translatable="false">au.org.ala</string>
+    <string name="content_authority" translatable="false">au.org.ala.mobile.ozatlas</string>
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="error_invalid_email">This email address is invalid</string>
+    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_incorrect_password">This password is incorrect</string>
+    <string name="error_field_required">This field is required</string>
+    <string name="permission_rationale">"Contacts permissions are needed for providing email
+        completions."
+    </string>
+    <string name="auth_token_label">ALA Auth Token Label</string>
+    <string name="invalid_response">The server sent an invalid response</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_about">About</string>
+    <string name="action_contact">Contact</string>
+    <string name="fragment_sighting_details_information_label">Sighting Information</string>
+    <string name="sighting_detail_survey_date_label">Survey Date</string>
+    <string name="sighting_detail_survey_start_time_label">Survey Start Time</string>
+    <string name="sighting_detail_recorded_by">Recorded By</string>
+    <string name="sighting_detail_notes">Notes</string>
+    <string name="fragment_sighting_details_species_label">Species Information</string>
+    <string name="sighting_detail_species">Species</string>
+    <string name="sighting_detail_confident">I am confident of the species identification</string>
+    <string name="fragment_sighting_details_map_label">Location information</string>
+    <string name="sighting_detail_comments">Comments</string>
+    <string name="sighting_detail_tags">Identification Tags</string>
+    <string name="sighting_individual_count">How many individuals did you see?</string>
+    <string name="action_add_photo">Add Photo</string>
+    <string name="sighting_details_latitude">Latitude</string>
+    <string name="sighting_details_longitude">Longitude</string>
+    <string name="sighting_details_location_notes">Location Notes</string>
+    <string name="sighting_detail_accuracy">Accuracy (metres)</string>
+    <string name="sighting_detail_source">Source of coordinates</string>
 </resources>

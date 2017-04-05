@@ -1,0 +1,14 @@
+<tabs>
+    <tab
+        id="@+id/tab_sightings"
+        icon="@drawable/ic_visibility_black_24dp"
+        title="@string/main_tab_sightings" />
+    <tab
+        id="@+id/tab_explore"
+        icon="@drawable/ic_explore_black_24dp"
+        title="@string/main_tab_explore" />
+    <tab
+        id="@+id/tab_browse"
+        icon="@drawable/ic_search_black_24dp"
+        title="@string/main_tab_browse" />
+</tabs>

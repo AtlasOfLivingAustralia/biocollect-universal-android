@@ -1,17 +1,23 @@
 package au.org.ala.mobile.ozatlas
 
+import android.app.Application
+import android.content.Context
+import au.org.ala.mobile.ozatlas.dagger.ApplicationScope
 import dagger.Module
 import dagger.Provides
-import javax.inject.Scope
-import kotlin.annotation.AnnotationRetention.RUNTIME
-
-@Scope
-@Retention(RUNTIME)
-annotation class ApplicationScope
 
 @Module class OzAtlasAppModule(private val app: OzAtlasApp) {
 
     @Provides
     @ApplicationScope
-    fun provideApplication() = app
+    @IsInstrumentationTest
+    fun provideIsInstrumentationTest() : Boolean = false
+
+    @Provides
+    @ApplicationScope
+    fun provideApplication() : Application = app
+
+    @Provides
+    @ApplicationScope
+    fun provideContext() : Context = app
 }

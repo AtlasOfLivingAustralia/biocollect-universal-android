@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+<LinearLayout
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:text="@string/fragment_sighting_details_information_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_details_information_label" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_detail_survey_date_label">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="date"
+            android:ems="10"
+            android:id="@+id/sighting_detail_survey_date" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_detail_survey_start_time_label">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="time"
+            android:ems="10"
+            android:id="@+id/sighting_detail_survey_start_time" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_detail_recorded_by">
+        <android.support.design.widget.TextInputEditText
+            android:hint="@string/sighting_detail_recorded_by"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textPersonName"
+            android:ems="10"
+            android:id="@+id/sighting_detail_recorded_by" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_detail_notes">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/sighting_detail_notes" />
+    </android.support.design.widget.TextInputLayout>
+
+    <TextView
+        android:text="@string/fragment_sighting_details_species_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_details_species_label" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <AutoCompleteTextView
+            android:hint="@string/sighting_detail_species"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/sighting_detail_species" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Switch
+        android:text="@string/sighting_detail_confident"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_detail_confident"/>
+
+    <Spinner
+        android:prompt="@string/sighting_detail_tags"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_detail_tags" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_detail_comments">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/sighting_detail_comments" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_individual_count">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:ems="10"
+            android:id="@+id/sighting_detail_individual_count" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Button
+        android:text="@string/action_add_photo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_detail_add_photo_button" />
+
+    <TextView
+        android:text="@string/fragment_sighting_details_map_label"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView3" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_details_latitude">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/sighting_detail_latitude" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_details_longitude">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/sighting_detail_longitude" />
+    </android.support.design.widget.TextInputLayout>
+
+    <Spinner
+        android:prompt="@string/sighting_detail_accuracy"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_detail_accuracy" />
+
+    <Spinner
+        android:prompt="@string/sighting_detail_source"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/sighting_detail_source" />
+
+    <android.support.design.widget.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/sighting_details_location_notes">
+        <android.support.design.widget.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="textMultiLine"
+            android:ems="10"
+            android:id="@+id/sighting_detail_location_notes" />
+    </android.support.design.widget.TextInputLayout>
+
+</LinearLayout>
+</ScrollView>
