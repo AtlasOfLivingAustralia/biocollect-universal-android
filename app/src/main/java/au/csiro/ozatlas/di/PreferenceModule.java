@@ -13,11 +13,11 @@ import dagger.Provides;
  */
 
 @Module
-public class AppModule {
+public class PreferenceModule {
 
     private Context context;
 
-    public AppModule(Context context) {
+    public PreferenceModule(Context context) {
         this.context = context;
     }
 

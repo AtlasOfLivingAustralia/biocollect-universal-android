@@ -4,8 +4,9 @@ import android.app.Application;
 import android.content.Context;
 
 import au.csiro.ozatlas.di.AppComponent;
-import au.csiro.ozatlas.di.AppModule;
+import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.DaggerAppComponent;
+import au.csiro.ozatlas.di.RestModule;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -25,7 +26,7 @@ public class OzAtlasApplication extends Application {
     }
 
     public static AppComponent init(Context context) {
-        return DaggerAppComponent.builder().appModule(new AppModule(context)).build();
+        return DaggerAppComponent.builder().restModule(new RestModule()).preferenceModule(new PreferenceModule(context)).build();
     }
 }
 

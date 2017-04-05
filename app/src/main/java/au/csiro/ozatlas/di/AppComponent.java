@@ -11,7 +11,7 @@ import dagger.Component;
  */
 
 @Singleton
-@Component(modules = {AppModule.class})
+@Component(modules = {PreferenceModule.class, RestModule.class})
 public interface AppComponent {
     void inject(BaseActivity activity);
     void inject(BaseFragment fragment);
