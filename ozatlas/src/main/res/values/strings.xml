@@ -1,7 +1,0 @@
-<resources>
-    <string name="app_name">OzAtlas</string>
-    <string name="main_button_record_sighting">Record a Sighting</string>
-    <string name="main_button_species_search">Species search</string>
-    <string name="main_button_explore_your_area">Explore Your Area</string>
-    <string name="main_button_about_atlas">About the Atlas</string>
-</resources>
