@@ -12,9 +12,15 @@ import dagger.Provides;
 
 @Module
 public class RestModule {
+    private String url;
+
+    public RestModule(String url) {
+        this.url = url;
+    }
+
     @Singleton
     @Provides
     RestClient getRestClient() {
-        return new RestClient();
+        return new RestClient(url);
     }
 }

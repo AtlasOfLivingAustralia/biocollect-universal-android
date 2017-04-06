@@ -26,7 +26,7 @@ public class OzAtlasApplication extends Application {
     }
 
     public static AppComponent init(Context context) {
-        return DaggerAppComponent.builder().restModule(new RestModule()).preferenceModule(new PreferenceModule(context)).build();
+        return DaggerAppComponent.builder().restModule(new RestModule(context.getString(R.string.url))).preferenceModule(new PreferenceModule(context)).build();
     }
 }
 

@@ -16,10 +16,10 @@ import au.csiro.ozatlas.rest.RestClient;
 
 public class BaseActivity extends AppCompatActivity {
     @Inject
-    AtlasSharedPreferenceManager sharedPreferences;
+    protected AtlasSharedPreferenceManager sharedPreferences;
 
     @Inject
-    RestClient restClient;
+    protected RestClient restClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
