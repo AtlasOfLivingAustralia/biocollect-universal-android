@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.login;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
@@ -22,6 +23,7 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
+import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -39,6 +41,8 @@ public class LoginActivity extends BaseActivity {
     TextInputLayout inputLayoutPassword;
     @BindView(R.id.editPassword)
     EditText editPassword;
+    @BindView(R.id.coordinatorLayout)
+    CoordinatorLayout coordinatorLayout;
 
     private CompositeDisposable mCompositeDisposable;
 
@@ -53,15 +57,10 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void postLogin(){
-        restClient.getService().register()
-                .subscribeOn(Schedulers.newThread())
+        mCompositeDisposable.add(restClient.getService().register()
+                .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<String>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-                        Log.d(TAG, "onSubscribe");
-                    }
-
+                .subscribeWith(new DisposableObserver<String>() {
                     @Override
                     public void onNext(String value) {
                         Log.d(TAG, "onNext");
@@ -70,13 +69,14 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
+                        showSnackBarMessage(coordinatorLayout, e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "onComplete");
                     }
-                });
+                }));
     }
 
     @OnClick(R.id.loginButton)
@@ -87,5 +87,11 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.registerLabel)
     void registerLabel(){
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.dispose();
     }
 }
