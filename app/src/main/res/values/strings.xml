@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">OzAtlas</string>
 
-    <string name="url">http://demo0371281.mockable.io/</string>
+    <string name="url">http://www.mocky.io/v2/</string>
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
