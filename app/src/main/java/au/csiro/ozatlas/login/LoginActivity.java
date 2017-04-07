@@ -55,11 +55,13 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+        mCompositeDisposable = new CompositeDisposable();
+
+        //test code
         if(AtlasManager.isTesting){
             editUsername.setText("sadat.sadat@csiro.au");
             editPassword.setText("");
         }
-        mCompositeDisposable = new CompositeDisposable();
     }
 
     private void postLogin(String username, String password){
