@@ -1,10 +1,12 @@
 <resources>
     <string name="app_name">OzAtlas</string>
 
-    <string name="url">http://www.mocky.io/v2/</string>
+    <string name="url">https://ecodata-test.ala.org.au/</string>
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
+    <string name="username_missing_error">UserName Missing</string>
+    <string name="password_missing_error">Password Missing</string>
     <string name="login">Login</string>
     <string name="register">Click to register</string>
 </resources>

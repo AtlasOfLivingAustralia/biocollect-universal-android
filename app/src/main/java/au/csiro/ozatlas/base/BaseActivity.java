@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.EditText;
 
 import javax.inject.Inject;
 
@@ -60,13 +61,15 @@ public class BaseActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * show the spinner dialog
+     */
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.getWindow().setBackgroundDrawable(new ColorDrawable(android.graphics.Color.TRANSPARENT));
-            //mProgressDialog.getWindow().setDimAmount(0.1f);
-            mProgressDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            mProgressDialog.setContentView(R.layout.dialog_progress);
+            mProgressDialog = new ProgressDialog(this, R.style.OSSProgressBarTheme);
+            mProgressDialog.getWindow().setDimAmount(0.2f);
+            mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
             mProgressDialog.setCancelable(false);
         }
 
@@ -75,10 +78,22 @@ public class BaseActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * hide the spinner
+     */
     public void hideProgressDialog(){
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
+    }
+
+    /**
+     *
+     * @param editText to check the empty content
+     * @return
+     */
+    protected boolean validate(EditText editText){
+        return editText.getText().toString().length()>0;
     }
 
     /**

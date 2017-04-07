@@ -7,5 +7,6 @@ import com.google.common.eventbus.EventBus;
  */
 
 public class AtlasManager {
+    public static boolean isTesting = true;
     public static EventBus eventBus = new EventBus();
 }

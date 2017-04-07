@@ -7,6 +7,7 @@ import android.util.Log;
 import android.widget.EditText;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
@@ -15,6 +16,7 @@ import javax.inject.Inject;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.rest.RestClient;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -51,19 +53,26 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
+        if(AtlasManager.isTesting){
+            editUsername.setText("sadat.sadat@csiro.au");
+            editPassword.setText("");
+        }
         mCompositeDisposable = new CompositeDisposable();
-        showProgressDialog();
-        postLogin();
     }
 
-    private void postLogin(){
-        mCompositeDisposable.add(restClient.getService().register()
+    private void postLogin(String username, String password){
+        showProgressDialog();
+        mCompositeDisposable.add(restClient.getService().login(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<String>() {
+                .subscribeWith(new DisposableObserver<JsonObject>() {
                     @Override
-                    public void onNext(String value) {
+                    public void onNext(JsonObject value) {
+                        if(value.has("authKey")){
+                            String authKey = value.get("authKey").getAsString();
+                            sharedPreferences.writeAuthKey(authKey);
+                            showSnackBarMessage(coordinatorLayout, "success");
+                        }
                         Log.d(TAG, "onNext");
                     }
 
@@ -71,10 +80,12 @@ public class LoginActivity extends BaseActivity {
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
                         showSnackBarMessage(coordinatorLayout, e.getMessage());
+                        hideProgressDialog();
                     }
 
                     @Override
                     public void onComplete() {
+                        hideProgressDialog();
                         Log.d(TAG, "onComplete");
                     }
                 }));
@@ -82,7 +93,17 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.loginButton)
     void loginButton(){
+        if(!validate(editUsername)){
+            inputLayoutUsername.setError(getString(R.string.username_missing_error));
+            return;
+        }
 
+        if(!validate(editPassword)){
+            inputLayoutPassword.setError(getString(R.string.password_missing_error));
+            return;
+        }
+
+        postLogin(editUsername.getText().toString(), editPassword.getText().toString());
     }
 
     @OnClick(R.id.registerLabel)

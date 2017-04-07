@@ -14,4 +14,12 @@ public class AtlasSharedPreferenceManager {
     public AtlasSharedPreferenceManager(Context context){
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
+
+    public void writeAuthKey(String authKey){
+        sharedPreferences.edit().putString("AUTH_KEY", authKey).apply();
+    }
+
+    public String getAuthKey(){
+        return sharedPreferences.getString("AUTH_KEY", null);
+    }
 }
