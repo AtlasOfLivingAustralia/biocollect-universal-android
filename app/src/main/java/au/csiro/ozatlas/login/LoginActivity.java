@@ -1,5 +1,7 @@
 package au.csiro.ozatlas.login;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
@@ -108,7 +110,8 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.registerLabel)
     void registerLabel(){
-
+        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.register_url)));
+        startActivity(browserIntent);
     }
 
     @Override

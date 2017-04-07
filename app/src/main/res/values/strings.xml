@@ -2,6 +2,7 @@
     <string name="app_name">OzAtlas</string>
 
     <string name="url">https://ecodata-test.ala.org.au/</string>
+    <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
