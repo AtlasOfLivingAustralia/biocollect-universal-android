@@ -53,6 +53,7 @@ public class LoginActivity extends BaseActivity {
         ButterKnife.bind(this);
 
         mCompositeDisposable = new CompositeDisposable();
+        showProgressDialog();
         postLogin();
     }
 
