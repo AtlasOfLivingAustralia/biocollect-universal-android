@@ -24,7 +24,7 @@ import au.csiro.ozatlas.rest.RestClient;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseActivity extends AppCompatActivity {
+public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener{
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
@@ -64,6 +64,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * show the spinner dialog
      */
+    @Override
     public void showProgressDialog() {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
@@ -81,6 +82,7 @@ public class BaseActivity extends AppCompatActivity {
     /**
      * hide the spinner
      */
+    @Override
     public void hideProgressDialog(){
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
@@ -92,7 +94,8 @@ public class BaseActivity extends AppCompatActivity {
      * @param editText to check the empty content
      * @return
      */
-    protected boolean validate(EditText editText){
+    @Override
+    public boolean validate(EditText editText){
         return editText.getText().toString().length()>0;
     }
 
@@ -101,6 +104,7 @@ public class BaseActivity extends AppCompatActivity {
      * @param coordinatorLayout
      * @param string message to show
      */
+    @Override
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
         Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG).show();
     }
