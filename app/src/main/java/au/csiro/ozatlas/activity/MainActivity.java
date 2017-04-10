@@ -13,9 +13,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.view.CircularImageView;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -50,10 +52,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void updateNavigationHeader(){
-        /*((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(user.getDisplayName());
-        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).setText(user.getEmail());
-        navigationView.getHeaderView(0).findViewById(R.id.imageView).setVisibility(View.VISIBLE);
-        ((CircularImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView)).setImageURL(user.getPhotoUrl().toString());*/
+        //((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(user.getDisplayName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).setText(sharedPreferences.getUsername());
+        //((CircularImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView)).setImageURL(user.getPhotoUrl().toString());
     }
 
     @Override
