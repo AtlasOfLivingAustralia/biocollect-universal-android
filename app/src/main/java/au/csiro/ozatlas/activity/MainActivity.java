@@ -20,6 +20,8 @@ import au.csiro.ozatlas.base.BaseActivity;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +44,16 @@ public class MainActivity extends BaseActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        updateNavigationHeader();
+    }
+
+    private void updateNavigationHeader(){
+        /*((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(user.getDisplayName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).setText(user.getEmail());
+        navigationView.getHeaderView(0).findViewById(R.id.imageView).setVisibility(View.VISIBLE);
+        ((CircularImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView)).setImageURL(user.getPhotoUrl().toString());*/
     }
 
     @Override
