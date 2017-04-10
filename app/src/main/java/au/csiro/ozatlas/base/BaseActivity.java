@@ -45,6 +45,9 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     public void onResume() {
         super.onResume();
         AtlasManager.eventBus.register(this);
+        if(!(this instanceof LoginActivity) && sharedPreferences.getAuthKey()==null){
+            launchLoginActivity();
+        }
     }
 
     @Override
