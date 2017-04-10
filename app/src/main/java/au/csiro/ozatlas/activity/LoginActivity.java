@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.login;
+package au.csiro.ozatlas.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -75,7 +75,8 @@ public class LoginActivity extends BaseActivity {
                         if(value.has("authKey")){
                             String authKey = value.get("authKey").getAsString();
                             sharedPreferences.writeAuthKey(authKey);
-                            showSnackBarMessage(coordinatorLayout, "success");
+                            //showSnackBarMessage(coordinatorLayout, "success");
+                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
                         }
                         Log.d(TAG, "onNext");
                     }
