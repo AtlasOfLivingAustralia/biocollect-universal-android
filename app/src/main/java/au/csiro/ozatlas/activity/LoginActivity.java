@@ -56,6 +56,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         mCompositeDisposable = new CompositeDisposable();
+        editUsername.setText(sharedPreferences.getUsername());
 
         //test code
         if(AtlasManager.isTesting){
@@ -64,7 +65,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private void postLogin(String username, String password){
+    private void postLogin(final String username, String password){
         showProgressDialog();
         mCompositeDisposable.add(restClient.getService().login(username, password)
                 .subscribeOn(Schedulers.io())
@@ -75,8 +76,7 @@ public class LoginActivity extends BaseActivity {
                         if(value.has("authKey")){
                             String authKey = value.get("authKey").getAsString();
                             sharedPreferences.writeAuthKey(authKey);
-                            //showSnackBarMessage(coordinatorLayout, "success");
-                            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                            sharedPreferences.writeUsername(username);
                         }
                         Log.d(TAG, "onNext");
                     }
@@ -91,6 +91,9 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onComplete() {
                         hideProgressDialog();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
                         Log.d(TAG, "onComplete");
                     }
                 }));

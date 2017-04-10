@@ -12,4 +12,5 @@ public interface BaseActivityFragmentListener {
     void hideProgressDialog();
     boolean validate(EditText editText);
     void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string);
+    void launchLoginActivity();
 }

@@ -22,4 +22,13 @@ public class AtlasSharedPreferenceManager {
     public String getAuthKey(){
         return sharedPreferences.getString("AUTH_KEY", null);
     }
+
+    public void writeUsername(String email){
+        sharedPreferences.edit().putString("USER_NAME", email).apply();
+    }
+
+    public String getUsername(){
+        return sharedPreferences.getString("USER_NAME", "");
+    }
+
 }

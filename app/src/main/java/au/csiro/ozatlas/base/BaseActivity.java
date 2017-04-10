@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.base;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import javax.inject.Inject;
 
 import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.activity.LoginActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
@@ -107,5 +109,16 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
         Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG).show();
+    }
+
+    /**
+     * launch Login Activity from anywhere
+     */
+    @Override
+    public void launchLoginActivity(){
+        Intent intent = new Intent(this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish();
     }
 }

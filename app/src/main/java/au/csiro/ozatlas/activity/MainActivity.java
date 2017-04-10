@@ -1,5 +1,6 @@
 package au.csiro.ozatlas.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -87,7 +88,8 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            // Handle the camera action
+            sharedPreferences.writeAuthKey(null);
+            launchLoginActivity();
         } else if (id == R.id.nav_add) {
 
         } else if (id == R.id.nav_all_sighting) {

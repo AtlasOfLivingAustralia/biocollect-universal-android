@@ -60,4 +60,10 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         if(baseActivityFragmentListener!=null)
             baseActivityFragmentListener.showSnackBarMessage(coordinatorLayout, string);
     }
+
+    @Override
+    public void launchLoginActivity() {
+        if(baseActivityFragmentListener!=null)
+            baseActivityFragmentListener.launchLoginActivity();
+    }
 }
