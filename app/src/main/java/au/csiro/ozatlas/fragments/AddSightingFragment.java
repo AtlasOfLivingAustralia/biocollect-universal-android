@@ -7,9 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+import android.widget.TextView;
+
+import java.util.Date;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -22,6 +26,10 @@ public class AddSightingFragment extends BaseFragment {
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
+    @BindView(R.id.time)
+    TextView time;
+    @BindView(R.id.date)
+    TextView date;
 
     private String[] individualSpinnervalue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
@@ -38,6 +46,9 @@ public class AddSightingFragment extends BaseFragment {
         individualSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
         individualSpinner.setAdapter(individualSpinnerAdapter);
+        Date now = new Date();
+        time.setText(AtlasDateTimeUtils.getStringFromDate(now, "hh:mm a").toUpperCase());
+        date.setText(AtlasDateTimeUtils.getStringFromDate(now, "dd MMMM, yyyy"));
         return view;
     }
 

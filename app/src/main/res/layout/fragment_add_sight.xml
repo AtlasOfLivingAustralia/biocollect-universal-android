@@ -15,8 +15,8 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/inputLayoutSpeciesName"
             android:layout_width="match_parent"
-            android:minHeight="@dimen/minimum_height_input_views"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:minHeight="@dimen/minimum_height_input_views">
 
             <EditText
                 android:id="@+id/editSpeciesName"
@@ -32,8 +32,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minimum_height_input_views"
             android:layout_marginTop="@dimen/input_view_top_margin"
+            android:minHeight="@dimen/minimum_height_input_views"
             android:orientation="vertical">
 
             <TextView
@@ -46,6 +46,7 @@
                 android:id="@+id/identificationTagSpinner"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/input_label_horizontal_spacing"
                 android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
@@ -53,8 +54,9 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_view_top_margin"
             android:minHeight="@dimen/minimum_height_input_views"
-            android:layout_marginTop="@dimen/input_view_top_margin">
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
             <android.support.v7.widget.SwitchCompat
                 android:id="@+id/confidenceSwitch"
@@ -66,8 +68,8 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@+id/confidenceSwitch"
                 android:text="@string/confidence_label"
                 android:textSize="@dimen/default_input_font_size" />
@@ -76,23 +78,24 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing"
             android:layout_marginTop="@dimen/input_view_top_margin"
             android:minHeight="@dimen/minimum_height_input_views">
 
             <Spinner
                 android:id="@+id/individualSpinner"
                 android:layout_width="wrap_content"
-                android:minWidth="100dp"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
+                android:minWidth="100dp"
                 android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="16dp"
                 android:layout_centerVertical="true"
+                android:layout_marginRight="16dp"
                 android:layout_toLeftOf="@+id/individualSpinner"
                 android:text="@string/individual_text"
                 android:textSize="@dimen/default_input_font_size" />
@@ -102,8 +105,8 @@
             android:id="@+id/inputLayoutNotes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="@dimen/minimum_height_input_views"
-            android:layout_marginTop="@dimen/input_view_top_margin">
+            android:layout_marginTop="@dimen/input_view_top_margin"
+            android:minHeight="@dimen/minimum_height_input_views">
 
             <EditText
                 android:id="@+id/editNote"
@@ -124,8 +127,8 @@
             android:minHeight="@dimen/minimum_height_input_views">
 
             <TextView
-                style="@style/InputLabel"
                 android:id="@+id/timeLabel"
+                style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
@@ -133,19 +136,20 @@
 
             <TextView
                 android:id="@+id/time"
-                android:layout_alignParentRight="true"
-                android:layout_below="@+id/timeLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_below="@+id/timeLabel"
+                android:layout_toRightOf="@+id/date"
                 android:textSize="@dimen/default_input_font_size" />
 
             <TextView
-                android:layout_below="@+id/timeLabel"
                 android:id="@+id/date"
-                android:layout_toLeftOf="@+id/time"
-                android:layout_marginRight="16dp"
-                android:layout_width="match_parent"
+                android:paddingLeft="@dimen/input_label_horizontal_spacing"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_below="@+id/timeLabel"
+                android:layout_marginRight="16dp"
                 android:textSize="@dimen/default_input_font_size" />
         </RelativeLayout>
     </LinearLayout>
