@@ -6,6 +6,13 @@
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
+    <string name="species_name_hint">Species name</string>
+    <string name="date_text">Date</string>
+    <string name="time_text">Time</string>
+    <string name="note_text">Note</string>
+    <string name="individual_text">Individuals</string>
+    <string name="identification_tags">Identification tags</string>
+    <string name="confidence_label">Are you confident of the species identification?</string>
     <string name="username_missing_error">UserName Missing</string>
     <string name="password_missing_error">Password Missing</string>
     <string name="login">Login</string>

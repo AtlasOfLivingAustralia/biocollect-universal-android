@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.view.CircularImageView;
 
 public class MainActivity extends BaseActivity
@@ -102,7 +103,7 @@ public class MainActivity extends BaseActivity
             sharedPreferences.writeAuthKey(null);
             launchLoginActivity();
         } else if (id == R.id.nav_add) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
         } else if (id == R.id.nav_all_sighting) {
 
         } else if (id == R.id.nav_my_sighting) {

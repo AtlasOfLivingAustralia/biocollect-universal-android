@@ -3,6 +3,14 @@
     <dimen name="edit_text_minimum_width">300dp</dimen>
     <dimen name="edit_text_maximum_width">400dp</dimen>
     <dimen name="view_top_margin">24dp</dimen>
+    <dimen name="input_view_top_margin">8dp</dimen>
     <dimen name="view_top_margin_double">48dp</dimen>
     <dimen name="activity_padding">24dp</dimen>
+
+    <dimen name="minimum_height_input_views">48dp</dimen>
+
+    <dimen name="default_input_font_size">16sp</dimen>
+
+    <dimen name="input_label_vertical_spacing">8dp</dimen>
+    <dimen name="input_label_horizontal_spacing">4dp</dimen>
 </resources>
