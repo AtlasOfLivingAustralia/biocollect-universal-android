@@ -11,6 +11,7 @@ import javax.inject.Inject;
 
 import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -21,6 +22,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     AtlasSharedPreferenceManager sharedPreferences;
 
     private BaseActivityFragmentListener baseActivityFragmentListener;
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -65,5 +67,11 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     public void launchLoginActivity() {
         if(baseActivityFragmentListener!=null)
             baseActivityFragmentListener.launchLoginActivity();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.dispose();
     }
 }

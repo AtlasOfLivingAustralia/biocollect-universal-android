@@ -21,6 +21,7 @@ import au.csiro.ozatlas.activity.LoginActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
+import io.reactivex.disposables.CompositeDisposable;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -34,6 +35,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     protected RestClient restClient;
 
     private ProgressDialog mProgressDialog;
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -123,5 +125,11 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mCompositeDisposable.dispose();
     }
 }

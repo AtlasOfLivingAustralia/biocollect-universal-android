@@ -48,14 +48,12 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    private CompositeDisposable mCompositeDisposable;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-        mCompositeDisposable = new CompositeDisposable();
         editUsername.setText(sharedPreferences.getUsername());
 
         //test code
@@ -118,11 +116,5 @@ public class LoginActivity extends BaseActivity {
     void registerLabel(){
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.register_url)));
         startActivity(browserIntent);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mCompositeDisposable.dispose();
     }
 }
