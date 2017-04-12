@@ -22,6 +22,7 @@
     <string name="username_missing_error">UserName Missing</string>
     <string name="password_missing_error">Password Missing</string>
     <string name="login">Login</string>
+    <string name="select_strategy">Select strategy</string>
     <string name="register">Click to register</string>
     <string name="title_activity_main">MainActivity</string>
 
@@ -29,4 +30,5 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
+    <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
 </resources>

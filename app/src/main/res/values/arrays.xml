@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="location_strategies">
+        <item>Use GPS Location</item>
+        <item>Pick From Map</item>
+        <item>Enter Your Address</item>
+    </string-array>
+</resources>

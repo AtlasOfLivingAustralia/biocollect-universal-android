@@ -19,6 +19,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.FloatingActionButtonListener;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
+import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.view.CircularImageView;
 
 public class MainActivity extends BaseActivity
@@ -38,8 +39,7 @@ public class MainActivity extends BaseActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with Adding Site", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
             }
         });
 
@@ -52,6 +52,10 @@ public class MainActivity extends BaseActivity
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
+
+        if(AtlasManager.isTesting){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
+        }
     }
 
     private void updateNavigationHeader(){

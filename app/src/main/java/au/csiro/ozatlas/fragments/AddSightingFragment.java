@@ -2,7 +2,13 @@ package au.csiro.ozatlas.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.view.ContextThemeWrapper;
+import android.text.Html;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,7 +18,17 @@ import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
+
+import com.google.android.gms.common.GoogleApiAvailability;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
+import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocomplete;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,6 +42,7 @@ import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Callable;
 
@@ -41,12 +58,20 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import static android.app.Activity.RESULT_CANCELED;
+import static android.app.Activity.RESULT_OK;
+
 /**
  * Created by sad038 on 11/4/17.
  */
 
 public class AddSightingFragment extends BaseFragment {
+    final String TAG = "AddSightingFragment";
+
     private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
+
+    private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
+    private static final int REQUEST_PLACE_PICKER = 2;
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
@@ -56,6 +81,8 @@ public class AddSightingFragment extends BaseFragment {
     TextView time;
     @BindView(R.id.date)
     TextView date;
+    @BindView(R.id.pickLocation)
+    TextView pickLocation;
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
@@ -107,7 +134,7 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
-    private List<String> createTagLists(String json){
+    private List<String> createTagLists(String json) {
         List<String> tags = new ArrayList<>();
         Set<String> set = new HashSet<>();
 
@@ -115,10 +142,10 @@ public class AddSightingFragment extends BaseFragment {
             JSONObject jObject = new JSONObject(json);
             Iterator<?> keys = jObject.keys();
 
-            while( keys.hasNext() ) {
-                String key = (String)keys.next();
+            while (keys.hasNext()) {
+                String key = (String) keys.next();
                 String value = jObject.getString(key);
-                if(!set.contains(value)){
+                if (!set.contains(value)) {
                     tags.add(value);
                     set.add(value);
                 }
@@ -132,6 +159,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * Observable to read the tag.txt file
+     *
      * @return
      */
     private Observable<String> getFileReadObservable() {
@@ -224,4 +252,89 @@ public class AddSightingFragment extends BaseFragment {
         return contents;
     }
 
+    @OnClick(R.id.pickLocation)
+    void pickLocation() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DateTimeDialogTheme);
+        builder//.setTitle(R.string.select_strategy)
+                .setItems(R.array.location_strategies, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+
+                        } else if (which == 1) {
+                            openMapToPickLocation();
+                        } else if (which == 2) {
+                            openAutocompleteActivity();
+                        }
+                    }
+                }).show();
+    }
+
+    private void openMapToPickLocation() {
+        try {
+            PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
+            Intent intent = intentBuilder.build(getActivity());
+            // Start the Intent by requesting a result, identified by a request code.
+            startActivityForResult(intent, REQUEST_PLACE_PICKER);
+        } catch (GooglePlayServicesRepairableException e) {
+            GooglePlayServicesUtil.getErrorDialog(e.getConnectionStatusCode(), getActivity(), 0);
+        } catch (GooglePlayServicesNotAvailableException e) {
+            Toast.makeText(getActivity(), "Google Play Services is not available.",
+                    Toast.LENGTH_LONG)
+                    .show();
+        }
+    }
+
+    private void openAutocompleteActivity() {
+        try {
+            // The autocomplete activity requires Google Play Services to be available. The intent
+            // builder checks this and throws an exception if it is not the case.
+            Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_FULLSCREEN)
+                    .build(getActivity());
+            startActivityForResult(intent, REQUEST_CODE_AUTOCOMPLETE);
+        } catch (GooglePlayServicesRepairableException e) {
+            // Indicates that Google Play Services is either not installed or not up to date. Prompt
+            // the user to correct the issue.
+            GoogleApiAvailability.getInstance().getErrorDialog(getActivity(), e.getConnectionStatusCode(),
+                    0 /* requestCode */).show();
+        } catch (GooglePlayServicesNotAvailableException e) {
+            // Indicates that Google Play Services is not available and the problem is not easily
+            // resolvable.
+            String message = "Google Play Services is not available: " +
+                    GoogleApiAvailability.getInstance().getErrorString(e.errorCode);
+
+            Log.e(TAG, message);
+            Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    /**
+     * Called after the autocomplete activity has finished to return its result.
+     */
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        // Check that the result was from the autocomplete widget.
+        if (requestCode == REQUEST_CODE_AUTOCOMPLETE) {
+            if (resultCode == RESULT_OK) {
+                // Get the user's selected place from the Intent.
+                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
+                Log.i(TAG, "Place Selected: " + place.getName());
+
+                pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
+                Status status = PlaceAutocomplete.getStatus(getActivity(), data);
+                Log.e(TAG, "Error: Status = " + status.toString());
+            }
+        } else if (requestCode == REQUEST_PLACE_PICKER) {
+            if (resultCode == RESULT_OK) {
+                /* User has picked a place, extract data.
+                   Data is extracted from the returned intent by retrieving a Place object from
+                   the PlacePicker.
+                 */
+                final Place place = PlacePicker.getPlace(getActivity(), data);
+                pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+            }
+        }
+    }
 }
