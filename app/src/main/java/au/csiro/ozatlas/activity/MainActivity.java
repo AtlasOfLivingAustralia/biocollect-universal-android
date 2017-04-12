@@ -2,6 +2,7 @@ package au.csiro.ozatlas.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
@@ -15,17 +16,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.google.android.gms.location.places.Place;
+
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.FloatingActionButtonListener;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
+import au.csiro.ozatlas.listener.PlaceUpdateListener;
 import au.csiro.ozatlas.view.CircularImageView;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener,PlaceUpdateListener {
 
     private NavigationView navigationView;
     private FloatingActionButton fab;
+    private AddSightingFragment addSightingFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +102,7 @@ public class MainActivity extends BaseActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
@@ -105,7 +110,8 @@ public class MainActivity extends BaseActivity
             sharedPreferences.writeAuthKey(null);
             launchLoginActivity();
         } else if (id == R.id.nav_add) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
+            addSightingFragment = new AddSightingFragment();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, addSightingFragment).addToBackStack(null).commit();
         } else if (id == R.id.nav_all_sighting) {
 
         } else if (id == R.id.nav_my_sighting) {
@@ -125,5 +131,10 @@ public class MainActivity extends BaseActivity
     @Override
     public void showFloatingButton() {
         fab.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void updatePlace(Place place) {
+        addSightingFragment.setPlace(place);
     }
 }

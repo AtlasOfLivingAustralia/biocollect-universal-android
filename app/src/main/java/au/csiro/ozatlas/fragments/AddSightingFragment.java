@@ -14,6 +14,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
+import com.google.android.gms.location.places.Place;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -61,6 +63,7 @@ public class AddSightingFragment extends BaseFragment {
     private ArrayAdapter<String> individualSpinnerAdapter;
     private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
+    private Place place;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -107,6 +110,11 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
+    /**
+     *
+     * @param json is the text from tags.txt
+     * @return list of items to show in tagspinner
+     */
     private List<String> createTagLists(String json){
         List<String> tags = new ArrayList<>();
         Set<String> set = new HashSet<>();
@@ -150,6 +158,11 @@ public class AddSightingFragment extends BaseFragment {
         for (int i = 1; i <= NUMBER_OF_INDIVIDUAL_LIMIT; i++) {
             individualSpinnerValue[i - 1] = String.valueOf(i);
         }
+    }
+
+    @OnClick(R.id.pickLocation)
+    public void pickLocation(){
+        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new PlaceChooseFragment()).addToBackStack(null).commit();
     }
 
     @OnClick(R.id.time)
@@ -224,4 +237,7 @@ public class AddSightingFragment extends BaseFragment {
         return contents;
     }
 
+    public void setPlace(Place place) {
+        this.place = place;
+    }
 }
