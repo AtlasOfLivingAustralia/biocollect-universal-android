@@ -1,14 +1,21 @@
 package au.csiro.ozatlas.fragments;
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.provider.Settings;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.view.ContextThemeWrapper;
-import android.text.Html;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,6 +56,7 @@ import java.util.concurrent.Callable;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.MarshMallowPermission;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -88,6 +96,7 @@ public class AddSightingFragment extends BaseFragment {
     private ArrayAdapter<String> individualSpinnerAdapter;
     private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
+    private LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -96,6 +105,9 @@ public class AddSightingFragment extends BaseFragment {
 
         //hiding the floating action button
         floatingActionButtonListener.hideFloatingButton();
+
+        // Acquire a reference to the system Location Manager
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         makeIndividualLimit();
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -134,6 +146,30 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
+    // Define a listener that responds to location updates
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            hideProgressDialog();
+            // Called when a new location is found by the network location provider.
+            pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
+            // Remove the listener you previously added
+            locationManager.removeUpdates(locationListener);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+    };
+
+    /**
+     * @param json to make the string list for keys
+     * @return
+     */
     private List<String> createTagLists(String json) {
         List<String> tags = new ArrayList<>();
         Set<String> set = new HashSet<>();
@@ -259,14 +295,61 @@ public class AddSightingFragment extends BaseFragment {
                 .setItems(R.array.location_strategies, new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
+                            lookForGPSLocation();
+                        } else if (which == 1)
 
-                        } else if (which == 1) {
+                        {
                             openMapToPickLocation();
-                        } else if (which == 2) {
+                        } else if (which == 2)
+
+                        {
                             openAutocompleteActivity();
                         }
                     }
-                }).show();
+                }).
+
+                show();
+    }
+
+    private void lookForGPSLocation() {
+        MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddSightingFragment.this);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            marshMallowPermission.requestPermissionForLocation();
+            return;
+        }
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            showProgressDialog();
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        } else {
+            alertBoxForSetting();
+        }
+    }
+
+    /*----------Method to create an AlertBox ------------- */
+    protected void alertBoxForSetting() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setMessage("Your Device's GPS or Network is Disable")
+                .setCancelable(false)
+                .setTitle("Location Provider Status")
+                .setPositiveButton("Setting",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                                startActivity(myIntent);
+                                dialog.cancel();
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // cancel the dialog box
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alert = builder.create();
+        alert.show();
     }
 
     private void openMapToPickLocation() {
@@ -334,6 +417,20 @@ public class AddSightingFragment extends BaseFragment {
                  */
                 final Place place = PlacePicker.getPlace(getActivity(), data);
                 pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MarshMallowPermission.LOCATION_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    lookForGPSLocation();
+                } else {
+                    //todo permission denied, boo! Disable the functionality that depends on this permission.
+                }
             }
         }
     }

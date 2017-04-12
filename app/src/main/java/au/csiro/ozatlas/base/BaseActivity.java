@@ -55,6 +55,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     protected void onPause() {
         super.onPause();
+        hideProgressDialog();
         AtlasManager.eventBus.unregister(this);
     }
 

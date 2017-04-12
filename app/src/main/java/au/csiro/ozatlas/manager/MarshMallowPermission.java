@@ -15,9 +15,9 @@ public class MarshMallowPermission {
     public static final int CAMERA_PERMISSION_REQUEST_CODE = 3;
     public static final int LOCATION_PERMISSION_REQUEST_CODE = 4;
 
-    Activity activity;
-    Fragment fragment;
-    Context context;
+    private Activity activity;
+    private Fragment fragment;
+    private Context context;
 
     public MarshMallowPermission(Activity activity) {
         this.activity = activity;
@@ -45,8 +45,7 @@ public class MarshMallowPermission {
     }
 
     public boolean isPermissionGrantedForLocation() {
-        int result = ContextCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION);
-        return result == PackageManager.PERMISSION_GRANTED;
+        return ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
     }
 
     public boolean isPermissionGrantedForSMS() {
