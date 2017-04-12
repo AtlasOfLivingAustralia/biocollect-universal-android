@@ -2,10 +2,7 @@ package au.csiro.ozatlas.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.res.AssetManager;
 import android.os.Bundle;
-import android.support.v7.widget.AppCompatSpinner;
-import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +14,19 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.concurrent.Callable;
 
 import au.csiro.ozatlas.R;
@@ -34,7 +38,6 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -47,13 +50,16 @@ public class AddSightingFragment extends BaseFragment {
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
+    @BindView(R.id.identificationTagSpinner)
+    Spinner identificationTagSpinner;
     @BindView(R.id.time)
     TextView time;
     @BindView(R.id.date)
     TextView date;
 
-    private String[] individualSpinnervalue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
+    private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
+    private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
 
     @Override
@@ -61,9 +67,12 @@ public class AddSightingFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
 
+        //hiding the floating action button
+        floatingActionButtonListener.hideFloatingButton();
+
         makeIndividualLimit();
         // Create an ArrayAdapter using the string array and a default spinner layout
-        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, individualSpinnervalue);
+        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, individualSpinnerValue);
         // Specify the layout to use when the list of choices appears
         individualSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -80,6 +89,9 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onNext(String value) {
                         Log.d("", value);
+                        tagsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, createTagLists(value));
+                        tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
                     }
 
                     @Override
@@ -95,6 +107,33 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
+    private List<String> createTagLists(String json){
+        List<String> tags = new ArrayList<>();
+        Set<String> set = new HashSet<>();
+
+        try {
+            JSONObject jObject = new JSONObject(json);
+            Iterator<?> keys = jObject.keys();
+
+            while( keys.hasNext() ) {
+                String key = (String)keys.next();
+                String value = jObject.getString(key);
+                if(!set.contains(value)){
+                    tags.add(value);
+                    set.add(value);
+                }
+                tags.add(value.concat(" - ").concat(key));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return tags;
+    }
+
+    /**
+     * Observable to read the tag.txt file
+     * @return
+     */
     private Observable<String> getFileReadObservable() {
         return Observable.defer(new Callable<ObservableSource<? extends String>>() {
             @Override
@@ -109,15 +148,18 @@ public class AddSightingFragment extends BaseFragment {
      */
     private void makeIndividualLimit() {
         for (int i = 1; i <= NUMBER_OF_INDIVIDUAL_LIMIT; i++) {
-            individualSpinnervalue[i - 1] = String.valueOf(i);
+            individualSpinnerValue[i - 1] = String.valueOf(i);
         }
     }
 
     @OnClick(R.id.time)
     public void time() {
-        (new TimePickerDialog(getActivity(), timeSetListener, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false)).show();
+        (new TimePickerDialog(getActivity(), R.style.DateTimeDialogTheme, timeSetListener, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false)).show();
     }
 
+    /**
+     * Time picker Listener
+     */
     TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -127,6 +169,14 @@ public class AddSightingFragment extends BaseFragment {
         }
     };
 
+    @OnClick(R.id.date)
+    public void date() {
+        (new DatePickerDialog(getActivity(), R.style.DateTimeDialogTheme, onDateSetListener, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))).show();
+    }
+
+    /**
+     * Date Picker Listener
+     */
     DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
         @Override
         public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
@@ -136,11 +186,6 @@ public class AddSightingFragment extends BaseFragment {
             date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "dd MMMM, yyyy"));
         }
     };
-
-    @OnClick(R.id.date)
-    public void date() {
-        (new DatePickerDialog(getActivity(), onDateSetListener, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))).show();
-    }
 
     /**
      * Reads the text of an asset. Should not be run on the UI thread.

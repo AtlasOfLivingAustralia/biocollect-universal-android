@@ -17,13 +17,15 @@ import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.base.FloatingActionButtonListener;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.view.CircularImageView;
 
 public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener {
 
     private NavigationView navigationView;
+    private FloatingActionButton fab;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +34,7 @@ public class MainActivity extends BaseActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -113,5 +115,15 @@ public class MainActivity extends BaseActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void hideFloatingButton() {
+        fab.setVisibility(View.INVISIBLE);
+    }
+
+    @Override
+    public void showFloatingButton() {
+        fab.setVisibility(View.VISIBLE);
     }
 }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import javax.inject.Inject;
 
 import au.csiro.ozatlas.OzAtlasApplication;
+import au.csiro.ozatlas.activity.MainActivity;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import io.reactivex.disposables.CompositeDisposable;
 
@@ -21,7 +22,8 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     @Inject
     AtlasSharedPreferenceManager sharedPreferences;
 
-    private BaseActivityFragmentListener baseActivityFragmentListener;
+    protected BaseActivityFragmentListener baseActivityFragmentListener;
+    protected FloatingActionButtonListener floatingActionButtonListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();;
 
     @Override
@@ -35,6 +37,9 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         super.onAttach(context);
         if (context instanceof BaseActivity) {
             baseActivityFragmentListener = (BaseActivity) context;
+        }
+        if (context instanceof MainActivity) {
+            floatingActionButtonListener = (MainActivity) context;
         }
     }
 

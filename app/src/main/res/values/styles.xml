@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <!--date and time picker-->
+    <style name="DateTimeDialogTheme" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
+    </style>
+
     <!--input label style for floating text with spinner-->
     <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">
         <item name="android:paddingBottom">@dimen/input_label_vertical_spacing</item>
