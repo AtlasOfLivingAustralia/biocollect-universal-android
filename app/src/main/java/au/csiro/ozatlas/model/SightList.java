@@ -7,5 +7,5 @@ import java.util.List;
  */
 
 public class SightList {
-    List<Sight> list;
+    public List<Sight> list;
 }
