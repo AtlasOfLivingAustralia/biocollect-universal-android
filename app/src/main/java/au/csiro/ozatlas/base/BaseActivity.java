@@ -27,7 +27,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener{
+public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener,RestClientListener{
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
@@ -132,5 +132,10 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     public void onDestroy() {
         super.onDestroy();
         mCompositeDisposable.dispose();
+    }
+
+    @Override
+    public RestClient getRestClient() {
+        return restClient;
     }
 }

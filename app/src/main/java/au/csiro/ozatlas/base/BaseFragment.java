@@ -12,6 +12,7 @@ import javax.inject.Inject;
 import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.activity.MainActivity;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
+import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
 
 /**
@@ -24,7 +25,9 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
 
     protected BaseActivityFragmentListener baseActivityFragmentListener;
     protected FloatingActionButtonListener floatingActionButtonListener;
+    protected RestClientListener restClientListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();;
+    protected RestClient restClient;
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -37,6 +40,8 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         super.onAttach(context);
         if (context instanceof BaseActivity) {
             baseActivityFragmentListener = (BaseActivity) context;
+            restClientListener = (BaseActivity) context;
+            restClient = restClientListener.getRestClient();
         }
         if (context instanceof MainActivity) {
             floatingActionButtonListener = (MainActivity) context;
