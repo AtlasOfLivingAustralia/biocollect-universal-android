@@ -257,11 +257,10 @@
                 android:text="@string/location_text"
                 android:textSize="@dimen/default_input_font_size" />
 
-            <ImageView
-                android:id="@+id/image"
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone" />
+                android:layout_height="wrap_content" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

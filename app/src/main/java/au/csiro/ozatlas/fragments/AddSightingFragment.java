@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.fragments;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.ContentResolver;
@@ -11,11 +12,18 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,16 +44,20 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -54,9 +66,11 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -81,6 +95,9 @@ public class AddSightingFragment extends BaseFragment {
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final int REQUEST_PLACE_PICKER = 2;
 
+    private static final int REQUEST_IMAGE_GALLERY = 3;
+    private static final int REQUEST_IMAGE_CAPTURE = 4;
+
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
     @BindView(R.id.identificationTagSpinner)
@@ -91,12 +108,18 @@ public class AddSightingFragment extends BaseFragment {
     TextView date;
     @BindView(R.id.pickLocation)
     TextView pickLocation;
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
     private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
     private LocationManager locationManager;
+
+    private ImageUploadAdapter imageUploadAdapter;
+    private Uri fileUri;
+    private ArrayList<Uri> paths = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -120,6 +143,13 @@ public class AddSightingFragment extends BaseFragment {
         //setting the date
         time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "hh:mm a").toUpperCase());
         date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "dd MMMM, yyyy"));
+
+        recyclerView.setHasFixedSize(true);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.grid_item_margin);
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        imageUploadAdapter = new ImageUploadAdapter(paths);
+        recyclerView.setAdapter(imageUploadAdapter);
 
         mCompositeDisposable.add(getFileReadObservable()
                 .subscribeOn(Schedulers.newThread())
@@ -296,19 +326,13 @@ public class AddSightingFragment extends BaseFragment {
                     public void onClick(DialogInterface dialog, int which) {
                         if (which == 0) {
                             lookForGPSLocation();
-                        } else if (which == 1)
-
-                        {
+                        } else if (which == 1) {
                             openMapToPickLocation();
-                        } else if (which == 2)
-
-                        {
+                        } else if (which == 2) {
                             openAutocompleteActivity();
                         }
                     }
-                }).
-
-                show();
+                }).show();
     }
 
     private void lookForGPSLocation() {
@@ -397,41 +421,131 @@ public class AddSightingFragment extends BaseFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        // Check that the result was from the autocomplete widget.
-        if (requestCode == REQUEST_CODE_AUTOCOMPLETE) {
-            if (resultCode == RESULT_OK) {
-                // Get the user's selected place from the Intent.
-                Place place = PlaceAutocomplete.getPlace(getActivity(), data);
-                Log.i(TAG, "Place Selected: " + place.getName());
-
-                pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
-            } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
-                Status status = PlaceAutocomplete.getStatus(getActivity(), data);
-                Log.e(TAG, "Error: Status = " + status.toString());
-            }
-        } else if (requestCode == REQUEST_PLACE_PICKER) {
-            if (resultCode == RESULT_OK) {
-                /* User has picked a place, extract data.
-                   Data is extracted from the returned intent by retrieving a Place object from
-                   the PlacePicker.
-                 */
-                final Place place = PlacePicker.getPlace(getActivity(), data);
-                pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_IMAGE_CAPTURE:
+                    paths.add(fileUri);
+                    imageUploadAdapter.notifyDataSetChanged();
+                    break;
+                case REQUEST_IMAGE_GALLERY:
+                    final Uri selectedImageUri = data.getData();
+                    paths.add(selectedImageUri);
+                    imageUploadAdapter.notifyDataSetChanged();
+                    break;
+                case REQUEST_CODE_AUTOCOMPLETE:
+                    final Place place = PlaceAutocomplete.getPlace(getActivity(), data);
+                    setCoordinate(place);
+                    break;
+                case REQUEST_PLACE_PICKER:
+                    final Place place1 = PlacePicker.getPlace(getActivity(), data);
+                    setCoordinate(place1);
+                    break;
             }
         }
+    }
+
+    private void setCoordinate(Place place) {
+        pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+    }
+
+    private void setCoordinate(Location location) {
+        pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case MarshMallowPermission.LOCATION_PERMISSION_REQUEST_CODE: {
+            case MarshMallowPermission.LOCATION_PERMISSION_REQUEST_CODE:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     lookForGPSLocation();
                 } else {
                     //todo permission denied, boo! Disable the functionality that depends on this permission.
                 }
+                break;
+            case MarshMallowPermission.CAMERA_PERMISSION_REQUEST_CODE:
+            case MarshMallowPermission.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE:
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    pickImage();
+                } else {
+                    //todo permission denied, boo! Disable the functionality that depends on this permission.
+                }
+                break;
+        }
+    }
+
+    @OnClick(R.id.pickImage)
+    void pickImage() {
+        MarshMallowPermission marshMallowPermission = new MarshMallowPermission(this);
+        if (!marshMallowPermission.isPermissionGrantedForExternalStorage()) {
+            marshMallowPermission.requestPermissionForExternalStorage();
+        } else {
+            if (!marshMallowPermission.isPermissionGrantedForCamera()) {
+                marshMallowPermission.requestPermissionForCamera();
+            } else {
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DateTimeDialogTheme);
+                builder.setItems(R.array.image_upload, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (which == 0) {
+                            dispatchTakePictureIntent();
+                        } else if (which == 1) {
+                            openGalleryLocal();
+                        }
+                    }
+                }).show();
             }
         }
+    }
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        fileUri = getOutputMediaFileUri();
+        if (fileUri != null) {
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
+            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+            }
+        }
+    }
+
+    private Uri getOutputMediaFileUri() {
+        try {
+            return Uri.fromFile(getOutputMediaFile());
+        } catch (Exception ex) {
+            Log.d(TAG, "Error getOutputMediaFileUri:" + ex);
+        }
+        return null;
+    }
+
+    /**
+     * Create a File for saving an image or video
+     */
+    private File getOutputMediaFile() {
+        // To be safe, you should check that the SDCard is mounted
+        // using Environment.getExternalStorageState() before doing this.
+
+        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), "OSSApp");
+        // This location works best if you want the created images to be shared
+        // between applications and persist after your app has been uninstalled.
+
+        // Create the storage directory if it does not exist
+        if (!mediaStorageDir.exists()) {
+            if (!mediaStorageDir.mkdirs()) {
+                Log.d("OSSApp", "failed to create directory");
+                return null;
+            }
+        }
+
+        // Create a media file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+
+        return new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+    }
+
+    private void openGalleryLocal() {
+        Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        intent.setType("image/*");
+        startActivityForResult(Intent.createChooser(intent, "Select File"), REQUEST_IMAGE_GALLERY);
     }
 }
