@@ -15,10 +15,10 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.FloatingActionButtonListener;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
+import au.csiro.ozatlas.fragments.SightingListFragment;
 import au.csiro.ozatlas.manager.AtlasManager;
 
-public class MainActivity extends BaseActivity
-        implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener {
 
     private NavigationView navigationView;
     private FloatingActionButton fab;
@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
             }
         });
 
@@ -49,7 +49,9 @@ public class MainActivity extends BaseActivity
         updateNavigationHeader();
 
         if(AtlasManager.isTesting){
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
+        }else{
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         }
     }
 
@@ -104,9 +106,9 @@ public class MainActivity extends BaseActivity
             sharedPreferences.writeAuthKey(null);
             launchLoginActivity();
         } else if (id == R.id.nav_add) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
         } else if (id == R.id.nav_all_sighting) {
-
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         } else if (id == R.id.nav_my_sighting) {
 
         }
