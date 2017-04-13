@@ -20,7 +20,7 @@ public class AtlasSharedPreferenceManager {
     }
 
     public String getAuthKey(){
-        return sharedPreferences.getString("AUTH_KEY", null);
+        return sharedPreferences.getString("AUTH_KEY", "");
     }
 
     public void writeUsername(String email){
