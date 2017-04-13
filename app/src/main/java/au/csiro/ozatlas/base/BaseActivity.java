@@ -46,7 +46,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     public void onResume() {
         super.onResume();
-        AtlasManager.eventBus.register(this);
+        //AtlasManager.eventBus.register(this);
         if(!(this instanceof LoginActivity) && sharedPreferences.getAuthKey()==null){
             launchLoginActivity();
         }
@@ -56,7 +56,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     protected void onPause() {
         super.onPause();
         hideProgressDialog();
-        AtlasManager.eventBus.unregister(this);
+        //AtlasManager.eventBus.unregister(this);
     }
 
     @Override
