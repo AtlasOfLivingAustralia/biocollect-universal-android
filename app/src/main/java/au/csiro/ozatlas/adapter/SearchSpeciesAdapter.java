@@ -20,13 +20,13 @@ import au.csiro.ozatlas.model.SpeciesSearchResponse;
  */
 
 public class SearchSpeciesAdapter extends ArrayAdapter<SpeciesSearchResponse.Species> {
-    private List<SpeciesSearchResponse.Species> species;
+    private ArrayList<SpeciesSearchResponse.Species> species;
     private LayoutInflater inflater;
 
-    public SearchSpeciesAdapter(@NonNull Context context, List<SpeciesSearchResponse.Species> species) {
+    public SearchSpeciesAdapter(@NonNull Context context, ArrayList<SpeciesSearchResponse.Species> species) {
         super(context, R.layout.item_search);
         this.species = species;
-         inflater = (LayoutInflater) context.getSystemService( Context.LAYOUT_INFLATER_SERVICE );
+        inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
     @Override
@@ -47,8 +47,8 @@ public class SearchSpeciesAdapter extends ArrayAdapter<SpeciesSearchResponse.Spe
         return rowView;
     }
 
-    class ViewHolder {
-        public TextView textView;
+    private class ViewHolder {
+        TextView textView;
     }
 
 }

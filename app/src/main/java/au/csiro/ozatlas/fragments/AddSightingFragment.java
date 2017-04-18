@@ -46,6 +46,8 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
@@ -78,6 +80,7 @@ import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
+import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -130,7 +133,7 @@ public class AddSightingFragment extends BaseFragment {
     private LocationManager locationManager;
     private BieApiService bieApiService;
     private SearchSpeciesAdapter searchSpeciesAdapter;
-    private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
+    private ArrayList<SpeciesSearchResponse.Species> species = new ArrayList<>();
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
@@ -142,9 +145,10 @@ public class AddSightingFragment extends BaseFragment {
         ButterKnife.bind(this, view);
 
         //species search service
-        bieApiService = new NetworkClient(getString(R.string.bie_url)).getRetrofit().create(BieApiService.class);
-        searchSpeciesAdapter = new SearchSpeciesAdapter(getActivity(), species);
-        editSpeciesName.setAdapter(searchSpeciesAdapter);
+        Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
+        bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
+
+        //searchSpeciesAdapter.setNotifyOnChange(true);
 
         //hiding the floating action button
         floatingActionButtonListener.hideFloatingButton();
@@ -292,7 +296,39 @@ public class AddSightingFragment extends BaseFragment {
 
             @Override
             public void onNext(TextViewTextChangeEvent onTextChangeEvent) {
-                Log.d(TAG, onTextChangeEvent.toString());
+                Log.d(TAG, onTextChangeEvent.text().toString());
+                mCompositeDisposable.add(bieApiService.searchSpecies(onTextChangeEvent.text().toString()).
+                        subscribeOn(Schedulers.io())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(getSearchResultObserver()));
+            }
+        };
+    }
+
+    private DisposableObserver<SpeciesSearchResponse> getSearchResultObserver() {
+        return new DisposableObserver<SpeciesSearchResponse>() {
+            @Override
+            public void onNext(SpeciesSearchResponse value) {
+                species.clear();
+                species.addAll(value.results);
+                searchSpeciesAdapter = new SearchSpeciesAdapter(getActivity(), species);
+                editSpeciesName.setAdapter(searchSpeciesAdapter);
+                //searchSpeciesAdapter.notifyDataSetChanged();
+                if(species.size()>0){
+                    editSpeciesName.showDropDown();
+                }else{
+                    editSpeciesName.dismissDropDown();
+                }
+            }
+
+            @Override
+            public void onError(Throwable e) {
+
+            }
+
+            @Override
+            public void onComplete() {
+
             }
         };
     }
