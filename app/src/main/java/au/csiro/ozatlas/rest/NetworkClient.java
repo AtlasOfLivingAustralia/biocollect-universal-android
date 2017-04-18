@@ -1,5 +1,6 @@
 package au.csiro.ozatlas.rest;
 
+import com.google.gson.Gson;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
@@ -15,18 +16,29 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkClient {
     private Retrofit retrofit;
 
-    public NetworkClient(String baseUrl) {
-        OkHttpClient client = new OkHttpClient.Builder()
+    private OkHttpClient getOkHttpClient(){
+        return new OkHttpClient.Builder()
                 .addInterceptor(new CustomRequestInterceptor())
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
                 .connectTimeout(60, TimeUnit.SECONDS).build();
+    }
 
+    public NetworkClient(String baseUrl) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
+                .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create())
+                .build();
+    }
+
+    public NetworkClient(String baseUrl, Gson gson) {
+        retrofit = new Retrofit.Builder()
+                .baseUrl(baseUrl)
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .client(getOkHttpClient())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 

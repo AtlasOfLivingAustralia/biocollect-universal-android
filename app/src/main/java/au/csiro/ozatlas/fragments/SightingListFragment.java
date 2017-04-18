@@ -70,6 +70,7 @@ public class SightingListFragment extends BaseFragment {
                 .subscribeWith(new DisposableObserver<SightList>() {
                     @Override
                     public void onNext(SightList value) {
+                        sights.clear();
                         sights.addAll(value.list);
                         sightAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onNext");
