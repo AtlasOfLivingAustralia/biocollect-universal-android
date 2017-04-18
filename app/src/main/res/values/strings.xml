@@ -2,6 +2,8 @@
     <string name="app_name">OzAtlas</string>
 
     <string name="url">https://ecodata-test.ala.org.au/</string>
+    <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
+    <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
 
     <string name="username_hint">Username</string>
@@ -28,6 +30,8 @@
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="url_parameter">URL</string>
 
     <string name="action_settings">Settings</string>
     <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
