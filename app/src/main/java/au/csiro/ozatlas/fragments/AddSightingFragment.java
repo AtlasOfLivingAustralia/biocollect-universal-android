@@ -71,9 +71,11 @@ import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.ImageUploadAdapter;
+import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -127,6 +129,8 @@ public class AddSightingFragment extends BaseFragment {
     private Calendar now = Calendar.getInstance();
     private LocationManager locationManager;
     private BieApiService bieApiService;
+    private SearchSpeciesAdapter searchSpeciesAdapter;
+    private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
@@ -136,7 +140,11 @@ public class AddSightingFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
+
+        //species search service
         bieApiService = new NetworkClient(getString(R.string.bie_url)).getRetrofit().create(BieApiService.class);
+        searchSpeciesAdapter = new SearchSpeciesAdapter(getActivity(), species);
+        editSpeciesName.setAdapter(searchSpeciesAdapter);
 
         //hiding the floating action button
         floatingActionButtonListener.hideFloatingButton();
