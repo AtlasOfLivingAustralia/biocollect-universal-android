@@ -16,19 +16,7 @@ public class RestClient {
     private ApiService service;
 
     public RestClient(String baseUrl) {
-        OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new CustomRequestInterceptor())
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS).build();
-
-        Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(baseUrl)
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .client(client)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
-
+        Retrofit retrofit = new NetworkClient(baseUrl).getRetrofit();
         service = retrofit.create(ApiService.class);
     }
 

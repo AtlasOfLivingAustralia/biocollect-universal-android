@@ -29,6 +29,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -45,6 +46,8 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -64,12 +67,15 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.concurrent.Callable;
+import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.rest.BieApiService;
+import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -77,6 +83,7 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -110,12 +117,16 @@ public class AddSightingFragment extends BaseFragment {
     TextView pickLocation;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.editSpeciesName)
+    AutoCompleteTextView editSpeciesName;
+
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
     private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
     private LocationManager locationManager;
+    private BieApiService bieApiService;
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
@@ -125,6 +136,7 @@ public class AddSightingFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
+        bieApiService = new NetworkClient(getString(R.string.bie_url)).getRetrofit().create(BieApiService.class);
 
         //hiding the floating action button
         floatingActionButtonListener.hideFloatingButton();
@@ -173,6 +185,17 @@ public class AddSightingFragment extends BaseFragment {
 
                     }
                 }));
+
+        mCompositeDisposable.add(RxTextView.textChangeEvents(editSpeciesName)
+                .debounce(400, TimeUnit.MILLISECONDS) // default Scheduler is Computation
+                .filter(new Predicate<TextViewTextChangeEvent>() {
+                    @Override
+                    public boolean test(TextViewTextChangeEvent textViewTextChangeEvent) throws Exception {
+                        return textViewTextChangeEvent.text().length() > 1;
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(getSearchObserver()));
         return view;
     }
 
@@ -244,6 +267,26 @@ public class AddSightingFragment extends BaseFragment {
         for (int i = 1; i <= NUMBER_OF_INDIVIDUAL_LIMIT; i++) {
             individualSpinnerValue[i - 1] = String.valueOf(i);
         }
+    }
+
+
+    private DisposableObserver<TextViewTextChangeEvent> getSearchObserver() {
+        return new DisposableObserver<TextViewTextChangeEvent>() {
+            @Override
+            public void onComplete() {
+                Log.d(TAG, "--------- onComplete");
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e(TAG, "--------- Woops on error!");
+            }
+
+            @Override
+            public void onNext(TextViewTextChangeEvent onTextChangeEvent) {
+                Log.d(TAG, onTextChangeEvent.toString());
+            }
+        };
     }
 
     @OnClick(R.id.time)

@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 import java.util.List;
 
 import au.csiro.ozatlas.model.SightList;
+import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import io.reactivex.Observable;
 import retrofit2.http.Field;
 import retrofit2.http.GET;
