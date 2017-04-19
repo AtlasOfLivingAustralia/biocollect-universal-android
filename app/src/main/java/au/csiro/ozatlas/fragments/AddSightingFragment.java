@@ -211,7 +211,7 @@ public class AddSightingFragment extends BaseFragment {
 
                     }
                 }));
-        getSearchSpeciesResponseObserver();
+        mCompositeDisposable.add(getSearchSpeciesResponseObserver());
         return view;
     }
 
