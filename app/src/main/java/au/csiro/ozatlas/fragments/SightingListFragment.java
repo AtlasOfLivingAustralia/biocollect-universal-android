@@ -71,7 +71,7 @@ public class SightingListFragment extends BaseFragment {
                     @Override
                     public void onNext(SightList value) {
                         sights.clear();
-                        sights.addAll(value.list);
+                        sights.addAll(value.activities);
                         sightAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onNext");
                     }

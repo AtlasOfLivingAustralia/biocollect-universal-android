@@ -7,14 +7,14 @@ import retrofit2.Retrofit;
  */
 
 public class RestClient {
-    private ApiService service;
+    private BioCollectApiService service;
 
     public RestClient(String baseUrl) {
         Retrofit retrofit = new NetworkClient(baseUrl).getRetrofit();
-        service = retrofit.create(ApiService.class);
+        service = retrofit.create(BioCollectApiService.class);
     }
 
-    public ApiService getService() {
+    public BioCollectApiService getService() {
         return service;
     }
 }

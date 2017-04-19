@@ -13,6 +13,9 @@ import com.google.gson.JsonObject;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.rest.BieApiService;
+import au.csiro.ozatlas.rest.EcoDataApiService;
+import au.csiro.ozatlas.rest.NetworkClient;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -38,12 +41,16 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
+    private EcoDataApiService ecoDataApiService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
+
+        ecoDataApiService = new NetworkClient(getString(R.string.ecodata_url)).getRetrofit().create(EcoDataApiService.class);
+
         editUsername.setText(sharedPreferences.getUsername());
 
         //test code
@@ -55,7 +62,7 @@ public class LoginActivity extends BaseActivity {
 
     private void postLogin(final String username, String password) {
         showProgressDialog();
-        mCompositeDisposable.add(restClient.getService().login(username, password)
+        mCompositeDisposable.add(ecoDataApiService.login(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<JsonObject>() {

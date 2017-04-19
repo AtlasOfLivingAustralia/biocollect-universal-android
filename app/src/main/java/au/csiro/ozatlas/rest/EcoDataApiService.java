@@ -12,13 +12,10 @@ import retrofit2.http.Query;
  * Created by sad038 on 5/4/17.
  */
 
-public interface ApiService {
+public interface EcoDataApiService {
     @GET("user/getKey")
     Observable<JsonObject> login(@Header("userName") String username, @Header("password") String password);
 
     @GET("ws/record/listRecordsForDataResourceId")
     Observable<SightList> getSightings(@Query("id") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("sort") String sort, @Query("status") String status);
-
-    @GET("bioActivity/searchProjectActivities")
-    Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm);
 }

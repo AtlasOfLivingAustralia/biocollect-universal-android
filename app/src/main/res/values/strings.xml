@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">OzAtlas</string>
 
-    <string name="url">https://ecodata-test.ala.org.au/</string>
+    <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
+    <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
+
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
