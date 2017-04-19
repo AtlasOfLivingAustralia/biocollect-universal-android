@@ -5,20 +5,35 @@ package au.csiro.ozatlas.model;
  */
 
 public class Sight {
-    public String dateCreated;
-    public String eventDate;
-    public String family;
-    public String kingdom;
-    public String lastUpdated;
-    public String locality;
-    public String projectId;
-    public String recordedBy;
-    public String scientificName;
-    public String userDisplayName;
-    public String projectName;
-    public String name;
+    public String embargoed;
+
     public String status;
-    public Double decimalLatitude;
-    public Double decimalLongitude;
-    public Integer individualCount;
+
+    public String lastUpdated;
+
+    public String projectType;
+
+    public String projectId;
+
+    public String type;
+
+    public String activityId;
+
+    public String showCrud;
+
+    public String activityOwnerName;
+
+    public String siteId;
+
+    public String thumbnailUrl;
+
+    public String userId;
+
+    public String name;
+
+    public String projectActivityId;
+
+    public Records[] records;
+
+    public String projectName;
 }
