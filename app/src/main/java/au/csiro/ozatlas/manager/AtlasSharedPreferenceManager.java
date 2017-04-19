@@ -11,23 +11,23 @@ import android.preference.PreferenceManager;
 public class AtlasSharedPreferenceManager {
     private SharedPreferences sharedPreferences;
 
-    public AtlasSharedPreferenceManager(Context context){
+    public AtlasSharedPreferenceManager(Context context) {
         this.sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public void writeAuthKey(String authKey){
+    public void writeAuthKey(String authKey) {
         sharedPreferences.edit().putString("AUTH_KEY", authKey).apply();
     }
 
-    public String getAuthKey(){
+    public String getAuthKey() {
         return sharedPreferences.getString("AUTH_KEY", "");
     }
 
-    public void writeUsername(String email){
+    public void writeUsername(String email) {
         sharedPreferences.edit().putString("USER_NAME", email).apply();
     }
 
-    public String getUsername(){
+    public String getUsername() {
         return sharedPreferences.getString("USER_NAME", "");
     }
 

@@ -2,15 +2,11 @@ package au.csiro.ozatlas.base;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
 import android.widget.EditText;
 
 import javax.inject.Inject;
@@ -18,7 +14,6 @@ import javax.inject.Inject;
 import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
-import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -27,7 +22,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener,RestClientListener{
+public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, RestClientListener {
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
@@ -35,7 +30,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     protected RestClient restClient;
 
     private ProgressDialog mProgressDialog;
-    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();;
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +43,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     public void onResume() {
         super.onResume();
         //AtlasManager.eventBus.register(this);
-        if(!(this instanceof LoginActivity) && sharedPreferences.getAuthKey()==null){
+        if (!(this instanceof LoginActivity) && sharedPreferences.getAuthKey() == null) {
             launchLoginActivity();
         }
     }
@@ -91,26 +87,24 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      * hide the spinner
      */
     @Override
-    public void hideProgressDialog(){
+    public void hideProgressDialog() {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.cancel();
         }
     }
 
     /**
-     *
      * @param editText to check the empty content
      * @return
      */
     @Override
-    public boolean validate(EditText editText){
-        return editText.getText().toString().length()>0;
+    public boolean validate(EditText editText) {
+        return editText.getText().toString().length() > 0;
     }
 
     /**
-     *
      * @param coordinatorLayout
-     * @param string message to show
+     * @param string            message to show
      */
     @Override
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
@@ -121,7 +115,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      * launch Login Activity from anywhere
      */
     @Override
-    public void launchLoginActivity(){
+    public void launchLoginActivity() {
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);

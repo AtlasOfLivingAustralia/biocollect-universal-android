@@ -10,7 +10,7 @@ public class SpeciesSearchResponse {
     public Integer totalRecords;
     public List<Species> results;
 
-    public class Species{
+    public class Species {
         public String id;
         public String guid;
         public String name;

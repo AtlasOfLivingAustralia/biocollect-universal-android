@@ -2,14 +2,14 @@ package au.csiro.ozatlas.activity;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.Fragment;
-import android.view.View;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
@@ -112,7 +112,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         } else if (id == R.id.nav_all_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         } else if (id == R.id.nav_my_sighting) {
-
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.myview_parameter), "myrecords");
+            Fragment fragment = new SightingListFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_about) {
             commitWebViewFragment(getString(R.string.about_us_url));
         } else if (id == R.id.nav_contact) {
@@ -124,7 +128,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    private void commitWebViewFragment(String url){
+    private void commitWebViewFragment(String url) {
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.url_parameter), url);
         Fragment fragment = new WebViewFragment();

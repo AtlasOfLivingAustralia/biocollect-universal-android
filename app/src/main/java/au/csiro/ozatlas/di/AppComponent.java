@@ -15,6 +15,8 @@ import dagger.Component;
 @Component(modules = {PreferenceModule.class, RestModule.class})
 public interface AppComponent {
     void inject(BaseActivity activity);
+
     void inject(BaseFragment fragment);
+
     void inject(CustomRequestInterceptor customRequestInterceptor);
 }

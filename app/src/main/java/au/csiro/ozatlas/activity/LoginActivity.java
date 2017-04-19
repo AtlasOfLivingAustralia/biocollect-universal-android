@@ -8,25 +8,15 @@ import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-
-import org.reactivestreams.Subscriber;
-import org.reactivestreams.Subscription;
-
-import javax.inject.Inject;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
-import au.csiro.ozatlas.rest.RestClient;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
@@ -57,13 +47,13 @@ public class LoginActivity extends BaseActivity {
         editUsername.setText(sharedPreferences.getUsername());
 
         //test code
-        if(AtlasManager.isTesting){
+        if (AtlasManager.isTesting) {
             editUsername.setText("sadat.sadat@csiro.au");
             editPassword.setText("");
         }
     }
 
-    private void postLogin(final String username, String password){
+    private void postLogin(final String username, String password) {
         showProgressDialog();
         mCompositeDisposable.add(restClient.getService().login(username, password)
                 .subscribeOn(Schedulers.io())
@@ -71,7 +61,7 @@ public class LoginActivity extends BaseActivity {
                 .subscribeWith(new DisposableObserver<JsonObject>() {
                     @Override
                     public void onNext(JsonObject value) {
-                        if(value.has("authKey")){
+                        if (value.has("authKey")) {
                             String authKey = value.get("authKey").getAsString();
                             sharedPreferences.writeAuthKey(authKey);
                             sharedPreferences.writeUsername(username);
@@ -98,13 +88,13 @@ public class LoginActivity extends BaseActivity {
     }
 
     @OnClick(R.id.loginButton)
-    void loginButton(){
-        if(!validate(editUsername)){
+    void loginButton() {
+        if (!validate(editUsername)) {
             inputLayoutUsername.setError(getString(R.string.username_missing_error));
             return;
         }
 
-        if(!validate(editPassword)){
+        if (!validate(editPassword)) {
             inputLayoutPassword.setError(getString(R.string.password_missing_error));
             return;
         }
@@ -113,7 +103,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     @OnClick(R.id.registerLabel)
-    void registerLabel(){
+    void registerLabel() {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.register_url)));
         startActivity(browserIntent);
     }

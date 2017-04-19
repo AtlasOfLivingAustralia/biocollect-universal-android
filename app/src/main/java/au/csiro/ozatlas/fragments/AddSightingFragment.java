@@ -1,10 +1,8 @@
 package au.csiro.ozatlas.fragments;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-import android.content.ContentResolver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,12 +13,9 @@ import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,16 +32,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
-
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.GooglePlayServicesUtil;
-import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -90,13 +82,11 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
-import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 
 /**
@@ -158,7 +148,7 @@ public class AddSightingFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedSpecies = species.get(position);
-                if(AtlasManager.isTesting){
+                if (AtlasManager.isTesting) {
                     Toast.makeText(getActivity(), selectedSpecies.highlight, Toast.LENGTH_LONG).show();
                 }
             }
@@ -216,7 +206,7 @@ public class AddSightingFragment extends BaseFragment {
     }
 
 
-    private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver(){
+    private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)
                 .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
                 .map(new Function<TextViewTextChangeEvent, String>() {
@@ -247,7 +237,7 @@ public class AddSightingFragment extends BaseFragment {
                         species.addAll(speciesSearchResponse.results);
 
                         editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
-                        if (species.size() == 0 || (selectedSpecies!=null && selectedSpecies.name.equals(editSpeciesName.getText().toString()))) {
+                        if (species.size() == 0 || (selectedSpecies != null && selectedSpecies.name.equals(editSpeciesName.getText().toString()))) {
                             editSpeciesName.dismissDropDown();
                         } else {
                             editSpeciesName.showDropDown();
@@ -266,6 +256,7 @@ public class AddSightingFragment extends BaseFragment {
                 });
 
     }
+
     // Define a listener that responds to location updates
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {

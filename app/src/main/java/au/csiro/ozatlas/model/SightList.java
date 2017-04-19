@@ -8,4 +8,5 @@ import java.util.List;
 
 public class SightList {
     public List<Sight> list;
+    public List<Sight> activities;
 }

@@ -1,6 +1,5 @@
 package au.csiro.ozatlas.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v7.widget.GridLayoutManager;
@@ -10,15 +9,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.JsonObject;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.activity.LoginActivity;
-import au.csiro.ozatlas.activity.MainActivity;
-import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.model.Sight;
@@ -44,11 +38,17 @@ public class SightingListFragment extends BaseFragment {
 
     private SightAdapter sightAdapter;
     private List<Sight> sights = new ArrayList<>();
+    private String myRecords;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sight_list, container, false);
         ButterKnife.bind(this, view);
+
+        Bundle bundle = getArguments();
+        if (bundle != null) {
+            myRecords = bundle.getString(getString(R.string.myview_parameter));
+        }
 
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.grid_item_margin);
@@ -57,14 +57,14 @@ public class SightingListFragment extends BaseFragment {
         sightAdapter = new SightAdapter(sights);
         recyclerView.setAdapter(sightAdapter);
 
-        getSightings();
+        getSightings(null);
 
         return view;
     }
 
-    private void getSightings(){
+    private void getSightings(String searchTerm) {
         showProgressDialog();
-        mCompositeDisposable.add(restClient.getService().getSightings("dr55", 10, 0, "asc", "active")
+        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), 10, 0, true, myRecords, searchTerm)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<SightList>() {

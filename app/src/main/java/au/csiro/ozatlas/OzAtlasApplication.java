@@ -4,8 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import au.csiro.ozatlas.di.AppComponent;
-import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.DaggerAppComponent;
+import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
 
 /**

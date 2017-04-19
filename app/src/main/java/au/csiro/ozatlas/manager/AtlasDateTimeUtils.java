@@ -71,7 +71,7 @@ public class AtlasDateTimeUtils {
             expectedSDF.setTimeZone(expectedTZ);
             return expectedSDF.format(date);
         } catch (ParseException p) {
-            Log.d(TAG,p.getMessage());
+            Log.d(TAG, p.getMessage());
         }
         return null;
     }
@@ -91,7 +91,7 @@ public class AtlasDateTimeUtils {
             Date today = new Date();
             return inputDate.before(today);
         } catch (ParseException p) {
-            Log.d(TAG,p.getMessage());
+            Log.d(TAG, p.getMessage());
         }
         return true;
     }
@@ -104,7 +104,7 @@ public class AtlasDateTimeUtils {
                 Date inputDate2 = sdf.parse(date2);
                 return inputDate2.after(inputDate1);
             } catch (ParseException p) {
-                Log.d(TAG,p.getMessage());
+                Log.d(TAG, p.getMessage());
             }
         }
         return false;
@@ -156,7 +156,7 @@ public class AtlasDateTimeUtils {
 
             return formatter.parse(date);
         } catch (Exception ex) {
-            Log.d(TAG,"Errors in getDateFromString:" + ex);
+            Log.d(TAG, "Errors in getDateFromString:" + ex);
             return null;
         }
     }

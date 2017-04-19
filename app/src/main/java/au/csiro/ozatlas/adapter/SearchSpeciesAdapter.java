@@ -29,12 +29,12 @@ public class SearchSpeciesAdapter extends ArrayAdapter {
     }
 
     @Override
-    public String getItem(int position){
+    public String getItem(int position) {
         return species.get(position).name;
     }
 
     @Override
-    public int getCount(){
+    public int getCount() {
         return species.size();
     }
 

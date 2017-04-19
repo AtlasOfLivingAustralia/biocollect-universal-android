@@ -9,8 +9,12 @@ import android.widget.EditText;
 
 public interface BaseActivityFragmentListener {
     void showProgressDialog();
+
     void hideProgressDialog();
+
     boolean validate(EditText editText);
+
     void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string);
+
     void launchLoginActivity();
 }

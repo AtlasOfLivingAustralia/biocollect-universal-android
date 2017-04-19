@@ -17,7 +17,7 @@ public class CustomRequestInterceptor implements Interceptor {
     @Inject
     AtlasSharedPreferenceManager sharedPreferences;
 
-    public CustomRequestInterceptor(){
+    public CustomRequestInterceptor() {
         OzAtlasApplication.component().inject(this);
     }
 

@@ -33,7 +33,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="url_parameter">URL</string>
+    <string name="myview_parameter">MY_VIEW</string>
 
     <string name="action_settings">Settings</string>
     <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
+    <string name="project_id">b3d8e243-1137-4d26-9e15-c5a6f90815eb</string>
 </resources>

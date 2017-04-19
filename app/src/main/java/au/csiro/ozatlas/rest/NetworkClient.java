@@ -16,7 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class NetworkClient {
     private Retrofit retrofit;
 
-    private OkHttpClient getOkHttpClient(){
+    private OkHttpClient getOkHttpClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new CustomRequestInterceptor())
                 .writeTimeout(60, TimeUnit.SECONDS)
