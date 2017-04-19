@@ -28,6 +28,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
@@ -76,6 +77,7 @@ import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.rest.BieApiService;
@@ -88,6 +90,8 @@ import butterknife.OnClick;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -109,6 +113,8 @@ public class AddSightingFragment extends BaseFragment {
 
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
+
+    private static final int DELAY_IN_MILLIS = 400;
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
@@ -132,8 +138,8 @@ public class AddSightingFragment extends BaseFragment {
     private Calendar now = Calendar.getInstance();
     private LocationManager locationManager;
     private BieApiService bieApiService;
-    private SearchSpeciesAdapter searchSpeciesAdapter;
-    private ArrayList<SpeciesSearchResponse.Species> species = new ArrayList<>();
+    private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
+    private SpeciesSearchResponse.Species selectedSpecies;
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
@@ -148,7 +154,15 @@ public class AddSightingFragment extends BaseFragment {
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
         bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
 
-        //searchSpeciesAdapter.setNotifyOnChange(true);
+        editSpeciesName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedSpecies = species.get(position);
+                if(AtlasManager.isTesting){
+                    Toast.makeText(getActivity(), selectedSpecies.highlight, Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         //hiding the floating action button
         floatingActionButtonListener.hideFloatingButton();
@@ -197,20 +211,61 @@ public class AddSightingFragment extends BaseFragment {
 
                     }
                 }));
-
-        mCompositeDisposable.add(RxTextView.textChangeEvents(editSpeciesName)
-                .debounce(400, TimeUnit.MILLISECONDS) // default Scheduler is Computation
-                .filter(new Predicate<TextViewTextChangeEvent>() {
-                    @Override
-                    public boolean test(TextViewTextChangeEvent textViewTextChangeEvent) throws Exception {
-                        return textViewTextChangeEvent.text().length() > 1;
-                    }
-                })
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(getSearchObserver()));
+        getSearchSpeciesResponseObserver();
         return view;
     }
 
+
+    private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver(){
+        return RxTextView.textChangeEvents(editSpeciesName)
+                .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
+                .map(new Function<TextViewTextChangeEvent, String>() {
+                    @Override
+                    public String apply(TextViewTextChangeEvent textViewTextChangeEvent) throws Exception {
+                        return textViewTextChangeEvent.text().toString();
+                    }
+                })
+                .filter(new Predicate<String>() {
+                    @Override
+                    public boolean test(String s) throws Exception {
+                        return s.length() > 1;
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .flatMap(new Function<String, ObservableSource<SpeciesSearchResponse>>() {
+                    @Override
+                    public ObservableSource<SpeciesSearchResponse> apply(String s) throws Exception {
+                        return bieApiService.searchSpecies(s);
+                    }
+                })
+                .observeOn(AndroidSchedulers.mainThread())
+                .retry()
+                .subscribeWith(new DisposableObserver<SpeciesSearchResponse>() {
+                    @Override
+                    public void onNext(SpeciesSearchResponse speciesSearchResponse) {
+                        species.clear();
+                        species.addAll(speciesSearchResponse.results);
+
+                        editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
+                        if (species.size() == 0 || (selectedSpecies!=null && selectedSpecies.name.equals(editSpeciesName.getText().toString()))) {
+                            editSpeciesName.dismissDropDown();
+                        } else {
+                            editSpeciesName.showDropDown();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+
+    }
     // Define a listener that responds to location updates
     LocationListener locationListener = new LocationListener() {
         public void onLocationChanged(Location location) {
@@ -279,58 +334,6 @@ public class AddSightingFragment extends BaseFragment {
         for (int i = 1; i <= NUMBER_OF_INDIVIDUAL_LIMIT; i++) {
             individualSpinnerValue[i - 1] = String.valueOf(i);
         }
-    }
-
-
-    private DisposableObserver<TextViewTextChangeEvent> getSearchObserver() {
-        return new DisposableObserver<TextViewTextChangeEvent>() {
-            @Override
-            public void onComplete() {
-                Log.d(TAG, "--------- onComplete");
-            }
-
-            @Override
-            public void onError(Throwable e) {
-                Log.e(TAG, "--------- Woops on error!");
-            }
-
-            @Override
-            public void onNext(TextViewTextChangeEvent onTextChangeEvent) {
-                Log.d(TAG, onTextChangeEvent.text().toString());
-                mCompositeDisposable.add(bieApiService.searchSpecies(onTextChangeEvent.text().toString()).
-                        subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(getSearchResultObserver()));
-            }
-        };
-    }
-
-    private DisposableObserver<SpeciesSearchResponse> getSearchResultObserver() {
-        return new DisposableObserver<SpeciesSearchResponse>() {
-            @Override
-            public void onNext(SpeciesSearchResponse value) {
-                species.clear();
-                species.addAll(value.results);
-                searchSpeciesAdapter = new SearchSpeciesAdapter(getActivity(), species);
-                editSpeciesName.setAdapter(searchSpeciesAdapter);
-                //searchSpeciesAdapter.notifyDataSetChanged();
-                if(species.size()>0){
-                    editSpeciesName.showDropDown();
-                }else{
-                    editSpeciesName.dismissDropDown();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-
-            }
-        };
     }
 
     @OnClick(R.id.time)
