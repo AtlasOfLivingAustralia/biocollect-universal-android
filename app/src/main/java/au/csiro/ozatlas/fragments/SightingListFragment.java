@@ -2,10 +2,15 @@ package au.csiro.ozatlas.fragments;
 
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -39,11 +44,14 @@ public class SightingListFragment extends BaseFragment {
     private SightAdapter sightAdapter;
     private List<Sight> sights = new ArrayList<>();
     private String myRecords;
+    private MenuItem searchMenu;
+    private String searchTerm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_sight_list, container, false);
         ButterKnife.bind(this, view);
+        setHasOptionsMenu(true);
 
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -57,12 +65,12 @@ public class SightingListFragment extends BaseFragment {
         sightAdapter = new SightAdapter(sights);
         recyclerView.setAdapter(sightAdapter);
 
-        getSightings(null);
+        getSightings();
 
         return view;
     }
 
-    private void getSightings(String searchTerm) {
+    private void getSightings() {
         showProgressDialog();
         mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), 10, 0, true, myRecords, searchTerm)
                 .subscribeOn(Schedulers.io())
@@ -89,5 +97,30 @@ public class SightingListFragment extends BaseFragment {
                         Log.d(TAG, "onComplete");
                     }
                 }));
+    }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search, menu);
+        searchMenu = menu.findItem(R.id.search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchTerm = query;
+                searchView.clearFocus();
+                searchMenu.collapseActionView();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchTerm = newText;
+                return false;
+            }
+        });
+        super.onCreateOptionsMenu(menu, inflater);
     }
 }
