@@ -15,7 +15,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class AtlasDateTimeUtils {
     private final static String TAG = "AtlasDateTimeUtils";
-    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"; //2017-04-18T15:07:40Z
     public static final String TIME_FORMAT = "h:mm a";
 
     public static TimeZone deviceTimeZone;
@@ -59,7 +59,7 @@ public class AtlasDateTimeUtils {
         } catch (ParseException p) {
             Log.d(TAG, p.getMessage());
         }
-        return null;
+        return "";
     }
 
     public static String getFormattedDayTime(String dateString, String senderFormat, String expectedFormat, TimeZone senderTZ, TimeZone expectedTZ) {
@@ -73,7 +73,7 @@ public class AtlasDateTimeUtils {
         } catch (ParseException p) {
             Log.d(TAG, p.getMessage());
         }
-        return null;
+        return "";
     }
 
     public static String getFormattedDayTime(String dateString, String format) {

@@ -61,6 +61,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
+        //for my sighting
         Bundle bundle = getArguments();
         if (bundle != null) {
             myRecords = bundle.getString(getString(R.string.myview_parameter));
@@ -68,7 +69,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
 
         //recyclerView setup
         recyclerView.setHasFixedSize(true);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.grid_item_margin);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -77,6 +78,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         recyclerView.setAdapter(sightAdapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
+        //refresh layout setup
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
@@ -121,12 +123,12 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                     public void onNext(SightList value) {
                         if (offset == 0)
                             sights.clear();
-                        if (value.activities.size() == 0) {
+                        if (sights.size() == value.total) {
                             hasNext = false;
                         } else {
                             sights.addAll(value.activities);
-                            sightAdapter.notifyDataSetChanged();
                         }
+                        sightAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onNext");
                     }
 
@@ -160,6 +162,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                 searchTerm = query;
                 searchView.clearFocus();
                 offset = 0;
+                hasNext = true;
                 getSightings(searchTerm, offset);
                 return true;
             }

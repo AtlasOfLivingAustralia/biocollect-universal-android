@@ -173,7 +173,7 @@ public class AddSightingFragment extends BaseFragment {
         date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "dd MMMM, yyyy"));
 
         recyclerView.setHasFixedSize(true);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.grid_item_margin);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         imageUploadAdapter = new ImageUploadAdapter(paths);
