@@ -51,6 +51,9 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
     private MenuItem searchMenu;
     private String searchTerm;
     private int offset = 0;
+    private int preLast;
+    private boolean hasNext = true;
+    private LinearLayoutManager mLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -68,11 +71,14 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.grid_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
         sightAdapter = new SightAdapter(sights);
         recyclerView.setAdapter(sightAdapter);
+        recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         //get the sighting
         getSightings(null, 0);
@@ -80,8 +86,33 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         return view;
     }
 
+    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            final int lastItem = firstVisibleItemPosition + visibleItemCount;
+            if (lastItem == totalItemCount && preLast != lastItem) {
+                preLast = lastItem;
+                if (hasNext) {
+                    offset = offset + MAX;
+                    getSightings(searchTerm, offset);
+                }
+            }
+        }
+    };
+
     private void getSightings(String searchTerm, final int offset) {
-        showProgressDialog();
+        if (offset == 0)
+            swipeRefreshLayout.setRefreshing(true);
         mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), MAX, offset, true, myRecords, searchTerm)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -90,8 +121,12 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                     public void onNext(SightList value) {
                         if (offset == 0)
                             sights.clear();
-                        sights.addAll(value.activities);
-                        sightAdapter.notifyDataSetChanged();
+                        if (value.activities.size() == 0) {
+                            hasNext = false;
+                        } else {
+                            sights.addAll(value.activities);
+                            sightAdapter.notifyDataSetChanged();
+                        }
                         Log.d(TAG, "onNext");
                     }
 
@@ -99,15 +134,13 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
                         showSnackBarMessage(coordinatorLayout, e.getMessage());
-                        hideProgressDialog();
-                        if(swipeRefreshLayout.isRefreshing())
+                        if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onComplete() {
-                        hideProgressDialog();
-                        if(swipeRefreshLayout.isRefreshing())
+                        if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
                         Log.d(TAG, "onComplete");
                     }
@@ -142,6 +175,8 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
+        searchTerm = null;
+        hasNext = true;
         if (searchMenu.isActionViewExpanded())
             searchMenu.collapseActionView();
         offset = 0;
