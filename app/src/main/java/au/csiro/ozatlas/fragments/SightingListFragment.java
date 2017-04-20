@@ -3,7 +3,8 @@ package au.csiro.ozatlas.fragments;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -33,19 +34,23 @@ import io.reactivex.schedulers.Schedulers;
  * Created by sad038 on 13/4/17.
  */
 
-public class SightingListFragment extends BaseFragment {
+public class SightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = "SightingListFragment";
+    private final static int MAX = 20;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
 
     private SightAdapter sightAdapter;
     private List<Sight> sights = new ArrayList<>();
     private String myRecords;
     private MenuItem searchMenu;
     private String searchTerm;
+    private int offset = 0;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -58,27 +63,33 @@ public class SightingListFragment extends BaseFragment {
             myRecords = bundle.getString(getString(R.string.myview_parameter));
         }
 
+        //recyclerView setup
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.grid_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         sightAdapter = new SightAdapter(sights);
         recyclerView.setAdapter(sightAdapter);
 
-        getSightings();
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        //get the sighting
+        getSightings(null, 0);
 
         return view;
     }
 
-    private void getSightings() {
+    private void getSightings(String searchTerm, final int offset) {
         showProgressDialog();
-        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), 10, 0, true, myRecords, searchTerm)
+        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), MAX, offset, true, myRecords, searchTerm)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<SightList>() {
                     @Override
                     public void onNext(SightList value) {
-                        sights.clear();
+                        if (offset == 0)
+                            sights.clear();
                         sights.addAll(value.activities);
                         sightAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onNext");
@@ -89,11 +100,15 @@ public class SightingListFragment extends BaseFragment {
                         Log.d(TAG, "onError");
                         showSnackBarMessage(coordinatorLayout, e.getMessage());
                         hideProgressDialog();
+                        if(swipeRefreshLayout.isRefreshing())
+                            swipeRefreshLayout.setRefreshing(false);
                     }
 
                     @Override
                     public void onComplete() {
                         hideProgressDialog();
+                        if(swipeRefreshLayout.isRefreshing())
+                            swipeRefreshLayout.setRefreshing(false);
                         Log.d(TAG, "onComplete");
                     }
                 }));
@@ -111,7 +126,8 @@ public class SightingListFragment extends BaseFragment {
             public boolean onQueryTextSubmit(String query) {
                 searchTerm = query;
                 searchView.clearFocus();
-                searchMenu.collapseActionView();
+                offset = 0;
+                getSightings(searchTerm, offset);
                 return true;
             }
 
@@ -122,5 +138,13 @@ public class SightingListFragment extends BaseFragment {
             }
         });
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public void onRefresh() {
+        if (searchMenu.isActionViewExpanded())
+            searchMenu.collapseActionView();
+        offset = 0;
+        getSightings(null, offset);
     }
 }
