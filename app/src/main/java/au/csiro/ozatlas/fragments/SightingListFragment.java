@@ -105,6 +105,8 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
             if (lastItem == totalItemCount && preLast != lastItem) {
                 preLast = lastItem;
                 if (hasNext) {
+                    sightAdapter.setNeedFooter(true);
+                    sightAdapter.notifyDataSetChanged();
                     offset = offset + MAX;
                     getSightings(searchTerm, offset);
                 }
@@ -128,6 +130,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                         } else {
                             sights.addAll(value.activities);
                         }
+                        sightAdapter.setNeedFooter(false);
                         sightAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onNext");
                     }
