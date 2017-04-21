@@ -9,7 +9,7 @@
 
     <dimen name="minimum_height_input_views">56dp</dimen>
     <dimen name="row_smaller_round_tick_width">16dp</dimen>
-    <dimen name="list_item_margin">4dp</dimen>
+    <dimen name="list_item_margin">8dp</dimen>
     <dimen name="list_item_image_width">64dp</dimen>
 
     <dimen name="default_input_font_size">16sp</dimen>
