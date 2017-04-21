@@ -5,7 +5,7 @@
     <dimen name="view_top_margin">24dp</dimen>
     <dimen name="input_view_top_margin">8dp</dimen>
     <dimen name="view_top_margin_double">48dp</dimen>
-    <dimen name="activity_padding">24dp</dimen>
+    <dimen name="activity_padding">20dp</dimen>
 
     <dimen name="minimum_height_input_views">56dp</dimen>
     <dimen name="row_smaller_round_tick_width">16dp</dimen>

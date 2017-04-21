@@ -2,67 +2,85 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:padding="@dimen/activity_padding">
 
-    <LinearLayout
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
-        android:padding="@dimen/activity_padding">
+        android:layout_height="match_parent">
 
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputLayoutUsername"
+        <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="match_parent"
+            android:src="@drawable/banner"
+            android:layout_above="@+id/filedLayout"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"/>
 
-            <EditText
-                android:id="@+id/editUsername"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/username_hint"
-                android:inputType="textEmailAddress"
-                android:maxLines="1"
-                android:maxWidth="@dimen/edit_text_maximum_width"
-                android:minWidth="@dimen/edit_text_minimum_width" />
-        </android.support.design.widget.TextInputLayout>
-
-        <android.support.design.widget.TextInputLayout
-            android:id="@+id/inputLayoutPassword"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/filedLayout"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_top_margin">
-
-            <EditText
-                android:id="@+id/editPassword"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:hint="@string/password_hint"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:maxWidth="@dimen/edit_text_maximum_width"
-                android:minWidth="@dimen/edit_text_minimum_width" />
-        </android.support.design.widget.TextInputLayout>
-
-        <Button
-            android:id="@+id/loginButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/view_top_margin_double"
-            android:background="@drawable/button_background"
+            android:layout_centerVertical="true"
             android:gravity="center"
-            android:maxWidth="@dimen/edit_text_maximum_width"
-            android:minWidth="@dimen/edit_text_minimum_width"
-            android:text="@string/login"
-            android:textColor="@android:color/white" />
+            android:paddingTop="@dimen/activity_padding"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/registerLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="@dimen/view_top_margin"
-            android:background="?attr/selectableItemBackground"
-            android:text="@string/register" />
-    </LinearLayout>
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutUsername"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/editUsername"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/username_hint"
+                    android:inputType="textEmailAddress"
+                    android:maxLines="1"
+                    android:maxWidth="@dimen/edit_text_maximum_width"
+                    android:minWidth="@dimen/edit_text_minimum_width" />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:id="@+id/inputLayoutPassword"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_top_margin">
+
+                <EditText
+                    android:id="@+id/editPassword"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/password_hint"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:maxWidth="@dimen/edit_text_maximum_width"
+                    android:minWidth="@dimen/edit_text_minimum_width" />
+            </android.support.design.widget.TextInputLayout>
+
+            <Button
+                android:id="@+id/loginButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/view_top_margin_double"
+                android:background="@drawable/button_background"
+                android:gravity="center"
+                android:maxWidth="@dimen/edit_text_maximum_width"
+                android:minWidth="@dimen/edit_text_minimum_width"
+                android:text="@string/login"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/registerLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="@dimen/view_top_margin"
+                android:background="?attr/selectableItemBackground"
+                android:text="@string/register" />
+        </LinearLayout>
+    </RelativeLayout>
+
 </android.support.design.widget.CoordinatorLayout>
