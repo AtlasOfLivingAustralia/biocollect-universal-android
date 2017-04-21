@@ -16,6 +16,7 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -591,7 +592,8 @@ public class AddSightingFragment extends BaseFragment {
 
     private Uri getOutputMediaFileUri() {
         try {
-            return Uri.fromFile(getOutputMediaFile());
+            //return Uri.fromFile(getOutputMediaFile());
+            return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", getOutputMediaFile());
         } catch (Exception ex) {
             Log.d(TAG, "Error getOutputMediaFileUri:" + ex);
         }

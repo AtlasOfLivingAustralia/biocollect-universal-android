@@ -51,7 +51,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isTesting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
         } else {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         }
