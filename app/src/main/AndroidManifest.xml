@@ -45,6 +45,8 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_main" />
+
+        <activity android:name=".activity.SingleFragmentActivity" />
     </application>
 
 </manifest>

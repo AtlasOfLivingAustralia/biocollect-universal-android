@@ -1,5 +1,6 @@
 package au.csiro.ozatlas.activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -17,7 +18,6 @@ import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.FloatingActionButtonListener;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.fragments.SightingListFragment;
-import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.manager.AtlasManager;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener {
@@ -118,9 +118,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_about) {
-            commitWebViewFragment(getString(R.string.about_us_url));
+            startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title));
         } else if (id == R.id.nav_contact) {
-            commitWebViewFragment(getString(R.string.contact_us_url));
+            startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -128,12 +128,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    private void commitWebViewFragment(String url) {
+    private void startWebViewActivity(String url, String title) {
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.url_parameter), url);
-        Fragment fragment = new WebViewFragment();
-        fragment.setArguments(bundle);
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
+        bundle.putString(getString(R.string.title_parameter), title);
+        Intent intent = new Intent(this, SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override
