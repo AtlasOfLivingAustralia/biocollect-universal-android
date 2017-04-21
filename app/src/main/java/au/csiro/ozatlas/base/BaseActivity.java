@@ -14,6 +14,7 @@ import javax.inject.Inject;
 import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
+import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -119,6 +120,21 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
         finish();
+    }
+
+    /**
+     *
+     * @param url for the webview fragment
+     * @param title activity title
+     */
+    @Override
+    public void startWebViewActivity(String url, String title) {
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.url_parameter), url);
+        bundle.putString(getString(R.string.title_parameter), title);
+        Intent intent = new Intent(this, SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @Override

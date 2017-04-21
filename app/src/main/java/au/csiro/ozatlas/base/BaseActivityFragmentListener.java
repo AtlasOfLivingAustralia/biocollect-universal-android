@@ -17,4 +17,6 @@ public interface BaseActivityFragmentListener {
     void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string);
 
     void launchLoginActivity();
+
+    void startWebViewActivity(String url, String title);
 }

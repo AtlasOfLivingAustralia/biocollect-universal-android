@@ -22,6 +22,7 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.listener.RecyclerItemClickListener;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -83,6 +84,14 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         sightAdapter = new SightAdapter(sights);
         recyclerView.setAdapter(sightAdapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+        recyclerView.addOnItemTouchListener(
+                new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View view, int position) {
+                        startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail));
+                    }
+                })
+        );
 
         //refresh layout setup
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -194,7 +203,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
 
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                if(isSearched) {
+                if (isSearched) {
                     reset();
                 }
                 return true;
@@ -204,7 +213,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         super.onCreateOptionsMenu(menu, inflater);
     }
 
-    private void reset(){
+    private void reset() {
         searchTerm = null;
         hasNext = true;
         offset = 0;

@@ -27,7 +27,6 @@ public class WebViewFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_webview, container, false);
         webView = (WebView) view.findViewById(R.id.webView);
-
         //getting the URL
         Bundle bundle = getArguments();
         if (bundle != null) {

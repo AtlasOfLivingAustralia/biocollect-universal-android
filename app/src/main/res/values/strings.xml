@@ -8,9 +8,11 @@
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
+    <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
     <string name="title_activity_main">OzAtlas</string>
     <string name="search_title">Search</string>
+    <string name="sight_detail">Sight Detail</string>
     <string name="about_title">About OzAtlas</string>
     <string name="contact_us_title">Contact OzAtlas</string>
 

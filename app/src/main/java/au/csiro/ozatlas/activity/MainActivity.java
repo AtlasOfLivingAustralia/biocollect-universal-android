@@ -128,15 +128,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         return true;
     }
 
-    private void startWebViewActivity(String url, String title) {
-        Bundle bundle = new Bundle();
-        bundle.putString(getString(R.string.url_parameter), url);
-        bundle.putString(getString(R.string.title_parameter), title);
-        Intent intent = new Intent(this, SingleFragmentActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
-    }
-
     @Override
     public void hideFloatingButton() {
         fab.setVisibility(View.INVISIBLE);

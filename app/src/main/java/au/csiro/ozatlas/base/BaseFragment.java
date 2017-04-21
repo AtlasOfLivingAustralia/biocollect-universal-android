@@ -79,6 +79,12 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     }
 
     @Override
+    public void startWebViewActivity(String url, String title) {
+        if (baseActivityFragmentListener != null)
+            baseActivityFragmentListener.startWebViewActivity(url, title);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mCompositeDisposable.dispose();
