@@ -53,6 +53,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
     private int offset = 0;
     private int preLast;
     private boolean hasNext = true;
+    private boolean isSearched = false;
     private LinearLayoutManager mLayoutManager;
 
     @Override
@@ -166,6 +167,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                 searchView.clearFocus();
                 offset = 0;
                 hasNext = true;
+                isSearched = true;
                 getSightings(searchTerm, offset);
                 return true;
             }
@@ -176,16 +178,37 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                 return false;
             }
         });
+
+        MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                if(isSearched) {
+                    reset();
+                }
+                return true;
+            }
+        });
+
         super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void reset(){
+        searchTerm = null;
+        hasNext = true;
+        offset = 0;
+        isSearched = false;
+        getSightings(null, offset);
     }
 
     @Override
     public void onRefresh() {
-        searchTerm = null;
-        hasNext = true;
         if (searchMenu.isActionViewExpanded())
             searchMenu.collapseActionView();
-        offset = 0;
-        getSightings(null, offset);
+        reset();
     }
 }

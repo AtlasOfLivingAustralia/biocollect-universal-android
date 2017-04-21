@@ -31,7 +31,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
 
     private ProgressDialog mProgressDialog;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

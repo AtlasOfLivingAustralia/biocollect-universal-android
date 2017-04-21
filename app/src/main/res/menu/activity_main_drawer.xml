@@ -18,7 +18,8 @@
             android:title="Explore Species By Location" />
     </group>
 
-    <item android:title="Account" android:checkableBehavior="single">
+
+    <item android:title="Account">
         <menu>
             <item
                 android:id="@+id/nav_my_sighting"
@@ -32,7 +33,7 @@
         </menu>
     </item>
 
-    <item android:title="Atlas" android:checkableBehavior="single">
+    <item android:title="Atlas">
         <menu>
             <item
                 android:id="@+id/nav_about"
