@@ -48,15 +48,23 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof SightViewHolders) {
             SightViewHolders sightViewHolders = (SightViewHolders) holder;
             Sight sight = sights.get(position);
-            sightViewHolders.name.setText(sight.name);
+            sightViewHolders.name.setText(sight.projectName);
+            sightViewHolders.type.setText(sight.type);
             sightViewHolders.user.setText(sight.activityOwnerName);
             sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.lastUpdated, "dd MMM, yyyy"));
             Glide.with(sightViewHolders.image.getContext())
-                    .load(sight.thumbnailUrl)
+                    .load(getImageURL(sight))
                     .placeholder(R.drawable.ala_transparent)
                     .crossFade()
                     .into(sightViewHolders.image);
         }
+    }
+
+    private String getImageURL(Sight sight){
+        if(sight.records!=null && sight.records.length>0 && sight.records[0].multimedia!=null && sight.records[0].multimedia.length>0 ){
+            return sight.records[0].multimedia[0].identifier;
+        }
+        return sight.thumbnailUrl;
     }
 
     @Override
@@ -82,7 +90,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 }
 
 class SightViewHolders extends RecyclerView.ViewHolder {
-    TextView name, user, time;
+    TextView name, user, time, type;
     ImageView image;
 
     SightViewHolders(View itemView) {
@@ -90,6 +98,7 @@ class SightViewHolders extends RecyclerView.ViewHolder {
         name = (TextView) itemView.findViewById(R.id.name);
         user = (TextView) itemView.findViewById(R.id.user);
         time = (TextView) itemView.findViewById(R.id.time);
+        type = (TextView) itemView.findViewById(R.id.type);
         image = (ImageView) itemView.findViewById(R.id.image);
     }
 }
