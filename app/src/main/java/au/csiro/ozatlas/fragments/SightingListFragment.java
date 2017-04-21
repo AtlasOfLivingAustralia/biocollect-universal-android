@@ -14,6 +14,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -44,6 +45,9 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
     CoordinatorLayout coordinatorLayout;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.total)
+    TextView total;
+
 
     private SightAdapter sightAdapter;
     private List<Sight> sights = new ArrayList<>();
@@ -52,6 +56,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
     private String searchTerm;
     private int offset = 0;
     private int preLast;
+    private int totalSighting;
     private boolean hasNext = true;
     private boolean isSearched = false;
     private LinearLayoutManager mLayoutManager;
@@ -124,6 +129,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                 .subscribeWith(new DisposableObserver<SightList>() {
                     @Override
                     public void onNext(SightList value) {
+                        totalSighting = value.total;
                         if (offset == 0)
                             sights.clear();
                         if (sights.size() == value.total) {
@@ -148,6 +154,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                     public void onComplete() {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
+                        total.setText(getString(R.string.total_sighting, totalSighting));
                         Log.d(TAG, "onComplete");
                     }
                 }));

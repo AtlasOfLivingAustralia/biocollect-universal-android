@@ -62,7 +62,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public int getItemCount() {
         if (needFooter)
-            return sights.size() + 1;
+            return sights.size() + 1; // adding footer count
         else
             return sights.size();
     }
