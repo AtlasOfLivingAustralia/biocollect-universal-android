@@ -16,6 +16,9 @@ public interface BioCollectApiService {
     @GET("bioActivity/searchProjectActivities")
     Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm);
 
+    @POST("ws/attachment/upload")
+    Observable<Void> uploadPhotos(@Body AddSight addSight);
+
     @POST("ws/bioactivity/save")
     Observable<Void> postSightings(@Query("pActivityId") String pActivityId, @Body AddSight addSight);
 }
