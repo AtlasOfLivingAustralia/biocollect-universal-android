@@ -22,6 +22,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -140,6 +143,7 @@ public class AddSightingFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
+        setHasOptionsMenu(true);
 
         //species search service
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
@@ -206,6 +210,23 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.save, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.save:
+                if(AtlasManager.isTesting){
+                    showToast("SAVE Clicked");
+                }
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)

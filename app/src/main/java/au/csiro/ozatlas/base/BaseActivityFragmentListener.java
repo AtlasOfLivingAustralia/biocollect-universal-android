@@ -19,4 +19,6 @@ public interface BaseActivityFragmentListener {
     void launchLoginActivity();
 
     void startWebViewActivity(String url, String title);
+
+    void showToast(String str);
 }

@@ -85,6 +85,12 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     }
 
     @Override
+    public void showToast(String str) {
+        if (baseActivityFragmentListener != null)
+            baseActivityFragmentListener.showToast(str);
+    }
+
+    @Override
     public void onDestroy() {
         super.onDestroy();
         mCompositeDisposable.dispose();
