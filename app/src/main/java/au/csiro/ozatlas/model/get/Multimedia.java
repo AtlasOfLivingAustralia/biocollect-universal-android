@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.model;
+package au.csiro.ozatlas.model.get;
 
 /**
  * Created by sad038 on 19/4/17.

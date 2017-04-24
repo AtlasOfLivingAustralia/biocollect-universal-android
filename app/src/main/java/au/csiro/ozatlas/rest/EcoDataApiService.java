@@ -2,7 +2,7 @@ package au.csiro.ozatlas.rest;
 
 import com.google.gson.JsonObject;
 
-import au.csiro.ozatlas.model.SightList;
+import au.csiro.ozatlas.model.get.SightList;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
