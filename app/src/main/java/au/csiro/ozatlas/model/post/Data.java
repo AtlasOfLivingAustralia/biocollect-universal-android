@@ -1,13 +1,15 @@
 package au.csiro.ozatlas.model.post;
 
+import java.util.List;
+
 /**
  * Created by sad038 on 24/4/17.
  */
 
 public class Data {
-    public String[] tags;
+    public List<String> tags;
 
-    public String locationLatitude;
+    public Double locationLatitude;
 
     public Species species;
 
@@ -15,13 +17,13 @@ public class Data {
 
     public String recordedBy;
 
-    public String individualCount;
+    public Integer individualCount;
 
-    public String locationLongitude;
+    public Double locationLongitude;
 
     public String identificationConfidence;
 
-    public SightingPhoto[] sightingPhoto;
+    public List<SightingPhoto> sightingPhoto;
 
     public String surveyDate;
 }

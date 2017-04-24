@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -76,6 +77,10 @@ import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
+import au.csiro.ozatlas.model.post.AddSight;
+import au.csiro.ozatlas.model.post.Data;
+import au.csiro.ozatlas.model.post.Outputs;
+import au.csiro.ozatlas.model.post.Species;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
@@ -109,6 +114,8 @@ public class AddSightingFragment extends BaseFragment {
     private static final int REQUEST_IMAGE_CAPTURE = 4;
 
     private static final int DELAY_IN_MILLIS = 400;
+    private static final String DATE_FORMAT = "dd MMMM, yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
@@ -124,7 +131,8 @@ public class AddSightingFragment extends BaseFragment {
     RecyclerView recyclerView;
     @BindView(R.id.editSpeciesName)
     AutoCompleteTextView editSpeciesName;
-
+    @BindView(R.id.confidenceSwitch)
+    SwitchCompat confidenceSwitch;
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
@@ -134,6 +142,8 @@ public class AddSightingFragment extends BaseFragment {
     private BieApiService bieApiService;
     private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
     private SpeciesSearchResponse.Species selectedSpecies;
+    private Double latitude;
+    private Double longitude;
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
@@ -174,8 +184,8 @@ public class AddSightingFragment extends BaseFragment {
         individualSpinner.setAdapter(individualSpinnerAdapter);
 
         //setting the date
-        time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "hh:mm a").toUpperCase());
-        date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "dd MMMM, yyyy"));
+        time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
 
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
@@ -220,12 +230,55 @@ public class AddSightingFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                if(AtlasManager.isTesting){
+                if (AtlasManager.isTesting) {
                     showToast("SAVE Clicked");
                 }
+                showProgressDialog();
+                mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_id), getAddSightModel())
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<Void>() {
+                            @Override
+                            public void onNext(Void value) {
+
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                hideProgressDialog();
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                hideProgressDialog();
+                            }
+                        }));
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private AddSight getAddSightModel() {
+        AddSight addSight = new AddSight();
+        addSight.projectId = getString(R.string.project_id);
+        addSight.outputs = new ArrayList<>();
+        Outputs outputs = new Outputs();
+        outputs.data = new Data();
+        outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
+        outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
+        //// TODO: 24/4/17 add other data
+        outputs.data.species = new Species();
+        //// TODO: 24/4/17 add species info
+        outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
+        outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
+        outputs.data.sightingPhoto = new ArrayList<>();
+        //// TODO: 24/4/17 upload pic info
+        outputs.data.tags = new ArrayList<>();
+        outputs.data.tags.add(tagsSpinnerAdapter.getItem(identificationTagSpinner.getSelectedItemPosition()));
+        outputs.data.locationLatitude = latitude;
+        outputs.data.locationLongitude = longitude;
+        addSight.outputs.add(outputs);
+        return addSight;
     }
 
     private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
@@ -284,7 +337,8 @@ public class AddSightingFragment extends BaseFragment {
         public void onLocationChanged(Location location) {
             hideProgressDialog();
             // Called when a new location is found by the network location provider.
-            pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
+            setCoordinate(location);
+            //pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
             // Remove the listener you previously added
             locationManager.removeUpdates(locationListener);
         }
@@ -362,7 +416,7 @@ public class AddSightingFragment extends BaseFragment {
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             now.set(Calendar.HOUR_OF_DAY, hourOfDay);
             now.set(Calendar.MINUTE, minute);
-            time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "hh:mm a").toUpperCase());
+            time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
         }
     };
 
@@ -380,7 +434,7 @@ public class AddSightingFragment extends BaseFragment {
             now.set(Calendar.YEAR, year);
             now.set(Calendar.MONTH, month);
             now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), "dd MMMM, yyyy"));
+            date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
         }
     };
 
@@ -548,10 +602,14 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private void setCoordinate(Place place) {
+        latitude = place.getLatLng().latitude;
+        longitude = place.getLatLng().longitude;
         pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
     }
 
     private void setCoordinate(Location location) {
+        latitude = location.getLatitude();
+        longitude = location.getLongitude();
         pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
     }
 

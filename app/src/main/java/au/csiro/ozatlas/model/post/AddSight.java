@@ -1,5 +1,7 @@
 package au.csiro.ozatlas.model.post;
 
+import java.util.List;
+
 /**
  * Created by sad038 on 24/4/17.
  */
@@ -13,7 +15,7 @@ public class AddSight {
 
     public String projectId;
 
-    public Outputs[] outputs;
+    public List<Outputs> outputs;
 
     public String type;
 

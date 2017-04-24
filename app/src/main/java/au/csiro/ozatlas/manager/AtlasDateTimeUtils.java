@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class AtlasDateTimeUtils {
     private final static String TAG = "AtlasDateTimeUtils";
     public static final String DEFAULT_DATE_FORMAT = "yyyy-MM-dd'T'HH:mm:ss'Z'"; //2017-04-18T15:07:40Z
-    public static final String TIME_FORMAT = "h:mm a";
+    public static final String DEFAULT_TIME_FORMAT = "hh:mm a";
 
     public static TimeZone deviceTimeZone;
     public static SimpleDateFormat serverDateTimeFormat;
@@ -230,7 +230,7 @@ public class AtlasDateTimeUtils {
     //convert 3:12 pm to 15:12:00
     public static String get24HourString(String timeString) {
         try {
-            SimpleDateFormat sdf = getSimpleFormatter(TIME_FORMAT);
+            SimpleDateFormat sdf = getSimpleFormatter(DEFAULT_TIME_FORMAT);
             final Date dateObj = sdf.parse(timeString);
             String dateString = getSimpleFormatter("HH:mm").format(dateObj);
             dateString = dateString + ":00";
