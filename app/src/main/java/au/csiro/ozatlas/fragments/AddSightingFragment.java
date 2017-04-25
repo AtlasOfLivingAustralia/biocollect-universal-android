@@ -19,6 +19,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
@@ -190,7 +191,8 @@ public class AddSightingFragment extends BaseFragment {
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         imageUploadAdapter = new ImageUploadAdapter(paths);
         recyclerView.setAdapter(imageUploadAdapter);
 

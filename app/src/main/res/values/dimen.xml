@@ -8,11 +8,12 @@
     <dimen name="activity_padding">20dp</dimen>
 
     <dimen name="minimum_height_input_views">56dp</dimen>
-    <dimen name="row_smaller_round_tick_width">16dp</dimen>
+    <dimen name="row_cross_round_tick_width">24dp</dimen>
     <dimen name="list_item_margin">8dp</dimen>
     <dimen name="list_item_image_width">64dp</dimen>
 
     <dimen name="default_input_font_size">16sp</dimen>
+    <dimen name="smaller_input_font_size">12sp</dimen>
 
     <dimen name="input_label_vertical_spacing">8dp</dimen>
     <dimen name="input_label_horizontal_spacing">4dp</dimen>
