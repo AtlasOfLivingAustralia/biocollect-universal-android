@@ -193,7 +193,7 @@ public class AddSightingFragment extends BaseFragment {
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        imageUploadAdapter = new ImageUploadAdapter(paths);
+        imageUploadAdapter = new ImageUploadAdapter(paths, getActivity());
         recyclerView.setAdapter(imageUploadAdapter);
 
         mCompositeDisposable.add(getFileReadObservable()

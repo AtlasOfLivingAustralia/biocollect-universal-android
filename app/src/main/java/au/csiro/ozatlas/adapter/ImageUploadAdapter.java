@@ -1,5 +1,6 @@
 package au.csiro.ozatlas.adapter;
 
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -12,9 +13,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -29,9 +32,11 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
     private List<Uri> imagePaths;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
+    private ArrayAdapter licenseAdapter;
 
-    public ImageUploadAdapter(List<Uri> imagePaths) {
+    public ImageUploadAdapter(List<Uri> imagePaths, Context context) {
         this.imagePaths = imagePaths;
+        this.licenseAdapter = ArrayAdapter.createFromResource(context,R.array.license_array, R.layout.item_textview);
     }
 
     @Override
@@ -55,8 +60,23 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
                 ImageUploadAdapter.this.notifyDataSetChanged();
             }
         });
-        holder.spinner.setAdapter(ArrayAdapter.createFromResource(holder.spinner.getContext(),R.array.license_array, R.layout.item_textview));
-        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(new Date(), DATE_FORMAT));
+        holder.spinner.setAdapter(licenseAdapter);
+        final Calendar now = Calendar.getInstance();
+        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+        holder.date.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                (new DatePickerDialog(holder.date.getContext(), R.style.DateTimeDialogTheme, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        now.set(Calendar.YEAR, year);
+                        now.set(Calendar.MONTH, month);
+                        now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+                    }
+                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))).show();
+            }
+        });
     }
 
     private Bitmap loadImage(String imgPath) {
