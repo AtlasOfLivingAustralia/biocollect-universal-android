@@ -69,7 +69,6 @@
                         android:id="@+id/identificationTagSpinner"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingLeft="@dimen/input_label_horizontal_spacing"
                         android:textSize="@dimen/default_input_font_size" />
                 </LinearLayout>
 
@@ -92,6 +91,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:textColor="?attr/editTextColor"
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/confidenceSwitch"
                         android:text="@string/confidence_label"

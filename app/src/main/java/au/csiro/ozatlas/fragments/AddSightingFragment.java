@@ -180,7 +180,7 @@ public class AddSightingFragment extends BaseFragment {
 
         makeIndividualLimit();
         // Create an ArrayAdapter using the string array and a default spinner layout
-        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, individualSpinnerValue);
+        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_textview, individualSpinnerValue);
         // Specify the layout to use when the list of choices appears
         individualSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner
@@ -205,7 +205,7 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onNext(String value) {
                         Log.d("", value);
-                        tagsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_spinner_item, createTagLists(value));
+                        tagsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_tags, createTagLists(value));
                         tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
                     }
