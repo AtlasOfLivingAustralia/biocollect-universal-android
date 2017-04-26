@@ -81,6 +81,7 @@ import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.model.post.AddSight;
 import au.csiro.ozatlas.model.post.Data;
 import au.csiro.ozatlas.model.post.Outputs;
+import au.csiro.ozatlas.model.post.SightingPhoto;
 import au.csiro.ozatlas.model.post.Species;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
@@ -149,6 +150,7 @@ public class AddSightingFragment extends BaseFragment {
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
     private ArrayList<Uri> paths = new ArrayList<>();
+    private ArrayList<SightingPhoto> sightingPhotos = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -193,7 +195,7 @@ public class AddSightingFragment extends BaseFragment {
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        imageUploadAdapter = new ImageUploadAdapter(paths, getActivity());
+        imageUploadAdapter = new ImageUploadAdapter(paths, sightingPhotos, getActivity());
         recyclerView.setAdapter(imageUploadAdapter);
 
         mCompositeDisposable.add(getFileReadObservable()
@@ -584,11 +586,13 @@ public class AddSightingFragment extends BaseFragment {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
                     paths.add(fileUri);
+                    sightingPhotos.add(new SightingPhoto());
                     imageUploadAdapter.notifyDataSetChanged();
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
                     paths.add(selectedImageUri);
+                    sightingPhotos.add(new SightingPhoto());
                     imageUploadAdapter.notifyDataSetChanged();
                     break;
                 case REQUEST_CODE_AUTOCOMPLETE:

@@ -23,6 +23,7 @@ import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.model.post.SightingPhoto;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -31,11 +32,13 @@ import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
     private List<Uri> imagePaths;
+    private List<SightingPhoto> sightingPhotos;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private ArrayAdapter licenseAdapter;
 
-    public ImageUploadAdapter(List<Uri> imagePaths, Context context) {
+    public ImageUploadAdapter(List<Uri> imagePaths, List<SightingPhoto> sightingPhotos, Context context) {
         this.imagePaths = imagePaths;
+        this.sightingPhotos = sightingPhotos;
         this.licenseAdapter = ArrayAdapter.createFromResource(context,R.array.license_array, R.layout.item_textview);
     }
 
@@ -61,20 +64,24 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             }
         });
         holder.spinner.setAdapter(licenseAdapter);
-        final Calendar now = Calendar.getInstance();
-        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+        final Calendar calendar= Calendar.getInstance();
+        if(sightingPhotos.get(position).dateTaken!=null) {
+            calendar.setTime(AtlasDateTimeUtils.getDateFromString(sightingPhotos.get(position).dateTaken));
+        }
+        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(calendar.getTime(), DATE_FORMAT));
         holder.date.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 (new DatePickerDialog(holder.date.getContext(), R.style.DateTimeDialogTheme, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        now.set(Calendar.YEAR, year);
-                        now.set(Calendar.MONTH, month);
-                        now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+                        calendar.set(Calendar.YEAR, year);
+                        calendar.set(Calendar.MONTH, month);
+                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                        sightingPhotos.get(position).dateTaken = AtlasDateTimeUtils.getStringFromDate(calendar.getTime());
+                        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(calendar.getTime(), DATE_FORMAT));
                     }
-                }, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))).show();
+                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))).show();
             }
         });
     }
