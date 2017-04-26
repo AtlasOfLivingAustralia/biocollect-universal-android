@@ -10,4 +10,11 @@
         <item>Camera</item>
         <item>Gallery</item>
     </string-array>
+
+    <string-array name="license_array">
+        <item>Creative Commons Attribution 3.0</item>
+        <item>Creative Commons Attribution 0</item>
+        <item>Creative Commons Attribution 4.0</item>
+        <item>Creative Commons Attribution-Noncommercial</item>
+    </string-array>
 </resources>

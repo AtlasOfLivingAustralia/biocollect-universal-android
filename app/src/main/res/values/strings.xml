@@ -11,6 +11,7 @@
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
     <string name="title_activity_main">OzAtlas</string>
+    <string name="title">Title</string>
     <string name="search_title">Search</string>
     <string name="sight_detail">Sight Detail</string>
     <string name="about_title">About OzAtlas</string>
@@ -33,6 +34,7 @@
     <string name="location_heading_text">LOCATION INFORMATION</string>
     <string name="image_text">IMAGE</string>
     <string name="individual_text">Individuals</string>
+    <string name="license_text">Licence</string>
     <string name="identification_tags">Identification tags</string>
     <string name="confidence_label">Are you confident of the species identification?</string>
     <string name="username_missing_error">UserName Missing</string>

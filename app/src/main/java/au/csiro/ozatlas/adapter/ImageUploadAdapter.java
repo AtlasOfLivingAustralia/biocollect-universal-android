@@ -6,32 +6,38 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
+import java.util.Date;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 
 /**
  * Created by sad038 on 13/4/17.
  */
 
-public class ImageUploadAdapter extends RecyclerView.Adapter<ViewHolders> {
+public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
     private List<Uri> imagePaths;
+    private static final String DATE_FORMAT = "dd MMMM, yyyy";
 
     public ImageUploadAdapter(List<Uri> imagePaths) {
         this.imagePaths = imagePaths;
     }
 
     @Override
-    public ViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
+    public ImageViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_upload_image, null);
-        return new ViewHolders(layoutView);
+        return new ImageViewHolders(layoutView);
     }
 
     @Override
@@ -40,7 +46,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ViewHolders> {
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolders holder, final int position) {
+    public void onBindViewHolder(final ImageViewHolders holder, final int position) {
         holder.imageView.setImageBitmap(loadImage(getRealPathFromURI(holder.imageView.getContext(), imagePaths.get(position))));
         holder.crossButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +55,8 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ViewHolders> {
                 ImageUploadAdapter.this.notifyDataSetChanged();
             }
         });
+        holder.spinner.setAdapter(ArrayAdapter.createFromResource(holder.spinner.getContext(),R.array.license_array, R.layout.item_textview));
+        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(new Date(), DATE_FORMAT));
     }
 
     private Bitmap loadImage(String imgPath) {
@@ -78,13 +86,21 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ViewHolders> {
     }
 }
 
-class ViewHolders extends RecyclerView.ViewHolder {
+class ImageViewHolders extends RecyclerView.ViewHolder {
     ImageView imageView;
     ImageView crossButton;
+    AppCompatSpinner spinner;
+    TextView date;
 
-    public ViewHolders(View itemView) {
+    public ImageViewHolders(View itemView) {
         super(itemView);
+        date = (TextView) itemView.findViewById(R.id.date);
         imageView = (ImageView) itemView.findViewById(R.id.imageView);
         crossButton = (ImageView) itemView.findViewById(R.id.crossButton);
+        spinner = (AppCompatSpinner) itemView.findViewById(R.id.licenseSpinner);
     }
 }
+
+/*class LicenseAdapter extends ArrayAdapter<String>{
+
+}*/
