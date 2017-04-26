@@ -24,12 +24,13 @@
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
     <string name="species_name_hint">Species name</string>
+    <string name="location_hint">Location</string>
     <string name="date_text">Date</string>
     <string name="time_text">Time</string>
     <string name="note_text">Note</string>
     <string name="location_note_text">Location Note</string>
-    <string name="location_text">Pick a Location</string>
-    <string name="pick_image_text">Click to Add Images</string>
+    <string name="location_text">Add Location</string>
+    <string name="pick_image_text">Add Images</string>
     <string name="species_text">SPECIES INFORMATION</string>
     <string name="location_heading_text">LOCATION INFORMATION</string>
     <string name="image_text">IMAGE</string>

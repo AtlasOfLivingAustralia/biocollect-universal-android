@@ -73,6 +73,8 @@
                 </LinearLayout>
 
 
+                <include layout="@layout/horizonal_line" />
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,12 +93,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
-                        android:textColor="?attr/editTextColor"
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/confidenceSwitch"
                         android:text="@string/confidence_label"
+                        android:textColor="?attr/editTextColor"
                         android:textSize="@dimen/default_input_font_size" />
                 </RelativeLayout>
+
+                <include layout="@layout/horizonal_line" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -121,8 +125,11 @@
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/individualSpinner"
                         android:text="@string/individual_text"
+                        android:textColor="?attr/editTextColor"
                         android:textSize="@dimen/default_input_font_size" />
                 </RelativeLayout>
+
+                <include layout="@layout/horizonal_line" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/inputLayoutNotes"
@@ -146,8 +153,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
                     android:layout_marginBottom="@dimen/input_view_top_margin"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/minimum_height_input_views">
 
@@ -165,18 +172,16 @@
                         android:layout_height="wrap_content"
                         android:layout_below="@+id/timeLabel"
                         android:layout_toRightOf="@+id/date"
-                        android:padding="@dimen/input_label_horizontal_spacing"
                         android:background="@drawable/button_background"
                         android:clickable="true"
-                        android:textStyle="bold"
+                        android:padding="@dimen/input_label_horizontal_spacing"
+                        android:textColor="@android:color/white"
                         android:textSize="@dimen/default_input_font_size"
-                        android:textColor="@android:color/white"/>
+                        android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/date"
-                        android:textColor="@android:color/white"
                         android:layout_width="wrap_content"
-                        android:textStyle="bold"
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/timeLabel"
@@ -184,7 +189,9 @@
                         android:background="@drawable/button_background"
                         android:clickable="true"
                         android:padding="@dimen/input_label_horizontal_spacing"
-                        android:textSize="@dimen/default_input_font_size" />
+                        android:textColor="@android:color/white"
+                        android:textSize="@dimen/default_input_font_size"
+                        android:textStyle="bold" />
                 </RelativeLayout>
             </LinearLayout>
 
@@ -209,14 +216,39 @@
 
                 <TextView
                     android:id="@+id/pickLocation"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginBottom="@dimen/input_view_top_margin"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
+                    android:background="@drawable/button_background"
                     android:clickable="true"
                     android:gravity="center_vertical"
-                    android:minHeight="@dimen/minimum_height_input_views"
+                    android:padding="4dp"
                     android:text="@string/location_text"
-                    android:textSize="@dimen/default_input_font_size" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/default_input_font_size"
+                    android:textStyle="bold" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/inputLayoutLocation"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
+                    android:minHeight="@dimen/minimum_height_input_views">
+
+                    <EditText
+                        android:id="@+id/editLocation"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="@string/location_hint"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:clickable="false"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
+                        android:textSize="@dimen/default_input_font_size" />
+                </android.support.design.widget.TextInputLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/inputLayoutLocationNotes"
@@ -259,14 +291,18 @@
 
                 <TextView
                     android:id="@+id/pickImage"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="?attr/selectableItemBackground"
+                    android:layout_marginBottom="@dimen/input_view_top_margin"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
+                    android:background="@drawable/button_background"
                     android:clickable="true"
                     android:gravity="center_vertical"
-                    android:minHeight="@dimen/minimum_height_input_views"
+                    android:padding="4dp"
                     android:text="@string/pick_image_text"
-                    android:textSize="@dimen/default_input_font_size" />
+                    android:textColor="@android:color/white"
+                    android:textSize="@dimen/default_input_font_size"
+                    android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/recyclerView"

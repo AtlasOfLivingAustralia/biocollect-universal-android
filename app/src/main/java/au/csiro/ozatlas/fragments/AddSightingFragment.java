@@ -33,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -129,6 +130,8 @@ public class AddSightingFragment extends BaseFragment {
     TextView date;
     @BindView(R.id.pickLocation)
     TextView pickLocation;
+    @BindView(R.id.editLocation)
+    EditText editLocation;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.editSpeciesName)
@@ -191,7 +194,7 @@ public class AddSightingFragment extends BaseFragment {
         date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
 
         recyclerView.setHasFixedSize(true);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.zero_dp, R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -610,13 +613,13 @@ public class AddSightingFragment extends BaseFragment {
     private void setCoordinate(Place place) {
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
-        pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+        editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
     }
 
     private void setCoordinate(Location location) {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
+        editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
     }
 
     @Override
