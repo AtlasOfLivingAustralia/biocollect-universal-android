@@ -13,7 +13,6 @@ import com.google.gson.JsonObject;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
-import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.EcoDataApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import butterknife.BindView;

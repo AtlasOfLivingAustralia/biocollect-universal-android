@@ -249,7 +249,6 @@ public class AddSightingFragment extends BaseFragment {
                         .subscribeWith(new DisposableObserver<Void>() {
                             @Override
                             public void onNext(Void value) {
-
                             }
 
                             @Override

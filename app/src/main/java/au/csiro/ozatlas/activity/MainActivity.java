@@ -1,6 +1,5 @@
 package au.csiro.ozatlas.activity;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -130,11 +129,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void hideFloatingButton() {
-        fab.setVisibility(View.INVISIBLE);
+        if (fab.getScaleX() != 0.0f)
+            fab.animate().scaleX(0.0f).scaleY(0.0f).start();
     }
 
     @Override
     public void showFloatingButton() {
-        fab.setVisibility(View.VISIBLE);
+        if (fab.getScaleX() != 1.0f)
+            fab.animate().scaleX(1.0f).scaleY(1.0f).start();
     }
 }

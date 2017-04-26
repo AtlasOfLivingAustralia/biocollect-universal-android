@@ -124,8 +124,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     }
 
     /**
-     *
-     * @param url for the webview fragment
+     * @param url   for the webview fragment
      * @param title activity title
      */
     @Override

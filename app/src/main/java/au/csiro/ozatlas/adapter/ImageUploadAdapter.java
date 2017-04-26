@@ -18,7 +18,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
@@ -39,7 +38,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
     public ImageUploadAdapter(List<Uri> imagePaths, List<SightingPhoto> sightingPhotos, Context context) {
         this.imagePaths = imagePaths;
         this.sightingPhotos = sightingPhotos;
-        this.licenseAdapter = ArrayAdapter.createFromResource(context,R.array.license_array, R.layout.item_textview);
+        this.licenseAdapter = ArrayAdapter.createFromResource(context, R.array.license_array, R.layout.item_textview);
     }
 
     public List<SightingPhoto> getSightingPhotos() {
@@ -69,8 +68,8 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             }
         });
         holder.spinner.setAdapter(licenseAdapter);
-        final Calendar calendar= Calendar.getInstance();
-        if(sightingPhotos.get(position).dateTaken!=null) {
+        final Calendar calendar = Calendar.getInstance();
+        if (sightingPhotos.get(position).dateTaken != null) {
             calendar.setTime(AtlasDateTimeUtils.getDateFromString(sightingPhotos.get(position).dateTaken));
         }
         holder.date.setText(AtlasDateTimeUtils.getStringFromDate(calendar.getTime(), DATE_FORMAT));

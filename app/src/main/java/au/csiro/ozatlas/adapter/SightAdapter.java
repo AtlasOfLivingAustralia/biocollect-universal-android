@@ -60,8 +60,8 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    private String getImageURL(Sight sight){
-        if(sight.records!=null && sight.records.length>0 && sight.records[0].multimedia!=null && sight.records[0].multimedia.length>0 ){
+    private String getImageURL(Sight sight) {
+        if (sight.records != null && sight.records.length > 0 && sight.records[0].multimedia != null && sight.records[0].multimedia.length > 0) {
             return sight.records[0].multimedia[0].identifier;
         }
         return sight.thumbnailUrl;

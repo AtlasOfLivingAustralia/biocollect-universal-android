@@ -37,11 +37,11 @@ public class SingleFragmentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void setTitle(String str, boolean homeButton){
-        if(getSupportActionBar() != null){
+    public void setTitle(String str, boolean homeButton) {
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(homeButton);
             getSupportActionBar().setTitle(str);
-        }else{
+        } else {
             setTitle(str);
         }
     }
