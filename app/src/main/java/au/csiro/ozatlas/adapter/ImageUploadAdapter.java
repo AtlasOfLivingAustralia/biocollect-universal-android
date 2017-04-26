@@ -42,6 +42,10 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
         this.licenseAdapter = ArrayAdapter.createFromResource(context,R.array.license_array, R.layout.item_textview);
     }
 
+    public List<SightingPhoto> getSightingPhotos() {
+        return sightingPhotos;
+    }
+
     @Override
     public ImageViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_upload_image, null);
@@ -60,6 +64,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             @Override
             public void onClick(View v) {
                 imagePaths.remove(holder.getAdapterPosition());
+                sightingPhotos.remove(holder.getAdapterPosition());
                 ImageUploadAdapter.this.notifyDataSetChanged();
             }
         });

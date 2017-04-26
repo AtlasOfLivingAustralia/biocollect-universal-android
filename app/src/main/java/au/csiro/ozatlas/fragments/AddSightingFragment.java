@@ -15,10 +15,10 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SwitchCompat;
@@ -130,6 +130,8 @@ public class AddSightingFragment extends BaseFragment {
     TextView date;
     @BindView(R.id.pickLocation)
     TextView pickLocation;
+    @BindView(R.id.inputLayoutLocation)
+    TextInputLayout inputLayoutLocation;
     @BindView(R.id.editLocation)
     EditText editLocation;
     @BindView(R.id.recyclerView)
@@ -278,8 +280,7 @@ public class AddSightingFragment extends BaseFragment {
         //// TODO: 24/4/17 add species info
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
-        outputs.data.sightingPhoto = new ArrayList<>();
-        //// TODO: 24/4/17 upload pic info
+        outputs.data.sightingPhoto = imageUploadAdapter.getSightingPhotos();
         outputs.data.tags = new ArrayList<>();
         outputs.data.tags.add(tagsSpinnerAdapter.getItem(identificationTagSpinner.getSelectedItemPosition()));
         outputs.data.locationLatitude = latitude;
@@ -611,12 +612,16 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private void setCoordinate(Place place) {
+        if (inputLayoutLocation.getVisibility() == View.GONE)
+            inputLayoutLocation.setVisibility(View.VISIBLE);
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
     }
 
     private void setCoordinate(Location location) {
+        if (inputLayoutLocation.getVisibility() == View.GONE)
+            inputLayoutLocation.setVisibility(View.VISIBLE);
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
