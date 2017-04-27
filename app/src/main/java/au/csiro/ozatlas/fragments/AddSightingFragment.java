@@ -77,7 +77,9 @@ import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.model.post.AddSight;
 import au.csiro.ozatlas.model.post.Data;
@@ -98,6 +100,9 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -156,6 +161,7 @@ public class AddSightingFragment extends BaseFragment {
     private Uri fileUri;
     private ArrayList<Uri> paths = new ArrayList<>();
     private ArrayList<SightingPhoto> sightingPhotos = new ArrayList<>();
+    private int imageUploadCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -243,27 +249,96 @@ public class AddSightingFragment extends BaseFragment {
                     showToast("SAVE Clicked");
                 }
                 showProgressDialog();
-                mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_id), getAddSightModel())
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableObserver<Void>() {
-                            @Override
-                            public void onNext(Void value) {
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                hideProgressDialog();
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                hideProgressDialog();
-                            }
-                        }));
+                if (paths.size() > 0) {
+                    imageUploadCount = 0;
+                    uploadPhotos();
+                } else {
+                    saveData();
+                }
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void saveData() {
+        mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_id), getAddSightModel())
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Void>() {
+                    @Override
+                    public void onNext(Void value) {
+                        Log.d("", "onNext");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        hideProgressDialog();
+                    }
+                }));
+    }
+
+    private void uploadPhotos() {
+        if (imageUploadCount < paths.size()) {
+            Uri path = paths.get(imageUploadCount);
+            mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(path))
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
+                        @Override
+                        public void onNext(ImageUploadResponse value) {
+                            sightingPhotos.get(imageUploadCount).thumbnailUrl = value.files[0].thumbnail_url;
+                            sightingPhotos.get(imageUploadCount).url = value.files[0].url;
+                            Log.d("", value.files[0].thumbnail_url);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideProgressDialog();
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            imageUploadCount++;
+                            if (imageUploadCount < paths.size())
+                                uploadPhotos();
+                            else
+                                saveData();
+                        }
+                    }));
+        }
+    }
+
+    //for multiple image upload
+    private MultipartBody getMultipart(List<Uri> paths) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        for (Uri path : paths) {
+            // use the FileUtils to get the actual file by uri
+            File file = FileUtils.getFile(getActivity(), path);
+            builder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+            // create RequestBody instance from file
+            //RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
+
+        }
+        // MultipartBody.Part is used to send also the actual file name
+        //return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
+        return builder.build();
+    }
+
+    //for multiple image upload
+    private MultipartBody.Part getMultipart(Uri path) {
+        // use the FileUtils to get the actual file by uri
+        File file = FileUtils.getFile(getActivity(), path);
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(path)), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
     }
 
     private AddSight getAddSightModel() {

@@ -218,7 +218,6 @@
                     android:id="@+id/pickLocation"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="@dimen/input_view_top_margin"
                     android:layout_marginTop="@dimen/input_view_top_margin"
                     android:background="@drawable/button_background"
                     android:clickable="true"
@@ -234,7 +233,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:minHeight="@dimen/minimum_height_input_views"
                     android:visibility="gone">
 
                     <EditText
@@ -255,8 +253,7 @@
                     android:id="@+id/inputLayoutLocationNotes"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:minHeight="@dimen/minimum_height_input_views">
+                    android:layout_marginTop="@dimen/input_view_top_margin">
 
                     <EditText
                         android:id="@+id/editLocationNote"
