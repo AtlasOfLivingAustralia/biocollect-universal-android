@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.activity;
 
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
@@ -24,6 +25,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     private NavigationView navigationView;
     private FloatingActionButton fab;
+    private CoordinatorLayout coordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,5 +123,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void showFloatingButton() {
         if (fab.getScaleX() != 1.0f)
             fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).start();
+    }
+
+    @Override
+    public void showSnackBarMessage(String string) {
+        showSnackBarMessage(coordinatorLayout, string);
     }
 }

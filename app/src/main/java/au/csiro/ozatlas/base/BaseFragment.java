@@ -73,6 +73,13 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     }
 
     @Override
+    public void showSnackBarMessage(String string) {
+        if(getActivity() instanceof MainActivity && baseActivityFragmentListener != null){
+            baseActivityFragmentListener.showSnackBarMessage(string);
+        }
+    }
+
+    @Override
     public void launchLoginActivity() {
         if (baseActivityFragmentListener != null)
             baseActivityFragmentListener.launchLoginActivity();

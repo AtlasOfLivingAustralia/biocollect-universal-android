@@ -225,7 +225,7 @@ public class AddSightingFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showSnackBarMessage(e.getMessage());
                     }
 
                     @Override
@@ -279,6 +279,7 @@ public class AddSightingFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        showSnackBarMessage(e.getMessage());
                         hideProgressDialog();
                     }
 
@@ -302,6 +303,7 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
+                        showSnackBarMessage(e.getMessage());
                     }
 
                     @Override
@@ -328,6 +330,7 @@ public class AddSightingFragment extends BaseFragment {
                         @Override
                         public void onError(Throwable e) {
                             hideProgressDialog();
+                            showSnackBarMessage(e.getMessage());
                         }
 
                         @Override
