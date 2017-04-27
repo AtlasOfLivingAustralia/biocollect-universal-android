@@ -48,6 +48,7 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
@@ -156,6 +157,7 @@ public class AddSightingFragment extends BaseFragment {
     private SpeciesSearchResponse.Species selectedSpecies;
     private Double latitude;
     private Double longitude;
+    private String outputSpeciesId;
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
@@ -253,11 +255,38 @@ public class AddSightingFragment extends BaseFragment {
                     imageUploadCount = 0;
                     uploadPhotos();
                 } else {
-                    saveData();
+                    getGUID();
                 }
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void getGUID(){
+        mCompositeDisposable.add(restClient.getService().getGUID()
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<JsonObject>() {
+                    @Override
+                    public void onNext(JsonObject value) {
+                        if(value.has("outputSpeciesId")){
+                            outputSpeciesId = value.getAsJsonPrimitive("outputSpeciesId").getAsString();
+                            saveData();
+                        }else{
+                            hideProgressDialog();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        hideProgressDialog();
+                    }
+                }));
     }
 
     private void saveData() {
@@ -307,7 +336,7 @@ public class AddSightingFragment extends BaseFragment {
                             if (imageUploadCount < paths.size())
                                 uploadPhotos();
                             else
-                                saveData();
+                                getGUID();
                         }
                     }));
         }
@@ -351,6 +380,7 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
         //// TODO: 24/4/17 add other data
         outputs.data.species = new Species();
+        outputs.data.species.outputSpeciesId = outputSpeciesId;
         //// TODO: 24/4/17 add species info
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
