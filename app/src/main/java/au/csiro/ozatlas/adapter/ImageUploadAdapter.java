@@ -12,8 +12,10 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +23,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.listener.SimpleTextChangeListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.post.SightingPhoto;
 
@@ -32,6 +35,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
     private List<Uri> imagePaths;
     private List<SightingPhoto> sightingPhotos;
+    private String[] attributionMapStrings;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private ArrayAdapter licenseAdapter;
 
@@ -39,6 +43,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
         this.imagePaths = imagePaths;
         this.sightingPhotos = sightingPhotos;
         this.licenseAdapter = ArrayAdapter.createFromResource(context, R.array.license_array, R.layout.item_textview);
+        this.attributionMapStrings = context.getResources().getStringArray(R.array.license_map_array);
     }
 
     public List<SightingPhoto> getSightingPhotos() {
@@ -67,7 +72,22 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
                 ImageUploadAdapter.this.notifyDataSetChanged();
             }
         });
+
         holder.spinner.setAdapter(licenseAdapter);
+        holder.spinner.setSelection(sightingPhotos.get(position).licensePosition, false);
+        holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
+                sightingPhotos.get(position).licence = attributionMapStrings[p];
+                sightingPhotos.get(position).licensePosition = p;
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         final Calendar calendar = Calendar.getInstance();
         if (sightingPhotos.get(position).dateTaken != null) {
             calendar.setTime(AtlasDateTimeUtils.getDateFromString(sightingPhotos.get(position).dateTaken));
@@ -86,6 +106,39 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
                         holder.date.setText(AtlasDateTimeUtils.getStringFromDate(calendar.getTime(), DATE_FORMAT));
                     }
                 }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))).show();
+            }
+        });
+
+        if (sightingPhotos.get(position).attribution == null) {
+            sightingPhotos.get(position).attribution = "";
+        }
+        holder.attributionEditText.setText(sightingPhotos.get(position).attribution);
+        holder.attributionEditText.addTextChangedListener(new SimpleTextChangeListener() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sightingPhotos.get(position).attribution = s.toString();
+            }
+        });
+
+        if (sightingPhotos.get(position).notes == null) {
+            sightingPhotos.get(position).notes = "";
+        }
+        holder.noteEditText.setText(sightingPhotos.get(position).notes);
+        holder.noteEditText.addTextChangedListener(new SimpleTextChangeListener() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sightingPhotos.get(position).notes = s.toString();
+            }
+        });
+
+        if (sightingPhotos.get(position).name == null) {
+            sightingPhotos.get(position).name = "";
+        }
+        holder.titleEditText.setText(sightingPhotos.get(position).name);
+        holder.titleEditText.addTextChangedListener(new SimpleTextChangeListener() {
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                sightingPhotos.get(position).name = s.toString();
             }
         });
     }
@@ -122,6 +175,7 @@ class ImageViewHolders extends RecyclerView.ViewHolder {
     ImageView crossButton;
     AppCompatSpinner spinner;
     TextView date;
+    EditText noteEditText, titleEditText, attributionEditText;
 
     public ImageViewHolders(View itemView) {
         super(itemView);
@@ -129,9 +183,8 @@ class ImageViewHolders extends RecyclerView.ViewHolder {
         imageView = (ImageView) itemView.findViewById(R.id.imageView);
         crossButton = (ImageView) itemView.findViewById(R.id.crossButton);
         spinner = (AppCompatSpinner) itemView.findViewById(R.id.licenseSpinner);
+        attributionEditText = (EditText) itemView.findViewById(R.id.attributionEditText);
+        titleEditText = (EditText) itemView.findViewById(R.id.titleEditText);
+        noteEditText = (EditText) itemView.findViewById(R.id.noteEditText);
     }
 }
-
-/*class LicenseAdapter extends ArrayAdapter<String>{
-
-}*/

@@ -17,11 +17,13 @@ public class SightingPhoto {
 
     public String contentType;
 
-    public String staged;
+    public Boolean staged;
 
     public String notes;
 
     public String url;
 
     public String attribution;
+
+    public int licensePosition;
 }

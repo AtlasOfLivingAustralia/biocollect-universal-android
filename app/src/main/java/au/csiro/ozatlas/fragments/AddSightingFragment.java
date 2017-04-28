@@ -219,7 +219,7 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onNext(String value) {
                         Log.d("", value);
-                        tagsSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_tags, createTagLists(value));
+                        tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, createTagLists(value));
                         tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
                     }
@@ -326,6 +326,8 @@ public class AddSightingFragment extends BaseFragment {
                         public void onNext(ImageUploadResponse value) {
                             sightingPhotos.get(imageUploadCount).thumbnailUrl = value.files[0].thumbnail_url;
                             sightingPhotos.get(imageUploadCount).url = value.files[0].url;
+                            sightingPhotos.get(imageUploadCount).contentType = value.files[0].contentType;
+                            sightingPhotos.get(imageUploadCount).staged = true;
                             Log.d("", value.files[0].thumbnail_url);
                         }
 
@@ -377,16 +379,26 @@ public class AddSightingFragment extends BaseFragment {
 
     private AddSight getAddSightModel() {
         AddSight addSight = new AddSight();
+        addSight.projectStage="";
+        addSight.type = getString(R.string.project_type);
         addSight.projectId = getString(R.string.project_id);
+        addSight.activityId="";
+        addSight.mainTheme = "";
+        addSight.siteId = "";
         addSight.outputs = new ArrayList<>();
         Outputs outputs = new Outputs();
+        outputs.name = "";
+        outputs.outputId = "";
+        outputs.outputNotCompleted = "";
         outputs.data = new Data();
+        outputs.data.recordedBy = "Test";
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
-        //// TODO: 24/4/17 add other data
         outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
-        //// TODO: 24/4/17 add species info
+        outputs.data.species.name = selectedSpecies.name;
+        outputs.data.species.scientificName = selectedSpecies.kingdom;
+        outputs.data.species.commonName = "";
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
         outputs.data.sightingPhoto = imageUploadAdapter.getSightingPhotos();
@@ -699,13 +711,13 @@ public class AddSightingFragment extends BaseFragment {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
                     paths.add(fileUri);
-                    sightingPhotos.add(new SightingPhoto());
+                    sightingPhotos.add(getSightingPhotoWithFileNameAdded(fileUri));
                     imageUploadAdapter.notifyDataSetChanged();
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
                     paths.add(selectedImageUri);
-                    sightingPhotos.add(new SightingPhoto());
+                    sightingPhotos.add(getSightingPhotoWithFileNameAdded(selectedImageUri));
                     imageUploadAdapter.notifyDataSetChanged();
                     break;
                 case REQUEST_CODE_AUTOCOMPLETE:
@@ -720,9 +732,16 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    private SightingPhoto getSightingPhotoWithFileNameAdded(Uri fileUri){
+        SightingPhoto sightingPhoto = new SightingPhoto();
+        sightingPhoto.filename = (FileUtils.getFile(getActivity(), fileUri)).getName();
+        return sightingPhoto;
+    }
+
     private void setCoordinate(Place place) {
         if (inputLayoutLocation.getVisibility() == View.GONE)
             inputLayoutLocation.setVisibility(View.VISIBLE);
+        pickLocation.setText(R.string.location_change_text);
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
@@ -731,6 +750,7 @@ public class AddSightingFragment extends BaseFragment {
     private void setCoordinate(Location location) {
         if (inputLayoutLocation.getVisibility() == View.GONE)
             inputLayoutLocation.setVisibility(View.VISIBLE);
+        pickLocation.setText(R.string.location_change_text);
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));

@@ -17,4 +17,11 @@
         <item>Creative Commons Attribution 4.0</item>
         <item>Creative Commons Attribution-Noncommercial</item>
     </string-array>
+
+    <string-array name="license_map_array">
+        <item>CC BY</item>
+        <item>CC BY-NC</item>
+        <item>CC BY-SA</item>
+        <item>CC BY-NC-SA</item>
+    </string-array>
 </resources>
