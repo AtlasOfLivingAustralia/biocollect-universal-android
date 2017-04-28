@@ -35,6 +35,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -145,7 +146,7 @@ public class AddSightingFragment extends BaseFragment {
     @BindView(R.id.editSpeciesName)
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
-    SwitchCompat confidenceSwitch;
+    Switch confidenceSwitch;
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
@@ -234,6 +235,7 @@ public class AddSightingFragment extends BaseFragment {
                     }
                 }));
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
+
         return view;
     }
 
