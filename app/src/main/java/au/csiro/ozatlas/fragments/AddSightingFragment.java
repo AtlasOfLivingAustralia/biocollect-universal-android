@@ -186,7 +186,7 @@ public class AddSightingFragment extends BaseFragment {
         });
 
         //hiding the floating action button
-        floatingActionButtonListener.hideFloatingButton();
+        mainActivityFragmentListener.hideFloatingButton();
 
         // Acquire a reference to the system Location Manager
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);

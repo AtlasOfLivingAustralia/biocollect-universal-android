@@ -16,12 +16,12 @@ import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
-import au.csiro.ozatlas.base.FloatingActionButtonListener;
+import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.fragments.SightingListFragment;
 import au.csiro.ozatlas.manager.AtlasManager;
 
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, FloatingActionButtonListener {
+public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
 
     private NavigationView navigationView;
     private FloatingActionButton fab;

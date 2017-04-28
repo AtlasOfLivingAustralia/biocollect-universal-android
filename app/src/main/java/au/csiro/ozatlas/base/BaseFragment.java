@@ -23,7 +23,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     AtlasSharedPreferenceManager sharedPreferences;
 
     protected BaseActivityFragmentListener baseActivityFragmentListener;
-    protected FloatingActionButtonListener floatingActionButtonListener;
+    protected MainActivityFragmentListener mainActivityFragmentListener;
     protected RestClientListener restClientListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     protected RestClient restClient;
@@ -43,7 +43,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
             restClient = restClientListener.getRestClient();
         }
         if (context instanceof MainActivity) {
-            floatingActionButtonListener = (MainActivity) context;
+            mainActivityFragmentListener = (MainActivity) context;
         }
     }
 
@@ -72,10 +72,9 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
             baseActivityFragmentListener.showSnackBarMessage(coordinatorLayout, string);
     }
 
-    @Override
     public void showSnackBarMessage(String string) {
-        if(getActivity() instanceof MainActivity && baseActivityFragmentListener != null){
-            baseActivityFragmentListener.showSnackBarMessage(string);
+        if(getActivity() instanceof MainActivity && mainActivityFragmentListener != null){
+            mainActivityFragmentListener.showSnackBarMessage(string);
         }
     }
 

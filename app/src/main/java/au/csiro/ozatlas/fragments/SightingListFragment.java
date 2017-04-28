@@ -67,7 +67,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         View view = inflater.inflate(R.layout.fragment_sight_list, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        floatingActionButtonListener.showFloatingButton();
+        mainActivityFragmentListener.showFloatingButton();
 
         //for my sighting
         Bundle bundle = getArguments();
