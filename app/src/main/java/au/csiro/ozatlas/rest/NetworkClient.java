@@ -21,7 +21,8 @@ public class NetworkClient {
                 .addInterceptor(new CustomRequestInterceptor())
                 .writeTimeout(60, TimeUnit.SECONDS)
                 .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS).build();
+                .connectTimeout(60, TimeUnit.SECONDS)
+                .build();
     }
 
     public NetworkClient(String baseUrl) {

@@ -20,7 +20,7 @@ public class ImageUploadResponse {
 
         public String url;
 
-        public String size;
+        public Long size;
 
         public String time;
 

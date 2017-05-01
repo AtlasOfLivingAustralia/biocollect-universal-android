@@ -8,6 +8,7 @@ import au.csiro.ozatlas.model.post.AddSight;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
@@ -36,5 +37,6 @@ public interface BioCollectApiService {
     Observable<JsonObject> getGUID();
 
     @POST("ws/bioactivity/save")
-    Observable<Void> postSightings(@Query("pActivityId") String pActivityId, @Body AddSight addSight);
+    //Observable<Void> postSightings(@Query("pActivityId") String pActivityId, @Body JsonObject jsonObject);
+    Observable<Response<Void>> postSightings(@Query("pActivityId") String pActivityId, @Body AddSight addSight);
 }

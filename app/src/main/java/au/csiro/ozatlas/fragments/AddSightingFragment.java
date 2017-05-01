@@ -50,6 +50,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
@@ -105,6 +106,7 @@ import io.reactivex.schedulers.Schedulers;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -293,12 +295,12 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private void saveData() {
-        mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_id), getAddSightModel())
+        mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_activity_id), getAddSightModel())
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<Void>() {
+                .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
-                    public void onNext(Void value) {
+                    public void onNext(Response<Void> value) {
                         Log.d("", "onNext");
                     }
 
@@ -366,7 +368,7 @@ public class AddSightingFragment extends BaseFragment {
         return builder.build();
     }
 
-    //for multiple image upload
+    //for single image upload
     private MultipartBody.Part getMultipart(Uri path) {
         // use the FileUtils to get the actual file by uri
         File file = FileUtils.getFile(getActivity(), path);
@@ -387,7 +389,7 @@ public class AddSightingFragment extends BaseFragment {
         addSight.siteId = "";
         addSight.outputs = new ArrayList<>();
         Outputs outputs = new Outputs();
-        outputs.name = "";
+        outputs.name = getString(R.string.project_output_name);
         outputs.outputId = "";
         outputs.outputNotCompleted = "";
         outputs.data = new Data();
@@ -396,8 +398,10 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
         outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
-        outputs.data.species.name = selectedSpecies.name;
-        outputs.data.species.scientificName = selectedSpecies.kingdom;
+        if(selectedSpecies!=null) {
+            outputs.data.species.name = selectedSpecies.name;
+            outputs.data.species.scientificName = selectedSpecies.kingdom;
+        }
         outputs.data.species.commonName = "";
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
@@ -450,7 +454,7 @@ public class AddSightingFragment extends BaseFragment {
 
                     @Override
                     public void onError(Throwable e) {
-
+                        showSnackBarMessage(e.getMessage());
                     }
 
                     @Override
@@ -518,7 +522,7 @@ public class AddSightingFragment extends BaseFragment {
         return Observable.defer(new Callable<ObservableSource<? extends String>>() {
             @Override
             public ObservableSource<? extends String> call() throws Exception {
-                return Observable.just(readAsset("tags.txt"));
+                return Observable.just(FileUtils.readAsset("tags.txt", getActivity()));
             }
         });
     }
@@ -566,43 +570,6 @@ public class AddSightingFragment extends BaseFragment {
             date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
         }
     };
-
-    /**
-     * Reads the text of an asset. Should not be run on the UI thread.
-     *
-     * @param path The path to the asset.
-     * @return The plain text of the asset
-     */
-    public String readAsset(String path) {
-        String contents = "";
-        InputStream is = null;
-        BufferedReader reader = null;
-        try {
-            is = getActivity().getAssets().open(path);
-            reader = new BufferedReader(new InputStreamReader(is));
-            contents = reader.readLine();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                contents += '\n' + line;
-            }
-        } catch (final Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (is != null) {
-                try {
-                    is.close();
-                } catch (IOException ignored) {
-                }
-            }
-            if (reader != null) {
-                try {
-                    reader.close();
-                } catch (IOException ignored) {
-                }
-            }
-        }
-        return contents;
-    }
 
     @OnClick(R.id.pickLocation)
     void pickLocation() {
@@ -815,37 +782,11 @@ public class AddSightingFragment extends BaseFragment {
     private Uri getOutputMediaFileUri() {
         try {
             //return Uri.fromFile(getOutputMediaFile());
-            return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", getOutputMediaFile());
+            return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", FileUtils.getOutputMediaFile());
         } catch (Exception ex) {
             Log.d(TAG, "Error getOutputMediaFileUri:" + ex);
         }
         return null;
-    }
-
-    /**
-     * Create a File for saving an image or video
-     */
-    private File getOutputMediaFile() {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
-
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "OSSApp");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
-
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("OSSApp", "failed to create directory");
-                return null;
-            }
-        }
-
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
-
-        return new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
     }
 
     private void openGalleryLocal() {

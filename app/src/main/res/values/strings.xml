@@ -2,7 +2,7 @@
     <string name="app_name">OzAtlas</string>
 
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
-    <string name="biocollect_url">http://biocollect-test.ala.org.au/</string>
+    <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
@@ -52,6 +52,7 @@
 
     <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
     
+    <string name="project_activity_id">d57961a1-517d-42f2-8446-c373c0c59579</string>
     <string name="project_id">b3d8e243-1137-4d26-9e15-c5a6f90815eb</string>
     <string name="project_type">OzAtlas Sightings</string>
     <string name="project_output_name">Single Sighting - Advanced</string>
