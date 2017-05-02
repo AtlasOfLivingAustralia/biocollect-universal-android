@@ -6,7 +6,10 @@ import io.realm.RealmObject;
  * Created by sad038 on 2/5/17.
  */
 
-public class SightingPhoto extends RealmObject {
+public class SightingPhoto extends RealmObject{
+    public SightingPhoto() {
+    }
+
     public String dateTaken;
 
     public String licence;

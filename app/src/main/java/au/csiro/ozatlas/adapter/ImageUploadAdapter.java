@@ -26,6 +26,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.listener.SimpleTextChangeListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.SightingPhoto;
+import io.realm.RealmList;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -34,19 +35,19 @@ import au.csiro.ozatlas.model.SightingPhoto;
 public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
     private List<Uri> imagePaths;
-    private List<SightingPhoto> sightingPhotos;
+    private RealmList<SightingPhoto> sightingPhotos;
     private String[] attributionMapStrings;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private ArrayAdapter licenseAdapter;
 
-    public ImageUploadAdapter(List<Uri> imagePaths, List<SightingPhoto> sightingPhotos, Context context) {
+    public ImageUploadAdapter(List<Uri> imagePaths, RealmList<SightingPhoto> sightingPhotos, Context context) {
         this.imagePaths = imagePaths;
         this.sightingPhotos = sightingPhotos;
         this.licenseAdapter = ArrayAdapter.createFromResource(context, R.array.license_array, R.layout.item_textview);
         this.attributionMapStrings = context.getResources().getStringArray(R.array.license_map_array);
     }
 
-    public List<SightingPhoto> getSightingPhotos() {
+    public RealmList<SightingPhoto> getSightingPhotos() {
         return sightingPhotos;
     }
 

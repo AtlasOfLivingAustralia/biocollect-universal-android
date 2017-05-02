@@ -18,6 +18,11 @@
             android:title="My Sighting" />
 
         <item
+            android:id="@+id/nav_draft_sighting"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Draft Sighting" />
+
+        <item
             android:id="@+id/nav_location_species"
             android:icon="@drawable/ic_location_on_white_24px"
             android:title="Explore Species By Location" />

@@ -73,10 +73,14 @@ import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.model.Data;
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.Outputs;
 import au.csiro.ozatlas.model.SightingPhoto;
+import au.csiro.ozatlas.model.Species;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.model.AddSight;
+import au.csiro.ozatlas.model.Tag;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
@@ -91,6 +95,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.RealmList;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -155,7 +160,7 @@ public class AddSightingFragment extends BaseFragment {
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
     private ArrayList<Uri> paths = new ArrayList<>();
-    private ArrayList<SightingPhoto> sightingPhotos = new ArrayList<>();
+    private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
     private int imageUploadCount;
 
     @Override
@@ -392,17 +397,17 @@ public class AddSightingFragment extends BaseFragment {
         /*addSight.activityId="";
         addSight.mainTheme = "";
         addSight.siteId = "";*/
-        addSight.outputs = new ArrayList<>();
-        AddSight.Outputs outputs = addSight.new Outputs();
+        addSight.outputs = new RealmList<>();
+        Outputs outputs = new Outputs();
         outputs.name = getString(R.string.project_output_name);
         /*outputs.outputId = "";
         outputs.outputNotCompleted = "";*/
-        outputs.data = addSight.new Data();
+        outputs.data = new Data();
         //// TODO: 2/5/17 Users name
         //outputs.data.recordedBy = "Test";
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
-        outputs.data.species = addSight.new Species();
+        outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
         if(selectedSpecies!=null) {
             outputs.data.species.name = selectedSpecies.name;
@@ -412,8 +417,8 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
         outputs.data.sightingPhoto = imageUploadAdapter.getSightingPhotos();
-        outputs.data.tags = new ArrayList<>();
-        outputs.data.tags.add(tagsSpinnerAdapter.getItem(identificationTagSpinner.getSelectedItemPosition()));
+        outputs.data.tags = new RealmList<>();
+        outputs.data.tags.add(new Tag(tagsSpinnerAdapter.getItem(identificationTagSpinner.getSelectedItemPosition())));
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;
         addSight.outputs.add(outputs);
