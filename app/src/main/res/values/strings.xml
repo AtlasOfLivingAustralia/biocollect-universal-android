@@ -2,7 +2,7 @@
     <string name="app_name">OzAtlas</string>
 
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
-    <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
+    <string name="biocollect_url">http://biocollect-test.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>

@@ -1,10 +1,15 @@
 package au.csiro.ozatlas.rest;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
+import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
+import au.csiro.ozatlas.model.Tag;
+import io.realm.RealmList;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -26,11 +31,13 @@ public class NetworkClient {
     }
 
     public NetworkClient(String baseUrl) {
+        Type token = new TypeToken<RealmList<Tag>>(){}.getType();
+        Gson gson = new GsonBuilder().registerTypeAdapter(token, new CustomTagTypeAdapter()).create();
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
     }
 
