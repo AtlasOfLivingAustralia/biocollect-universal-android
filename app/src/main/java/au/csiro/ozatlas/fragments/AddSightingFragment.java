@@ -149,6 +149,8 @@ public class AddSightingFragment extends BaseFragment {
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
     Switch confidenceSwitch;
+    @BindView(R.id.inputLayoutSpeciesName)
+    TextInputLayout inputLayoutSpeciesName;
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
@@ -241,6 +243,19 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
+    private boolean getValidated(){
+        boolean value = true;
+        if(selectedSpecies==null){
+            inputLayoutSpeciesName.setError("Please choose a species");
+            value=false;
+        }
+        if(latitude==null || longitude==null){
+            value=false;
+            showSnackBarMessage("Please Add a location");
+        }
+        return value;
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.save, menu);
@@ -251,15 +266,15 @@ public class AddSightingFragment extends BaseFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
-                if (AtlasManager.isTesting) {
-                    showToast("SAVE Clicked");
-                }
-                showProgressDialog();
-                if (paths.size() > 0) {
-                    imageUploadCount = 0;
-                    uploadPhotos();
-                } else {
-                    getGUID();
+                AtlasManager.hideKeyboard(getActivity());
+                if(getValidated()) {
+                    showProgressDialog();
+                    if (paths.size() > 0) {
+                        imageUploadCount = 0;
+                        uploadPhotos();
+                    } else {
+                        getGUID();
+                    }
                 }
                 return true;
         }
@@ -301,6 +316,8 @@ public class AddSightingFragment extends BaseFragment {
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {
+                        showSnackBarMessage("Sighting has been saved");
+                        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
                         Log.d("", "onNext");
                     }
 
@@ -384,16 +401,17 @@ public class AddSightingFragment extends BaseFragment {
         addSight.projectStage="";
         addSight.type = getString(R.string.project_type);
         addSight.projectId = getString(R.string.project_id);
-        addSight.activityId="";
+        /*addSight.activityId="";
         addSight.mainTheme = "";
-        addSight.siteId = "";
+        addSight.siteId = "";*/
         addSight.outputs = new ArrayList<>();
         Outputs outputs = new Outputs();
         outputs.name = getString(R.string.project_output_name);
-        outputs.outputId = "";
-        outputs.outputNotCompleted = "";
+        /*outputs.outputId = "";
+        outputs.outputNotCompleted = "";*/
         outputs.data = new Data();
-        outputs.data.recordedBy = "Test";
+        //// TODO: 2/5/17 Users name
+        //outputs.data.recordedBy = "Test";
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
         outputs.data.species = new Species();
@@ -402,7 +420,7 @@ public class AddSightingFragment extends BaseFragment {
             outputs.data.species.name = selectedSpecies.name;
             outputs.data.species.scientificName = selectedSpecies.kingdom;
         }
-        outputs.data.species.commonName = "";
+        //outputs.data.species.commonName = "";
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
         outputs.data.sightingPhoto = imageUploadAdapter.getSightingPhotos();
