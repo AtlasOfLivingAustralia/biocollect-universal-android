@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.model.get;
+package au.csiro.ozatlas.model;
 
 import java.util.List;
 

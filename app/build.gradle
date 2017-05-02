@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'android-apt'
+apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 25
@@ -23,10 +24,13 @@ android {
 buildscript {
     repositories {
         mavenCentral()
+        jcenter()
     }
     dependencies {
         // replace with the current version of the android-apt plugin
         classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        //Realm
+        classpath "io.realm:realm-gradle-plugin:3.1.3"
     }
 }
 

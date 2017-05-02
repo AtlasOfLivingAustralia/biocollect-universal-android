@@ -25,7 +25,7 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.listener.SimpleTextChangeListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
-import au.csiro.ozatlas.model.post.SightingPhoto;
+import au.csiro.ozatlas.model.SightingPhoto;
 
 /**
  * Created by sad038 on 13/4/17.

@@ -12,7 +12,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
@@ -21,7 +20,6 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SwitchCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -50,22 +48,15 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -83,12 +74,9 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.SightingPhoto;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
-import au.csiro.ozatlas.model.post.AddSight;
-import au.csiro.ozatlas.model.post.Data;
-import au.csiro.ozatlas.model.post.Outputs;
-import au.csiro.ozatlas.model.post.SightingPhoto;
-import au.csiro.ozatlas.model.post.Species;
+import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
@@ -405,16 +393,16 @@ public class AddSightingFragment extends BaseFragment {
         addSight.mainTheme = "";
         addSight.siteId = "";*/
         addSight.outputs = new ArrayList<>();
-        Outputs outputs = new Outputs();
+        AddSight.Outputs outputs = addSight.new Outputs();
         outputs.name = getString(R.string.project_output_name);
         /*outputs.outputId = "";
         outputs.outputNotCompleted = "";*/
-        outputs.data = new Data();
+        outputs.data = addSight.new Data();
         //// TODO: 2/5/17 Users name
         //outputs.data.recordedBy = "Test";
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
-        outputs.data.species = new Species();
+        outputs.data.species = addSight.new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
         if(selectedSpecies!=null) {
             outputs.data.species.name = selectedSpecies.name;

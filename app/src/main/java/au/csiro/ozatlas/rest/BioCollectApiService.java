@@ -3,8 +3,8 @@ package au.csiro.ozatlas.rest;
 import com.google.gson.JsonObject;
 
 import au.csiro.ozatlas.model.ImageUploadResponse;
-import au.csiro.ozatlas.model.get.SightList;
-import au.csiro.ozatlas.model.post.AddSight;
+import au.csiro.ozatlas.model.SightList;
+import au.csiro.ozatlas.model.AddSight;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;

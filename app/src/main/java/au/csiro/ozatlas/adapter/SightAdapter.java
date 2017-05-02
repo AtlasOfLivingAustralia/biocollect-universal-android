@@ -13,7 +13,7 @@ import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
-import au.csiro.ozatlas.model.get.Sight;
+import au.csiro.ozatlas.model.Sight;
 
 /**
  * Created by sad038 on 13/4/17.

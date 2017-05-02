@@ -1,10 +1,12 @@
-package au.csiro.ozatlas.model.post;
+package au.csiro.ozatlas.model;
+
+import io.realm.RealmObject;
 
 /**
- * Created by sad038 on 24/4/17.
+ * Created by sad038 on 2/5/17.
  */
 
-public class SightingPhoto {
+public class SightingPhoto extends RealmObject {
     public String dateTaken;
 
     public String licence;
@@ -27,3 +29,4 @@ public class SightingPhoto {
 
     public int licensePosition;
 }
+
