@@ -2,7 +2,7 @@
     <string name="app_name">OzAtlas</string>
 
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
-    <string name="biocollect_url">http://biocollect-test.ala.org.au/</string>
+    <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
@@ -44,6 +44,8 @@
     <string name="password_missing_error">Password Missing</string>
     <string name="login">Login</string>
     <string name="register">Click to register</string>
+    <string name="not_internet_title">No Internet Connection</string>
+    <string name="no_internet_message">"Would you like to save your data so that you submit later."</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>
 

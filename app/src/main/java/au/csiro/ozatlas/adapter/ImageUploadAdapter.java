@@ -2,11 +2,8 @@ package au.csiro.ozatlas.adapter;
 
 import android.app.DatePickerDialog;
 import android.content.Context;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.provider.MediaStore;
 import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.Calendar;
-import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.listener.SimpleTextChangeListener;
@@ -34,14 +30,12 @@ import io.realm.RealmList;
 
 public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
-    private List<Uri> imagePaths;
     private RealmList<SightingPhoto> sightingPhotos;
     private String[] attributionMapStrings;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private ArrayAdapter licenseAdapter;
 
-    public ImageUploadAdapter(List<Uri> imagePaths, RealmList<SightingPhoto> sightingPhotos, Context context) {
-        this.imagePaths = imagePaths;
+    public ImageUploadAdapter(RealmList<SightingPhoto> sightingPhotos, Context context) {
         this.sightingPhotos = sightingPhotos;
         this.licenseAdapter = ArrayAdapter.createFromResource(context, R.array.license_array, R.layout.item_textview);
         this.attributionMapStrings = context.getResources().getStringArray(R.array.license_map_array);
@@ -59,16 +53,15 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
     @Override
     public int getItemCount() {
-        return imagePaths.size();
+        return sightingPhotos.size();
     }
 
     @Override
     public void onBindViewHolder(final ImageViewHolders holder, final int position) {
-        holder.imageView.setImageBitmap(loadImage(getRealPathFromURI(holder.imageView.getContext(), imagePaths.get(position))));
+        holder.imageView.setImageBitmap(loadImage(sightingPhotos.get(position).filePath));
         holder.crossButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                imagePaths.remove(holder.getAdapterPosition());
                 sightingPhotos.remove(holder.getAdapterPosition());
                 ImageUploadAdapter.this.notifyDataSetChanged();
             }
@@ -154,20 +147,6 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             e.printStackTrace();
         }
         return null;
-    }
-
-    private String getRealPathFromURI(Context context, Uri contentURI) {
-        String result;
-        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
     }
 }
 

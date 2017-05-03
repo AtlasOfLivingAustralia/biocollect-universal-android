@@ -70,16 +70,17 @@ import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.Data;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Outputs;
 import au.csiro.ozatlas.model.SightingPhoto;
 import au.csiro.ozatlas.model.Species;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
-import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.Tag;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
@@ -95,6 +96,7 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
 import io.realm.RealmList;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
@@ -159,9 +161,10 @@ public class AddSightingFragment extends BaseFragment {
 
     private ImageUploadAdapter imageUploadAdapter;
     private Uri fileUri;
-    private ArrayList<Uri> paths = new ArrayList<>();
+    //private ArrayList<Uri> paths = new ArrayList<>();
     private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
     private int imageUploadCount;
+    private Realm realm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -206,7 +209,7 @@ public class AddSightingFragment extends BaseFragment {
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        imageUploadAdapter = new ImageUploadAdapter(paths, sightingPhotos, getActivity());
+        imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity());
         recyclerView.setAdapter(imageUploadAdapter);
 
         mCompositeDisposable.add(getFileReadObservable()
@@ -236,14 +239,14 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
-    private boolean getValidated(){
+    private boolean getValidated() {
         boolean value = true;
-        if(selectedSpecies==null){
+        if (selectedSpecies == null) {
             inputLayoutSpeciesName.setError("Please choose a species");
-            value=false;
+            value = false;
         }
-        if(latitude==null || longitude==null){
-            value=false;
+        if (latitude == null || longitude == null) {
+            value = false;
             showSnackBarMessage("Please Add a location");
         }
         return value;
@@ -260,31 +263,47 @@ public class AddSightingFragment extends BaseFragment {
         switch (item.getItemId()) {
             case R.id.save:
                 AtlasManager.hideKeyboard(getActivity());
-                if(getValidated()) {
-                    showProgressDialog();
-                    if (paths.size() > 0) {
-                        imageUploadCount = 0;
-                        uploadPhotos();
-                    } else {
-                        getGUID();
+                if (AtlasManager.isNetworkAvailable(getActivity())) {
+                    if (getValidated()) {
+                        showProgressDialog();
+                        if (sightingPhotos.size() > 0) {
+                            imageUploadCount = 0;
+                            uploadPhotos();
+                        } else {
+                            getGUID();
+                        }
                     }
+                } else {
+                    AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Create the Realm instance and save the Sight Model
+                            realm = Realm.getDefaultInstance();
+                            realm.beginTransaction();
+                            realm.copyToRealm(getAddSightModel());
+                            realm.commitTransaction();
+
+                            showSnackBarMessage("Sighting has been saved as Draft");
+                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
+                        }
+                    });
                 }
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private void getGUID(){
+    private void getGUID() {
         mCompositeDisposable.add(restClient.getService().getGUID()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<JsonObject>() {
                     @Override
                     public void onNext(JsonObject value) {
-                        if(value.has("outputSpeciesId")){
+                        if (value.has("outputSpeciesId")) {
                             outputSpeciesId = value.getAsJsonPrimitive("outputSpeciesId").getAsString();
                             saveData();
-                        }else{
+                        } else {
                             hideProgressDialog();
                         }
                     }
@@ -297,7 +316,6 @@ public class AddSightingFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        hideProgressDialog();
                     }
                 }));
     }
@@ -328,9 +346,8 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private void uploadPhotos() {
-        if (imageUploadCount < paths.size()) {
-            Uri path = paths.get(imageUploadCount);
-            mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(path))
+        if (imageUploadCount < sightingPhotos.size()) {
+            mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(sightingPhotos.get(imageUploadCount).filePath))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
@@ -352,7 +369,7 @@ public class AddSightingFragment extends BaseFragment {
                         @Override
                         public void onComplete() {
                             imageUploadCount++;
-                            if (imageUploadCount < paths.size())
+                            if (imageUploadCount < sightingPhotos.size())
                                 uploadPhotos();
                             else
                                 getGUID();
@@ -379,11 +396,11 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     //for single image upload
-    private MultipartBody.Part getMultipart(Uri path) {
+    private MultipartBody.Part getMultipart(String path) {
         // use the FileUtils to get the actual file by uri
-        File file = FileUtils.getFile(getActivity(), path);
+        File file = new File(path);
         // create RequestBody instance from file
-        RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(path)), file);
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
 
         // MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
@@ -391,7 +408,7 @@ public class AddSightingFragment extends BaseFragment {
 
     private AddSight getAddSightModel() {
         AddSight addSight = new AddSight();
-        addSight.projectStage="";
+        addSight.projectStage = "";
         addSight.type = getString(R.string.project_type);
         addSight.projectId = getString(R.string.project_id);
         /*addSight.activityId="";
@@ -409,7 +426,7 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
         outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
-        if(selectedSpecies!=null) {
+        if (selectedSpecies != null) {
             outputs.data.species.name = selectedSpecies.name;
             outputs.data.species.scientificName = selectedSpecies.kingdom;
         }
@@ -611,34 +628,16 @@ public class AddSightingFragment extends BaseFragment {
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } else {
-            alertBoxForSetting();
+            AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                    dialog.cancel();
+                }
+            });
         }
     }
 
-    /*----------Method to create an AlertBox ------------- */
-    protected void alertBoxForSetting() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setMessage("Your Device's GPS or Network is Disable")
-                .setCancelable(false)
-                .setTitle("Location Provider Status")
-                .setPositiveButton("Setting",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                                startActivity(myIntent);
-                                dialog.cancel();
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                // cancel the dialog box
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
 
     private void openMapToPickLocation() {
         try {
@@ -688,13 +687,11 @@ public class AddSightingFragment extends BaseFragment {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
-                    paths.add(fileUri);
                     sightingPhotos.add(getSightingPhotoWithFileNameAdded(fileUri));
                     imageUploadAdapter.notifyDataSetChanged();
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
-                    paths.add(selectedImageUri);
                     sightingPhotos.add(getSightingPhotoWithFileNameAdded(selectedImageUri));
                     imageUploadAdapter.notifyDataSetChanged();
                     break;
@@ -710,8 +707,9 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
-    private SightingPhoto getSightingPhotoWithFileNameAdded(Uri fileUri){
+    private SightingPhoto getSightingPhotoWithFileNameAdded(Uri fileUri) {
         SightingPhoto sightingPhoto = new SightingPhoto();
+        sightingPhoto.filePath = FileUtils.getPath(getActivity(), fileUri);
         sightingPhoto.filename = (FileUtils.getFile(getActivity(), fileUri)).getName();
         return sightingPhoto;
     }
@@ -804,5 +802,12 @@ public class AddSightingFragment extends BaseFragment {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
         startActivityForResult(Intent.createChooser(intent, "Select File"), REQUEST_IMAGE_GALLERY);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null)
+            realm.close();
     }
 }

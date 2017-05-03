@@ -7,6 +7,7 @@ import au.csiro.ozatlas.di.AppComponent;
 import au.csiro.ozatlas.di.DaggerAppComponent;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
+import io.realm.Realm;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -18,6 +19,11 @@ public class OzAtlasApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+
+        // Initialize Realm. Should only be done once when the application starts.
+        Realm.init(this);
+
+        //initialize Dagger component
         component = init(this);
     }
 

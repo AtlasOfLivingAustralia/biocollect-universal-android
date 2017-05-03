@@ -1,5 +1,7 @@
 package au.csiro.ozatlas.model;
 
+import android.net.Uri;
+
 import io.realm.RealmObject;
 
 /**
@@ -31,5 +33,8 @@ public class SightingPhoto extends RealmObject{
     public String attribution;
 
     public int licensePosition;
+
+    //Not part of Json
+    public String filePath;
 }
 
