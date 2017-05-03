@@ -132,6 +132,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.url_parameter), url);
         bundle.putString(getString(R.string.title_parameter), title);
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
         Intent intent = new Intent(this, SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);

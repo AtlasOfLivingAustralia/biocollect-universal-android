@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 
 /**
@@ -18,13 +19,22 @@ public class SingleFragmentActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.content_main);
 
-        Fragment fragment = new WebViewFragment();
+        Fragment fragment = null;
         Bundle bundle = getIntent().getExtras();
         if (bundle != null) {
-            setTitle(bundle.getString(getString(R.string.title_parameter)), true);
+            FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
+            setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
+            switch (fragmentType){
+                case WEB_FRAGMENT:
+                    fragment = new WebViewFragment();
+                    break;
+                case EDIT_FRAGMENT:
+                    fragment = new AddSightingFragment();
+                    break;
+            }
             fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         }
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
     }
 
     @Override
@@ -44,5 +54,10 @@ public class SingleFragmentActivity extends AppCompatActivity {
         } else {
             setTitle(str);
         }
+    }
+
+    public enum FragmentType {
+        WEB_FRAGMENT,
+        EDIT_FRAGMENT
     }
 }

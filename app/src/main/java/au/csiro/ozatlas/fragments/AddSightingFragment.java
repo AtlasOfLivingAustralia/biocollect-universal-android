@@ -165,12 +165,14 @@ public class AddSightingFragment extends BaseFragment {
     private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
     private int imageUploadCount;
     private Realm realm;
+    private AddSight addSight;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+        getSightForEdit();
 
         //species search service
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
@@ -237,6 +239,13 @@ public class AddSightingFragment extends BaseFragment {
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
 
         return view;
+    }
+
+    private void getSightForEdit(){
+        Bundle bundle = getArguments();
+        if(bundle!=null){
+            addSight = (AddSight) bundle.getSerializable(getString(R.string.sight_parameter));
+        }
     }
 
     private boolean getValidated() {
@@ -407,7 +416,9 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private AddSight getAddSightModel() {
-        AddSight addSight = new AddSight();
+        if(addSight==null) {
+            addSight = new AddSight();
+        }
         addSight.projectStage = "";
         addSight.type = getString(R.string.project_type);
         addSight.projectId = getString(R.string.project_id);

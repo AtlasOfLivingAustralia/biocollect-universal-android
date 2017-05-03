@@ -1,7 +1,9 @@
 package au.csiro.ozatlas.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
@@ -78,6 +81,12 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
                 new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable(getString(R.string.sight_parameter), realm.copyToRealm(sights.get(position)));
+                        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
+                        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 })
         );
