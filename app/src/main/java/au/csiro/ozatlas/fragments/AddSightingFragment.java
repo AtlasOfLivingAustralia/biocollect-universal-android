@@ -172,6 +172,10 @@ public class AddSightingFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+
+        realm = Realm.getDefaultInstance();
+
+        //from bundle
         getSightForEdit();
 
         //species search service
@@ -244,7 +248,8 @@ public class AddSightingFragment extends BaseFragment {
     private void getSightForEdit(){
         Bundle bundle = getArguments();
         if(bundle!=null){
-            addSight = (AddSight) bundle.getSerializable(getString(R.string.sight_parameter));
+            Long id = bundle.getLong(getString(R.string.sight_parameter));
+            addSight = realm.where(AddSight.class).equalTo("realmId", id).findFirst();
         }
     }
 
@@ -287,7 +292,6 @@ public class AddSightingFragment extends BaseFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             // Create the Realm instance and save the Sight Model
-                            realm = Realm.getDefaultInstance();
                             realm.beginTransaction();
                             realm.copyToRealm(getAddSightModel());
                             realm.commitTransaction();
@@ -418,6 +422,8 @@ public class AddSightingFragment extends BaseFragment {
     private AddSight getAddSightModel() {
         if(addSight==null) {
             addSight = new AddSight();
+            // increment index
+            addSight.realmId = realm.where(AddSight.class).count() + 1;
         }
         addSight.projectStage = "";
         addSight.type = getString(R.string.project_type);

@@ -15,7 +15,4 @@ import retrofit2.http.Query;
 public interface EcoDataApiService {
     @GET("user/getKey")
     Observable<JsonObject> login(@Header("userName") String username, @Header("password") String password);
-
-    @GET("ws/record/listRecordsForDataResourceId")
-    Observable<SightList> getSightings(@Query("id") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("sort") String sort, @Query("status") String status);
 }

@@ -32,7 +32,10 @@ public class NetworkClient {
 
     public NetworkClient(String baseUrl) {
         Type token = new TypeToken<RealmList<Tag>>(){}.getType();
-        Gson gson = new GsonBuilder().registerTypeAdapter(token, new CustomTagTypeAdapter()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(token, new CustomTagTypeAdapter())
+                .excludeFieldsWithoutExposeAnnotation()
+                .create();
+
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

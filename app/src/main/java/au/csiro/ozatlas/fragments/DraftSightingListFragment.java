@@ -82,7 +82,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
                     @Override
                     public void onItemClick(View view, int position) {
                         Bundle bundle = new Bundle();
-                        bundle.putSerializable(getString(R.string.sight_parameter), realm.copyToRealm(sights.get(position)));
+                        bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
                         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
                         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
                         intent.putExtras(bundle);
