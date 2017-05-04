@@ -2,18 +2,10 @@ package au.csiro.ozatlas.fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -24,20 +16,15 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
-import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.listener.RecyclerItemClickListener;
 import au.csiro.ozatlas.model.AddSight;
-import au.csiro.ozatlas.model.Sight;
-import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
-import io.realm.RealmList;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -45,6 +32,7 @@ import io.realm.RealmList;
 
 public class DraftSightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = "DraftSightingListFragment";
+    private final int REQUEST_EDIT = 1;
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
@@ -64,7 +52,9 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         View view = inflater.inflate(R.layout.fragment_sight_list, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        mainActivityFragmentListener.showFloatingButton();
+
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.showFloatingButton();
 
         // Get a Realm instance for this thread
         realm = Realm.getDefaultInstance();
@@ -86,7 +76,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
                         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
                         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
                         intent.putExtras(bundle);
-                        startActivity(intent);
+                        startActivityForResult(intent, REQUEST_EDIT);
                     }
                 })
         );
@@ -101,7 +91,21 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         return view;
     }
 
-    private void readDraftSights(){
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case REQUEST_EDIT:
+                    //get the sighting
+                    readDraftSights();
+                    break;
+            }
+        }
+    }
+
+    private void readDraftSights() {
         sights.clear();
         sights.addAll(realm.where(AddSight.class).findAll());
         total.setText(getString(R.string.total_sighting, sights.size()));

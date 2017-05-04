@@ -66,6 +66,7 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
@@ -98,6 +99,7 @@ import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmResults;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -153,6 +155,7 @@ public class AddSightingFragment extends BaseFragment {
     private Calendar now = Calendar.getInstance();
     private LocationManager locationManager;
     private BieApiService bieApiService;
+    private List<String> tagList;
     private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
     private SpeciesSearchResponse.Species selectedSpecies;
     private Double latitude;
@@ -226,7 +229,8 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onNext(String value) {
                         Log.d("", value);
-                        tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, createTagLists(value));
+                        tagList = createTagLists(value);
+                        tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, tagList);
                         tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                         identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
                     }
@@ -238,9 +242,12 @@ public class AddSightingFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-
+                        if (addSight != null) {
+                            setSightValues();
+                        }
                     }
                 }));
+
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
 
         return view;
@@ -298,7 +305,12 @@ public class AddSightingFragment extends BaseFragment {
                             realm.commitTransaction();
 
                             showSnackBarMessage("Sighting has been saved as Draft");
-                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
+                            if (getActivity() instanceof SingleFragmentActivity) {
+                                getActivity().setResult(RESULT_OK);
+                                getActivity().onBackPressed();
+                            } else {
+                                getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
+                            }
                         }
                     });
                 }
@@ -342,7 +354,22 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onNext(Response<Void> value) {
                         showSnackBarMessage("Sighting has been saved");
-                        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
+                        if (getActivity() instanceof SingleFragmentActivity) {
+                            realm.executeTransactionAsync(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    RealmResults<AddSight> result = realm.where(AddSight.class).equalTo("realmId", addSight.realmId).findAll();
+                                    result.deleteAllFromRealm();
+                                }
+                            }, new Realm.Transaction.OnSuccess() {
+                                @Override
+                                public void onSuccess() {
+                                    getActivity().setResult(RESULT_OK);
+                                    getActivity().onBackPressed();
+                                }
+                            });
+                        } else
+                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
                         Log.d("", "onNext");
                     }
 
@@ -420,6 +447,37 @@ public class AddSightingFragment extends BaseFragment {
         return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
     }
 
+    private void setSightValues() {
+        if (addSight.outputs != null && addSight.outputs.size() > 0) {
+            if (addSight.outputs.get(0).data != null) {
+                //setting the date
+                time.setText(AtlasDateTimeUtils.getFormattedDayTime(addSight.outputs.get(0).data.surveyStartTime, TIME_FORMAT).toUpperCase());
+                date.setText(AtlasDateTimeUtils.getFormattedDayTime(addSight.outputs.get(0).data.surveyDate, DATE_FORMAT).toUpperCase());
+
+                individualSpinner.setSelection(addSight.outputs.get(0).data.individualCount - 1, false);
+                confidenceSwitch.setChecked(addSight.outputs.get(0).data.identificationConfidence.equals("Certain"));
+                if (addSight.outputs.get(0).data.species != null) {
+                    editSpeciesName.setText(addSight.outputs.get(0).data.species.name);
+                }
+                if (addSight.outputs.get(0).data.tags != null) {
+                    for (int i = 0; i < tagList.size(); i++) {
+                        if (tagList.get(i).equals(addSight.outputs.get(0).data.tags.get(0).val)) {
+                            identificationTagSpinner.setSelection(i, false);
+                            break;
+                        }
+                    }
+                }
+                if (addSight.outputs.get(0).data.locationLatitude != null)
+                    editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
+
+                if (addSight.outputs.get(0).data.sightingPhoto != null) {
+                    sightingPhotos.addAll(addSight.outputs.get(0).data.sightingPhoto);
+                    imageUploadAdapter.notifyDataSetChanged();
+                }
+            }
+        }
+    }
+
     private AddSight getAddSightModel() {
         if (addSight == null) {
             addSight = new AddSight();
@@ -441,7 +499,7 @@ public class AddSightingFragment extends BaseFragment {
         //// TODO: 2/5/17 Users name
         //outputs.data.recordedBy = "Test";
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
-        outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(time.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_TIME_FORMAT);
+        outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString()+ time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
         if (selectedSpecies != null) {

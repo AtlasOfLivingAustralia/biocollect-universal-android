@@ -139,16 +139,18 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                 .subscribeWith(new DisposableObserver<SightList>() {
                     @Override
                     public void onNext(SightList value) {
-                        totalSighting = value.total;
-                        if (offset == 0)
-                            sights.clear();
-                        if (sights.size() == value.total) {
-                            hasNext = false;
-                        } else {
-                            sights.addAll(value.activities);
+                        if(value!=null && value.total!=null) {
+                            totalSighting = value.total;
+                            if (offset == 0)
+                                sights.clear();
+                            if (sights.size() == value.total) {
+                                hasNext = false;
+                            } else {
+                                sights.addAll(value.activities);
+                            }
+                            sightAdapter.setNeedFooter(false);
+                            sightAdapter.notifyDataSetChanged();
                         }
-                        sightAdapter.setNeedFooter(false);
-                        sightAdapter.notifyDataSetChanged();
                         Log.d(TAG, "onNext");
                     }
 
