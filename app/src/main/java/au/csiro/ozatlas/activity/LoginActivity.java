@@ -55,7 +55,7 @@ public class LoginActivity extends BaseActivity {
         //test code
         if (AtlasManager.isTesting) {
             editUsername.setText("sadat.sadat@csiro.au");
-            editPassword.setText("");
+            editPassword.setText("password");
         }
     }
 

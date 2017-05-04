@@ -91,7 +91,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
 
         if (id == R.id.nav_logout) {
-            sharedPreferences.writeAuthKey(null);
+            sharedPreferences.writeAuthKey("");
             launchLoginActivity();
         } else if (id == R.id.nav_add) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();

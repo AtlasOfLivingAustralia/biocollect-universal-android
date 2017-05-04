@@ -193,7 +193,8 @@ public class AddSightingFragment extends BaseFragment {
         });
 
         //hiding the floating action button
-        mainActivityFragmentListener.hideFloatingButton();
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.hideFloatingButton();
 
         // Acquire a reference to the system Location Manager
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -245,9 +246,9 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
-    private void getSightForEdit(){
+    private void getSightForEdit() {
         Bundle bundle = getArguments();
-        if(bundle!=null){
+        if (bundle != null) {
             Long id = bundle.getLong(getString(R.string.sight_parameter));
             addSight = realm.where(AddSight.class).equalTo("realmId", id).findFirst();
         }
@@ -420,7 +421,7 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private AddSight getAddSightModel() {
-        if(addSight==null) {
+        if (addSight == null) {
             addSight = new AddSight();
             // increment index
             addSight.realmId = realm.where(AddSight.class).count() + 1;

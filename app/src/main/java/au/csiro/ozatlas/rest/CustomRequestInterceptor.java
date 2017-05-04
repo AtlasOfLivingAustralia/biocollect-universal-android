@@ -23,7 +23,12 @@ public class CustomRequestInterceptor implements Interceptor {
 
     @Override
     public Response intercept(Chain chain) throws IOException {
-        Request request = chain.request().newBuilder().header("Accept", "application/json").header("authKey", sharedPreferences.getAuthKey()).header("userName", sharedPreferences.getUsername()).build();
+        Request request;
+        if(sharedPreferences.getAuthKey().equals("")){
+            request = chain.request().newBuilder().addHeader("Accept", "application/json").build();
+        }else{
+            request = chain.request().newBuilder().addHeader("Accept", "application/json").addHeader("authKey", sharedPreferences.getAuthKey()).addHeader("userName", sharedPreferences.getUsername()).build();
+        }
 
         long t1 = System.nanoTime();
         Log.d(TAG, String.format("Sending request %s on %s%n%s", request.url(), chain.connection(), request.headers()));
