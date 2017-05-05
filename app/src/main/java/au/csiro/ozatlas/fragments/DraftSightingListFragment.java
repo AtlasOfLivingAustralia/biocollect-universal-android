@@ -105,6 +105,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //when the user will press the upload menu item
             case R.id.upload:
                 AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
                     @Override
@@ -139,6 +140,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         sights.clear();
         sights.addAll(realm.where(AddSight.class).findAll());
         total.setText(getString(R.string.total_sighting, sights.size()));
+        sightAdapter.notifyDataSetChanged();
     }
 
     @Override

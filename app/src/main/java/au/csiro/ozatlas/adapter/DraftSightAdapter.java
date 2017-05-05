@@ -6,6 +6,9 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -22,7 +25,7 @@ import au.csiro.ozatlas.model.Tag;
  * Created by sad038 on 13/4/17.
  */
 
-public class DraftSightAdapter extends RecyclerView.Adapter<SightViewHolders> {
+public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolders> {
 
     private List<AddSight> sights;
     private Context context;
@@ -33,14 +36,16 @@ public class DraftSightAdapter extends RecyclerView.Adapter<SightViewHolders> {
     }
 
     @Override
-    public SightViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
+    public DraftSightViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
         layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-        return new SightViewHolders(layoutView);
+        return new DraftSightViewHolders(layoutView);
     }
 
     @Override
-    public void onBindViewHolder(SightViewHolders sightViewHolders, int position) {
+    public void onBindViewHolder(DraftSightViewHolders sightViewHolders, int position) {
+        sightViewHolders.checkBox.setVisibility(View.VISIBLE);
+
         AddSight sight = sights.get(position);
         if (sight.outputs != null && sight.outputs.size() > 0) {
             sightViewHolders.name.setText(sight.outputs.get(0).name);
@@ -77,6 +82,15 @@ public class DraftSightAdapter extends RecyclerView.Adapter<SightViewHolders> {
     @Override
     public int getItemCount() {
         return sights.size();
+    }
+}
+
+class DraftSightViewHolders extends SightViewHolders {
+    CheckBox checkBox;
+
+    DraftSightViewHolders(View itemView) {
+        super(itemView);
+        checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
     }
 }
 
