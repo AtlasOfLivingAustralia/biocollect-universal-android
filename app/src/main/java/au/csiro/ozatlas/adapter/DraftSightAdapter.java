@@ -2,13 +2,11 @@ package au.csiro.ozatlas.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -18,7 +16,6 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.AddSight;
-import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.Tag;
 
 /**
@@ -28,24 +25,51 @@ import au.csiro.ozatlas.model.Tag;
 public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolders> {
 
     private List<AddSight> sights;
+    private boolean[] selection;
     private Context context;
+    View.OnClickListener onClickListener;
 
-    public DraftSightAdapter(List<AddSight> sights, Context context) {
+    public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener) {
         this.sights = sights;
+        selection = new boolean[sights.size()];
         this.context = context;
+        this.onClickListener = onClickListener;
+    }
+
+    public void selectionRefresh() {
+        selection = new boolean[sights.size()];
+    }
+
+    public int getNumberOfSelectedSight(){
+        int count = 0;
+        for(boolean b:selection)
+            if (b)
+                count++;
+         return count;
     }
 
     @Override
     public DraftSightViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
+        layoutView.setOnClickListener(onClickListener);
         layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new DraftSightViewHolders(layoutView);
     }
 
     @Override
-    public void onBindViewHolder(DraftSightViewHolders sightViewHolders, int position) {
+    public void onBindViewHolder(final DraftSightViewHolders sightViewHolders, final int position) {
         sightViewHolders.checkBox.setVisibility(View.VISIBLE);
-
+        if (selection[position])
+            sightViewHolders.checkBox.setChecked(true);
+        else
+            sightViewHolders.checkBox.setChecked(false);
+        sightViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selection[position] = !selection[position];
+                sightViewHolders.checkBox.setChecked(selection[position]);
+            }
+        });
         AddSight sight = sights.get(position);
         if (sight.outputs != null && sight.outputs.size() > 0) {
             sightViewHolders.name.setText(sight.outputs.get(0).name);
@@ -66,11 +90,12 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
         }
     }
 
+
     public static String tagJoin(CharSequence delimiter, List<Tag> tokens) {
         StringBuilder sb = new StringBuilder();
         Iterator<Tag> it = tokens.iterator();
         if (it.hasNext()) {
-            sb.append(it.next());
+            sb.append(it.next().val);
             while (it.hasNext()) {
                 sb.append(delimiter);
                 sb.append(it.next().val);

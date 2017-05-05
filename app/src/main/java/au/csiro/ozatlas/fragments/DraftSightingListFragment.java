@@ -21,7 +21,6 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
-import au.csiro.ozatlas.listener.RecyclerItemClickListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -49,7 +48,6 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
 
     private DraftSightAdapter sightAdapter;
     private List<AddSight> sights = new ArrayList<>();
-    private LinearLayoutManager mLayoutManager;
     private Realm realm;
 
     @Override
@@ -68,23 +66,21 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        mLayoutManager = new LinearLayoutManager(getActivity());
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new DraftSightAdapter(sights, getActivity());
+        sightAdapter = new DraftSightAdapter(sights, getActivity(), new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = recyclerView.getChildAdapterPosition(v);
+                Bundle bundle = new Bundle();
+                bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, REQUEST_EDIT);
+            }
+        });
         recyclerView.setAdapter(sightAdapter);
-        recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View view, int position) {
-                        Bundle bundle = new Bundle();
-                        bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
-                        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
-                        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                        intent.putExtras(bundle);
-                        startActivityForResult(intent, REQUEST_EDIT);
-                    }
-                })
-        );
 
         //refresh layout setup
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -107,18 +103,20 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         switch (item.getItemId()) {
             //when the user will press the upload menu item
             case R.id.upload:
-                AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        uploadAll();
-                    }
-                });
+                if (sights.size() > 0 && sightAdapter.getNumberOfSelectedSight() == 0) {
+                    AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            uploadAll();
+                        }
+                    });
+                }
                 break;
         }
         return true;
     }
 
-    private void uploadAll(){
+    private void uploadAll() {
 
     }
 
@@ -140,6 +138,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         sights.clear();
         sights.addAll(realm.where(AddSight.class).findAll());
         total.setText(getString(R.string.total_sighting, sights.size()));
+        sightAdapter.selectionRefresh();
         sightAdapter.notifyDataSetChanged();
     }
 

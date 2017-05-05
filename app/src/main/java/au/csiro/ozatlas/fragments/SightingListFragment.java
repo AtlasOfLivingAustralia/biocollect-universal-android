@@ -86,7 +86,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         recyclerView.setAdapter(sightAdapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         recyclerView.addOnItemTouchListener(
-                new RecyclerItemClickListener(getActivity(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+                new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail));
