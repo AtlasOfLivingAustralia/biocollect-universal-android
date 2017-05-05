@@ -299,9 +299,8 @@ public class AddSightingFragment extends BaseFragment {
                     AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            // Create the Realm instance and save the Sight Model
                             realm.beginTransaction();
-                            realm.copyToRealm(getAddSightModel());
+                            realm.insertOrUpdate(getAddSightModel());
                             realm.commitTransaction();
 
                             showSnackBarMessage("Sighting has been saved as Draft");
@@ -480,9 +479,9 @@ public class AddSightingFragment extends BaseFragment {
 
     private AddSight getAddSightModel() {
         if (addSight == null) {
-            addSight = new AddSight();
+            addSight = realm.createObject(AddSight.class, realm.where(AddSight.class).count() + 1);
             // increment index
-            addSight.realmId = realm.where(AddSight.class).count() + 1;
+            //addSight.realmId = ;
         }
         addSight.projectStage = "";
         addSight.type = getString(R.string.project_type);
@@ -499,7 +498,7 @@ public class AddSightingFragment extends BaseFragment {
         //// TODO: 2/5/17 Users name
         //outputs.data.recordedBy = "Test";
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
-        outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString()+ time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
+        outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString() + time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
         if (selectedSpecies != null) {

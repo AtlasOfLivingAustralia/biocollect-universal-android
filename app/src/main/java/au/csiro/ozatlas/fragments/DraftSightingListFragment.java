@@ -140,6 +140,8 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         total.setText(getString(R.string.total_sighting, sights.size()));
         sightAdapter.selectionRefresh();
         sightAdapter.notifyDataSetChanged();
+        if (swipeRefreshLayout.isRefreshing())
+            swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
