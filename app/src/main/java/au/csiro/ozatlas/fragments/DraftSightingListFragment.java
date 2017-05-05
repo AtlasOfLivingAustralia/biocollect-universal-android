@@ -1,11 +1,15 @@
 package au.csiro.ozatlas.fragments;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -18,6 +22,7 @@ import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.listener.RecyclerItemClickListener;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
@@ -89,6 +94,31 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         readDraftSights();
 
         return view;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.upload, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.upload:
+                AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        uploadAll();
+                    }
+                });
+                break;
+        }
+        return true;
+    }
+
+    private void uploadAll(){
+
     }
 
     @Override
