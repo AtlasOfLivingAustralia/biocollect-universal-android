@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.model;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -15,21 +16,29 @@ import io.realm.annotations.PrimaryKey;
 
 public class AddSight extends RealmObject {
     @PrimaryKey
-    @Expose
     public Long realmId;
 
+
+    @Expose
+    @SerializedName("mainTheme")
     public String mainTheme;
-
+    @Expose
+    @SerializedName("activityId")
     public String activityId;
-
+    @Expose
+    @SerializedName("siteId")
     public String siteId;
-
+    @Expose
+    @SerializedName("projectId")
     public String projectId;
-
+    @Expose
+    @SerializedName("outputs")
     public RealmList<Outputs> outputs;
-
+    @Expose
+    @SerializedName("type")
     public String type;
-
+    @Expose
+    @SerializedName("projectStage")
     public String projectStage;
 }
 

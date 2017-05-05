@@ -1,5 +1,8 @@
 package au.csiro.ozatlas.model;
 
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import io.realm.RealmObject;
 
 /**
@@ -14,5 +17,7 @@ public class Tag extends RealmObject {
         this.val = val;
     }
 
+    @Expose
+    @SerializedName("val")
     public String val;
 }
