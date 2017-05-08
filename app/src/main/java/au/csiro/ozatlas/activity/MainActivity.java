@@ -69,7 +69,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     private void updateNavigationHeader() {
-        //((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(user.getDisplayName());
+        ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(sharedPreferences.getUserDisplayName());
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).setText(sharedPreferences.getUsername());
         //((CircularImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView)).setImageURL(user.getPhotoUrl().toString());
     }

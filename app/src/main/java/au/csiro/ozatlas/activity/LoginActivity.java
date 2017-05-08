@@ -8,11 +8,10 @@ import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.google.gson.JsonObject;
-
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.model.LoginResponse;
 import au.csiro.ozatlas.rest.EcoDataApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import butterknife.BindView;
@@ -64,14 +63,12 @@ public class LoginActivity extends BaseActivity {
         mCompositeDisposable.add(ecoDataApiService.login(username, password)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<JsonObject>() {
+                .subscribeWith(new DisposableObserver<LoginResponse>() {
                     @Override
-                    public void onNext(JsonObject value) {
-                        if (value.has("authKey")) {
-                            String authKey = value.get("authKey").getAsString();
-                            sharedPreferences.writeAuthKey(authKey);
-                            sharedPreferences.writeUsername(username);
-                        }
+                    public void onNext(LoginResponse value) {
+                        sharedPreferences.writeAuthKey(value.authKey);
+                        sharedPreferences.writeUserDisplayName((value.firstName + " " + value.lastName).trim());
+                        sharedPreferences.writeUsername(username);
                         Log.d(TAG, "onNext");
                     }
 
