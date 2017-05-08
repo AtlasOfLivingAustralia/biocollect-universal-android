@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -80,13 +81,20 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
                     sightViewHolders.type.setText(context.getString(R.string.species_name, sight.outputs.get(0).data.species.name == null ? "" : sight.outputs.get(0).data.species.name));
                 }
                 if (sight.outputs.get(0).data.sightingPhoto != null && sight.outputs.get(0).data.sightingPhoto.size() > 0) {
+                    sightViewHolders.image.clearColorFilter();
                     Glide.with(context)
                             .load(sight.outputs.get(0).data.sightingPhoto.get(0).filePath)
                             .placeholder(R.drawable.ala_transparent)
                             .crossFade()
                             .into(sightViewHolders.image);
+                }else{
+                    sightViewHolders.image.setColorFilter(Color.GRAY);
                 }
+            }else{
+                sightViewHolders.image.setColorFilter(Color.GRAY);
             }
+        }else{
+            sightViewHolders.image.setColorFilter(Color.GRAY);
         }
     }
 
