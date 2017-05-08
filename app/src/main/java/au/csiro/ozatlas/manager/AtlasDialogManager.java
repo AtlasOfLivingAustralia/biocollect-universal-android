@@ -38,4 +38,11 @@ public class AtlasDialogManager {
             }
         });
     }
+
+    public static void alertBoxForMessage(Context context, String message, String positiveButtonText) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message).setPositiveButton(positiveButtonText, null);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
 }

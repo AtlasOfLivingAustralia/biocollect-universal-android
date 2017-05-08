@@ -17,7 +17,7 @@ import io.realm.annotations.PrimaryKey;
 public class AddSight extends RealmObject {
     @PrimaryKey
     public Long realmId;
-
+    public boolean upLoading;
 
     @Expose
     @SerializedName("mainTheme")

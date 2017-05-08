@@ -19,6 +19,7 @@ package au.csiro.ozatlas.upload;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
+import android.util.Log;
 
 public class BroadcastNotifier {
 
@@ -42,23 +43,18 @@ public class BroadcastNotifier {
      * Uses LocalBroadcastManager to send an {@link String} containing a logcat message.
      * {@link Intent} has the action {@code BROADCAST_ACTION} and the category {@code DEFAULT}.
      *
-     * @param logData a {@link String} to insert into the log.
      */
-    public void notifyProgress(String logData) {
-
-        Intent localIntent = new Intent();
+    void notifyDataChange() {
+        Log.d("NOTIFIER", "notifyDataChange");
+        Intent localIntent = new Intent(Constants.BROADCAST_ACTION);
 
         // The Intent contains the custom broadcast action for this app
-        localIntent.setAction(Constants.BROADCAST_ACTION);
-
-        localIntent.putExtra(Constants.EXTENDED_DATA_STATUS, -1);
+        //localIntent.setAction();
 
         // Puts log data into the Intent
-        localIntent.putExtra(Constants.EXTENDED_STATUS_LOG, logData);
-        localIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        //localIntent.addCategory(Intent.CATEGORY_DEFAULT);
 
         // Broadcasts the Intent
         mBroadcaster.sendBroadcast(localIntent);
-
     }
 }

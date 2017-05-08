@@ -1,11 +1,15 @@
 package au.csiro.ozatlas.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -36,7 +40,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class DraftSightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    private final String TAG = "DraftSightingListFragment";
+    private final String TAG = "DraftSightingList";
     private final int REQUEST_EDIT = 1;
 
     @BindView(R.id.recyclerView)
@@ -57,6 +61,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
+
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.showFloatingButton();
 
@@ -74,11 +79,15 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
             public void onClick(View v) {
                 int position = recyclerView.getChildAdapterPosition(v);
                 Bundle bundle = new Bundle();
-                bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
-                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
-                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, REQUEST_EDIT);
+                if (sights.get(position).upLoading) {
+                    AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
+                } else {
+                    bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
+                    bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
+                    Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, REQUEST_EDIT);
+                }
             }
         });
         recyclerView.setAdapter(sightAdapter);
@@ -141,7 +150,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         }
     }
 
-    private void readDraftSights() {
+    public void readDraftSights() {
         sights.clear();
         sights.addAll(realm.where(AddSight.class).findAll());
         total.setText(getString(R.string.total_sighting, sights.size()));

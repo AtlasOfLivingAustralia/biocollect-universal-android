@@ -1,14 +1,20 @@
 package au.csiro.ozatlas.activity;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -21,12 +27,14 @@ import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.fragments.DraftSightingListFragment;
 import au.csiro.ozatlas.fragments.SightingListFragment;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.upload.Constants;
 
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
 
     private NavigationView navigationView;
     private FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
+    private DataChangeNotificationReceiver dataChangeNotificationReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +42,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        // The filter's action is BROADCAST_ACTION
+        IntentFilter statusIntentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
+        // Instantiates a new DownloadStateReceiver
+        dataChangeNotificationReceiver = new DataChangeNotificationReceiver();
+        // Registers the DownloadStateReceiver and its intent filters
+        LocalBroadcastManager.getInstance(this).registerReceiver(dataChangeNotificationReceiver, statusIntentFilter);
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -117,6 +132,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (dataChangeNotificationReceiver != null)
+            LocalBroadcastManager.getInstance(this).unregisterReceiver(dataChangeNotificationReceiver);
+    }
+
+    @Override
     public void hideFloatingButton() {
         if (fab.getScaleX() != 0.0f)
             fab.animate().scaleX(0.0f).scaleY(0.0f).setInterpolator(new AccelerateInterpolator()).start();
@@ -131,5 +153,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void showSnackBarMessage(String string) {
         showSnackBarMessage(coordinatorLayout, string);
+    }
+
+    private class DataChangeNotificationReceiver extends BroadcastReceiver {
+        //prevent instantiation
+        private DataChangeNotificationReceiver() {
+        }
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentHolder);
+            if(fragment!=null && fragment instanceof DraftSightingListFragment){
+                ((DraftSightingListFragment)fragment).readDraftSights();
+            }
+        }
     }
 }
