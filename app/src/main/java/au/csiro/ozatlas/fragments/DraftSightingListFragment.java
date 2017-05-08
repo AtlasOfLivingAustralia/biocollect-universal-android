@@ -23,6 +23,7 @@ import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.AddSight;
+import au.csiro.ozatlas.upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -107,17 +108,23 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
                     AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            uploadAll();
+                            uploadAll(true);
                         }
                     });
+                } else {
+                    uploadAll(false);
                 }
                 break;
         }
         return true;
     }
 
-    private void uploadAll() {
-
+    private void uploadAll(boolean all) {
+        Intent mServiceIntent = new Intent(getActivity(), UploadService.class);
+        if (!all)
+            mServiceIntent.putExtra(getString(R.string.primary_keys_parameter), sightAdapter.getPrimaryKeys());
+        // Starts the IntentService to download the RSS feed data
+        getActivity().startService(mServiceIntent);
     }
 
     @Override

@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -47,6 +48,14 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
             if (b)
                 count++;
          return count;
+    }
+
+    public ArrayList<Long> getPrimaryKeys(){
+        ArrayList<Long> keys = new ArrayList<>();
+        for(int i=0;i<sights.size();i++)
+            if (selection[i])
+                keys.add(sights.get(i).realmId);
+        return keys;
     }
 
     @Override
