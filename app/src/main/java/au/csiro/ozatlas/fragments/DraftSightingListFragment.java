@@ -1,15 +1,11 @@
 package au.csiro.ozatlas.fragments;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -26,6 +22,7 @@ import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
+import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -113,19 +110,24 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         switch (item.getItemId()) {
             //when the user will press the upload menu item
             case R.id.upload:
-                if(sights.size() > 0) {
-                    if (sightAdapter.getNumberOfSelectedSight() == 0) {
-                        AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                uploadAll(true);
-                            }
-                        });
+                if (AtlasManager.isNetworkAvailable(getActivity())) {
+
+                    if (sights.size() > 0) {
+                        if (sightAdapter.getNumberOfSelectedSight() == 0) {
+                            AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    uploadAll(true);
+                                }
+                            });
+                        } else {
+                            uploadAll(false);
+                        }
                     } else {
-                        uploadAll(false);
+                        showSnackBarMessage(getString(R.string.nothing_to_upload));
                     }
-                }else{
-                    showSnackBarMessage(getString(R.string.nothing_to_upload));
+                } else {
+                    showSnackBarMessage(getString(R.string.not_internet_title));
                 }
                 break;
         }

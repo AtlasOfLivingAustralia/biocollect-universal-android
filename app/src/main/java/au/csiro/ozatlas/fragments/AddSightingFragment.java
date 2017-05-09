@@ -387,7 +387,7 @@ public class AddSightingFragment extends BaseFragment {
 
     private void uploadPhotos() {
         if (imageUploadCount < sightingPhotos.size()) {
-            mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(sightingPhotos.get(imageUploadCount).filePath))
+            mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(sightingPhotos.get(imageUploadCount).filePath))
                     .subscribeOn(Schedulers.newThread())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
@@ -416,34 +416,6 @@ public class AddSightingFragment extends BaseFragment {
                         }
                     }));
         }
-    }
-
-    //for multiple image upload
-    private MultipartBody getMultipart(List<Uri> paths) {
-        MultipartBody.Builder builder = new MultipartBody.Builder();
-        builder.setType(MultipartBody.FORM);
-        for (Uri path : paths) {
-            // use the FileUtils to get the actual file by uri
-            File file = FileUtils.getFile(getActivity(), path);
-            builder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
-            // create RequestBody instance from file
-            //RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
-
-        }
-        // MultipartBody.Part is used to send also the actual file name
-        //return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
-        return builder.build();
-    }
-
-    //for single image upload
-    private MultipartBody.Part getMultipart(String path) {
-        // use the FileUtils to get the actual file by uri
-        File file = new File(path);
-        // create RequestBody instance from file
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
-
-        // MultipartBody.Part is used to send also the actual file name
-        return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
     }
 
     private void setSightValues() {

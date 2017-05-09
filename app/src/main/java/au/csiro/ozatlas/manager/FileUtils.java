@@ -41,7 +41,12 @@ import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import okhttp3.MediaType;
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 
 /**
  * @version 2009-07-03
@@ -541,6 +546,34 @@ public class FileUtils {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
 
         return new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+    }
+
+    //for multiple image upload
+    public static MultipartBody getMultipart(Context context, List<Uri> paths) {
+        MultipartBody.Builder builder = new MultipartBody.Builder();
+        builder.setType(MultipartBody.FORM);
+        for (Uri path : paths) {
+            // use the FileUtils to get the actual file by uri
+            File file = FileUtils.getFile(context, path);
+            builder.addFormDataPart("files", file.getName(), RequestBody.create(MediaType.parse("image/*"), file));
+            // create RequestBody instance from file
+            //RequestBody requestFile = RequestBody.create(MediaType.parse(getActivity().getContentResolver().getType(fileUri)), file);
+
+        }
+        // MultipartBody.Part is used to send also the actual file name
+        //return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
+        return builder.build();
+    }
+
+    //for single image upload
+    public static MultipartBody.Part getMultipart(String path) {
+        // use the FileUtils to get the actual file by uri
+        File file = new File(path);
+        // create RequestBody instance from file
+        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+
+        // MultipartBody.Part is used to send also the actual file name
+        return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
     }
 
  /*   private String getRealPathFromURI(Context context, Uri contentURI) {
