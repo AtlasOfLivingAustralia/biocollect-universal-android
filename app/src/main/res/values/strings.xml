@@ -52,6 +52,7 @@
     <string name="upload_message">"Would you like to upload all your draft sightings? Alternatively you can select some of them to upload."</string>
     <string name="currently_uploading_message">"This is sight is being uploaded now."</string>
     <string name="generic_error">"Something is wrong."</string>
+    <string name="nothing_to_upload">"There is no draft item to upload"</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>
     <string name="species_name">Species: %1$s</string>

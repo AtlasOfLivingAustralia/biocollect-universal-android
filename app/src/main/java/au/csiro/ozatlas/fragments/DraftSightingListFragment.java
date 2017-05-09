@@ -113,15 +113,19 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         switch (item.getItemId()) {
             //when the user will press the upload menu item
             case R.id.upload:
-                if (sights.size() > 0 && sightAdapter.getNumberOfSelectedSight() == 0) {
-                    AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            uploadAll(true);
-                        }
-                    });
-                } else {
-                    uploadAll(false);
+                if(sights.size() > 0) {
+                    if (sightAdapter.getNumberOfSelectedSight() == 0) {
+                        AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                uploadAll(true);
+                            }
+                        });
+                    } else {
+                        uploadAll(false);
+                    }
+                }else{
+                    showSnackBarMessage(getString(R.string.nothing_to_upload));
                 }
                 break;
         }
