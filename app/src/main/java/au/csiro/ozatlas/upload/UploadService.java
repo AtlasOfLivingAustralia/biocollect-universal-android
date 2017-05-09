@@ -10,8 +10,12 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.inject.Inject;
+
+import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.model.AddSight;
+import au.csiro.ozatlas.rest.RestClient;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -21,6 +25,9 @@ import io.realm.RealmResults;
  */
 
 public class UploadService extends IntentService {
+
+    @Inject
+    protected RestClient restClient;
 
     private BroadcastNotifier mBroadcaster;
     private Realm realm;
@@ -34,6 +41,7 @@ public class UploadService extends IntentService {
 
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
+        OzAtlasApplication.component().inject(this);
         realm = Realm.getDefaultInstance();
         mBroadcaster = new BroadcastNotifier(this);
 
