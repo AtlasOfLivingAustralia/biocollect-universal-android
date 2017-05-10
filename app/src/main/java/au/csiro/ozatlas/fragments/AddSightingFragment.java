@@ -54,7 +54,6 @@ import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -97,12 +96,11 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmResults;
-import okhttp3.MediaType;
-import okhttp3.MultipartBody;
-import okhttp3.RequestBody;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -299,9 +297,7 @@ public class AddSightingFragment extends BaseFragment {
                     AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            realm.beginTransaction();
-                            realm.insertOrUpdate(getAddSightModel());
-                            realm.commitTransaction();
+                            getAddSightModel();
 
                             showSnackBarMessage("Sighting has been saved as Draft");
                             if (getActivity() instanceof SingleFragmentActivity) {
@@ -353,22 +349,6 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onNext(Response<Void> value) {
                         showSnackBarMessage("Sighting has been saved");
-                        if (getActivity() instanceof SingleFragmentActivity) {
-                            realm.executeTransactionAsync(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    RealmResults<AddSight> result = realm.where(AddSight.class).equalTo("realmId", addSight.realmId).findAll();
-                                    result.deleteAllFromRealm();
-                                }
-                            }, new Realm.Transaction.OnSuccess() {
-                                @Override
-                                public void onSuccess() {
-                                    getActivity().setResult(RESULT_OK);
-                                    getActivity().onBackPressed();
-                                }
-                            });
-                        } else
-                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
                         Log.d("", "onNext");
                     }
 
@@ -381,6 +361,16 @@ public class AddSightingFragment extends BaseFragment {
                     @Override
                     public void onComplete() {
                         hideProgressDialog();
+
+                        realm.beginTransaction();
+                        addSight.deleteFromRealm();
+                        realm.commitTransaction();
+
+                        if (getActivity() instanceof SingleFragmentActivity) {
+                            getActivity().setResult(RESULT_OK);
+                            getActivity().onBackPressed();
+                        } else
+                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
                     }
                 }));
     }
@@ -450,6 +440,7 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private AddSight getAddSightModel() {
+        realm.beginTransaction();
         if (addSight == null) {
             addSight = realm.createObject(AddSight.class, realm.where(AddSight.class).count() + 1);
             // increment index
@@ -467,8 +458,7 @@ public class AddSightingFragment extends BaseFragment {
         /*outputs.outputId = "";
         outputs.outputNotCompleted = "";*/
         outputs.data = new Data();
-        //// TODO: 2/5/17 Users name
-        //outputs.data.recordedBy = "Test";
+        outputs.data.recordedBy = sharedPreferences.getUserDisplayName();
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString() + time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.species = new Species();
@@ -486,6 +476,7 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;
         addSight.outputs.add(outputs);
+        realm.commitTransaction();
         return addSight;
     }
 

@@ -53,7 +53,7 @@ public class SearchSpeciesAdapter extends ArrayAdapter {
 
         // fill data
         ViewHolder holder = (ViewHolder) rowView.getTag();
-        holder.textView.setText(Html.fromHtml(species.get(position).highlight));
+        holder.textView.setText(Html.fromHtml(species.get(position).name));
         return rowView;
     }
 

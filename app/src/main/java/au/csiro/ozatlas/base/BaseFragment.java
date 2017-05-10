@@ -20,7 +20,7 @@ import io.reactivex.disposables.CompositeDisposable;
 
 public class BaseFragment extends Fragment implements BaseActivityFragmentListener {
     @Inject
-    AtlasSharedPreferenceManager sharedPreferences;
+    protected AtlasSharedPreferenceManager sharedPreferences;
 
     protected BaseActivityFragmentListener baseActivityFragmentListener;
     protected MainActivityFragmentListener mainActivityFragmentListener;

@@ -97,12 +97,6 @@ public class UploadService extends IntentService {
                     } else {
                         getGUID(addSight);
                     }
-
-                    realm.beginTransaction();
-                    addSight.deleteFromRealm();
-                    realm.commitTransaction();
-
-                    mBroadcaster.notifyDataChange();
                 }
             }
 
@@ -149,24 +143,27 @@ public class UploadService extends IntentService {
                     @Override
                     public void onNext(JsonObject value) {
                         if (value.has("outputSpeciesId")) {
+                            realm.beginTransaction();
                             addSight.outputs.get(0).data.species.outputSpeciesId = value.getAsJsonPrimitive("outputSpeciesId").getAsString();
-                            saveData(addSight);
+                            realm.commitTransaction();
                         }
                     }
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d("", e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
+                        saveData(addSight);
+                        Log.d("", "onNext");
                     }
                 }));
     }
 
-    private void saveData(AddSight addSight) {
+    private void saveData(final AddSight addSight) {
         mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_activity_id), addSight)
-                .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {
@@ -175,10 +172,16 @@ public class UploadService extends IntentService {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.d("", e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
+                        realm.beginTransaction();
+                        addSight.deleteFromRealm();
+                        realm.commitTransaction();
+
+                        mBroadcaster.notifyDataChange();
                     }
                 }));
     }
