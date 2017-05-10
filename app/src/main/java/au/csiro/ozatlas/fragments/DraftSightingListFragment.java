@@ -28,7 +28,10 @@ import au.csiro.ozatlas.upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
+import io.realm.RealmResults;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -158,12 +161,19 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
 
     public void readDraftSights() {
         sights.clear();
-        sights.addAll(realm.where(AddSight.class).findAll());
-        total.setText(getString(R.string.total_sighting, sights.size()));
-        sightAdapter.selectionRefresh();
-        sightAdapter.notifyDataSetChanged();
-        if (swipeRefreshLayout.isRefreshing())
-            swipeRefreshLayout.setRefreshing(false);
+        RealmResults<AddSight> results = realm.where(AddSight.class).findAllAsync();
+        results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
+            @Override
+            public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
+                sights.addAll(collection);
+                total.setText(getString(R.string.total_sighting, sights.size()));
+                sightAdapter.selectionRefresh();
+                sightAdapter.notifyDataSetChanged();
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
     }
 
     @Override

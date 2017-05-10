@@ -17,14 +17,10 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
-import au.csiro.ozatlas.model.SightingPhoto;
 import au.csiro.ozatlas.rest.RestClient;
-import io.reactivex.Observable;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Response;
@@ -36,7 +32,7 @@ import static au.csiro.ozatlas.manager.FileUtils.getMultipart;
  */
 
 public class UploadService extends IntentService {
-
+    private final String TAG = "UploadService";
     @Inject
     protected RestClient restClient;
 
@@ -109,20 +105,22 @@ public class UploadService extends IntentService {
     private void uploadPhotos(final AddSight addSight) {
         if (imageUploadCount < addSight.outputs.get(0).data.sightingPhoto.size()) {
             mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(addSight.outputs.get(0).data.sightingPhoto.get(imageUploadCount).filePath))
-                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
                         @Override
                         public void onNext(ImageUploadResponse value) {
+                            realm.beginTransaction();
                             addSight.outputs.get(0).data.sightingPhoto.get(imageUploadCount).thumbnailUrl = value.files[0].thumbnail_url;
                             addSight.outputs.get(0).data.sightingPhoto.get(imageUploadCount).url = value.files[0].url;
                             addSight.outputs.get(0).data.sightingPhoto.get(imageUploadCount).contentType = value.files[0].contentType;
                             addSight.outputs.get(0).data.sightingPhoto.get(imageUploadCount).staged = true;
+                            realm.commitTransaction();
                             Log.d("", value.files[0].thumbnail_url);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-
+                            makeUploadingFalse(addSight);
+                            Log.d("", e.getMessage());
                         }
 
                         @Override
@@ -151,6 +149,7 @@ public class UploadService extends IntentService {
 
                     @Override
                     public void onError(Throwable e) {
+                        makeUploadingFalse(addSight);
                         Log.d("", e.getMessage());
                     }
 
@@ -172,11 +171,15 @@ public class UploadService extends IntentService {
 
                     @Override
                     public void onError(Throwable e) {
+                        makeUploadingFalse(addSight);
                         Log.d("", e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
+                        if (addSight.outputs.get(0).data.sightingPhoto.size() > 0) {
+                            Log.d(TAG, addSight.outputs.get(0).data.sightingPhoto.get(0).thumbnailUrl);
+                        }
                         realm.beginTransaction();
                         addSight.deleteFromRealm();
                         realm.commitTransaction();
@@ -184,6 +187,12 @@ public class UploadService extends IntentService {
                         mBroadcaster.notifyDataChange();
                     }
                 }));
+    }
+
+    private void makeUploadingFalse(final AddSight addSight) {
+        realm.beginTransaction();
+        addSight.upLoading = false;
+        realm.commitTransaction();
     }
 
     @Override

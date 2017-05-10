@@ -81,7 +81,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
             }
         });
         AddSight sight = sights.get(position);
-        if (sight.outputs != null && sight.outputs.size() > 0) {
+        if (sight.isValid() && sight.outputs != null && sight.outputs.size() > 0) {
             sightViewHolders.name.setText(sight.outputs.get(0).name);
             if (sight.outputs.get(0).data != null) {
                 sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.outputs.get(0).data.surveyDate, "dd MMM, yyyy"));
