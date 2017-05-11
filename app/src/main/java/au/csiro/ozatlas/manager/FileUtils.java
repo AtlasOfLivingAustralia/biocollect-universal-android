@@ -44,6 +44,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import au.csiro.ozatlas.R;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -66,6 +67,11 @@ public class FileUtils {
     public static final String MIME_TYPE_IMAGE = "image/*";
     public static final String MIME_TYPE_VIDEO = "video/*";
     public static final String MIME_TYPE_APP = "application/*";
+
+    private static final String JPEG_FILE_PREFIX = "IMG_";
+    private static final String JPEG_FILE_SUFFIX = ".jpg";
+    // Standard storage location for digital camera files
+    private static final String CAMERA_DIR = "/dcim/";
 
     public static final String HIDDEN_PREFIX = ".";
 
@@ -524,27 +530,57 @@ public class FileUtils {
     /**
      * Create a File for saving an image or video
      */
-    public static File getOutputMediaFile() {
-        // To be safe, you should check that the SDCard is mounted
-        // using Environment.getExternalStorageState() before doing this.
+    public static File createImageFile(Context context) throws IOException {
+        // Create an image file name
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = JPEG_FILE_PREFIX + timeStamp + "_";
+        File albumF = getAlbumDir(context);
+        File imageF = File.createTempFile(imageFileName, JPEG_FILE_SUFFIX, albumF);
+        return imageF;
+    }
 
-        File mediaStorageDir = new File(Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES), "Atlas");
-        // This location works best if you want the created images to be shared
-        // between applications and persist after your app has been uninstalled.
+    /* Photo album for this application */
+    private static String getAlbumName(Context context) {
+        return context.getString(R.string.album_name);
+    }
 
-        // Create the storage directory if it does not exist
-        if (!mediaStorageDir.exists()) {
-            if (!mediaStorageDir.mkdirs()) {
-                Log.d("Atlas", "failed to create directory");
-                return null;
+    private static File getAlbumStorageDir(String albumName) {
+        return new File (
+                Environment.getExternalStorageDirectory()
+                        + CAMERA_DIR
+                        + albumName
+        );
+    }
+
+    private static File getAlbumDir(Context context) {
+        File storageDir = null;
+
+        if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
+
+            storageDir = getAlbumStorageDir(getAlbumName(context));
+
+            if (storageDir != null) {
+                if (! storageDir.mkdirs()) {
+                    if (! storageDir.exists()){
+                        Log.d("CameraSample", "failed to create directory");
+                        return null;
+                    }
+                }
             }
+
+        } else {
+            Log.v(context.getString(R.string.app_name), "External storage is not mounted READ/WRITE.");
         }
 
-        // Create a media file name
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US).format(new Date());
+        return storageDir;
+    }
 
-        return new File(mediaStorageDir.getPath() + File.separator + "IMG_" + timeStamp + ".jpg");
+    public static void galleryAddPic(Context context, String path) {
+        Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
+        File f = new File(path);
+        Uri contentUri = Uri.fromFile(f);
+        mediaScanIntent.setData(contentUri);
+        context.sendBroadcast(mediaScanIntent);
     }
 
     //for multiple image upload
@@ -574,18 +610,4 @@ public class FileUtils {
         // MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
     }
-
- /*   private String getRealPathFromURI(Context context, Uri contentURI) {
-        String result;
-        Cursor cursor = context.getContentResolver().query(contentURI, null, null, null, null);
-        if (cursor == null) { // Source is Dropbox or other similar local file path
-            result = contentURI.getPath();
-        } else {
-            cursor.moveToFirst();
-            int idx = cursor.getColumnIndex(MediaStore.Images.ImageColumns.DATA);
-            result = cursor.getString(idx);
-            cursor.close();
-        }
-        return result;
-    }*/
 }

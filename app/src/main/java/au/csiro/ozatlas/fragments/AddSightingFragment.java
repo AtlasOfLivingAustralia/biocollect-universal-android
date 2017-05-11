@@ -54,6 +54,8 @@ import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashSet;
@@ -96,11 +98,8 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.OrderedCollectionChangeSet;
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmList;
-import io.realm.RealmResults;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -161,7 +160,8 @@ public class AddSightingFragment extends BaseFragment {
     private String outputSpeciesId;
 
     private ImageUploadAdapter imageUploadAdapter;
-    private Uri fileUri;
+    //private Uri fileUri;
+    private String mCurrentPhotoPath;
     //private ArrayList<Uri> paths = new ArrayList<>();
     private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
     private int imageUploadCount;
@@ -725,8 +725,15 @@ public class AddSightingFragment extends BaseFragment {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
-                    sightingPhotos.add(getSightingPhotoWithFileNameAdded(fileUri));
-                    imageUploadAdapter.notifyDataSetChanged();
+                    if (mCurrentPhotoPath != null) {
+                        SightingPhoto sightingPhoto = new SightingPhoto();
+                        FileUtils.galleryAddPic(getActivity(), mCurrentPhotoPath);
+                        sightingPhoto.filePath = mCurrentPhotoPath;
+                        sightingPhoto.filename = (new File(mCurrentPhotoPath)).getName();
+                        sightingPhotos.add(sightingPhoto);
+                        imageUploadAdapter.notifyDataSetChanged();
+                        mCurrentPhotoPath = null;
+                    }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
@@ -816,17 +823,35 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private void dispatchTakePictureIntent() {
+        File f = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        fileUri = getOutputMediaFileUri();
-        if (fileUri != null) {
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, fileUri);
-            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
-            }
+
+        try {
+            f = setUpPhotoFile();
+            mCurrentPhotoPath = f.getAbsolutePath();
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(f));
+        } catch (IOException e) {
+            e.printStackTrace();
+            f = null;
+            mCurrentPhotoPath = null;
+        }
+
+        if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
 
-    private Uri getOutputMediaFileUri() {
+    private File setUpPhotoFile() throws IOException {
+        File f = FileUtils.createImageFile(getActivity());
+        mCurrentPhotoPath = f.getAbsolutePath();
+
+        return f;
+    }
+
+    private Uri getUriFromFileProvider(File file){
+        return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
+    }
+    /*private Uri getOutputMediaFileUri() {
         try {
             //return Uri.fromFile(getOutputMediaFile());
             return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", FileUtils.getOutputMediaFile());
@@ -834,7 +859,7 @@ public class AddSightingFragment extends BaseFragment {
             Log.d(TAG, "Error getOutputMediaFileUri:" + ex);
         }
         return null;
-    }
+    }*/
 
     private void openGalleryLocal() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
