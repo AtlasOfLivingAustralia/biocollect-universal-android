@@ -107,9 +107,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      * @param coordinatorLayout
      * @param string message to show
      */
-    @Override
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
-        Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG).show();
     }
 
     /**

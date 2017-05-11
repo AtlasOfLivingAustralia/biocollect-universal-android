@@ -74,22 +74,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         recyclerView.addItemDecoration(itemDecoration);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new DraftSightAdapter(sights, getActivity(), new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                int position = recyclerView.getChildAdapterPosition(v);
-                Bundle bundle = new Bundle();
-                if (sights.get(position).upLoading) {
-                    AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
-                } else {
-                    bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
-                    bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
-                    Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, REQUEST_EDIT);
-                }
-            }
-        });
+        sightAdapter = new DraftSightAdapter(sights, getActivity(), onClickListener, onLongClickListener);
         recyclerView.setAdapter(sightAdapter);
 
         //refresh layout setup
@@ -101,6 +86,44 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
 
         return view;
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            Bundle bundle = new Bundle();
+            if (sights.get(position).upLoading) {
+                AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
+            } else {
+                bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, REQUEST_EDIT);
+            }
+        }
+    };
+
+
+    View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(final View v) {
+            AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    int position = recyclerView.getChildAdapterPosition(v);
+                    AddSight addSight = sights.get(position);
+                    realm.beginTransaction();
+                    addSight.deleteFromRealm();
+                    realm.commitTransaction();
+                    sights.remove(position);
+                    sightAdapter.notifyDataSetChanged();
+                    updateTotal();
+                }
+            });
+            return true;
+        }
+    };
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -160,20 +183,24 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
     }
 
     public void readDraftSights() {
-        sights.clear();
         RealmResults<AddSight> results = realm.where(AddSight.class).findAllAsync();
         results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
             @Override
             public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
+                sights.clear();
                 sights.addAll(collection);
-                total.setText(getString(R.string.total_sighting, sights.size()));
                 sightAdapter.selectionRefresh();
+                updateTotal();
                 sightAdapter.notifyDataSetChanged();
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
             }
         });
 
+    }
+
+    private void updateTotal(){
+        total.setText(getString(R.string.total_sighting, sights.size()));
     }
 
     @Override

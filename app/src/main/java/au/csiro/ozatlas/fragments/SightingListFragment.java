@@ -42,8 +42,6 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
 
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
-    @BindView(R.id.coordinatorLayout)
-    CoordinatorLayout coordinatorLayout;
     @BindView(R.id.swipe_container)
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.total)
@@ -157,7 +155,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
-                        showSnackBarMessage(coordinatorLayout, e.getMessage());
+                        showSnackBarMessage(e.getMessage());
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
                     }

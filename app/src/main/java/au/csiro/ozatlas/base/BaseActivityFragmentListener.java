@@ -14,8 +14,6 @@ public interface BaseActivityFragmentListener {
 
     boolean validate(EditText editText);
 
-    void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string);
-
     void launchLoginActivity();
 
     void startWebViewActivity(String url, String title);

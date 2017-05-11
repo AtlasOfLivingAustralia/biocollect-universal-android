@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
  */
 
 public class AtlasManager {
-    public static boolean isTesting = true;
+    public static boolean isTesting = false;
     //public static EventBus eventBus = new EventBus();
 
     public static void hideKeyboard(Activity activity) {

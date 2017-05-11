@@ -66,12 +66,6 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         return false;
     }
 
-    @Override
-    public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
-        if (baseActivityFragmentListener != null)
-            baseActivityFragmentListener.showSnackBarMessage(coordinatorLayout, string);
-    }
-
     public void showSnackBarMessage(String string) {
         if(getActivity() instanceof MainActivity && mainActivityFragmentListener != null){
             mainActivityFragmentListener.showSnackBarMessage(string);

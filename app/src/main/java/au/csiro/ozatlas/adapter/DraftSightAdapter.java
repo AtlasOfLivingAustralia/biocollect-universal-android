@@ -30,12 +30,14 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     private boolean[] selection;
     private Context context;
     View.OnClickListener onClickListener;
+    View.OnLongClickListener onLongClickListener;
 
-    public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener) {
+    public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener) {
         this.sights = sights;
         selection = new boolean[sights.size()];
         this.context = context;
         this.onClickListener = onClickListener;
+        this.onLongClickListener = onLongClickListener;
     }
 
     public void selectionRefresh() {
@@ -62,6 +64,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     public DraftSightViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
         View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
         layoutView.setOnClickListener(onClickListener);
+        layoutView.setOnLongClickListener(onLongClickListener);
         layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         return new DraftSightViewHolders(layoutView);
     }
@@ -73,6 +76,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
             sightViewHolders.checkBox.setChecked(true);
         else
             sightViewHolders.checkBox.setChecked(false);
+
         sightViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
