@@ -298,6 +298,12 @@ public class AddSightingFragment extends BaseFragment {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             getAddSightModel();
+                            realm.executeTransactionAsync(new Realm.Transaction() {
+                                @Override
+                                public void execute(Realm realm) {
+                                    realm.copyToRealm(addSight);
+                                }
+                            });
 
                             showSnackBarMessage("Sighting has been saved as Draft");
                             if (getActivity() instanceof SingleFragmentActivity) {
@@ -362,9 +368,11 @@ public class AddSightingFragment extends BaseFragment {
                     public void onComplete() {
                         hideProgressDialog();
 
-                        realm.beginTransaction();
-                        addSight.deleteFromRealm();
-                        realm.commitTransaction();
+                        if (addSight.isManaged()) {
+                            realm.beginTransaction();
+                            addSight.deleteFromRealm();
+                            realm.commitTransaction();
+                        }
 
                         if (getActivity() instanceof SingleFragmentActivity) {
                             getActivity().setResult(RESULT_OK);
@@ -440,9 +448,11 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private AddSight getAddSightModel() {
-        realm.beginTransaction();
+        //realm.beginTransaction();
         if (addSight == null) {
-            addSight = realm.createObject(AddSight.class, realm.where(AddSight.class).count() + 1);
+            addSight = new AddSight();
+            addSight.realmId = realm.where(AddSight.class).count() + 1;
+            //addSight = realm.createObject(AddSight.class, realm.where(AddSight.class).count() + 1);
             // increment index
             //addSight.realmId = ;
         }
@@ -476,8 +486,12 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;
         addSight.outputs.add(outputs);
-        realm.commitTransaction();
+        //realm.commitTransaction();
         return addSight;
+    }
+
+    private void AddSightTransaction() {
+
     }
 
     private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
@@ -848,7 +862,7 @@ public class AddSightingFragment extends BaseFragment {
         return f;
     }
 
-    private Uri getUriFromFileProvider(File file){
+    private Uri getUriFromFileProvider(File file) {
         return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
     }
     /*private Uri getOutputMediaFileUri() {

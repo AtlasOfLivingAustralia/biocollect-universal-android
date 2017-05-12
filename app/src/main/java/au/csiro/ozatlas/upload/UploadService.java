@@ -162,7 +162,7 @@ public class UploadService extends IntentService {
     }
 
     private void saveData(final AddSight addSight) {
-        mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_activity_id), addSight)
+        mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_activity_id), realm.copyFromRealm(addSight))
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {
