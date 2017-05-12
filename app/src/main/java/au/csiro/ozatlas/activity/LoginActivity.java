@@ -8,6 +8,8 @@ import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -75,8 +77,8 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
-                        showSnackBarMessage(coordinatorLayout, e.getMessage());
                         hideProgressDialog();
+                        handleError(coordinatorLayout, e, 400, getString(R.string.login_error));
                     }
 
                     @Override
@@ -92,6 +94,7 @@ public class LoginActivity extends BaseActivity {
 
     @OnClick(R.id.loginButton)
     void loginButton() {
+        AtlasManager.hideKeyboard(this);
         if (!validate(editUsername)) {
             inputLayoutUsername.setError(getString(R.string.username_missing_error));
             return;
@@ -101,7 +104,6 @@ public class LoginActivity extends BaseActivity {
             inputLayoutPassword.setError(getString(R.string.password_missing_error));
             return;
         }
-
         postLogin(editUsername.getText().toString(), editPassword.getText().toString());
     }
 

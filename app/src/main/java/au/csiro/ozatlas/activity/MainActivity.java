@@ -156,6 +156,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         showSnackBarMessage(coordinatorLayout, string);
     }
 
+    @Override
+    public void handleError(Throwable e, int code, String message) {
+        handleError(coordinatorLayout, e, code, message);
+    }
+
     private class DataChangeNotificationReceiver extends BroadcastReceiver {
         //prevent instantiation
         private DataChangeNotificationReceiver() {

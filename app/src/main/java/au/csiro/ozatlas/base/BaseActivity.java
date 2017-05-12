@@ -10,6 +10,10 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
+
+import java.net.UnknownHostException;
+
 import javax.inject.Inject;
 
 import au.csiro.ozatlas.OzAtlasApplication;
@@ -140,6 +144,17 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     public void showToast(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message) {
+        if(e instanceof UnknownHostException){
+            showSnackBarMessage(coordinatorLayout, getString(R.string.not_internet_title));
+        }else if(e instanceof HttpException && ((HttpException) e).code()==code){
+            showSnackBarMessage(coordinatorLayout, message);
+        }else{
+            showSnackBarMessage(coordinatorLayout, getString(R.string.generic_error));
+        }
     }
 
     @Override

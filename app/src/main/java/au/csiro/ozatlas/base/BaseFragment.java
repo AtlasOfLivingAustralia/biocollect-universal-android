@@ -18,7 +18,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseFragment extends Fragment implements BaseActivityFragmentListener {
+public class BaseFragment extends Fragment implements BaseActivityFragmentListener, MainActivityFragmentListener {
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
@@ -66,10 +66,29 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         return false;
     }
 
+    @Override
+    public void hideFloatingButton() {
+        if(mainActivityFragmentListener!=null)
+            mainActivityFragmentListener.hideFloatingButton();
+    }
+
+    @Override
+    public void showFloatingButton() {
+        if(mainActivityFragmentListener!=null)
+            mainActivityFragmentListener.showFloatingButton();
+    }
+
+    @Override
     public void showSnackBarMessage(String string) {
         if(getActivity() instanceof MainActivity && mainActivityFragmentListener != null){
             mainActivityFragmentListener.showSnackBarMessage(string);
         }
+    }
+
+    @Override
+    public void handleError(Throwable e, int code, String message) {
+        if(mainActivityFragmentListener!=null)
+            mainActivityFragmentListener.handleError(e, code, message);
     }
 
     @Override
@@ -88,6 +107,12 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     public void showToast(String str) {
         if (baseActivityFragmentListener != null)
             baseActivityFragmentListener.showToast(str);
+    }
+
+    @Override
+    public void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message) {
+        if (baseActivityFragmentListener != null)
+            baseActivityFragmentListener.handleError(coordinatorLayout, e, code, message);
     }
 
     @Override

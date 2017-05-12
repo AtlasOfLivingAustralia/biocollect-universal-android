@@ -155,7 +155,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, "onError");
-                        showSnackBarMessage(e.getMessage());
+                        handleError(e, 0, "");
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
                     }

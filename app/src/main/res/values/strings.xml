@@ -54,6 +54,7 @@
     <string name="delete_sight_title">Delete Sight</string>
     <string name="delete_sight_message">Would you like to delete this sight?</string>
     <string name="generic_error">Something is wrong.</string>
+    <string name="login_error">Invalid Login Information</string>
     <string name="nothing_to_upload">There is no draft item to upload</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>
