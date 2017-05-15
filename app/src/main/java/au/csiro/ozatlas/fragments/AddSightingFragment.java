@@ -98,8 +98,12 @@ import io.reactivex.functions.Function;
 import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmList;
+import io.realm.RealmQuery;
+import io.realm.RealmResults;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -176,9 +180,6 @@ public class AddSightingFragment extends BaseFragment {
 
         realm = Realm.getDefaultInstance();
 
-        //from bundle
-        getSightForEdit();
-
         //species search service
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
         bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
@@ -240,9 +241,7 @@ public class AddSightingFragment extends BaseFragment {
 
                     @Override
                     public void onComplete() {
-                        if (addSight != null) {
-                            setSightValues();
-                        }
+                        getSightForEdit();
                     }
                 }));
 
@@ -255,7 +254,16 @@ public class AddSightingFragment extends BaseFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             Long id = bundle.getLong(getString(R.string.sight_parameter));
-            addSight = realm.where(AddSight.class).equalTo("realmId", id).findFirst();
+            RealmQuery<AddSight> query = realm.where(AddSight.class).equalTo("realmId", id);
+            RealmResults<AddSight> results = query.findAllAsync();
+            results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
+                @Override
+                public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
+                    addSight = collection.first();
+                    if (addSight != null)
+                        setSightValues();
+                }
+            });
         }
     }
 
@@ -297,13 +305,19 @@ public class AddSightingFragment extends BaseFragment {
                     AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            getAddSightModel();
-                            realm.executeTransactionAsync(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    realm.copyToRealm(addSight);
-                                }
-                            });
+                            if (addSight == null || !addSight.isManaged()) {
+                                getAddSightModel();
+                                realm.executeTransactionAsync(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        realm.copyToRealm(addSight);
+                                    }
+                                });
+                            } else {
+                                realm.beginTransaction();
+                                getAddSightModel();
+                                realm.commitTransaction();
+                            }
 
                             showSnackBarMessage("Sighting has been saved as Draft");
                             if (getActivity() instanceof SingleFragmentActivity) {
@@ -436,11 +450,14 @@ public class AddSightingFragment extends BaseFragment {
                         }
                     }
                 }
-                if (addSight.outputs.get(0).data.locationLatitude != null)
+                if (addSight.outputs.get(0).data.locationLatitude != null) {
+                    if (editLocation.getVisibility() == View.GONE)
+                        editLocation.setVisibility(View.VISIBLE);
                     editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
+                }
 
                 if (addSight.outputs.get(0).data.sightingPhoto != null) {
-                    sightingPhotos.addAll(addSight.outputs.get(0).data.sightingPhoto);
+                    sightingPhotos.addAll(realm.copyFromRealm(addSight.outputs.get(0).data.sightingPhoto));
                     imageUploadAdapter.notifyDataSetChanged();
                 }
             }
