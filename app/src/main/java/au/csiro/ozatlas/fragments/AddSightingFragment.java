@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,6 +33,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -129,8 +131,8 @@ public class AddSightingFragment extends BaseFragment {
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
-    @BindView(R.id.identificationTagSpinner)
-    Spinner identificationTagSpinner;
+    //@BindView(R.id.identificationTagSpinner)
+    //Spinner identificationTagSpinner;
     @BindView(R.id.time)
     TextView time;
     @BindView(R.id.date)
@@ -143,6 +145,8 @@ public class AddSightingFragment extends BaseFragment {
     EditText editLocation;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
+    @BindView(R.id.editTags)
+    MultiAutoCompleteTextView editTags;
     @BindView(R.id.editSpeciesName)
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
@@ -230,8 +234,12 @@ public class AddSightingFragment extends BaseFragment {
                         Log.d("", value);
                         tagList = createTagLists(value);
                         tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, tagList);
-                        tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
+                        //tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        //identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
+                        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_tags, tagList);
+                        editTags.setAdapter(tagsSpinnerAdapter);
+                        editTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+
                     }
 
                     @Override
@@ -246,7 +254,6 @@ public class AddSightingFragment extends BaseFragment {
                 }));
 
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
-
         return view;
     }
 
@@ -442,14 +449,15 @@ public class AddSightingFragment extends BaseFragment {
                 if (addSight.outputs.get(0).data.species != null) {
                     editSpeciesName.setText(addSight.outputs.get(0).data.species.name);
                 }
+
                 if (addSight.outputs.get(0).data.tags != null) {
-                    for (int i = 0; i < tagList.size(); i++) {
-                        if (tagList.get(i).equals(addSight.outputs.get(0).data.tags.get(0).val)) {
-                            identificationTagSpinner.setSelection(i, false);
-                            break;
-                        }
+                    String s[] = new String[addSight.outputs.get(0).data.tags.size()];
+                    for (int i = 0; i < addSight.outputs.get(0).data.tags.size(); i++) {
+                        s[i] = addSight.outputs.get(0).data.tags.get(i).val;
                     }
+                    editTags.setText(TextUtils.join(", ", s));
                 }
+
                 if (addSight.outputs.get(0).data.locationLatitude != null) {
                     if (editLocation.getVisibility() == View.GONE)
                         editLocation.setVisibility(View.VISIBLE);
@@ -499,7 +507,11 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
         outputs.data.sightingPhoto = imageUploadAdapter.getSightingPhotos();
         outputs.data.tags = new RealmList<>();
-        outputs.data.tags.add(new Tag(tagsSpinnerAdapter.getItem(identificationTagSpinner.getSelectedItemPosition())));
+        String tags[] = editTags.getText().toString().split(",");
+        for (String string : tags) {
+            if (validateTags(string.trim()))
+                outputs.data.tags.add(new Tag(string.trim()));
+        }
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;
         addSight.outputs.add(outputs);
@@ -507,8 +519,12 @@ public class AddSightingFragment extends BaseFragment {
         return addSight;
     }
 
-    private void AddSightTransaction() {
-
+    private boolean validateTags(String tag) {
+        for (String string : tagList) {
+            if (string.equals(tag))
+                return true;
+        }
+        return false;
     }
 
     private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {

@@ -51,29 +51,23 @@
                 </android.support.design.widget.TextInputLayout>
 
 
-                <LinearLayout
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/inputLayoutTag"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:gravity="center_vertical"
-                    android:minHeight="@dimen/minimum_height_input_views"
-                    android:orientation="vertical">
+                    android:minHeight="@dimen/minimum_height_input_views">
 
-                    <TextView
-                        style="@style/InputLabel"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/identification_tags" />
-
-                    <android.support.v7.widget.AppCompatSpinner
-                        android:id="@+id/identificationTagSpinner"
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/editTags"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:hint="@string/species_name_hint"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:completionThreshold="1"
                         android:textSize="@dimen/default_input_font_size" />
-                </LinearLayout>
-
-
-                <include layout="@layout/horizonal_line" />
+                </android.support.design.widget.TextInputLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -85,10 +79,10 @@
                     <Switch
                         android:id="@+id/confidenceSwitch"
                         android:layout_width="wrap_content"
-                        android:checked="true"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true" />
+                        android:layout_centerVertical="true"
+                        android:checked="true" />
 
                     <TextView
                         android:layout_width="match_parent"
