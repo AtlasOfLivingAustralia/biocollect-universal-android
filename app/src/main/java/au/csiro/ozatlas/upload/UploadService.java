@@ -85,7 +85,7 @@ public class UploadService extends IntentService {
                     realm.beginTransaction();
                     addSight.upLoading = true;
                     realm.commitTransaction();
-
+                    mBroadcaster.notifyDataChange();
                     if (addSight.outputs.get(0).data.sightingPhoto.size() > 0) {
                         imageUploadCount = 0;
                         //sightingPhotos = addSight.outputs.get(0).data.sightingPhoto;

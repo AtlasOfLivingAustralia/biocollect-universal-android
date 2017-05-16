@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CheckBox;
+import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
@@ -70,21 +71,28 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final DraftSightViewHolders sightViewHolders, final int position) {
-        sightViewHolders.checkBox.setVisibility(View.VISIBLE);
-        if (selection[position])
-            sightViewHolders.checkBox.setChecked(true);
-        else
-            sightViewHolders.checkBox.setChecked(false);
-
-        sightViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                selection[position] = !selection[position];
-                sightViewHolders.checkBox.setChecked(selection[position]);
-            }
-        });
+    public void onBindViewHolder(final DraftSightViewHolders sightViewHolders, int position) {
         AddSight sight = sights.get(position);
+        if(sight.upLoading){
+            sightViewHolders.uploadImage.setVisibility(View.VISIBLE);
+            sightViewHolders.checkBox.setVisibility(View.INVISIBLE);
+        }else{
+            sightViewHolders.uploadImage.setVisibility(View.INVISIBLE);
+            sightViewHolders.checkBox.setVisibility(View.VISIBLE);
+            if (selection[position])
+                sightViewHolders.checkBox.setChecked(true);
+            else
+                sightViewHolders.checkBox.setChecked(false);
+
+            sightViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    selection[sightViewHolders.getAdapterPosition()] = !selection[sightViewHolders.getAdapterPosition()];
+                    sightViewHolders.checkBox.setChecked(selection[sightViewHolders.getAdapterPosition()]);
+                }
+            });
+        }
+
         if (sight.isValid() && sight.outputs != null && sight.outputs.size() > 0) {
             sightViewHolders.name.setText(sight.outputs.get(0).name);
             if (sight.outputs.get(0).data != null) {
@@ -133,10 +141,12 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
 
 class DraftSightViewHolders extends SightViewHolders {
     CheckBox checkBox;
+    ImageView uploadImage;
 
     DraftSightViewHolders(View itemView) {
         super(itemView);
         checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
+        uploadImage = (ImageView) itemView.findViewById(R.id.uploadImage);
     }
 }
 

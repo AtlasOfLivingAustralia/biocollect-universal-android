@@ -455,7 +455,8 @@ public class AddSightingFragment extends BaseFragment {
                     for (int i = 0; i < addSight.outputs.get(0).data.tags.size(); i++) {
                         s[i] = addSight.outputs.get(0).data.tags.get(i).val;
                     }
-                    editTags.setText(TextUtils.join(", ", s));
+                    String tags = TextUtils.join(", ", s);
+                    editTags.setText(tags.length() > 0 ? tags + ", " : "");
                 }
 
                 if (addSight.outputs.get(0).data.locationLatitude != null) {
