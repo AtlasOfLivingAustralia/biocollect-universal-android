@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,6 +22,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
@@ -39,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 13/4/17.
  */
 
-public class DraftSightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class DraftSightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
     private final String TAG = "DraftSightingList";
     private final int REQUEST_EDIT = 1;
 
@@ -74,7 +76,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         recyclerView.addItemDecoration(itemDecoration);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new DraftSightAdapter(sights, getActivity(), onClickListener, onLongClickListener);
+        sightAdapter = new DraftSightAdapter(sights, getActivity(), onClickListener, onLongClickListener, this);
         recyclerView.setAdapter(sightAdapter);
 
         //refresh layout setup
@@ -108,22 +110,25 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
     View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(final View v) {
-            AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    int position = recyclerView.getChildAdapterPosition(v);
-                    AddSight addSight = sights.get(position);
-                    realm.beginTransaction();
-                    addSight.deleteFromRealm();
-                    realm.commitTransaction();
-                    sights.remove(position);
-                    sightAdapter.notifyDataSetChanged();
-                    updateTotal();
-                }
-            });
+            delete(recyclerView.getChildAdapterPosition(v));
             return true;
         }
     };
+
+    private void delete(final int position) {
+        AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                AddSight addSight = sights.get(position);
+                realm.beginTransaction();
+                addSight.deleteFromRealm();
+                realm.commitTransaction();
+                //sights.remove(position);
+                sightAdapter.notifyDataSetChanged();
+                updateTotal();
+            }
+        });
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -199,13 +204,41 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
 
     }
 
-    private void updateTotal(){
+    private void updateTotal() {
         total.setText(getString(R.string.total_sighting, sights.size()));
     }
 
     @Override
     public void onRefresh() {
         readDraftSights();
+    }
+
+    @Override
+    public void onPopupMenuClick(View view, final int position) {
+        PopupMenu popup = new PopupMenu(getActivity(), view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.draft_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //do your things in each of the following cases
+                switch (item.getItemId()) {
+                    case R.id.delete:
+                        delete(position);
+                        break;
+                    case R.id.upload:
+                        Intent mServiceIntent = new Intent(getActivity(), UploadService.class);
+                        ArrayList<Long> keys = new ArrayList<>();
+                        keys.add(sights.get(position).realmId);
+                        mServiceIntent.putExtra(getString(R.string.primary_keys_parameter), keys);
+                        // Starts the IntentService to download the RSS feed data
+                        getActivity().startService(mServiceIntent);
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
     }
 
     @Override

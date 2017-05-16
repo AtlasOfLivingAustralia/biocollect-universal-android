@@ -3,7 +3,6 @@ package au.csiro.ozatlas.adapter;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.Tag;
@@ -32,30 +32,32 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     private Context context;
     View.OnClickListener onClickListener;
     View.OnLongClickListener onLongClickListener;
+    MoreButtonListener moreButtonListener;
 
-    public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener) {
+    public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener, MoreButtonListener moreButtonListener) {
         this.sights = sights;
         selection = new boolean[sights.size()];
         this.context = context;
         this.onClickListener = onClickListener;
         this.onLongClickListener = onLongClickListener;
+        this.moreButtonListener = moreButtonListener;
     }
 
     public void selectionRefresh() {
         selection = new boolean[sights.size()];
     }
 
-    public int getNumberOfSelectedSight(){
+    public int getNumberOfSelectedSight() {
         int count = 0;
-        for(boolean b:selection)
+        for (boolean b : selection)
             if (b)
                 count++;
-         return count;
+        return count;
     }
 
-    public ArrayList<Long> getPrimaryKeys(){
+    public ArrayList<Long> getPrimaryKeys() {
         ArrayList<Long> keys = new ArrayList<>();
-        for(int i=0;i<sights.size();i++)
+        for (int i = 0; i < sights.size(); i++)
             if (selection[i])
                 keys.add(sights.get(i).realmId);
         return keys;
@@ -73,10 +75,11 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     @Override
     public void onBindViewHolder(final DraftSightViewHolders sightViewHolders, int position) {
         AddSight sight = sights.get(position);
-        if(sight.upLoading){
+        if (sight.upLoading) {
             sightViewHolders.uploadImage.setVisibility(View.VISIBLE);
             sightViewHolders.checkBox.setVisibility(View.INVISIBLE);
-        }else{
+            sightViewHolders.moreButton.setOnClickListener(null);
+        } else {
             sightViewHolders.uploadImage.setVisibility(View.INVISIBLE);
             sightViewHolders.checkBox.setVisibility(View.VISIBLE);
             if (selection[position])
@@ -93,6 +96,14 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
             });
         }
 
+        sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (moreButtonListener != null)
+                    moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
+            }
+        });
+
         if (sight.isValid() && sight.outputs != null && sight.outputs.size() > 0) {
             sightViewHolders.name.setText(sight.outputs.get(0).name);
             if (sight.outputs.get(0).data != null) {
@@ -108,13 +119,13 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
                             .placeholder(R.drawable.ala_transparent)
                             .crossFade()
                             .into(sightViewHolders.image);
-                }else{
+                } else {
                     sightViewHolders.image.setColorFilter(Color.GRAY);
                 }
-            }else{
+            } else {
                 sightViewHolders.image.setColorFilter(Color.GRAY);
             }
-        }else{
+        } else {
             sightViewHolders.image.setColorFilter(Color.GRAY);
         }
     }

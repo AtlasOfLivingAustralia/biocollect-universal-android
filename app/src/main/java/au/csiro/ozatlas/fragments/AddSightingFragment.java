@@ -131,8 +131,6 @@ public class AddSightingFragment extends BaseFragment {
 
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
-    //@BindView(R.id.identificationTagSpinner)
-    //Spinner identificationTagSpinner;
     @BindView(R.id.time)
     TextView time;
     @BindView(R.id.date)
@@ -181,7 +179,9 @@ public class AddSightingFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
+                R.array.license_array,
+                android.R.layout.simple_spinner_dropdown_item);
         realm = Realm.getDefaultInstance();
 
         //species search service
@@ -474,13 +474,13 @@ public class AddSightingFragment extends BaseFragment {
     }
 
     private AddSight getAddSightModel() {
-        //realm.beginTransaction();
         if (addSight == null) {
             addSight = new AddSight();
-            addSight.realmId = realm.where(AddSight.class).count() + 1;
-            //addSight = realm.createObject(AddSight.class, realm.where(AddSight.class).count() + 1);
-            // increment index
-            //addSight.realmId = ;
+            Number number = realm.where(AddSight.class).max("realmId");
+            if (number == null)
+                addSight.realmId = 1L;
+            else
+                addSight.realmId = number.longValue() + 1;
         }
         addSight.projectStage = "";
         addSight.type = getString(R.string.project_type);
@@ -899,15 +899,6 @@ public class AddSightingFragment extends BaseFragment {
     private Uri getUriFromFileProvider(File file) {
         return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
     }
-    /*private Uri getOutputMediaFileUri() {
-        try {
-            //return Uri.fromFile(getOutputMediaFile());
-            return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", FileUtils.getOutputMediaFile());
-        } catch (Exception ex) {
-            Log.d(TAG, "Error getOutputMediaFileUri:" + ex);
-        }
-        return null;
-    }*/
 
     private void openGalleryLocal() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);

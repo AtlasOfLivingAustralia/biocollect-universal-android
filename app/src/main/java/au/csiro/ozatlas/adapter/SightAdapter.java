@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.Sight;
 
@@ -25,9 +26,11 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private final int NORMAL = 1;
     private List<Sight> sights;
     private boolean needFooter;
+    private MoreButtonListener moreButtonListener;
 
-    public SightAdapter(List<Sight> sights) {
+    public SightAdapter(List<Sight> sights, MoreButtonListener moreButtonListener) {
         this.sights = sights;
+        this.moreButtonListener = moreButtonListener;
     }
 
     @Override
@@ -46,8 +49,15 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof SightViewHolders) {
-            SightViewHolders sightViewHolders = (SightViewHolders) holder;
+            final SightViewHolders sightViewHolders = (SightViewHolders) holder;
             Sight sight = sights.get(position);
+            sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (moreButtonListener != null)
+                        moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
+                }
+            });
             sightViewHolders.name.setText(sight.projectName);
             sightViewHolders.type.setText(sight.type);
             sightViewHolders.user.setText(sight.activityOwnerName);
@@ -91,7 +101,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
 class SightViewHolders extends RecyclerView.ViewHolder {
     TextView name, user, time, type;
-    ImageView image;
+    ImageView image, moreButton;
 
     SightViewHolders(View itemView) {
         super(itemView);
@@ -100,6 +110,7 @@ class SightViewHolders extends RecyclerView.ViewHolder {
         time = (TextView) itemView.findViewById(R.id.time);
         type = (TextView) itemView.findViewById(R.id.type);
         image = (ImageView) itemView.findViewById(R.id.image);
+        moreButton = (ImageView) itemView.findViewById(R.id.more_button);
     }
 }
 

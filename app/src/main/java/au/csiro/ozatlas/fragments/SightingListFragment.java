@@ -1,10 +1,12 @@
 package au.csiro.ozatlas.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
@@ -22,9 +24,11 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.listener.RecyclerItemClickListener;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
+import au.csiro.ozatlas.upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -36,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by sad038 on 13/4/17.
  */
 
-public class SightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class SightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
     private final String TAG = "SightingListFragment";
     private final static int MAX = 20;
 
@@ -80,7 +84,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new SightAdapter(sights);
+        sightAdapter = new SightAdapter(sights, this);
         recyclerView.setAdapter(sightAdapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         recyclerView.addOnItemTouchListener(
@@ -227,5 +231,28 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         if (searchMenu.isActionViewExpanded())
             searchMenu.collapseActionView();
         reset();
+    }
+
+    @Override
+    public void onPopupMenuClick(View view, final int position) {
+        PopupMenu popup = new PopupMenu(getActivity(), view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.sight_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //do your things in each of the following cases
+                switch (item.getItemId()) {
+                    case R.id.delete:
+
+                        break;
+                    case R.id.edit:
+
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
     }
 }

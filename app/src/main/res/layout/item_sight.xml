@@ -27,12 +27,12 @@
                 android:id="@+id/uploadImage"
                 android:src="@drawable/ic_file_upload_black_24px"
                 android:tint="@color/colorPrimary"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
                 android:layout_alignParentRight="true"
                 android:layout_alignTop="@+id/name"
                 android:layout_marginLeft="4dp"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
             <CheckBox
                 android:id="@+id/checkBox"
@@ -56,18 +56,19 @@
 
             <TextView
                 android:id="@+id/type"
+                android:layout_toLeftOf="@+id/more_button"
                 style="@android:style/TextAppearance.Holo.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/name"
                 android:layout_marginBottom="1dp"
-                android:layout_toLeftOf="@+id/checkBox"
                 android:ellipsize="end"
                 android:maxLines="1" />
 
             <TextView
                 android:id="@+id/user"
                 style="@android:style/TextAppearance.Small"
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/type"
@@ -76,12 +77,23 @@
 
             <TextView
                 android:id="@+id/time"
+                android:layout_toLeftOf="@+id/more_button"
                 style="@android:style/TextAppearance.Small"
+                android:maxLines="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
                 android:layout_below="@id/type" />
 
+            <ImageView
+                android:id="@+id/more_button"
+                android:layout_width="24dp"
+                android:layout_height="28dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignBottom="@+id/time"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_more_vert_black_36px"
+                android:tint="@color/colorPrimary"
+                android:visibility="visible"/>
         </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>
