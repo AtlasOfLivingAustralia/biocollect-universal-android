@@ -22,10 +22,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.listener.RecyclerItemClickListener;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.upload.UploadService;
@@ -84,17 +86,17 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new SightAdapter(sights, this);
+        sightAdapter = new SightAdapter(sights, onClickListener, this);
         recyclerView.setAdapter(sightAdapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        recyclerView.addOnItemTouchListener(
+        /*recyclerView.addOnItemTouchListener(
                 new RecyclerItemClickListener(getActivity(), new RecyclerItemClickListener.OnItemClickListener() {
                     @Override
                     public void onItemClick(View view, int position) {
                         startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail));
                     }
                 })
-        );
+        );*/
 
         //refresh layout setup
         swipeRefreshLayout.setOnRefreshListener(this);
@@ -105,6 +107,14 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
 
         return view;
     }
+
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail));
+        }
+    };
 
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override

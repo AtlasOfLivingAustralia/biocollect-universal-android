@@ -27,10 +27,12 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private List<Sight> sights;
     private boolean needFooter;
     private MoreButtonListener moreButtonListener;
+    private View.OnClickListener onClickListener;
 
-    public SightAdapter(List<Sight> sights, MoreButtonListener moreButtonListener) {
+    public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener) {
         this.sights = sights;
         this.moreButtonListener = moreButtonListener;
+        this.onClickListener = onClickListener;
     }
 
     @Override
@@ -38,6 +40,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (viewType == NORMAL) {
             View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
             layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            layoutView.setOnClickListener(onClickListener);
             return new SightViewHolders(layoutView);
         } else {
             View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_footer, null);
