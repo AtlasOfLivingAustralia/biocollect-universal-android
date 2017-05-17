@@ -18,6 +18,10 @@ import au.csiro.ozatlas.model.SpeciesSearchResponse;
  * Created by sad038 on 18/4/17.
  */
 
+/**
+ * This adapter is to show species suggestion
+ * for adding/editing sight
+ */
 public class SearchSpeciesAdapter extends ArrayAdapter {
     private List<SpeciesSearchResponse.Species> species;
     private LayoutInflater inflater;

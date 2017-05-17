@@ -137,6 +137,12 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
         });
     }
 
+    /**
+     * This method makes a bitmap of the given image file into
+     * a half-sized of the original one
+     * @param imgPath
+     * @return
+     */
     private Bitmap loadImage(String imgPath) {
         BitmapFactory.Options options;
         try {
@@ -150,6 +156,9 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
     }
 }
 
+/**
+ * View Holders
+ */
 class ImageViewHolders extends RecyclerView.ViewHolder {
     ImageView imageView;
     ImageView crossButton;

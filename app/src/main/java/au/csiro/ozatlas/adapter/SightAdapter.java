@@ -20,6 +20,10 @@ import au.csiro.ozatlas.model.Sight;
  * Created by sad038 on 13/4/17.
  */
 
+/**
+ * This adapter is to show the sights from the server side
+ * This adapter also show a Footer to load more items
+ */
 public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private final int FOOTER = 2;
@@ -29,6 +33,12 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private MoreButtonListener moreButtonListener;
     private View.OnClickListener onClickListener;
 
+    /**
+     * constructor
+     * @param sights sights to show
+     * @param onClickListener a click listener for the tap/single click listener
+     * @param moreButtonListener a click listener for showing the popup menu
+     */
     public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener) {
         this.sights = sights;
         this.moreButtonListener = moreButtonListener;
@@ -37,6 +47,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        //returning different view holders depending on viewType
         if (viewType == NORMAL) {
             View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
             layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -73,6 +84,11 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
+    /**
+     *
+     * @param sight
+     * @return an image url if the sight object has any
+     */
     private String getImageURL(Sight sight) {
         if (sight.records != null && sight.records.length > 0 && sight.records[0].multimedia != null && sight.records[0].multimedia.length > 0) {
             return sight.records[0].multimedia[0].identifier;
@@ -80,6 +96,10 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         return sight.thumbnailUrl;
     }
 
+    /**
+     *
+     * @return an extra item if the needFooter (for showing the footer) is enabled
+     */
     @Override
     public int getItemCount() {
         if (needFooter)
@@ -88,6 +108,12 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return sights.size();
     }
 
+    /**
+     * if the position is equal to the sight list size then this is Footer
+     * as usually the last position is sights.size()-1
+     * @param position
+     * @return
+     */
     @Override
     public int getItemViewType(int position) {
         if (position == sights.size())
@@ -97,6 +123,10 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     }
 
+    /**
+     * if we want to show the Footer
+     * @param needFooter
+     */
     public void setNeedFooter(boolean needFooter) {
         this.needFooter = needFooter;
     }

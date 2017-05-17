@@ -25,15 +25,26 @@ import au.csiro.ozatlas.model.Tag;
  * Created by sad038 on 13/4/17.
  */
 
+/**
+ * a RecyclerView.Adapter<DraftSightViewHolders> for showing the DraftSights
+ */
 public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolders> {
 
     private List<AddSight> sights;
     private boolean[] selection;
     private Context context;
-    View.OnClickListener onClickListener;
-    View.OnLongClickListener onLongClickListener;
-    MoreButtonListener moreButtonListener;
+    private View.OnClickListener onClickListener;
+    private View.OnLongClickListener onLongClickListener;
+    private MoreButtonListener moreButtonListener;
 
+    /**
+     * constructor
+     * @param sights sights to show
+     * @param context
+     * @param onClickListener a click listener for the checkbox
+     * @param onLongClickListener a long click listener to delete the draft sight
+     * @param moreButtonListener a click listener for the popup menu items
+     */
     public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener, MoreButtonListener moreButtonListener) {
         this.sights = sights;
         selection = new boolean[sights.size()];
@@ -43,10 +54,17 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
         this.moreButtonListener = moreButtonListener;
     }
 
+    /**
+     * refreshing the checkbox selection
+     */
     public void selectionRefresh() {
         selection = new boolean[sights.size()];
     }
 
+    /**
+     *
+     * @return the number of checked sights
+     */
     public int getNumberOfSelectedSight() {
         int count = 0;
         for (boolean b : selection)
@@ -55,6 +73,9 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
         return count;
     }
 
+    /**
+     * @return a list of primary key which are checked by the users
+     */
     public ArrayList<Long> getPrimaryKeys() {
         ArrayList<Long> keys = new ArrayList<>();
         for (int i = 0; i < sights.size(); i++)
@@ -75,6 +96,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     @Override
     public void onBindViewHolder(final DraftSightViewHolders sightViewHolders, int position) {
         AddSight sight = sights.get(position);
+        //if the sight is being uploaded then show the upload image or show the checkbox
         if (sight.upLoading) {
             sightViewHolders.uploadImage.setVisibility(View.VISIBLE);
             sightViewHolders.checkBox.setVisibility(View.INVISIBLE);
@@ -130,8 +152,13 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
         }
     }
 
-
-    public static String tagJoin(CharSequence delimiter, List<Tag> tokens) {
+    /**
+     * join the Tags' val with the given delimeter
+     * @param delimiter
+     * @param tokens
+     * @return
+     */
+    private String tagJoin(CharSequence delimiter, List<Tag> tokens) {
         StringBuilder sb = new StringBuilder();
         Iterator<Tag> it = tokens.iterator();
         if (it.hasNext()) {
@@ -150,6 +177,9 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     }
 }
 
+/**
+ * View Holders for DraftSights
+ */
 class DraftSightViewHolders extends SightViewHolders {
     CheckBox checkBox;
     ImageView uploadImage;
