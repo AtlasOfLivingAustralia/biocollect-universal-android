@@ -27,6 +27,11 @@ import io.reactivex.schedulers.Schedulers;
  * Created by sad038 on 6/4/17.
  */
 
+
+/**
+ * This Activity is to facilitate the Login
+ * functionlity for the users
+ */
 public class LoginActivity extends BaseActivity {
     private final String TAG = "LoginActivity";
 
@@ -49,8 +54,10 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        //rest client service
         ecoDataApiService = new NetworkClient(getString(R.string.ecodata_url)).getRetrofit().create(EcoDataApiService.class);
 
+        //setting the id of previous successful logged in user
         editUsername.setText(sharedPreferences.getUsername());
 
         //test code
@@ -60,6 +67,11 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    /**
+     * make a network call for getting the AuthKey and user display name
+     * @param username login username
+     * @param password user's password
+     */
     private void postLogin(final String username, String password) {
         showProgressDialog();
         mCompositeDisposable.add(ecoDataApiService.login(username, password)
@@ -92,6 +104,9 @@ public class LoginActivity extends BaseActivity {
                 }));
     }
 
+    /**
+     * click event for login button
+     */
     @OnClick(R.id.loginButton)
     void loginButton() {
         AtlasManager.hideKeyboard(this);
@@ -107,6 +122,9 @@ public class LoginActivity extends BaseActivity {
         postLogin(editUsername.getText().toString(), editPassword.getText().toString());
     }
 
+    /**
+     * click event for registration textview
+     */
     @OnClick(R.id.registerLabel)
     void registerLabel() {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.register_url)));

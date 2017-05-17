@@ -29,6 +29,10 @@ import au.csiro.ozatlas.fragments.SightingListFragment;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.upload.Constants;
 
+/**
+ * This activity holds most of the basic fragments or functionality that a user can do
+ * Basically shows the navigation drawer nd all its fragments
+ */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
 
     private NavigationView navigationView;
@@ -40,6 +44,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        //setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -84,12 +90,17 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    /**
+     * navigation bar header information
+     */
     private void updateNavigationHeader() {
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.name)).setText(sharedPreferences.getUserDisplayName());
         ((TextView) navigationView.getHeaderView(0).findViewById(R.id.email)).setText(sharedPreferences.getUsername());
-        //((CircularImageView) navigationView.getHeaderView(0).findViewById(R.id.imageView)).setImageURL(user.getPhotoUrl().toString());
     }
 
+    /**
+     * when the user presse back button
+     */
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -100,6 +111,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         }
     }
 
+    /**
+     * navigation drawer items click listener
+     * @param item
+     * @return
+     */
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -139,28 +155,48 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             LocalBroadcastManager.getInstance(this).unregisterReceiver(dataChangeNotificationReceiver);
     }
 
+    /**
+     * hides the floating button if its not hidden
+     */
     @Override
     public void hideFloatingButton() {
         if (fab.getScaleX() != 0.0f)
             fab.animate().scaleX(0.0f).scaleY(0.0f).setInterpolator(new AccelerateInterpolator()).start();
     }
 
+    /**
+     * shows the floating button if its not shown
+     */
     @Override
     public void showFloatingButton() {
         if (fab.getScaleX() != 1.0f)
             fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).start();
     }
 
+    /**
+     * shows a message in using Snackbar
+     * @param string
+     */
     @Override
     public void showSnackBarMessage(String string) {
         showSnackBarMessage(coordinatorLayout, string);
     }
 
+    /**
+     * handle the error and show the error message to the user
+     * @param e
+     * @param code http response code to check
+     * @param message  message to show for the response code
+     */
     @Override
     public void handleError(Throwable e, int code, String message) {
         handleError(coordinatorLayout, e, code, message);
     }
 
+    /**
+     * Boradcast Receiver for letting the fragments to know that
+     * the realm data has been changed.
+     */
     private class DataChangeNotificationReceiver extends BroadcastReceiver {
         //prevent instantiation
         private DataChangeNotificationReceiver() {

@@ -13,6 +13,10 @@ import au.csiro.ozatlas.fragments.WebViewFragment;
  * Created by sad038 on 21/4/17.
  */
 
+/**
+ * This is a generic class where a single Fragment can be launched.
+ */
+
 public class SingleFragmentActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,6 +51,12 @@ public class SingleFragmentActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * setting the title
+     * also showing the back button depending on the @param homeButton
+     * @param str
+     * @param homeButton
+     */
     public void setTitle(String str, boolean homeButton) {
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(homeButton);
@@ -56,6 +66,9 @@ public class SingleFragmentActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Type of Fragments
+     */
     public enum FragmentType {
         WEB_FRAGMENT,
         EDIT_FRAGMENT
