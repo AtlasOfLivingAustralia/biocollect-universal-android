@@ -15,6 +15,10 @@ public class AtlasManager {
     public static boolean isTesting = false;
     //public static EventBus eventBus = new EventBus();
 
+    /**
+     * hide the Keyboard
+     * @param activity
+     */
     public static void hideKeyboard(Activity activity) {
         // Check if no view has focus:
         View view = activity.getCurrentFocus();
@@ -24,6 +28,11 @@ public class AtlasManager {
         }
     }
 
+    /**
+     * checks the availability of the network
+     * @param context
+     * @return true or false depending on any network availability
+     */
     public static boolean isNetworkAvailable(Context context) {
         ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();

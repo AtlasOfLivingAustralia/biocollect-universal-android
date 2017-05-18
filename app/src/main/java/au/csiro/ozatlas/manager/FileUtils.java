@@ -541,6 +541,11 @@ public class FileUtils {
         return context.getString(R.string.album_name);
     }
 
+    /**
+     * get the custom folder to save picture
+     * @param albumName
+     * @return
+     */
     private static File getAlbumStorageDir(String albumName) {
         return new File(
                 Environment.getExternalStorageDirectory()
@@ -549,6 +554,11 @@ public class FileUtils {
         );
     }
 
+    /**
+     * get the device's album directory
+     * @param context
+     * @return
+     */
     private static File getAlbumDir(Context context) {
         File storageDir = null;
 
@@ -572,6 +582,11 @@ public class FileUtils {
         return storageDir;
     }
 
+    /**
+     * add the image to the gallery app
+     * @param context
+     * @param path
+     */
     public static void galleryAddPic(Context context, String path) {
         Intent mediaScanIntent = new Intent("android.intent.action.MEDIA_SCANNER_SCAN_FILE");
         File f = new File(path);
