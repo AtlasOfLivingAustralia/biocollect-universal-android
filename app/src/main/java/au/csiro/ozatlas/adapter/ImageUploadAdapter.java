@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.Calendar;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.listener.SimpleTextChangeListener;
+import au.csiro.ozatlas.listener.SimpleTextWatcher;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.SightingPhoto;
 import io.realm.RealmList;
@@ -107,7 +107,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             sightingPhotos.get(position).attribution = "";
         }
         holder.attributionEditText.setText(sightingPhotos.get(position).attribution);
-        holder.attributionEditText.addTextChangedListener(new SimpleTextChangeListener() {
+        holder.attributionEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 sightingPhotos.get(position).attribution = s.toString();
@@ -118,7 +118,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             sightingPhotos.get(position).notes = "";
         }
         holder.noteEditText.setText(sightingPhotos.get(position).notes);
-        holder.noteEditText.addTextChangedListener(new SimpleTextChangeListener() {
+        holder.noteEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 sightingPhotos.get(position).notes = s.toString();
@@ -129,7 +129,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             sightingPhotos.get(position).name = "";
         }
         holder.titleEditText.setText(sightingPhotos.get(position).name);
-        holder.titleEditText.addTextChangedListener(new SimpleTextChangeListener() {
+        holder.titleEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 sightingPhotos.get(position).name = s.toString();
@@ -140,6 +140,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
     /**
      * This method makes a bitmap of the given image file into
      * a half-sized of the original one
+     *
      * @param imgPath
      * @return
      */

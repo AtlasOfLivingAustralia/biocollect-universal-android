@@ -2,9 +2,9 @@ package au.csiro.ozatlas.rest;
 
 import com.google.gson.JsonObject;
 
+import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.SightList;
-import au.csiro.ozatlas.model.AddSight;
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -37,6 +37,6 @@ public interface BioCollectApiService {
     Observable<JsonObject> getGUID();
 
     @POST("ws/bioactivity/save")
-    //Observable<Void> postSightings(@Query("pActivityId") String pActivityId, @Body JsonObject jsonObject);
+        //Observable<Void> postSightings(@Query("pActivityId") String pActivityId, @Body JsonObject jsonObject);
     Observable<Response<Void>> postSightings(@Query("pActivityId") String pActivityId, @Body AddSight addSight);
 }

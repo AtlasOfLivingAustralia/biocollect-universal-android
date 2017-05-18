@@ -10,6 +10,9 @@ import dagger.Provides;
  * Created by sad038 on 5/4/17.
  */
 
+/**
+ * Injecting Rest Client
+ */
 @Module
 public class RestModule {
     private String url;

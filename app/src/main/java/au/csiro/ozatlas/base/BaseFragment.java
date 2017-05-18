@@ -68,26 +68,26 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
 
     @Override
     public void hideFloatingButton() {
-        if(mainActivityFragmentListener!=null)
+        if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.hideFloatingButton();
     }
 
     @Override
     public void showFloatingButton() {
-        if(mainActivityFragmentListener!=null)
+        if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.showFloatingButton();
     }
 
     @Override
     public void showSnackBarMessage(String string) {
-        if(getActivity() instanceof MainActivity && mainActivityFragmentListener != null){
+        if (getActivity() instanceof MainActivity && mainActivityFragmentListener != null) {
             mainActivityFragmentListener.showSnackBarMessage(string);
         }
     }
 
     @Override
     public void handleError(Throwable e, int code, String message) {
-        if(mainActivityFragmentListener!=null)
+        if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.handleError(e, code, message);
     }
 

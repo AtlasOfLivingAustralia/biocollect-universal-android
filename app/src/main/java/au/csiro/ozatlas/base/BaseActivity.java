@@ -41,13 +41,14 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //initializing dagger
         OzAtlasApplication.component().inject(this);
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        //AtlasManager.eventBus.register(this);
+        //checking the authkey from sharedpreference. Launch LoginActivity in case there is not key
         if (!(this instanceof LoginActivity) && sharedPreferences.getAuthKey().equals("")) {
             launchLoginActivity();
         }
@@ -57,9 +58,14 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     protected void onPause() {
         super.onPause();
         hideProgressDialog();
-        //AtlasManager.eventBus.unregister(this);
     }
 
+    /**
+     * handling home button press
+     *
+     * @param item
+     * @return
+     */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -71,7 +77,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     }
 
     /**
-     * show the spinner dialog
+     * show the spinning dialog
      */
     @Override
     public void showProgressDialog() {
@@ -89,7 +95,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     }
 
     /**
-     * hide the spinner
+     * hide the spinning dialog
      */
     @Override
     public void hideProgressDialog() {
@@ -109,7 +115,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
 
     /**
      * @param coordinatorLayout
-     * @param string message to show
+     * @param string            message to show
      */
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
         Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG).show();
@@ -141,28 +147,51 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         startActivity(intent);
     }
 
+    /**
+     * show a toast message
+     *
+     * @param str
+     */
     @Override
     public void showToast(String str) {
         Toast.makeText(this, str, Toast.LENGTH_SHORT).show();
     }
 
+    /**
+     * handle the error response from a HTTP call
+     *
+     * @param coordinatorLayout
+     * @param e
+     * @param code
+     * @param message
+     */
     @Override
     public void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message) {
-        if(e instanceof UnknownHostException){
+        if (e instanceof UnknownHostException) {
             showSnackBarMessage(coordinatorLayout, getString(R.string.not_internet_title));
-        }else if(e instanceof HttpException && ((HttpException) e).code()==code){
+        } else if (e instanceof HttpException && ((HttpException) e).code() == code) {
             showSnackBarMessage(coordinatorLayout, message);
-        }else{
+        } else {
             showSnackBarMessage(coordinatorLayout, getString(R.string.generic_error));
         }
     }
 
+    /**
+     * disposing RxDisposable.
+     */
     @Override
     public void onDestroy() {
         super.onDestroy();
-        mCompositeDisposable.dispose();
+        if (mCompositeDisposable != null)
+            mCompositeDisposable.dispose();
     }
 
+    /**
+     * restClient
+     * mainly for the fragments
+     *
+     * @return
+     */
     @Override
     public RestClient getRestClient() {
         return restClient;

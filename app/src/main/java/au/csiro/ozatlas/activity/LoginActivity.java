@@ -8,8 +8,6 @@ import android.support.design.widget.TextInputLayout;
 import android.util.Log;
 import android.widget.EditText;
 
-import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
-
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -69,6 +67,7 @@ public class LoginActivity extends BaseActivity {
 
     /**
      * make a network call for getting the AuthKey and user display name
+     *
      * @param username login username
      * @param password user's password
      */

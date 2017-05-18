@@ -12,6 +12,7 @@ import io.realm.RealmObject;
 public class Species extends RealmObject {
     public Species() {
     }
+
     @Expose
     @SerializedName("guid")
     public String guid;

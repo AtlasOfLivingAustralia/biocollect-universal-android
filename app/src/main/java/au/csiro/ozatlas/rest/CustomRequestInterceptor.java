@@ -24,9 +24,9 @@ public class CustomRequestInterceptor implements Interceptor {
     @Override
     public Response intercept(Chain chain) throws IOException {
         Request request;
-        if(sharedPreferences.getAuthKey().equals("")){
+        if (sharedPreferences.getAuthKey().equals("")) {
             request = chain.request().newBuilder().addHeader("Accept", "application/json").build();
-        }else{
+        } else {
             request = chain.request().newBuilder().addHeader("Accept", "application/json").addHeader("authKey", sharedPreferences.getAuthKey()).addHeader("userName", sharedPreferences.getUsername()).build();
         }
 

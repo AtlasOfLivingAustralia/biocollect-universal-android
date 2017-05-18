@@ -1,8 +1,6 @@
 package au.csiro.ozatlas.fragments;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,15 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.MoreButtonListener;
-import au.csiro.ozatlas.listener.RecyclerItemClickListener;
-import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
-import au.csiro.ozatlas.upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -151,7 +145,7 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                 .subscribeWith(new DisposableObserver<SightList>() {
                     @Override
                     public void onNext(SightList value) {
-                        if(value!=null && value.total!=null) {
+                        if (value != null && value.total != null) {
                             totalSighting = value.total;
                             if (offset == 0)
                                 sights.clear();

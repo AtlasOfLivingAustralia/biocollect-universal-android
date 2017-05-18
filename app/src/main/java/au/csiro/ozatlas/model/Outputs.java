@@ -12,6 +12,7 @@ import io.realm.RealmObject;
 public class Outputs extends RealmObject {
     public Outputs() {
     }
+
     @Expose
     @SerializedName("name")
     public String name;

@@ -35,8 +35,9 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     /**
      * constructor
-     * @param sights sights to show
-     * @param onClickListener a click listener for the tap/single click listener
+     *
+     * @param sights             sights to show
+     * @param onClickListener    a click listener for the tap/single click listener
      * @param moreButtonListener a click listener for showing the popup menu
      */
     public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener) {
@@ -85,7 +86,6 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     /**
-     *
      * @param sight
      * @return an image url if the sight object has any
      */
@@ -97,7 +97,6 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     /**
-     *
      * @return an extra item if the needFooter (for showing the footer) is enabled
      */
     @Override
@@ -111,6 +110,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     /**
      * if the position is equal to the sight list size then this is Footer
      * as usually the last position is sights.size()-1
+     *
      * @param position
      * @return
      */
@@ -125,6 +125,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     /**
      * if we want to show the Footer
+     *
      * @param needFooter
      */
     public void setNeedFooter(boolean needFooter) {

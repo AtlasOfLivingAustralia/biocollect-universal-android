@@ -1,11 +1,13 @@
 package au.csiro.ozatlas.base;
 
-import android.support.design.widget.CoordinatorLayout;
-
 /**
  * Created by sad038 on 12/4/17.
  */
 
+/**
+ * Thsi interface is used to communicate with
+ * the MainActivity from BaseFragment
+ */
 public interface MainActivityFragmentListener {
     void hideFloatingButton();
 

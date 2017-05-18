@@ -39,11 +39,12 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
 
     /**
      * constructor
-     * @param sights sights to show
+     *
+     * @param sights              sights to show
      * @param context
-     * @param onClickListener a click listener for the checkbox
+     * @param onClickListener     a click listener for the checkbox
      * @param onLongClickListener a long click listener to delete the draft sight
-     * @param moreButtonListener a click listener for the popup menu items
+     * @param moreButtonListener  a click listener for the popup menu items
      */
     public DraftSightAdapter(List<AddSight> sights, Context context, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener, MoreButtonListener moreButtonListener) {
         this.sights = sights;
@@ -62,7 +63,6 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
     }
 
     /**
-     *
      * @return the number of checked sights
      */
     public int getNumberOfSelectedSight() {
@@ -154,6 +154,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
 
     /**
      * join the Tags' val with the given delimeter
+     *
      * @param delimiter
      * @param tokens
      * @return

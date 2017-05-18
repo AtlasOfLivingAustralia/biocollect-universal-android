@@ -12,6 +12,9 @@ import dagger.Provides;
  * Created by sad038 on 5/4/17.
  */
 
+/**
+ * Injecting SharedPreference
+ */
 @Module
 public class PreferenceModule {
 

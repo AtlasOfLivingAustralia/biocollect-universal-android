@@ -28,7 +28,7 @@ public class SingleFragmentActivity extends AppCompatActivity {
         if (bundle != null) {
             FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
             setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
-            switch (fragmentType){
+            switch (fragmentType) {
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
                     break;
@@ -54,6 +54,7 @@ public class SingleFragmentActivity extends AppCompatActivity {
     /**
      * setting the title
      * also showing the back button depending on the @param homeButton
+     *
      * @param str
      * @param homeButton
      */

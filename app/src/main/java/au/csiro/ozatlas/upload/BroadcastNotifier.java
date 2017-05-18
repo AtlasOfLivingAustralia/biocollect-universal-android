@@ -42,7 +42,6 @@ public class BroadcastNotifier {
     /**
      * Uses LocalBroadcastManager to send an {@link String} containing a logcat message.
      * {@link Intent} has the action {@code BROADCAST_ACTION} and the category {@code DEFAULT}.
-     *
      */
     void notifyDataChange() {
         Log.d("NOTIFIER", "notifyDataChange");

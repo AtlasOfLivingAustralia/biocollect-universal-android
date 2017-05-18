@@ -14,7 +14,6 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -113,6 +112,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * navigation drawer items click listener
+     *
      * @param item
      * @return
      */
@@ -139,7 +139,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title));
         } else if (id == R.id.nav_contact) {
             startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title));
-        }else if(id == R.id.nav_draft_sighting) {
+        } else if (id == R.id.nav_draft_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         }
 
@@ -175,6 +175,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * shows a message in using Snackbar
+     *
      * @param string
      */
     @Override
@@ -184,9 +185,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * handle the error and show the error message to the user
+     *
      * @param e
-     * @param code http response code to check
-     * @param message  message to show for the response code
+     * @param code    http response code to check
+     * @param message message to show for the response code
      */
     @Override
     public void handleError(Throwable e, int code, String message) {
@@ -205,8 +207,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         @Override
         public void onReceive(Context context, Intent intent) {
             Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentHolder);
-            if(fragment!=null && fragment instanceof DraftSightingListFragment){
-                ((DraftSightingListFragment)fragment).readDraftSights();
+            if (fragment != null && fragment instanceof DraftSightingListFragment) {
+                ((DraftSightingListFragment) fragment).readDraftSights();
             }
         }
     }

@@ -1,7 +1,5 @@
 package au.csiro.ozatlas.model;
 
-import android.net.Uri;
-
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -11,7 +9,7 @@ import io.realm.RealmObject;
  * Created by sad038 on 2/5/17.
  */
 
-public class SightingPhoto extends RealmObject{
+public class SightingPhoto extends RealmObject {
     public SightingPhoto() {
     }
 

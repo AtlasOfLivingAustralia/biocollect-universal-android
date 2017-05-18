@@ -16,10 +16,7 @@
 
 package au.csiro.ozatlas.upload;
 
-import java.util.Locale;
-
 /**
- *
  * Constants used by multiple classes in this package
  */
 public final class Constants {
