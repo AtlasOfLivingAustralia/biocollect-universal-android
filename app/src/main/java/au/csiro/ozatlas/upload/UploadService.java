@@ -31,6 +31,11 @@ import static au.csiro.ozatlas.manager.FileUtils.getMultipart;
  * Created by sad038 on 8/5/17.
  */
 
+/**
+ * An intent Service to upload the Draft Sightings
+ * in Background
+ */
+
 public class UploadService extends IntentService {
     private final String TAG = "UploadService";
     @Inject
@@ -39,7 +44,6 @@ public class UploadService extends IntentService {
     private BroadcastNotifier mBroadcaster;
     private Realm realm;
     private int imageUploadCount;
-    //private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
@@ -49,11 +53,16 @@ public class UploadService extends IntentService {
         super("AtlasUploadService");
     }
 
+    /**
+     * when the service starts
+     * @param intent
+     */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         OzAtlasApplication.component().inject(this);
         if (AtlasManager.isNetworkAvailable(this)) {
             realm = Realm.getDefaultInstance();
+            //create the broadcaster to notify
             mBroadcaster = new BroadcastNotifier(this);
 
             ArrayList<Long> sightPrimarykeys = null;
@@ -78,9 +87,11 @@ public class UploadService extends IntentService {
                 result = query.findAll();
             }
 
+            //upload the sights
             Iterator<AddSight> sightIterator = result.iterator();
             while (sightIterator.hasNext()) {
                 AddSight addSight = sightIterator.next();
+                //only those which are not being uploaded right now
                 if (addSight.isValid() && !addSight.upLoading) {
                     realm.beginTransaction();
                     addSight.upLoading = true;
@@ -102,6 +113,10 @@ public class UploadService extends IntentService {
         }
     }
 
+    /**
+     * upload photos first
+     * @param addSight
+     */
     private void uploadPhotos(final AddSight addSight) {
         if (imageUploadCount < addSight.outputs.get(0).data.sightingPhoto.size()) {
             mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(addSight.outputs.get(0).data.sightingPhoto.get(imageUploadCount).filePath))
@@ -135,6 +150,10 @@ public class UploadService extends IntentService {
         }
     }
 
+    /**
+     * the the guid
+     * @param addSight
+     */
     private void getGUID(final AddSight addSight) {
         mCompositeDisposable.add(restClient.getService().getGUID()
                 .subscribeWith(new DisposableObserver<JsonObject>() {
@@ -161,6 +180,10 @@ public class UploadService extends IntentService {
                 }));
     }
 
+    /**
+     * finally upload the sight
+     * @param addSight
+     */
     private void saveData(final AddSight addSight) {
         mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_activity_id), realm.copyFromRealm(addSight))
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
@@ -189,6 +212,10 @@ public class UploadService extends IntentService {
                 }));
     }
 
+    /**
+     * if something goes wrong then making the sight available to upload again.
+     * @param addSight
+     */
     private void makeUploadingFalse(final AddSight addSight) {
         realm.beginTransaction();
         addSight.upLoading = false;

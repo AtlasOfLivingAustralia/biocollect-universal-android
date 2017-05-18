@@ -13,6 +13,10 @@ import io.realm.Realm;
  * Created by sad038 on 5/4/17.
  */
 
+/**
+ * Application class to initialise Realm
+ * and Dagger
+ */
 public class OzAtlasApplication extends Application {
     private static AppComponent component;
 
