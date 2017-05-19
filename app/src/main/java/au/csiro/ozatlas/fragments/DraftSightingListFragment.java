@@ -41,6 +41,10 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 13/4/17.
  */
 
+/**
+ * This class is to show the list of Sights saved locally
+ * From Navigation Drawer -> Draft Shift
+ */
 public class DraftSightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
     private final String TAG = "DraftSightingList";
     private final int REQUEST_EDIT = 1;
@@ -62,7 +66,6 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         View view = inflater.inflate(R.layout.fragment_sight_list, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-
 
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.showFloatingButton();
@@ -89,11 +92,15 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         return view;
     }
 
+    /**
+     * onclick listener for recyclerview items
+     */
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
             Bundle bundle = new Bundle();
+            //checking whether the item is being uploaded by the UploadService
             if (sights.get(position).upLoading) {
                 AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
             } else {
@@ -107,6 +114,10 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
     };
 
 
+    /**
+     * Long click listener for recyclerview items
+     * for deleting a draft item
+     */
     View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(final View v) {
@@ -115,6 +126,11 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         }
     };
 
+    /**
+     * show an alert for deleting an item.
+     * deletes an item upon pressing "OK"
+     * @param position
+     */
     private void delete(final int position) {
         AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
             @Override
@@ -142,8 +158,10 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
             //when the user will press the upload menu item
             case R.id.upload:
                 if (AtlasManager.isNetworkAvailable(getActivity())) {
-
                     if (sights.size() > 0) {
+                        /*if the user doesnot select any of the draft items,
+                        it will show a dialog to get he permission to upload all the draft items.
+                        */
                         if (sightAdapter.getNumberOfSelectedSight() == 0) {
                             AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
                                 @Override
@@ -152,6 +170,7 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
                                 }
                             });
                         } else {
+                            //upload only selected draft items
                             uploadAll(false);
                         }
                     } else {
@@ -165,6 +184,10 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         return true;
     }
 
+    /**
+     * start the Upload Service
+     * @param all whether all the draft items or selected items
+     */
     private void uploadAll(boolean all) {
         Intent mServiceIntent = new Intent(getActivity(), UploadService.class);
         if (!all)
@@ -180,13 +203,16 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case REQUEST_EDIT:
-                    //get the sighting
+                    //get the sightings again
                     readDraftSights();
                     break;
             }
         }
     }
 
+    /**
+     * Read all the AddSight RealmObjects saved locally
+     */
     public void readDraftSights() {
         RealmResults<AddSight> results = realm.where(AddSight.class).findAllAsync();
         results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
@@ -204,15 +230,26 @@ public class DraftSightingListFragment extends BaseFragment implements SwipeRefr
 
     }
 
+    /**
+     * updating the heading
+     */
     private void updateTotal() {
         total.setText(getString(R.string.total_sighting, sights.size()));
     }
 
+    /**
+     * refresh for swipetorefresh layout
+     */
     @Override
     public void onRefresh() {
         readDraftSights();
     }
 
+    /**
+     * show popup menu from the more button of recyclerview items
+     * @param view
+     * @param position
+     */
     @Override
     public void onPopupMenuClick(View view, final int position) {
         PopupMenu popup = new PopupMenu(getActivity(), view);

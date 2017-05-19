@@ -19,19 +19,21 @@ import au.csiro.ozatlas.base.BaseFragment;
  * Created by sad038 on 18/4/17.
  */
 
+/**
+ * This class layout has a webview.
+ */
 public class WebViewFragment extends BaseFragment {
-    WebView webView;
-    private String url;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_webview, container, false);
-        webView = (WebView) view.findViewById(R.id.webView);
+        WebView webView = (WebView) view.findViewById(R.id.webView);
         //getting the URL
         Bundle bundle = getArguments();
         if (bundle != null) {
-            url = bundle.getString(getString(R.string.url_parameter));
+            String url = bundle.getString(getString(R.string.url_parameter));
             if (url != null) {
+                //showing the content from the given URL
                 webView.setWebViewClient(new WebViewClient() {
                     public void onPageFinished(WebView view, String url) {
                         hideProgressDialog();

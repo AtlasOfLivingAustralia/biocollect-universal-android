@@ -36,6 +36,10 @@ import io.reactivex.schedulers.Schedulers;
  * Created by sad038 on 13/4/17.
  */
 
+/**
+ * This class is to show the sights
+ * GET sights from biocollect
+ */
 public class SightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
     private final String TAG = "SightingListFragment";
     private final static int MAX = 20;
@@ -102,6 +106,9 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         return view;
     }
 
+    /**
+     * onClick listener for the recyclerview item
+     */
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -110,6 +117,11 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         }
     };
 
+    /**
+     * recyclerview scroll listner for
+     * pagination. Ifthe last item is shown then the recyclerview shows an
+     * footer and make the network call for the next page.
+     */
     private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
         @Override
         public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
@@ -136,6 +148,11 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         }
     };
 
+    /**
+     * get the sighting GET sight
+     * @param searchTerm search string from search bar
+     * @param offset for the pagination
+     */
     private void getSightings(String searchTerm, final int offset) {
         if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
@@ -182,6 +199,9 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.search, menu);
+        /**
+         * search layout setup
+         */
         searchMenu = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
 
@@ -222,6 +242,9 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    /**
+     * reset every data to init
+     */
     private void reset() {
         searchTerm = null;
         hasNext = true;
@@ -230,6 +253,9 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         getSightings(null, offset);
     }
 
+    /**
+     * refresh for swipetorefresh layout
+     */
     @Override
     public void onRefresh() {
         if (searchMenu.isActionViewExpanded())
@@ -237,6 +263,11 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         reset();
     }
 
+    /**
+     * show popup menu from the more button of recyclerview items
+     * @param view
+     * @param position
+     */
     @Override
     public void onPopupMenuClick(View view, final int position) {
         PopupMenu popup = new PopupMenu(getActivity(), view);
