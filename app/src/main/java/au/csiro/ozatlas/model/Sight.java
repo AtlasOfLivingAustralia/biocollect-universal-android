@@ -7,6 +7,10 @@ import com.google.gson.annotations.SerializedName;
  * Created by sad038 on 13/4/17.
  */
 
+/**
+ * a class to receive the Sight Array
+ * from GET Sights call
+ */
 public class Sight {
     @Expose
     @SerializedName("embargoed")

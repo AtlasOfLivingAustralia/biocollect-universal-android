@@ -9,6 +9,9 @@ import java.util.List;
  * Created by sad038 on 18/4/17.
  */
 
+/**
+ * suggestion response for searching species
+ */
 public class SpeciesSearchResponse {
     @Expose
     @SerializedName("totalRecords")

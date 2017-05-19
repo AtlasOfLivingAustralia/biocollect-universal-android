@@ -18,9 +18,17 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * Created by sad038 on 18/4/17.
  */
 
+/**
+ * This class is to create
+ * Network Client
+ */
 public class NetworkClient {
     private Retrofit retrofit;
 
+    /**
+     * create the OkHttpClient
+     * @return
+     */
     private OkHttpClient getOkHttpClient() {
         return new OkHttpClient.Builder()
                 .addInterceptor(new CustomRequestInterceptor())
@@ -30,6 +38,10 @@ public class NetworkClient {
                 .build();
     }
 
+    /**
+     * constructor
+     * @param baseUrl
+     */
     public NetworkClient(String baseUrl) {
         Type token = new TypeToken<RealmList<Tag>>() {
         }.getType();
@@ -45,6 +57,11 @@ public class NetworkClient {
                 .build();
     }
 
+    /**
+     * constructor with custom gson
+     * @param baseUrl
+     * @param gson
+     */
     public NetworkClient(String baseUrl, Gson gson) {
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

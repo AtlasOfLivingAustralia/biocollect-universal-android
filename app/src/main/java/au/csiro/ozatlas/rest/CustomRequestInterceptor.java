@@ -12,6 +12,10 @@ import okhttp3.Interceptor;
 import okhttp3.Request;
 import okhttp3.Response;
 
+/**
+ * This class adds the authKey and username with the header
+ * of each Network Call
+ */
 public class CustomRequestInterceptor implements Interceptor {
     final String TAG = "RequestInterceptor";
     @Inject

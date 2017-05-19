@@ -10,6 +10,10 @@ import io.realm.RealmObject;
  * Created by sad038 on 2/5/17.
  */
 
+/**
+ * Part of Upload Sight
+ * AddSight - > Outputs
+ */
 public class Data extends RealmObject {
     public Data() {
     }

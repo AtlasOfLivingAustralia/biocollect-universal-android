@@ -11,6 +11,9 @@ import io.realm.annotations.PrimaryKey;
  * Created by sad038 on 24/4/17.
  */
 
+/**
+ * Model to upload a Sight
+ */
 public class AddSight extends RealmObject {
     @PrimaryKey
     public Long realmId;

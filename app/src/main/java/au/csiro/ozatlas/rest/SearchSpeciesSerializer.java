@@ -15,12 +15,17 @@ import au.csiro.ozatlas.model.SpeciesSearchResponse;
  * Created by sad038 on 18/4/17.
  */
 
+/**
+ * Deserializer for the sepecies search result
+ */
 public class SearchSpeciesSerializer implements JsonDeserializer<SpeciesSearchResponse> {
 
     @Override
     public SpeciesSearchResponse deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         JsonObject jsonObject = json.getAsJsonObject();
         JsonElement jsonElement;
+        //checking the response whether it has "searchResults" as the begining object name.
+        //if it does it removes the name and serialize its value
         if (jsonObject.has("searchResults")) {
             jsonElement = json.getAsJsonObject().get("searchResults");
         } else {

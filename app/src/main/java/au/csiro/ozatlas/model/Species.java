@@ -9,6 +9,10 @@ import io.realm.RealmObject;
  * Created by sad038 on 2/5/17.
  */
 
+/**
+ * Part of uploading AddSight
+ *
+ */
 public class Species extends RealmObject {
     public Species() {
     }

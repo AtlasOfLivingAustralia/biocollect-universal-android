@@ -7,6 +7,9 @@ import com.google.gson.annotations.SerializedName;
  * Created by sad038 on 27/4/17.
  */
 
+/**
+ * Response from uploading an image
+ */
 public class ImageUploadResponse {
     @Expose
     @SerializedName("files")
