@@ -179,9 +179,6 @@ public class AddSightingFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        ArrayAdapter adapter = ArrayAdapter.createFromResource(getActivity(),
-                R.array.license_array,
-                android.R.layout.simple_spinner_dropdown_item);
         realm = Realm.getDefaultInstance();
 
         //species search service
@@ -217,6 +214,7 @@ public class AddSightingFragment extends BaseFragment {
         time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
         date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
 
+        //recycler view setup
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.zero_dp, R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
@@ -225,6 +223,7 @@ public class AddSightingFragment extends BaseFragment {
         imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity());
         recyclerView.setAdapter(imageUploadAdapter);
 
+        //reading the tags from file
         mCompositeDisposable.add(getFileReadObservable()
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -253,6 +252,11 @@ public class AddSightingFragment extends BaseFragment {
         return view;
     }
 
+    /**
+     * checking whether the bundle has a Sight Id
+     * If it does, the respective Sight is being read from realm
+     * finally set the values to View
+     */
     private void getSightForEdit() {
         Bundle bundle = getArguments();
         if (bundle != null) {
@@ -270,6 +274,10 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * data validation for uploading an Sight
+     * @return
+     */
     private boolean getValidated() {
         boolean value = true;
         if (selectedSpecies == null) {
@@ -292,19 +300,23 @@ public class AddSightingFragment extends BaseFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
+            //when the user press the SAVE button
             case R.id.save:
                 AtlasManager.hideKeyboard(getActivity());
                 if (AtlasManager.isNetworkAvailable(getActivity())) {
                     if (getValidated()) {
                         showProgressDialog();
+                        //if the user attaches any image then upload image first
                         if (sightingPhotos.size() > 0) {
                             imageUploadCount = 0;
                             uploadPhotos();
                         } else {
+                            //other wise get the unique id to upload a sight
                             getGUID();
                         }
                     }
                 } else {
+                    //if there is no network, the sight will be saved in realm as Draft Sight
                     AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -337,6 +349,9 @@ public class AddSightingFragment extends BaseFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    /**
+     * get the unique GUID
+     */
     private void getGUID() {
         mCompositeDisposable.add(restClient.getService().getGUID()
                 .subscribeOn(Schedulers.newThread())
@@ -364,6 +379,7 @@ public class AddSightingFragment extends BaseFragment {
                 }));
     }
 
+    //upload the Sight Object
     private void saveData() {
         mCompositeDisposable.add(restClient.getService().postSightings(getString(R.string.project_activity_id), getAddSightModel())
                 .subscribeOn(Schedulers.newThread())
@@ -400,6 +416,9 @@ public class AddSightingFragment extends BaseFragment {
                 }));
     }
 
+    /**
+     * upload photos
+     */
     private void uploadPhotos() {
         if (imageUploadCount < sightingPhotos.size()) {
             mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(sightingPhotos.get(imageUploadCount).filePath))
@@ -433,6 +452,9 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * set the values if the fragment is for Editing a Sight
+     */
     private void setSightValues() {
         if (addSight.outputs != null && addSight.outputs.size() > 0) {
             if (addSight.outputs.get(0).data != null) {
@@ -469,6 +491,10 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * preparing a SightModel from the values of the views
+     * @return
+     */
     private AddSight getAddSightModel() {
         if (addSight == null) {
             addSight = new AddSight();
@@ -516,6 +542,11 @@ public class AddSightingFragment extends BaseFragment {
         return addSight;
     }
 
+    /**
+     * validates the string from MultiAutoComplete text value
+     * @param tag
+     * @return
+     */
     private boolean validateTags(String tag) {
         for (String string : tagList) {
             if (string.equals(tag))
@@ -524,6 +555,10 @@ public class AddSightingFragment extends BaseFragment {
         return false;
     }
 
+    /**
+     * network call for species suggestion
+     * @return
+     */
     private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)
                 .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
@@ -698,6 +733,9 @@ public class AddSightingFragment extends BaseFragment {
                 }).show();
     }
 
+    /**
+     * look for hardware GPS location
+     */
     private void lookForGPSLocation() {
         MarshMallowPermission marshMallowPermission = new MarshMallowPermission(AddSightingFragment.this);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -721,6 +759,9 @@ public class AddSightingFragment extends BaseFragment {
     }
 
 
+    /**
+     * open Google Map to select a location.
+     */
     private void openMapToPickLocation() {
         try {
             PlacePicker.IntentBuilder intentBuilder = new PlacePicker.IntentBuilder();
@@ -736,6 +777,10 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * it provides a texteditor for writing the address and google gives the
+     * address suggestion to select from
+     */
     private void openAutocompleteActivity() {
         try {
             // The autocomplete activity requires Google Play Services to be available. The intent
@@ -796,6 +841,12 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * get the filename and the path after attachign an image
+     * so that the Sight model can be saved locally
+     * @param fileUri
+     * @return
+     */
     private SightingPhoto getSightingPhotoWithFileNameAdded(Uri fileUri) {
         SightingPhoto sightingPhoto = new SightingPhoto();
         sightingPhoto.filePath = FileUtils.getPath(getActivity(), fileUri);
@@ -803,6 +854,11 @@ public class AddSightingFragment extends BaseFragment {
         return sightingPhoto;
     }
 
+    /**
+     * set the coordinate with Place object
+     * and update the textview
+     * @param place
+     */
     private void setCoordinate(Place place) {
         if (inputLayoutLocation.getVisibility() == View.GONE)
             inputLayoutLocation.setVisibility(View.VISIBLE);
@@ -812,6 +868,11 @@ public class AddSightingFragment extends BaseFragment {
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
     }
 
+    /**
+     * set the coordinate with Location object
+     * and update the textview
+     * @param location
+     */
     private void setCoordinate(Location location) {
         if (inputLayoutLocation.getVisibility() == View.GONE)
             inputLayoutLocation.setVisibility(View.VISIBLE);
@@ -821,6 +882,12 @@ public class AddSightingFragment extends BaseFragment {
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
     }
 
+    /**
+     * Marshmellow permission
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
@@ -866,6 +933,9 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * method to start the camera
+     */
     private void dispatchTakePictureIntent() {
         File f = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -885,6 +955,11 @@ public class AddSightingFragment extends BaseFragment {
         }
     }
 
+    /**
+     * Make a filename for the camera picture
+     * @return
+     * @throws IOException
+     */
     private File setUpPhotoFile() throws IOException {
         File f = FileUtils.createImageFile(getActivity());
         mCurrentPhotoPath = f.getAbsolutePath();
@@ -892,10 +967,18 @@ public class AddSightingFragment extends BaseFragment {
         return f;
     }
 
+    /**
+     * get Uri from File object
+     * @param file
+     * @return
+     */
     private Uri getUriFromFileProvider(File file) {
         return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
     }
 
+    /**
+     * open the Gallery
+     */
     private void openGalleryLocal() {
         Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         intent.setType("image/*");
