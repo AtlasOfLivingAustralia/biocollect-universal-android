@@ -82,6 +82,7 @@
                 android:layout_toLeftOf="@+id/more_button"
                 style="@android:style/TextAppearance.Small"
                 android:maxLines="1"
+                android:layout_alignWithParentIfMissing="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/type" />
@@ -95,7 +96,7 @@
                 android:scaleType="fitEnd"
                 android:src="@drawable/ic_more_vert_black_36px"
                 android:tint="@color/colorPrimary"
-                android:visibility="visible"/>
+                android:visibility="gone"/>
         </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

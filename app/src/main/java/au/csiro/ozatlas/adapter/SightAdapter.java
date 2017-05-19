@@ -32,6 +32,7 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private boolean needFooter;
     private MoreButtonListener moreButtonListener;
     private View.OnClickListener onClickListener;
+    private boolean isShowMoreButton = false;
 
     /**
      * constructor
@@ -40,10 +41,11 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
      * @param onClickListener    a click listener for the tap/single click listener
      * @param moreButtonListener a click listener for showing the popup menu
      */
-    public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener) {
+    public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener, String myRecords) {
         this.sights = sights;
         this.moreButtonListener = moreButtonListener;
         this.onClickListener = onClickListener;
+        isShowMoreButton = myRecords!=null;
     }
 
     @Override
@@ -66,13 +68,16 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         if (holder instanceof SightViewHolders) {
             final SightViewHolders sightViewHolders = (SightViewHolders) holder;
             Sight sight = sights.get(position);
-            sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (moreButtonListener != null)
-                        moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
-                }
-            });
+            if(isShowMoreButton) {
+                sightViewHolders.moreButton.setVisibility(View.VISIBLE);
+                sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (moreButtonListener != null)
+                            moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
+                    }
+                });
+            }
             sightViewHolders.name.setText(sight.projectName);
             sightViewHolders.type.setText(sight.type);
             sightViewHolders.user.setText(sight.activityOwnerName);

@@ -161,7 +161,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void hideFloatingButton() {
         if (fab.getScaleX() != 0.0f)
-            fab.animate().scaleX(0.0f).scaleY(0.0f).setInterpolator(new AccelerateInterpolator()).start();
+            fab.animate().scaleX(0.0f).scaleY(0.0f).setDuration().setInterpolator(new AccelerateInterpolator()).start();
     }
 
     /**

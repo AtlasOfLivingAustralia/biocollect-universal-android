@@ -234,12 +234,8 @@ public class AddSightingFragment extends BaseFragment {
                         Log.d("", value);
                         tagList = createTagLists(value);
                         tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, tagList);
-                        //tagsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                        //identificationTagSpinner.setAdapter(tagsSpinnerAdapter);
-                        //ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(), R.layout.item_tags, tagList);
                         editTags.setAdapter(tagsSpinnerAdapter);
                         editTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
-
                     }
 
                     @Override

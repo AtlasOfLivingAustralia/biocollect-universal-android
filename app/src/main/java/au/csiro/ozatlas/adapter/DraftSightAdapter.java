@@ -189,6 +189,7 @@ class DraftSightViewHolders extends SightViewHolders {
         super(itemView);
         checkBox = (CheckBox) itemView.findViewById(R.id.checkBox);
         uploadImage = (ImageView) itemView.findViewById(R.id.uploadImage);
+        moreButton.setVisibility(View.VISIBLE);
     }
 }
 
