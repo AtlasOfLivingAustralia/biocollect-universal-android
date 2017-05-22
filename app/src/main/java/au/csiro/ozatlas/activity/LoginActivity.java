@@ -6,7 +6,10 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
 import android.util.Log;
+import android.view.KeyEvent;
+import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
@@ -57,7 +60,16 @@ public class LoginActivity extends BaseActivity {
 
         //setting the id of previous successful logged in user
         editUsername.setText(sharedPreferences.getUsername());
-
+        editPassword.setImeActionLabel("Login", EditorInfo.IME_ACTION_DONE);
+        editPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+                    loginButton();
+                }
+                return false;
+            }
+        });
         //test code
         if (AtlasManager.isTesting) {
             editUsername.setText("sadat.sadat@csiro.au");
