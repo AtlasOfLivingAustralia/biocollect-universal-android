@@ -22,6 +22,7 @@
 
     <!-- Progress Bar Style-->
     <style name="OSSProgressBarTheme" parent="Theme.AppCompat.Dialog">
+        <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:alertDialogStyle">@style/CustomAlertDialogStyle</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:textColorPrimary">@android:color/black</item>
