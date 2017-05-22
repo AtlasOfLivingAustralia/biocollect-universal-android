@@ -4,11 +4,13 @@ import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
+import android.view.View;
 
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Locale;
 
 import javax.inject.Inject;
 
@@ -92,7 +94,7 @@ public class UploadService extends IntentService {
             while (sightIterator.hasNext()) {
                 AddSight addSight = sightIterator.next();
                 //only those which are not being uploaded right now
-                if (addSight.isValid() && !addSight.upLoading) {
+                if (addSight.isValid() && !addSight.upLoading && getValidated(addSight)) {
                     realm.beginTransaction();
                     addSight.upLoading = true;
                     realm.commitTransaction();
@@ -111,6 +113,20 @@ public class UploadService extends IntentService {
             if (realm != null)
                 realm.close();
         }
+    }
+
+
+    /**
+     * data validation for uploading an Sight
+     *
+     * @return
+     */
+    private boolean getValidated(AddSight addSight) {
+        boolean value = true;
+        if (addSight.outputs.get(0).data.locationLatitude == null || addSight.outputs.get(0).data.locationLongitude==null) {
+            value = false;
+        }
+        return value;
     }
 
     /**

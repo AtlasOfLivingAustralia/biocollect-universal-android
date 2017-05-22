@@ -276,14 +276,15 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * data validation for uploading an Sight
+     *
      * @return
      */
     private boolean getValidated() {
         boolean value = true;
-        if (selectedSpecies == null) {
+        /*if (selectedSpecies == null) {
             inputLayoutSpeciesName.setError("Please choose a species");
             value = false;
-        }
+        }*/
         if (latitude == null || longitude == null) {
             value = false;
             showSnackBarMessage("Please Add a location");
@@ -480,6 +481,8 @@ public class AddSightingFragment extends BaseFragment {
                 if (addSight.outputs.get(0).data.locationLatitude != null) {
                     if (editLocation.getVisibility() == View.GONE)
                         editLocation.setVisibility(View.VISIBLE);
+                    latitude = addSight.outputs.get(0).data.locationLatitude;
+                    longitude = addSight.outputs.get(0).data.locationLongitude;
                     editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
                 }
 
@@ -493,6 +496,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * preparing a SightModel from the values of the views
+     *
      * @return
      */
     private AddSight getAddSightModel() {
@@ -519,11 +523,16 @@ public class AddSightingFragment extends BaseFragment {
         outputs.data.recordedBy = sharedPreferences.getUserDisplayName();
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString() + time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
-        outputs.data.species = new Species();
+        if (outputs.data.species == null)
+            outputs.data.species = new Species();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
         if (selectedSpecies != null) {
             outputs.data.species.name = selectedSpecies.name;
             outputs.data.species.scientificName = selectedSpecies.kingdom;
+            outputs.data.species.guid = selectedSpecies.guid;
+        } else if (outputs.data.species.name == null || outputs.data.species.guid == null) {
+            outputs.data.species.name = editSpeciesName.getText().toString();
+            outputs.data.species.scientificName = outputs.data.species.name;
         }
         //outputs.data.species.commonName = "";
         outputs.data.individualCount = Integer.parseInt((String) individualSpinner.getSelectedItem());
@@ -544,6 +553,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * validates the string from MultiAutoComplete text value
+     *
      * @param tag
      * @return
      */
@@ -557,6 +567,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * network call for species suggestion
+     *
      * @return
      */
     private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
@@ -844,6 +855,7 @@ public class AddSightingFragment extends BaseFragment {
     /**
      * get the filename and the path after attachign an image
      * so that the Sight model can be saved locally
+     *
      * @param fileUri
      * @return
      */
@@ -857,6 +869,7 @@ public class AddSightingFragment extends BaseFragment {
     /**
      * set the coordinate with Place object
      * and update the textview
+     *
      * @param place
      */
     private void setCoordinate(Place place) {
@@ -871,6 +884,7 @@ public class AddSightingFragment extends BaseFragment {
     /**
      * set the coordinate with Location object
      * and update the textview
+     *
      * @param location
      */
     private void setCoordinate(Location location) {
@@ -884,6 +898,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * Marshmellow permission
+     *
      * @param requestCode
      * @param permissions
      * @param grantResults
@@ -957,6 +972,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * Make a filename for the camera picture
+     *
      * @return
      * @throws IOException
      */
@@ -969,6 +985,7 @@ public class AddSightingFragment extends BaseFragment {
 
     /**
      * get Uri from File object
+     *
      * @param file
      * @return
      */
