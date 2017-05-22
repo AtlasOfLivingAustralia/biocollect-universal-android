@@ -23,6 +23,7 @@ import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
+import io.realm.Realm;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -37,12 +38,14 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
 
     private ProgressDialog mProgressDialog;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+    protected Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //initializing dagger
         OzAtlasApplication.component().inject(this);
+        realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -126,6 +129,13 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      */
     @Override
     public void launchLoginActivity() {
+        sharedPreferences.writeAuthKey("");
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.deleteAll();
+            }
+        });
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
@@ -184,6 +194,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         super.onDestroy();
         if (mCompositeDisposable != null)
             mCompositeDisposable.dispose();
+        if(realm!=null)
+            realm.close();
     }
 
     /**
