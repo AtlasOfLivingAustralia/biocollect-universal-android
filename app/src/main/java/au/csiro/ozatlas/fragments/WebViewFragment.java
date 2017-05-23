@@ -66,7 +66,7 @@ public class WebViewFragment extends BaseFragment {
                     }
                 });
                 showProgressDialog();
-                webView.loadUrl(url);
+                webView.loadUrl(url, sharedPreferences.getHeaderMap());
             }
         }
         return view;

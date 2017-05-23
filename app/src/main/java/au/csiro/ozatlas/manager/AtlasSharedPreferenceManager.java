@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by sad038 on 5/4/17.
  */
@@ -67,4 +70,14 @@ public class AtlasSharedPreferenceManager {
         return sharedPreferences.getString("USER_NAME", "");
     }
 
+    public Map getHeaderMap(){
+        HashMap<String, String> map = new HashMap<String, String>();
+        String key = getAuthKey();
+        if(!key.equals(""))
+            map.put("authKey", key);
+        String username = getUsername();
+        if(!username.equals(""))
+            map.put("userName", username);
+        return map;
+    }
 }

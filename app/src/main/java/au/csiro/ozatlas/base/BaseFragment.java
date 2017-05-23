@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.widget.EditText;
 
 import javax.inject.Inject;
@@ -29,9 +30,14 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     protected RestClient restClient;
 
     @Override
+    public void onCreate(Bundle savedInstanceState){
+        super.onCreate(savedInstanceState);
+        OzAtlasApplication.component().inject(this);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        OzAtlasApplication.component().inject(this);
     }
 
     @Override
