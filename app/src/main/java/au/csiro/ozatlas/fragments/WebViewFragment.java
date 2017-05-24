@@ -54,14 +54,24 @@ public class WebViewFragment extends BaseFragment {
         View view = inflater.inflate(R.layout.fragment_webview, container, false);
         webView = (WebView) view.findViewById(R.id.webView);
 
-        if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA}, 1);
+        if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
         webSettings.setJavaScriptCanOpenWindowsAutomatically(true);
         webSettings.setAllowFileAccess(true);
+        webSettings.setGeolocationEnabled(true);
+
+        if(Build.VERSION.SDK_INT >= 21){
+            webSettings.setMixedContentMode(0);
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }else if(Build.VERSION.SDK_INT >= 19){
+            webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
+        }else if(Build.VERSION.SDK_INT < 19){
+            webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
+        }
 
         //getting the URL
         Bundle bundle = getArguments();
@@ -71,7 +81,8 @@ public class WebViewFragment extends BaseFragment {
                 setupChromeCleint();
                 setupWebViewClient();
 
-                webView.loadUrl(url, sharedPreferences.getHeaderMap());
+               webView.loadUrl(url, sharedPreferences.getHeaderMap());
+               // webView.loadUrl("file:///android_asset/test.html");
             }
         }
         return view;
@@ -194,7 +205,7 @@ public class WebViewFragment extends BaseFragment {
                 final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
                 alertDialog.setTitle("Error");
                 alertDialog.setMessage(description);
-                alertDialog.setButton(0, "OK", new DialogInterface.OnClickListener() {
+                alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         return;
                     }
