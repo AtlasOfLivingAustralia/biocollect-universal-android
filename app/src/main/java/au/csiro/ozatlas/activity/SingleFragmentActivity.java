@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.fragments.AddSightingFragment;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 
@@ -17,7 +18,7 @@ import au.csiro.ozatlas.fragments.WebViewFragment;
  * This is a generic class where a single Fragment can be launched.
  */
 
-public class SingleFragmentActivity extends AppCompatActivity {
+public class SingleFragmentActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
