@@ -8,6 +8,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
+        applicationId 'com.csiro'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -19,12 +20,12 @@ android {
     }
     productFlavors {
         biocollect {
-            applicationId 'com.csiro.biocollect'
+            applicationIdSuffix '.biocollect'
             versionCode 1
             versionName '1.0'
         }
         ozatlas {
-            applicationId 'au.csiro.ozatlas'
+            applicationIdSuffix '.ozatlas'
             versionCode 1
             versionName "1.0"
         }
