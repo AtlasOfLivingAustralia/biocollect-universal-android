@@ -55,7 +55,7 @@
     <string name="login_error">Invalid Login Information</string>
     <string name="nothing_to_upload">There is no draft item to upload</string>
     <string name="logout_title">Logout</string>
-    <string name="logout_message">All your draft sights will be deleted. Would you like to logout?</string>
+    <string name="logout_message">All your draft projects will be deleted. Would you like to logout?</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>
     <string name="species_name">Species: %1$s</string>

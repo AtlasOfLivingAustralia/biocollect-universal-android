@@ -24,12 +24,9 @@ import au.csiro.ozatlas.model.Sight;
  * This adapter is to show the sights from the server side
  * This adapter also show a Footer to load more items
  */
-public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
 
-    private final int FOOTER = 2;
-    private final int NORMAL = 1;
     private List<Sight> sights;
-    private boolean needFooter;
     private MoreButtonListener moreButtonListener;
     private View.OnClickListener onClickListener;
     private boolean isShowMoreButton = false;
@@ -127,15 +124,6 @@ public class SightAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             return NORMAL;
 
     }
-
-    /**
-     * if we want to show the Footer
-     *
-     * @param needFooter
-     */
-    public void setNeedFooter(boolean needFooter) {
-        this.needFooter = needFooter;
-    }
 }
 
 class SightViewHolders extends RecyclerView.ViewHolder {
@@ -153,9 +141,4 @@ class SightViewHolders extends RecyclerView.ViewHolder {
     }
 }
 
-class FooterViewHolders extends RecyclerView.ViewHolder {
-    FooterViewHolders(View itemView) {
-        super(itemView);
-    }
-}
 

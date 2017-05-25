@@ -40,7 +40,7 @@ import io.reactivex.schedulers.Schedulers;
  * This class is to show the sights
  * GET sights from biocollect
  */
-public class SightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
+public class SightingListFragment extends BaseListWithRefreshFragment implements MoreButtonListener {
     private final String TAG = "SightingListFragment";
     private final static int MAX = 20;
 
@@ -55,18 +55,11 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
     private SightAdapter sightAdapter;
     private List<Sight> sights = new ArrayList<>();
     private String myRecords;
-    private MenuItem searchMenu;
-    private String searchTerm;
-    private int offset = 0;
-    private int preLast;
     private int totalSighting;
-    private boolean hasNext = true;
-    private boolean isSearched = false;
-    private LinearLayoutManager mLayoutManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_sight_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         mainActivityFragmentListener.showFloatingButton();
@@ -93,9 +86,38 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         //get the sighting
-        getSightings(null, 0);
+        fetchItems(null, 0);
 
         return view;
+    }
+
+
+    /**
+     * show popup menu from the more button of recyclerview items
+     * @param view
+     * @param position
+     */
+    @Override
+    public void onPopupMenuClick(View view, final int position) {
+        PopupMenu popup = new PopupMenu(getActivity(), view);
+        MenuInflater inflater = popup.getMenuInflater();
+        inflater.inflate(R.menu.sight_menu, popup.getMenu());
+        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+                //do your things in each of the following cases
+                switch (item.getItemId()) {
+                    case R.id.delete:
+
+                        break;
+                    case R.id.edit:
+
+                        break;
+                }
+                return true;
+            }
+        });
+        popup.show();
     }
 
     /**
@@ -109,43 +131,13 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
         }
     };
 
-    /**
-     * recyclerview scroll listner for
-     * pagination. Ifthe last item is shown then the recyclerview shows an
-     * footer and make the network call for the next page.
-     */
-    private RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            int visibleItemCount = mLayoutManager.getChildCount();
-            int totalItemCount = mLayoutManager.getItemCount();
-            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
-
-            final int lastItem = firstVisibleItemPosition + visibleItemCount;
-            if (lastItem == totalItemCount && preLast != lastItem) {
-                preLast = lastItem;
-                if (hasNext) {
-                    sightAdapter.setNeedFooter(true);
-                    sightAdapter.notifyDataSetChanged();
-                    offset = offset + MAX;
-                    getSightings(searchTerm, offset);
-                }
-            }
-        }
-    };
 
     /**
      * get the sighting GET sight
      * @param searchTerm search string from search bar
      * @param offset for the pagination
      */
-    private void getSightings(String searchTerm, final int offset) {
+    protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
         mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), MAX, offset, true, myRecords, searchTerm)
@@ -185,101 +177,5 @@ public class SightingListFragment extends BaseFragment implements SwipeRefreshLa
                         Log.d(TAG, "onComplete");
                     }
                 }));
-    }
-
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.search, menu);
-        /**
-         * search layout setup
-         */
-        searchMenu = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
-
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchTerm = query;
-                searchView.clearFocus();
-                offset = 0;
-                hasNext = true;
-                isSearched = true;
-                getSightings(searchTerm, offset);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchTerm = newText;
-                return false;
-            }
-        });
-
-        MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat.OnActionExpandListener() {
-            @Override
-            public boolean onMenuItemActionExpand(MenuItem item) {
-                return true;
-            }
-
-            @Override
-            public boolean onMenuItemActionCollapse(MenuItem item) {
-                if (isSearched) {
-                    reset();
-                }
-                return true;
-            }
-        });
-
-        super.onCreateOptionsMenu(menu, inflater);
-    }
-
-    /**
-     * reset every data to init
-     */
-    private void reset() {
-        searchTerm = null;
-        hasNext = true;
-        offset = 0;
-        isSearched = false;
-        getSightings(null, offset);
-    }
-
-    /**
-     * refresh for swipetorefresh layout
-     */
-    @Override
-    public void onRefresh() {
-        if (searchMenu.isActionViewExpanded())
-            searchMenu.collapseActionView();
-        reset();
-    }
-
-    /**
-     * show popup menu from the more button of recyclerview items
-     * @param view
-     * @param position
-     */
-    @Override
-    public void onPopupMenuClick(View view, final int position) {
-        PopupMenu popup = new PopupMenu(getActivity(), view);
-        MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.sight_menu, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                //do your things in each of the following cases
-                switch (item.getItemId()) {
-                    case R.id.delete:
-
-                        break;
-                    case R.id.edit:
-
-                        break;
-                }
-                return true;
-            }
-        });
-        popup.show();
     }
 }
