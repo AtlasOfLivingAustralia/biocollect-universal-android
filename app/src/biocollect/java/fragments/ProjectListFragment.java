@@ -16,7 +16,7 @@ import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import model.Project;
+import model.Projects;
 
 /**
  * Created by sad038 on 25/5/17.
@@ -32,7 +32,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     @BindView(R.id.total)
     TextView total;
 
-    private List<Project> projects = new ArrayList<>();
+    private List<Projects> projectses = new ArrayList<>();
     private Boolean myProjects;
     private int totalSighting;
 

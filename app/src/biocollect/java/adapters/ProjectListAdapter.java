@@ -7,17 +7,13 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-
 import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
-import au.csiro.ozatlas.base.MoreButtonListener;
-import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.Sight;
-import model.Project;
+import model.Projects;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -29,17 +25,17 @@ import model.Project;
  */
 public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
 
-    private List<Project> projects;
+    private List<Projects> projectses;
     private View.OnClickListener onClickListener;
 
     /**
      * constructor
      *
-     * @param projects             projects to show
+     * @param projectses             projects to show
      * @param onClickListener    a click listener for the tap/single click listener
      */
-    public ProjectListAdapter(List<Project> projects, View.OnClickListener onClickListener) {
-        this.projects = projects;
+    public ProjectListAdapter(List<Projects> projectses, View.OnClickListener onClickListener) {
+        this.projectses = projectses;
         this.onClickListener = onClickListener;
     }
 
@@ -62,7 +58,7 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProjectViewHolders) {
             final ProjectViewHolders projectViewHolders = (ProjectViewHolders) holder;
-            Project project = projects.get(position);
+            Projects projects = projectses.get(position);
 
             /*projectViewHolders.name.setText(project.projectName);
             projectViewHolders.type.setText(project.type);
@@ -93,9 +89,9 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
     @Override
     public int getItemCount() {
         if (needFooter)
-            return projects.size() + 1; // adding footer count
+            return projectses.size() + 1; // adding footer count
         else
-            return projects.size();
+            return projectses.size();
     }
 
     /**
@@ -107,7 +103,7 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
      */
     @Override
     public int getItemViewType(int position) {
-        if (position == projects.size())
+        if (position == projectses.size())
             return FOOTER;
         else
             return NORMAL;

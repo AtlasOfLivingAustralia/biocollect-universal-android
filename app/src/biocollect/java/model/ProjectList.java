@@ -5,4 +5,9 @@ package model;
  */
 
 public class ProjectList {
+    public String total;
+
+    public Projects[] projects;
+
+    public Facets[] facets;
 }
