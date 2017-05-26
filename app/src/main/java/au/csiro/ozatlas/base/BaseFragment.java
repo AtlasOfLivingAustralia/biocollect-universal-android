@@ -1,4 +1,4 @@
-package base;
+package au.csiro.ozatlas.base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,11 +8,7 @@ import android.widget.EditText;
 
 import javax.inject.Inject;
 
-import activity.MainActivity;
 import application.CsiroApplication;
-import au.csiro.ozatlas.base.BaseActivityFragmentListener;
-import au.csiro.ozatlas.base.MainActivityFragmentListener;
-import au.csiro.ozatlas.base.RestClientListener;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -21,12 +17,11 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseFragment extends Fragment implements BaseActivityFragmentListener, MainActivityFragmentListener {
+public class BaseFragment extends Fragment implements BaseActivityFragmentListener{
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
     protected BaseActivityFragmentListener baseActivityFragmentListener;
-    protected MainActivityFragmentListener mainActivityFragmentListener;
     protected RestClientListener restClientListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     protected RestClient restClient;
@@ -50,9 +45,6 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
             restClientListener = (BaseActivity) context;
             restClient = restClientListener.getRestClient();
         }
-        if (context instanceof MainActivity) {
-            mainActivityFragmentListener = (MainActivity) context;
-        }
     }
 
     @Override
@@ -74,30 +66,6 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         return false;
     }
 
-    @Override
-    public void hideFloatingButton() {
-        if (mainActivityFragmentListener != null)
-            mainActivityFragmentListener.hideFloatingButton();
-    }
-
-    @Override
-    public void showFloatingButton() {
-        if (mainActivityFragmentListener != null)
-            mainActivityFragmentListener.showFloatingButton();
-    }
-
-    @Override
-    public void showSnackBarMessage(String string) {
-        if (getActivity() instanceof MainActivity && mainActivityFragmentListener != null) {
-            mainActivityFragmentListener.showSnackBarMessage(string);
-        }
-    }
-
-    @Override
-    public void handleError(Throwable e, int code, String message) {
-        if (mainActivityFragmentListener != null)
-            mainActivityFragmentListener.handleError(e, code, message);
-    }
 
     @Override
     public void launchLoginActivity() {

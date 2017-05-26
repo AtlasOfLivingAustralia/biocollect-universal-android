@@ -1,4 +1,4 @@
-package fragments;
+package au.csiro.ozatlas.fragments;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -12,13 +12,14 @@ import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
-import base.BaseFragment;
+import au.csiro.ozatlas.base.BaseFragment;
+import base.BaseMainActivityFragment;
 
 /**
  * Created by sad038 on 25/5/17.
  */
 
-public abstract class BaseListWithRefreshFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener{
     protected final static int MAX = 20;
 
     private MenuItem searchMenu;

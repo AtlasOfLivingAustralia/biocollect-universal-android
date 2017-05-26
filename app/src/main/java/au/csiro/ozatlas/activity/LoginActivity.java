@@ -1,4 +1,4 @@
-package activity;
+package au.csiro.ozatlas.activity;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -11,12 +11,13 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import activity.MainActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.LoginResponse;
 import au.csiro.ozatlas.rest.EcoDataApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
-import base.BaseActivity;
+import au.csiro.ozatlas.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;

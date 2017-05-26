@@ -21,6 +21,7 @@
     <string name="sight_parameter">SIGHT</string>
     <string name="fragment_type_parameter">FRAGMENT_TYPE</string>
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
+    <string name="chrome_client_need_parameter">CHROME_CLIENT</string>
 
     <string name="username_hint">Username</string>
     <string name="password_hint">Password</string>
@@ -55,6 +56,7 @@
     <string name="login_error">Invalid Login Information</string>
     <string name="nothing_to_upload">There is no draft item to upload</string>
     <string name="logout_title">Logout</string>
+    <string name="permission_denied">Those Permissions are needed. </string>
     <string name="logout_message">All your draft projects will be deleted. Would you like to logout?</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>

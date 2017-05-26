@@ -68,11 +68,10 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
-import activity.SingleFragmentActivity;
+import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
-import base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -90,6 +89,7 @@ import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
+import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -114,7 +114,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 11/4/17.
  */
 
-public class AddSightingFragment extends BaseFragment {
+public class AddSightingFragment extends BaseMainActivityFragment {
     final String TAG = "AddSightingFragment";
 
     private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;

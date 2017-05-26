@@ -1,4 +1,4 @@
-package activity;
+package au.csiro.ozatlas.activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -6,8 +6,8 @@ import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
 import fragments.AddSightingFragment;
-import fragments.WebViewFragment;
-import base.BaseActivity;
+import au.csiro.ozatlas.fragments.WebViewFragment;
+import au.csiro.ozatlas.base.BaseActivity;
 
 /**
  * Created by sad038 on 21/4/17.

@@ -1,4 +1,4 @@
-package fragments;
+package au.csiro.ozatlas.fragments;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -30,8 +30,8 @@ import java.io.File;
 import java.io.IOException;
 
 import au.csiro.ozatlas.R;
-import base.BaseFragment;
 import au.csiro.ozatlas.manager.FileUtils;
+import base.BaseMainActivityFragment;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -42,21 +42,19 @@ import static android.app.Activity.RESULT_OK;
 /**
  * This class layout has a webview.
  */
-public class WebViewFragment extends BaseFragment {
+public class WebViewFragment extends BaseMainActivityFragment {
     private WebView webView;
     private String mCM;
+    private String url;
     private ValueCallback<Uri> mUM;
     private ValueCallback<Uri[]> mUMA;
     private final static int FCR = 1;
+    private final static int PERMISSION_REQUEST = 2;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_webview, container, false);
         webView = (WebView) view.findViewById(R.id.webView);
-
-        if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
-            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-        }
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);
@@ -64,28 +62,42 @@ public class WebViewFragment extends BaseFragment {
         webSettings.setAllowFileAccess(true);
         webSettings.setGeolocationEnabled(true);
 
-        if(Build.VERSION.SDK_INT >= 21){
+        if (Build.VERSION.SDK_INT >= 21) {
             webSettings.setMixedContentMode(0);
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        }else if(Build.VERSION.SDK_INT >= 19){
+        } else if (Build.VERSION.SDK_INT >= 19) {
             webView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
-        }else if(Build.VERSION.SDK_INT < 19){
+        } else if (Build.VERSION.SDK_INT < 19) {
             webView.setLayerType(View.LAYER_TYPE_SOFTWARE, null);
         }
 
         //getting the URL
         Bundle bundle = getArguments();
         if (bundle != null) {
-            String url = bundle.getString(getString(R.string.url_parameter));
+            url = bundle.getString(getString(R.string.url_parameter));
             if (url != null) {
-                setupChromeCleint();
-                setupWebViewClient();
-
-               webView.loadUrl(url, sharedPreferences.getHeaderMap());
-               // webView.loadUrl("file:///android_asset/test.html");
+                boolean isChromeClientNeeded = bundle.getBoolean(getString(R.string.chrome_client_need_parameter));
+                if (isChromeClientNeeded) {
+                    if (checkPermissionForChromeClient()) {
+                        setupChromeCleint();
+                        setupWebViewClient();
+                        webView.loadUrl(url, sharedPreferences.getHeaderMap());
+                    }
+                } else {
+                    setupWebViewClient();
+                    webView.loadUrl(url, sharedPreferences.getHeaderMap());
+                }
             }
         }
         return view;
+    }
+
+    private boolean checkPermissionForChromeClient() {
+        if (Build.VERSION.SDK_INT >= 23 && (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED || ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)) {
+            ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE, Manifest.permission.CAMERA, Manifest.permission.ACCESS_FINE_LOCATION}, PERMISSION_REQUEST);
+            return false;
+        }
+        return true;
     }
 
     private void setupChromeCleint() {
@@ -255,6 +267,29 @@ public class WebViewFragment extends BaseFragment {
                 mUM.onReceiveValue(result);
                 mUM = null;
             }
+        }
+    }
+
+    /**
+     * Marshmellow permission
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case PERMISSION_REQUEST:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    setupChromeCleint();
+                    setupWebViewClient();
+                    webView.loadUrl(url, sharedPreferences.getHeaderMap());
+                } else {
+                    showSnackBarMessage(getString(R.string.permission_denied));
+                }
+                break;
         }
     }
 }

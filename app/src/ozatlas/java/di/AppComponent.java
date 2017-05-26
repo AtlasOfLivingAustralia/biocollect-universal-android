@@ -5,8 +5,8 @@ import javax.inject.Singleton;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
 import au.csiro.ozatlas.rest.CustomRequestInterceptor;
-import base.BaseActivity;
-import base.BaseFragment;
+import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.base.BaseFragment;
 import upload.UploadService;
 import dagger.Component;
 

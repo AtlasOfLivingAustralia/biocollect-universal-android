@@ -17,8 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.MoreButtonListener;
+import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -48,7 +50,6 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     TextView total;
 
 
-    private SightAdapter sightAdapter;
     private List<Sight> sights = new ArrayList<>();
     private String myRecords;
     private int totalSighting;
@@ -73,8 +74,8 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new SightAdapter(sights, onClickListener, this, myRecords);
-        recyclerView.setAdapter(sightAdapter);
+        adapter = new SightAdapter(sights, onClickListener, this, myRecords);
+        recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
         //refresh layout setup
@@ -151,8 +152,8 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
                             } else {
                                 sights.addAll(value.activities);
                             }
-                            sightAdapter.setNeedFooter(false);
-                            sightAdapter.notifyDataSetChanged();
+                            adapter.setNeedFooter(false);
+                            adapter.notifyDataSetChanged();
                         }
                         Log.d(TAG, "onNext");
                     }

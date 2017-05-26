@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
-import base.BaseActivity;
+import au.csiro.ozatlas.base.BaseActivity;
 import fragments.AddSightingFragment;
 import fragments.DraftSightingListFragment;
 import fragments.SightingListFragment;

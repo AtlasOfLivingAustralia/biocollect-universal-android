@@ -18,14 +18,14 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import activity.SingleFragmentActivity;
+import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
-import base.BaseFragment;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
+import base.BaseMainActivityFragment;
 import upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
@@ -45,7 +45,7 @@ import static android.app.Activity.RESULT_OK;
  * This class is to show the list of Sights saved locally
  * From Navigation Drawer -> Draft Shift
  */
-public class DraftSightingListFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
+public class DraftSightingListFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
     private final String TAG = "DraftSightingList";
     private final int REQUEST_EDIT = 1;
 
