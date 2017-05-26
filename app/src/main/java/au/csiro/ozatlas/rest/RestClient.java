@@ -1,5 +1,6 @@
 package au.csiro.ozatlas.rest;
 
+import rest.BioCollectApiService;
 import retrofit2.Retrofit;
 
 /**

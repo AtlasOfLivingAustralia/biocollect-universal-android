@@ -1,13 +1,15 @@
 package model;
 
+import java.util.List;
+
 /**
  * Created by sad038 on 25/5/17.
  */
 
 public class ProjectList {
-    public String total;
+    public Integer total;
 
-    public Projects[] projects;
+    public List<Projects> projects;
 
     public Facets[] facets;
 }

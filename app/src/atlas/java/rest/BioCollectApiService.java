@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.rest;
+package rest;
 
 import com.google.gson.JsonObject;
 

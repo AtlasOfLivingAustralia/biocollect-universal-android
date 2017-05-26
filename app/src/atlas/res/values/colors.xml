@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ea653b</color>
+    <color name="colorPrimaryDark">#d2481e</color>
+    <color name="colorAccent">#2196f3</color>
+
+    <color name="colorPrimaryLight">#f76537</color>
+    <color name="primaryFocused">#d2481e</color>
+    <color name="primaryPressed">#d2481e</color>
+    <color name="primary">#ea653b</color>
+
+    <color name="heading_background">#dddddd</color>
+    <color name="ala_dark_background">#303030</color>
+</resources>

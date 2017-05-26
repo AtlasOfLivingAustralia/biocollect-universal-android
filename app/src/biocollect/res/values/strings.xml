@@ -2,4 +2,7 @@
     <string name="app_name">BioCollect</string>
 
     <string name="user_project_parameter">USER_PROJECT</string>
+
+    <string name="project_initiator">biocollect</string>
+    <string name="project_soft_option">nameSort</string>
 </resources>

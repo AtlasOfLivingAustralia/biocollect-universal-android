@@ -24,13 +24,14 @@ android {
             versionCode 1
             versionName '1.0'
         }
-        ozatlas {
-            applicationIdSuffix '.ozatlas'
+        atlas {
+            applicationIdSuffix '.atlas'
             versionCode 1
-            versionName "1.0"
+            versionName '1.0'
+        }
+        fav_test {
         }
     }
-    sourceSets { ozatlas { java.srcDirs = ['src/ozatlas/java', 'src/ozatlas/java/'] } }
 }
 
 buildscript {

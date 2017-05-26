@@ -3,6 +3,7 @@ package fragments;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,10 @@ import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import model.ProjectList;
 import model.Projects;
 
 /**
@@ -91,14 +96,14 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
      * @param offset for the pagination
      */
     protected void fetchItems(String searchTerm, final int offset) {
-        /*if (offset == 0)
+        if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), MAX, offset, true, myProjects, searchTerm)
+        mCompositeDisposable.add(restClient.getService().getProjects(getString(R.string.project_initiator), MAX, offset, true, getString(R.string.project_soft_option), searchTerm, myProjects)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<SightList>() {
+                .subscribeWith(new DisposableObserver<ProjectList>() {
                     @Override
-                    public void onNext(SightList value) {
+                    public void onNext(ProjectList value) {
                         if (value != null && value.total != null) {
                             totalSighting = value.total;
                             if (offset == 0)
@@ -106,10 +111,10 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                             if (projects.size() == value.total) {
                                 hasNext = false;
                             } else {
-                                projects.addAll(value.activities);
+                                projects.addAll(value.projects);
                             }
-                            projectListAdapter.setNeedFooter(false);
-                            projectListAdapter.notifyDataSetChanged();
+                            adapter.setNeedFooter(false);
+                            adapter.notifyDataSetChanged();
                         }
                         Log.d(TAG, "onNext");
                     }
@@ -129,7 +134,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                         total.setText(getString(R.string.total_sighting, totalSighting));
                         Log.d(TAG, "onComplete");
                     }
-                }));*/
+                }));
     }
 }
 
