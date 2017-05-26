@@ -20,7 +20,7 @@ import au.csiro.ozatlas.base.BaseFragment;
  */
 
 public abstract class BaseListWithRefreshFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener{
-    private final static int MAX = 20;
+    protected final static int MAX = 20;
 
     private MenuItem searchMenu;
     private String searchTerm;

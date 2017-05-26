@@ -11,6 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import adapters.ProjectListAdapter;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -32,7 +33,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     @BindView(R.id.total)
     TextView total;
 
-    private List<Projects> projectses = new ArrayList<>();
+    private List<Projects> projects = new ArrayList<>();
     private Boolean myProjects;
     private int totalSighting;
 
@@ -43,7 +44,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         setHasOptionsMenu(true);
         mainActivityFragmentListener.showFloatingButton();
 
-        //for my sighting
+        //for my projects
         Bundle bundle = getArguments();
         if (bundle != null) {
             myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
@@ -53,9 +54,8 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         recyclerView.setLayoutManager(mLayoutManager);
-        //adapter = new ProjectListAdapter(projects, onClickListener, this, myProjects);
+        adapter = new ProjectListAdapter(projects, onClickListener);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
