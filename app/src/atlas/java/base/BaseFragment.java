@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.base;
+package base;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -8,8 +8,11 @@ import android.widget.EditText;
 
 import javax.inject.Inject;
 
-import au.csiro.ozatlas.OzAtlasApplication;
-import au.csiro.ozatlas.activity.MainActivity;
+import activity.MainActivity;
+import application.CsiroApplication;
+import au.csiro.ozatlas.base.BaseActivityFragmentListener;
+import au.csiro.ozatlas.base.MainActivityFragmentListener;
+import au.csiro.ozatlas.base.RestClientListener;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -31,7 +34,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        OzAtlasApplication.component().inject(this);
+        CsiroApplication.component().inject(this);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.fragments;
+package fragments;
 
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -10,10 +10,9 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
-import au.csiro.ozatlas.OzAtlasApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
-import au.csiro.ozatlas.base.BaseFragment;
+import base.BaseFragment;
 
 /**
  * Created by sad038 on 25/5/17.

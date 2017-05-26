@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.upload;
+package upload;
 
 import android.content.Context;
 import android.content.Intent;

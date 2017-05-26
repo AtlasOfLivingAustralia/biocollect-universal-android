@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.fragments;
+package fragments;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -68,11 +68,11 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.adapter.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
-import au.csiro.ozatlas.base.BaseFragment;
+import base.BaseFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;

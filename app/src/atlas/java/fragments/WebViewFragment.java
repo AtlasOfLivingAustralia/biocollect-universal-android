@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.fragments;
+package fragments;
 
 import android.Manifest;
 import android.annotation.TargetApi;
@@ -30,7 +30,7 @@ import java.io.File;
 import java.io.IOException;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseFragment;
+import base.BaseFragment;
 import au.csiro.ozatlas.manager.FileUtils;
 
 import static android.app.Activity.RESULT_OK;

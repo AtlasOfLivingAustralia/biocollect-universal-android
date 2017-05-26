@@ -6,7 +6,7 @@ import java.io.IOException;
 
 import javax.inject.Inject;
 
-import au.csiro.ozatlas.OzAtlasApplication;
+import application.CsiroApplication;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import okhttp3.Interceptor;
 import okhttp3.Request;
@@ -22,7 +22,7 @@ public class CustomRequestInterceptor implements Interceptor {
     AtlasSharedPreferenceManager sharedPreferences;
 
     public CustomRequestInterceptor() {
-        OzAtlasApplication.component().inject(this);
+        CsiroApplication.component().inject(this);
     }
 
     @Override

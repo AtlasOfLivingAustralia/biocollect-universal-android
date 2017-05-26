@@ -1,20 +1,18 @@
-package au.csiro.ozatlas.upload;
+package upload;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
-import android.view.View;
 
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Locale;
 
 import javax.inject.Inject;
 
-import au.csiro.ozatlas.OzAtlasApplication;
+import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
@@ -61,7 +59,7 @@ public class UploadService extends IntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        OzAtlasApplication.component().inject(this);
+        CsiroApplication.component().inject(this);
         if (AtlasManager.isNetworkAvailable(this)) {
             realm = Realm.getDefaultInstance();
             //create the broadcaster to notify

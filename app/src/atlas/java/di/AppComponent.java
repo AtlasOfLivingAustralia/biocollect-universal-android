@@ -1,11 +1,13 @@
-package au.csiro.ozatlas.di;
+package di;
 
 import javax.inject.Singleton;
 
-import au.csiro.ozatlas.base.BaseActivity;
-import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.di.PreferenceModule;
+import au.csiro.ozatlas.di.RestModule;
 import au.csiro.ozatlas.rest.CustomRequestInterceptor;
-import au.csiro.ozatlas.upload.UploadService;
+import base.BaseActivity;
+import base.BaseFragment;
+import upload.UploadService;
 import dagger.Component;
 
 /**

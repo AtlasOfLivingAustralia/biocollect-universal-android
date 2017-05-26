@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.upload;
+package upload;
 
 /**
  * Constants used by classes in this package

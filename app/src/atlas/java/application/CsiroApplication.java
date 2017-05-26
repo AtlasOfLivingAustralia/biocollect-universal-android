@@ -1,12 +1,13 @@
-package au.csiro.ozatlas;
+package application;
 
 import android.app.Application;
 import android.content.Context;
 
-import au.csiro.ozatlas.di.AppComponent;
-import au.csiro.ozatlas.di.DaggerAppComponent;
+import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
+import di.AppComponent;
+import di.DaggerAppComponent;
 import io.realm.Realm;
 
 /**
@@ -17,7 +18,7 @@ import io.realm.Realm;
  * Application class to initialise Realm
  * and Dagger
  */
-public class OzAtlasApplication extends Application {
+public class CsiroApplication extends Application {
     private static AppComponent component;
 
     @Override

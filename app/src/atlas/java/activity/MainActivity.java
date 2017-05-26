@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.activity;
+package activity;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -21,14 +21,14 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
-import au.csiro.ozatlas.fragments.AddSightingFragment;
-import au.csiro.ozatlas.fragments.DraftSightingListFragment;
-import au.csiro.ozatlas.fragments.SightingListFragment;
+import base.BaseActivity;
+import fragments.AddSightingFragment;
+import fragments.DraftSightingListFragment;
+import fragments.SightingListFragment;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
-import au.csiro.ozatlas.upload.Constants;
+import upload.Constants;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
