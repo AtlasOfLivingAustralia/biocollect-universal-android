@@ -7,11 +7,14 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+
 import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
+import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.Sight;
 import model.Projects;
 
@@ -58,30 +61,20 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProjectViewHolders) {
             final ProjectViewHolders projectViewHolders = (ProjectViewHolders) holder;
-            Projects projects = projectses.get(position);
+            Projects project = projectses.get(position);
 
-            /*projectViewHolders.name.setText(project.projectName);
-            projectViewHolders.type.setText(project.type);
-            projectViewHolders.user.setText(project.activityOwnerName);
-            projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(project.lastUpdated, "dd MMM, yyyy"));
+            projectViewHolders.name.setText(project.name);
+            projectViewHolders.type.setText(project.organisationName);
+            projectViewHolders.user.setText(project.projectType);
+            projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(project.startDate, "dd MMM, yyyy"));
             Glide.with(projectViewHolders.image.getContext())
-                    .load(getImageURL(project))
+                    .load(project.urlImage)
                     .placeholder(R.drawable.ala_transparent)
                     .crossFade()
-                    .into(projectViewHolders.image);*/
+                    .into(projectViewHolders.image);
         }
     }
 
-    /**
-     * @param sight
-     * @return an image url if the sight object has any
-     */
-    private String getImageURL(Sight sight) {
-        if (sight.records != null && sight.records.length > 0 && sight.records[0].multimedia != null && sight.records[0].multimedia.length > 0) {
-            return sight.records[0].multimedia[0].identifier;
-        }
-        return sight.thumbnailUrl;
-    }
 
     /**
      * @return an extra item if the needFooter (for showing the footer) is enabled
