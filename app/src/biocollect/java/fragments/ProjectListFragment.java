@@ -98,7 +98,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(restClient.getService().getProjects(getString(R.string.project_initiator), MAX, offset, true, getString(R.string.project_soft_option), searchTerm, myProjects)
+        mCompositeDisposable.add(restClient.getService().getProjects(getString(R.string.project_initiator), MAX, offset, true, null, searchTerm, myProjects)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<ProjectList>() {

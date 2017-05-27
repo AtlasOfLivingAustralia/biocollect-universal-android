@@ -1,5 +1,7 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
 import java.util.List;
 
 /**
@@ -7,9 +9,12 @@ import java.util.List;
  */
 
 public class ProjectList {
+    @Expose
     public Integer total;
 
+    @Expose
     public List<Projects> projects;
 
-    public Facets[] facets;
+    //@Expose
+    //public Facets[] facets;
 }

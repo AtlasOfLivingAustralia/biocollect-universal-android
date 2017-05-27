@@ -5,7 +5,6 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
-import fragments.AddSightingFragment;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.base.BaseActivity;
 
@@ -31,9 +30,6 @@ public class SingleFragmentActivity extends BaseActivity {
             switch (fragmentType) {
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
-                    break;
-                case EDIT_FRAGMENT:
-                    fragment = new AddSightingFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -72,6 +68,5 @@ public class SingleFragmentActivity extends BaseActivity {
      */
     public enum FragmentType {
         WEB_FRAGMENT,
-        EDIT_FRAGMENT
     }
 }

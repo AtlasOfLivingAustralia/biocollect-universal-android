@@ -23,12 +23,8 @@ import android.widget.TextView;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
-import au.csiro.ozatlas.fragments.AddSightingFragment;
-import au.csiro.ozatlas.fragments.DraftSightingListFragment;
-import au.csiro.ozatlas.fragments.SightingListFragment;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
-import au.csiro.ozatlas.upload.Constants;
 import fragments.ProjectListFragment;
 
 /**
@@ -40,7 +36,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private NavigationView navigationView;
     private FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
-    private DataChangeNotificationReceiver dataChangeNotificationReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,19 +46,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        // The filter's action is BROADCAST_ACTION
-        IntentFilter statusIntentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
-        // Instantiates a new DownloadStateReceiver
-        dataChangeNotificationReceiver = new DataChangeNotificationReceiver();
-        // Registers the DownloadStateReceiver and its intent filters
-        LocalBroadcastManager.getInstance(this).registerReceiver(dataChangeNotificationReceiver, statusIntentFilter);
-
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
+
             }
         });
 
@@ -86,10 +74,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isTesting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.nav_all_sighting).setChecked(true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         }
     }
 
@@ -133,14 +121,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     launchLoginActivity();
                 }
             });
-        } else if (id == R.id.nav_add) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
         } else if (id == R.id.nav_all_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } else if (id == R.id.nav_my_sighting) {
             Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.myview_parameter), "myrecords");
-            Fragment fragment = new SightingListFragment();
+            bundle.putBoolean(getString(R.string.user_project_parameter), true);
+            Fragment fragment = new ProjectListFragment();
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_about) {
@@ -148,20 +134,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             //startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title));
         } else if (id == R.id.nav_contact) {
             startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title));
-        } else if (id == R.id.nav_draft_sighting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (dataChangeNotificationReceiver != null)
-            LocalBroadcastManager.getInstance(this).unregisterReceiver(dataChangeNotificationReceiver);
     }
 
     /**
@@ -202,23 +179,5 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void handleError(Throwable e, int code, String message) {
         handleError(coordinatorLayout, e, code, message);
-    }
-
-    /**
-     * Boradcast Receiver for letting the fragments to know that
-     * the realm data has been changed.
-     */
-    private class DataChangeNotificationReceiver extends BroadcastReceiver {
-        //prevent instantiation
-        private DataChangeNotificationReceiver() {
-        }
-
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.fragmentHolder);
-            if (fragment != null && fragment instanceof DraftSightingListFragment) {
-                ((DraftSightingListFragment) fragment).readDraftSights();
-            }
-        }
     }
 }

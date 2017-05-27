@@ -18,7 +18,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.DraftSightAdapter;
 import au.csiro.ozatlas.base.MoreButtonListener;

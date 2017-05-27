@@ -3,11 +3,10 @@ package di;
 import javax.inject.Singleton;
 
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
-import base.BaseFragment;
 import au.csiro.ozatlas.rest.CustomRequestInterceptor;
-import au.csiro.ozatlas.upload.UploadService;
 import dagger.Component;
 
 /**
@@ -23,5 +22,4 @@ public interface AppComponent {
 
     void inject(CustomRequestInterceptor customRequestInterceptor);
 
-    void inject(UploadService uploadService);
 }
