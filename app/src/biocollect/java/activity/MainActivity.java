@@ -1,16 +1,11 @@
 package activity;
 
-import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -121,14 +116,22 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     launchLoginActivity();
                 }
             });
-        } else if (id == R.id.nav_all_sighting) {
+        } else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
-        } else if (id == R.id.nav_my_sighting) {
+        } else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(getString(R.string.user_project_parameter), true);
             Fragment fragment = new ProjectListFragment();
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
+        } else if (id == R.id.nav_all_sighting) {
+            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
+        } else if (id == R.id.nav_my_sighting) {
+            /*Bundle bundle = new Bundle();
+            bundle.putBoolean(getString(R.string.user_project_parameter), true);
+            Fragment fragment = new ProjectListFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();*/
         } else if (id == R.id.nav_about) {
             startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title));
             //startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title));

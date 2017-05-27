@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_all_projects"
+            android:icon="@drawable/ic_work_black_24px"
+            android:title="All Projects" />
+
+        <item
+            android:id="@+id/nav_all_sighting"
+            android:icon="@drawable/ic_folder_black_24px"
+            android:title="All Records" />
+
+        <item
+            android:id="@+id/nav_my_projects"
+            android:icon="@drawable/ic_work_black_24px"
+            android:title="My Projects" />
+
+        <item
+            android:id="@+id/nav_my_sighting"
+            android:icon="@drawable/ic_folder_black_24px"
+            android:title="My Records" />
+
+    </group>
+
+
+    <item android:title="Account">
+        <menu>
+            <item
+                android:id="@+id/nav_logout"
+                android:icon="@drawable/ic_menu_logout"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+    <item android:title="Atlas">
+        <menu>
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info_black_24px"
+                android:title="About" />
+
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_email_white_24px"
+                android:title="Contact Us" />
+        </menu>
+    </item>
+</menu>
