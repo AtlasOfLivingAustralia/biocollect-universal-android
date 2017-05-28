@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.adapter;
+package adapters;
 
 import android.app.DatePickerDialog;
 import android.content.Context;

@@ -16,10 +16,10 @@ import java.net.UnknownHostException;
 
 import javax.inject.Inject;
 
+import activity.SingleFragmentActivity;
 import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
-import au.csiro.ozatlas.activity.SingleFragmentActivity;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;

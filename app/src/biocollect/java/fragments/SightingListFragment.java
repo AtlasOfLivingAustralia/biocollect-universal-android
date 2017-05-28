@@ -52,6 +52,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     private List<Sight> sights = new ArrayList<>();
     private String myRecords;
     private int totalSighting;
+    private String projectId;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,6 +65,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         Bundle bundle = getArguments();
         if (bundle != null) {
             myRecords = bundle.getString(getString(R.string.myview_parameter));
+            projectId = bundle.getString(getString(R.string.project_id_parameter));
         }
 
         //recyclerView setup
@@ -136,7 +138,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), MAX, offset, true, myRecords, searchTerm)
+        mCompositeDisposable.add(restClient.getService().getSightings(projectId, MAX, offset, true, myRecords, searchTerm)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<SightList>() {

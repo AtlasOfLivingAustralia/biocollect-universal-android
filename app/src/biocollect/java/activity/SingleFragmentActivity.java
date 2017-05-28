@@ -1,13 +1,13 @@
-package au.csiro.ozatlas.activity;
+package activity;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.base.BaseActivity;
-import fragments.AddSightingFragment;
+import au.csiro.ozatlas.fragments.WebViewFragment;
+import fragments.SightingListFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -32,8 +32,8 @@ public class SingleFragmentActivity extends BaseActivity {
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
                     break;
-                case EDIT_FRAGMENT:
-                    fragment = new AddSightingFragment();
+                case RECORD_LIST:
+                    fragment = new SightingListFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -72,6 +72,6 @@ public class SingleFragmentActivity extends BaseActivity {
      */
     public enum FragmentType {
         WEB_FRAGMENT,
-        EDIT_FRAGMENT
+        RECORD_LIST
     }
 }

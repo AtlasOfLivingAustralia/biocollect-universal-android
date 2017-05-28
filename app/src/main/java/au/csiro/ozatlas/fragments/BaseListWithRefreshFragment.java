@@ -11,8 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
-import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import base.BaseMainActivityFragment;
 
 /**

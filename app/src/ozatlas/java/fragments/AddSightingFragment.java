@@ -68,9 +68,9 @@ import java.util.Set;
 import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.activity.SingleFragmentActivity;
-import au.csiro.ozatlas.adapter.ImageUploadAdapter;
+import adapters.ImageUploadAdapter;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;

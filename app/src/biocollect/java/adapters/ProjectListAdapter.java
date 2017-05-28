@@ -12,8 +12,8 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.adapter.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
+import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.Sight;
 import model.Projects;

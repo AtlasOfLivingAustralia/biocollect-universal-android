@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.Sight;
@@ -123,21 +124,6 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
         else
             return NORMAL;
 
-    }
-}
-
-class SightViewHolders extends RecyclerView.ViewHolder {
-    TextView name, user, time, type;
-    ImageView image, moreButton;
-
-    SightViewHolders(View itemView) {
-        super(itemView);
-        name = (TextView) itemView.findViewById(R.id.name);
-        user = (TextView) itemView.findViewById(R.id.user);
-        time = (TextView) itemView.findViewById(R.id.time);
-        type = (TextView) itemView.findViewById(R.id.type);
-        image = (ImageView) itemView.findViewById(R.id.image);
-        moreButton = (ImageView) itemView.findViewById(R.id.more_button);
     }
 }
 

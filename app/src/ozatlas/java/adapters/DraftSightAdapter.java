@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.adapter;
+package adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,6 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.adapter.SightViewHolders;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.AddSight;

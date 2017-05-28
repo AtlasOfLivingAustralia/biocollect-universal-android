@@ -1,4 +1,4 @@
-package au.csiro.ozatlas.adapter;
+package au.csiro.ozatlas.base;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
