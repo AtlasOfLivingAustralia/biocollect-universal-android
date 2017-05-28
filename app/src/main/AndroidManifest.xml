@@ -54,6 +54,10 @@
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_main" />
 
+        <activity
+            android:name=".activity.SingleFragmentActivity"
+            android:label="@string/title_activity_main" />
+
         <service
             android:name="upload.UploadService"
             android:exported="false" />

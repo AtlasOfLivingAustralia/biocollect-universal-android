@@ -7,6 +7,7 @@ import android.view.MenuItem;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.base.BaseActivity;
+import fragments.AddSightingFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -30,6 +31,9 @@ public class SingleFragmentActivity extends BaseActivity {
             switch (fragmentType) {
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
+                    break;
+                case EDIT_FRAGMENT:
+                    fragment = new AddSightingFragment();
                     break;
             }
             fragment.setArguments(bundle);
