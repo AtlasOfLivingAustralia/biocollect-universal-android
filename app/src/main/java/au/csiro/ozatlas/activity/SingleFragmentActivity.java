@@ -68,5 +68,6 @@ public class SingleFragmentActivity extends BaseActivity {
      */
     public enum FragmentType {
         WEB_FRAGMENT,
+        EDIT_FRAGMENT
     }
 }
