@@ -1,5 +1,6 @@
 package fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import activity.SingleFragmentActivity;
 import adapters.ProjectListAdapter;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
@@ -84,10 +86,14 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-            //startWebViewActivity(getString(R.string.sighting_detail_url, projects.get(position).activityId), getString(R.string.sight_detail));
+            Bundle bundle=new Bundle();
+            bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
+            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
     };
-
 
 
     /**
