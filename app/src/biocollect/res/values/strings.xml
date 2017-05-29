@@ -5,4 +5,14 @@
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>
+
+    <string name="title_activity_main">BioCollect</string>
+
+    <string name="about_title">About BioCollect</string>
+    <string name="contact_us_title">Contact BioCollect</string>
+
+    <string name="project_id_parameter">PROJECT_ID</string>
+
+    <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
+
 </resources>

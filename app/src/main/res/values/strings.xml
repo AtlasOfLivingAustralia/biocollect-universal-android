@@ -8,20 +8,16 @@
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
-    <string name="title_activity_main">OzAtlas</string>
     <string name="title">Title</string>
     <string name="search_title">Search</string>
     <string name="sight_detail">Sight Detail</string>
-    <string name="about_title">About OzAtlas</string>
-    <string name="contact_us_title">Contact OzAtlas</string>
+
 
     <string name="url_parameter">URL</string>
     <string name="title_parameter">TITLE</string>
     <string name="myview_parameter">MY_SIGHTING</string>
-    <string name="project_id_parameter">PROJECT_ID</string>
     <string name="sight_parameter">SIGHT</string>
     <string name="fragment_type_parameter">FRAGMENT_TYPE</string>
-    <string name="primary_keys_parameter">PRIMARY_KEYS</string>
     <string name="chrome_client_need_parameter">CHROME_CLIENT</string>
 
     <string name="username_hint">Username</string>
@@ -68,10 +64,4 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
-    <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
-    
-    <string name="project_activity_id">d57961a1-517d-42f2-8446-c373c0c59579</string>
-    <string name="project_id">b3d8e243-1137-4d26-9e15-c5a6f90815eb</string>
-    <string name="project_type">OzAtlas Sightings</string>
-    <string name="project_output_name">Single Sighting - Advanced</string>
 </resources>
