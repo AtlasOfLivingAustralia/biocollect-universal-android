@@ -2,15 +2,17 @@ package au.csiro.ozatlas.fragments;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.support.v4.app.ActivityCompat;
+import android.provider.Settings;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -30,6 +32,7 @@ import java.io.File;
 import java.io.IOException;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import base.BaseMainActivityFragment;
 
@@ -50,6 +53,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
     private ValueCallback<Uri[]> mUMA;
     private final static int FCR = 1;
     private final static int PERMISSION_REQUEST = 2;
+    private LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,9 +83,9 @@ public class WebViewFragment extends BaseMainActivityFragment {
                 boolean isChromeClientNeeded = bundle.getBoolean(getString(R.string.chrome_client_need_parameter), false);
                 if (isChromeClientNeeded) {
                     if (checkPermissionForChromeClient()) {
-                        setupChromeCleint();
                         setupWebViewClient();
-                        webView.loadUrl(url, sharedPreferences.getHeaderMap());
+                        if (setupChromeCleint())
+                            webView.loadUrl(url, sharedPreferences.getHeaderMap());
                     }
                 } else {
                     setupWebViewClient();
@@ -100,83 +104,115 @@ public class WebViewFragment extends BaseMainActivityFragment {
         return true;
     }
 
-    private void setupChromeCleint() {
-        webView.setWebChromeClient(new WebChromeClient() {
-            public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
-                callback.invoke(origin, true, false);
-            }
-
-            //For Android 3.0+
-            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                mUM = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
-            }
-
-            // For Android 3.0+, above method not supported in some android 3+ versions, in such case we use this
-            public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
-                mUM = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                startActivityForResult(
-                        Intent.createChooser(i, "File Browser"),
-                        FCR);
-            }
-
-            //For Android 4.1+
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
-                mUM = uploadMsg;
-                Intent i = new Intent(Intent.ACTION_GET_CONTENT);
-                i.addCategory(Intent.CATEGORY_OPENABLE);
-                i.setType("*/*");
-                startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
-            }
-
-            //For Android 5.0+
-            public boolean onShowFileChooser(
-                    WebView webView, ValueCallback<Uri[]> filePathCallback,
-                    WebChromeClient.FileChooserParams fileChooserParams) {
-                if (mUMA != null) {
-                    mUMA.onReceiveValue(null);
-                }
-                mUMA = filePathCallback;
-                Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
-                    File photoFile = null;
-                    try {
-                        photoFile = FileUtils.createImageFile(getActivity());
-                        takePictureIntent.putExtra("PhotoPath", mCM);
-                    } catch (IOException ex) {
-                        Log.e("Error", "Image file creation failed", ex);
-                    }
-                    if (photoFile != null) {
-                        mCM = "file:" + photoFile.getAbsolutePath();
-                        takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
-                    } else {
-                        takePictureIntent = null;
-                    }
-                }
-                Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
-                contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                contentSelectionIntent.setType("*/*");
-                Intent[] intentArray;
-                if (takePictureIntent != null) {
-                    intentArray = new Intent[]{takePictureIntent};
-                } else {
-                    intentArray = new Intent[0];
-                }
-
-                Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
-                chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
-                chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
-                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
-                startActivityForResult(chooserIntent, FCR);
+    /**
+     * look for hardware GPS location
+     */
+    private boolean lookForGPSLocation() {
+        if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER))
                 return true;
-            }
-        });
+            else
+                AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                        dialog.cancel();
+                        getActivity().onBackPressed();
+                    }
+                }, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        getActivity().onBackPressed();
+                    }
+                });
+        }
+        return false;
+    }
+
+    private boolean setupChromeCleint() {
+        // Acquire a reference to the system Location Manager
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        if (lookForGPSLocation()) {
+            webView.setWebChromeClient(new WebChromeClient() {
+                public void onGeolocationPermissionsShowPrompt(String origin, GeolocationPermissions.Callback callback) {
+                    callback.invoke(origin, true, false);
+                }
+
+                //For Android 3.0+
+                public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+                    mUM = uploadMsg;
+                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    i.addCategory(Intent.CATEGORY_OPENABLE);
+                    i.setType("*/*");
+                    startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
+                }
+
+                // For Android 3.0+, above method not supported in some android 3+ versions, in such case we use this
+                public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
+                    mUM = uploadMsg;
+                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    i.addCategory(Intent.CATEGORY_OPENABLE);
+                    i.setType("*/*");
+                    startActivityForResult(
+                            Intent.createChooser(i, "File Browser"),
+                            FCR);
+                }
+
+                //For Android 4.1+
+                public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+                    mUM = uploadMsg;
+                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    i.addCategory(Intent.CATEGORY_OPENABLE);
+                    i.setType("*/*");
+                    startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
+                }
+
+                //For Android 5.0+
+                public boolean onShowFileChooser(
+                        WebView webView, ValueCallback<Uri[]> filePathCallback,
+                        WebChromeClient.FileChooserParams fileChooserParams) {
+                    if (mUMA != null) {
+                        mUMA.onReceiveValue(null);
+                    }
+                    mUMA = filePathCallback;
+                    Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                        File photoFile = null;
+                        try {
+                            photoFile = FileUtils.createImageFile(getActivity());
+                            takePictureIntent.putExtra("PhotoPath", mCM);
+                        } catch (IOException ex) {
+                            Log.e("Error", "Image file creation failed", ex);
+                        }
+                        if (photoFile != null) {
+                            mCM = "file:" + photoFile.getAbsolutePath();
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                        } else {
+                            takePictureIntent = null;
+                        }
+                    }
+                    Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+                    contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
+                    contentSelectionIntent.setType("*/*");
+                    Intent[] intentArray;
+                    if (takePictureIntent != null) {
+                        intentArray = new Intent[]{takePictureIntent};
+                    } else {
+                        intentArray = new Intent[0];
+                    }
+
+                    Intent chooserIntent = new Intent(Intent.ACTION_CHOOSER);
+                    chooserIntent.putExtra(Intent.EXTRA_INTENT, contentSelectionIntent);
+                    chooserIntent.putExtra(Intent.EXTRA_TITLE, "Image Chooser");
+                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray);
+                    startActivityForResult(chooserIntent, FCR);
+                    return true;
+                }
+            });
+        } else {
+            return false;
+        }
+        return true;
     }
 
     private void setupWebViewClient() {
@@ -283,9 +319,9 @@ public class WebViewFragment extends BaseMainActivityFragment {
             case PERMISSION_REQUEST:
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    setupChromeCleint();
                     setupWebViewClient();
-                    webView.loadUrl(url, sharedPreferences.getHeaderMap());
+                    if (setupChromeCleint())
+                        webView.loadUrl(url, sharedPreferences.getHeaderMap());
                 } else {
                     showSnackBarMessage(getString(R.string.permission_denied));
                 }
