@@ -76,7 +76,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
         if (bundle != null) {
             url = bundle.getString(getString(R.string.url_parameter));
             if (url != null) {
-                boolean isChromeClientNeeded = bundle.getBoolean(getString(R.string.chrome_client_need_parameter));
+                boolean isChromeClientNeeded = bundle.getBoolean(getString(R.string.chrome_client_need_parameter), false);
                 if (isChromeClientNeeded) {
                     if (checkPermissionForChromeClient()) {
                         setupChromeCleint();

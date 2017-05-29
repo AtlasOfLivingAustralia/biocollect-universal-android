@@ -125,7 +125,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail));
+            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail), false);
         }
     };
 

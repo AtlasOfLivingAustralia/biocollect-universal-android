@@ -74,9 +74,9 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     }
 
     @Override
-    public void startWebViewActivity(String url, String title) {
+    public void startWebViewActivity(String url, String title, boolean chromeClientNeed) {
         if (baseActivityFragmentListener != null)
-            baseActivityFragmentListener.startWebViewActivity(url, title);
+            baseActivityFragmentListener.startWebViewActivity(url, title, chromeClientNeed);
     }
 
     @Override

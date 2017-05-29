@@ -20,7 +20,7 @@ public interface BaseActivityFragmentListener {
 
     void launchLoginActivity();
 
-    void startWebViewActivity(String url, String title);
+    void startWebViewActivity(String url, String title, boolean chromeClientNeed);
 
     void showToast(String str);
 

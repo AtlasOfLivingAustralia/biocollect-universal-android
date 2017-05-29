@@ -147,10 +147,11 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      * @param title activity title
      */
     @Override
-    public void startWebViewActivity(String url, String title) {
+    public void startWebViewActivity(String url, String title, boolean chromeClientNeed) {
         Bundle bundle = new Bundle();
         bundle.putString(getString(R.string.url_parameter), url);
         bundle.putString(getString(R.string.title_parameter), title);
+        bundle.putBoolean(getString(R.string.chrome_client_need_parameter), chromeClientNeed);
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
         Intent intent = new Intent(this, SingleFragmentActivity.class);
         intent.putExtras(bundle);

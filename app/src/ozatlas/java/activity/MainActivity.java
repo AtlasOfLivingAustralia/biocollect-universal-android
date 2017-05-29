@@ -144,10 +144,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_about) {
-            startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title));
+            startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title), false);
             //startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title));
         } else if (id == R.id.nav_contact) {
-            startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title));
+            startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
         } else if (id == R.id.nav_draft_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         }
