@@ -20,11 +20,11 @@ import io.reactivex.disposables.CompositeDisposable;
 public class BaseFragment extends Fragment implements BaseActivityFragmentListener{
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
+    @Inject
+    protected RestClient restClient;
 
     protected BaseActivityFragmentListener baseActivityFragmentListener;
-    protected RestClientListener restClientListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    protected RestClient restClient;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -42,8 +42,6 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         super.onAttach(context);
         if (context instanceof BaseActivity) {
             baseActivityFragmentListener = (BaseActivity) context;
-            restClientListener = (BaseActivity) context;
-            restClient = restClientListener.getRestClient();
         }
     }
 

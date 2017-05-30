@@ -32,7 +32,7 @@ import io.realm.Realm;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, RestClientListener, FragmentManager.OnBackStackChangedListener {
+public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, FragmentManager.OnBackStackChangedListener {
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
@@ -209,17 +209,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
             mCompositeDisposable.dispose();
         if (realm != null)
             realm.close();
-    }
-
-    /**
-     * restClient
-     * mainly for the fragments
-     *
-     * @return
-     */
-    @Override
-    public RestClient getRestClient() {
-        return restClient;
     }
 
     /**

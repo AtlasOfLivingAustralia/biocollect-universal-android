@@ -1,5 +1,6 @@
 package activity;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.MenuItem;
@@ -65,6 +66,11 @@ public class SingleFragmentActivity extends BaseActivity {
         } else {
             setTitle(str);
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig){
+        super.onConfigurationChanged(newConfig);
     }
 
     /**

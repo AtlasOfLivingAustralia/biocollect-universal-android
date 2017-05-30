@@ -56,7 +56,8 @@
 
         <activity
             android:name="activity.SingleFragmentActivity"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main"
+            android:configChanges="orientation|screenSize"/>
 
         <service
             android:name="upload.UploadService"
