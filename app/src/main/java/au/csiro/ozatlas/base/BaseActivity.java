@@ -130,6 +130,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     public void launchLoginActivity() {
         sharedPreferences.writeAuthKey("");
+        sharedPreferences.writeUserId("");
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {

@@ -50,7 +50,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
 
     private List<Sight> sights = new ArrayList<>();
-    private String myRecords;
+    private String viewQuery;
     private int totalSighting;
     private String projectId;
 
@@ -64,7 +64,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         //for my sighting
         Bundle bundle = getArguments();
         if (bundle != null) {
-            myRecords = bundle.getString(getString(R.string.myview_parameter));
+            this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
             projectId = bundle.getString(getString(R.string.project_id_parameter));
         }
 
@@ -75,7 +75,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        adapter = new SightAdapter(sights, onClickListener, this, myRecords);
+        adapter = new SightAdapter(sights, onClickListener, this, this.viewQuery);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
@@ -92,6 +92,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
     /**
      * show popup menu from the more button of recyclerview items
+     *
      * @param view
      * @param position
      */
@@ -132,13 +133,14 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
     /**
      * get the sighting GET sight
+     *
      * @param searchTerm search string from search bar
-     * @param offset for the pagination
+     * @param offset     for the pagination
      */
     protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(restClient.getService().getSightings(projectId, MAX, offset, true, myRecords, searchTerm)
+        mCompositeDisposable.add(restClient.getService().getSightings(projectId, MAX, offset, true, viewQuery == null ? "project" : viewQuery, searchTerm, sharedPreferences.getUserId())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<SightList>() {

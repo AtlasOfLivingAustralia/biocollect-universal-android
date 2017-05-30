@@ -49,7 +49,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        mainActivityFragmentListener.showFloatingButton();
+        hideFloatingButton();
 
         //for my projects
         Bundle bundle = getArguments();

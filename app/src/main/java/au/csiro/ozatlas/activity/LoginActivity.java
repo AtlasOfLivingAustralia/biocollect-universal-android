@@ -95,6 +95,7 @@ public class LoginActivity extends BaseActivity {
                         sharedPreferences.writeAuthKey(value.authKey);
                         sharedPreferences.writeUserDisplayName((value.firstName + " " + value.lastName).trim());
                         sharedPreferences.writeUsername(username);
+                        sharedPreferences.writeUserId(value.userId);
                         Log.d(TAG, "onNext");
                     }
 

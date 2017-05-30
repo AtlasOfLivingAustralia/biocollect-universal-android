@@ -15,4 +15,6 @@
 
     <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
 
+    <string name="logout_message">Would you like to logout?</string>
+
 </resources>

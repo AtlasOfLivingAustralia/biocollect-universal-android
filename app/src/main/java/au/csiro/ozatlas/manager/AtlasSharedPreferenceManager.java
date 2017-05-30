@@ -39,6 +39,22 @@ public class AtlasSharedPreferenceManager {
     }
 
     /**
+     * write userId
+     * @param userId
+     */
+    public void writeUserId(String userId) {
+        sharedPreferences.edit().putString("USER_ID", userId).apply();
+    }
+
+    /**
+     * get the userId
+     * @return
+     */
+    public String getUserId() {
+        return sharedPreferences.getString("USER_ID", "");
+    }
+
+    /**
      * write user's display name
      * @param name
      */

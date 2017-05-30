@@ -17,6 +17,7 @@
 
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
 
+    <string name="logout_message">All your draft projects will be deleted. Would you like to logout?</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>
     <string name="species_name">Species: %1$s</string>
