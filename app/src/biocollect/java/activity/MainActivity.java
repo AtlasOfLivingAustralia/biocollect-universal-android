@@ -21,6 +21,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.ProjectListFragment;
+import fragments.SightingListFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -71,7 +72,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (AtlasManager.isTesting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } else {
-            navigationView.getMenu().findItem(R.id.nav_all_sighting).setChecked(true);
+            navigationView.getMenu().findItem(R.id.nav_all_projects).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         }
     }
@@ -125,13 +126,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_all_sighting) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         } else if (id == R.id.nav_my_sighting) {
-            /*Bundle bundle = new Bundle();
-            bundle.putBoolean(getString(R.string.user_project_parameter), true);
-            Fragment fragment = new ProjectListFragment();
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.myview_parameter), "myrecords");
+            Fragment fragment = new SightingListFragment();
             fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();*/
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_about) {
             //startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title), false);
             startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title), true);

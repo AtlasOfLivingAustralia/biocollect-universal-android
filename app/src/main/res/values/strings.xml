@@ -15,7 +15,7 @@
 
     <string name="url_parameter">URL</string>
     <string name="title_parameter">TITLE</string>
-    <string name="myview_parameter">MY_SIGHTING</string>
+    <string name="myview_parameter">MY_VIEW</string>
     <string name="sight_parameter">SIGHT</string>
     <string name="fragment_type_parameter">FRAGMENT_TYPE</string>
     <string name="chrome_client_need_parameter">CHROME_CLIENT</string>
