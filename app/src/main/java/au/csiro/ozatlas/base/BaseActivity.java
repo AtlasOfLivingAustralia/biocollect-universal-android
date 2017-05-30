@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.widget.EditText;
@@ -20,6 +22,7 @@ import activity.SingleFragmentActivity;
 import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
+import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -29,7 +32,7 @@ import io.realm.Realm;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, RestClientListener {
+public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, RestClientListener, FragmentManager.OnBackStackChangedListener {
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
 
@@ -153,10 +156,18 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         bundle.putString(getString(R.string.url_parameter), url);
         bundle.putString(getString(R.string.title_parameter), title);
         bundle.putBoolean(getString(R.string.chrome_client_need_parameter), chromeClientNeed);
-        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
-        Intent intent = new Intent(this, SingleFragmentActivity.class);
-        intent.putExtras(bundle);
-        startActivity(intent);
+
+        //if this is an instance of SingleFragmentActivity then use it rather than making another intent
+        if (this instanceof SingleFragmentActivity) {
+            Fragment fragment = new WebViewFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
+        } else {
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
+            Intent intent = new Intent(this, SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -196,7 +207,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         super.onDestroy();
         if (mCompositeDisposable != null)
             mCompositeDisposable.dispose();
-        if(realm!=null)
+        if (realm != null)
             realm.close();
     }
 
@@ -209,5 +220,33 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     public RestClient getRestClient() {
         return restClient;
+    }
+
+    /**
+     * when the stack of fragments changes
+     */
+    @Override
+    public void onBackStackChanged() {
+        shouldDisplayHomeUp();
+    }
+
+    /**
+     * Enable Up button only  if there are
+     * entries in the back stack
+     */
+    public void shouldDisplayHomeUp() {
+        boolean canback = getSupportFragmentManager().getBackStackEntryCount() > 0;
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(canback);
+    }
+
+    /**
+     * This method is called when the up button is pressed. Just the pop back stack.
+     * @return
+     */
+    @Override
+    public boolean onSupportNavigateUp() {
+        getSupportFragmentManager().popBackStack();
+        return true;
     }
 }
