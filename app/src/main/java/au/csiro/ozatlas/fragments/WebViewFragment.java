@@ -141,18 +141,20 @@ public class WebViewFragment extends BaseMainActivityFragment {
                 //For Android 3.0+
                 public void openFileChooser(ValueCallback<Uri> uploadMsg) {
                     mUM = uploadMsg;
-                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    /*Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType("*/*");
+                    i.setType("image*//*");*/
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
                 }
 
                 // For Android 3.0+, above method not supported in some android 3+ versions, in such case we use this
                 public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
                     mUM = uploadMsg;
-                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    /*Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType("*/*");
+                    i.setType("image*//*");*/
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(
                             Intent.createChooser(i, "File Browser"),
                             FCR);
@@ -161,9 +163,10 @@ public class WebViewFragment extends BaseMainActivityFragment {
                 //For Android 4.1+
                 public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                     mUM = uploadMsg;
-                    Intent i = new Intent(Intent.ACTION_GET_CONTENT);
+                    /*Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                     i.addCategory(Intent.CATEGORY_OPENABLE);
-                    i.setType("*/*");
+                    i.setType("image*//*");*/
+                    Intent i = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                     startActivityForResult(Intent.createChooser(i, "File Chooser"), FCR);
                 }
 
@@ -191,9 +194,11 @@ public class WebViewFragment extends BaseMainActivityFragment {
                             takePictureIntent = null;
                         }
                     }
-                    Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
+
+                    Intent contentSelectionIntent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                    /*Intent contentSelectionIntent = new Intent(Intent.ACTION_GET_CONTENT);
                     contentSelectionIntent.addCategory(Intent.CATEGORY_OPENABLE);
-                    contentSelectionIntent.setType("*/*");
+                    contentSelectionIntent.setType("image*//*");*/
                     Intent[] intentArray;
                     if (takePictureIntent != null) {
                         intentArray = new Intent[]{takePictureIntent};
