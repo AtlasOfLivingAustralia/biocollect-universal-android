@@ -77,8 +77,6 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     }
 
 
-
-
     /**
      * onClick listener for the recyclerview item
      */
@@ -86,20 +84,25 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-            Bundle bundle=new Bundle();
-            bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
-            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
-            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            if (!projects.get(position).isExternal) {
+                Bundle bundle = new Bundle();
+                bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else {
+                startWebViewActivity(projects.get(position).urlWeb, projects.get(position).name, false);
+            }
         }
     };
 
 
     /**
      * get the sighting GET sight
+     *
      * @param searchTerm search string from search bar
-     * @param offset for the pagination
+     * @param offset     for the pagination
      */
     protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)
