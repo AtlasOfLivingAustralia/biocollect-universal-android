@@ -55,6 +55,7 @@ public class UploadService extends IntentService {
 
     /**
      * when the service starts
+     *
      * @param intent
      */
     @Override
@@ -121,7 +122,10 @@ public class UploadService extends IntentService {
      */
     private boolean getValidated(AddSight addSight) {
         boolean value = true;
-        if (addSight.outputs.get(0).data.locationLatitude == null || addSight.outputs.get(0).data.locationLongitude==null) {
+        if (addSight.outputs.get(0).data.species.name == null || addSight.outputs.get(0).data.species.name.length() < 1) {
+            value = false;
+        }
+        if (addSight.outputs.get(0).data.locationLatitude == null || addSight.outputs.get(0).data.locationLongitude == null) {
             value = false;
         }
         return value;
@@ -129,6 +133,7 @@ public class UploadService extends IntentService {
 
     /**
      * upload photos first
+     *
      * @param addSight
      */
     private void uploadPhotos(final AddSight addSight) {
@@ -166,6 +171,7 @@ public class UploadService extends IntentService {
 
     /**
      * the the guid
+     *
      * @param addSight
      */
     private void getGUID(final AddSight addSight) {
@@ -196,6 +202,7 @@ public class UploadService extends IntentService {
 
     /**
      * finally upload the sight
+     *
      * @param addSight
      */
     private void saveData(final AddSight addSight) {
@@ -228,6 +235,7 @@ public class UploadService extends IntentService {
 
     /**
      * if something goes wrong then making the sight available to upload again.
+     *
      * @param addSight
      */
     private void makeUploadingFalse(final AddSight addSight) {

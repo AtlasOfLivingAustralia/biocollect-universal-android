@@ -69,8 +69,8 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import activity.SingleFragmentActivity;
-import au.csiro.ozatlas.R;
 import adapters.ImageUploadAdapter;
+import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -281,10 +281,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      */
     private boolean getValidated() {
         boolean value = true;
-        /*if (selectedSpecies == null) {
+        if (editSpeciesName.getText().toString().length() < 1) {
             inputLayoutSpeciesName.setError("Please choose a species");
             value = false;
-        }*/
+        }
         if (latitude == null || longitude == null) {
             value = false;
             showSnackBarMessage("Please Add a location");
