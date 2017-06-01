@@ -107,6 +107,7 @@ import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Response;
+import util.AtlasTokenizer;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -234,7 +235,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         tagList = createTagLists(value);
                         tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, tagList);
                         editTags.setAdapter(tagsSpinnerAdapter);
-                        editTags.setTokenizer(new MultiAutoCompleteTextView.CommaTokenizer());
+                        editTags.setTokenizer(new AtlasTokenizer(';'));
                     }
 
                     @Override
@@ -539,7 +540,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         outputs.data.identificationConfidence = confidenceSwitch.isChecked() ? "Certain" : "Uncertain";
         outputs.data.sightingPhoto = imageUploadAdapter.getSightingPhotos();
         outputs.data.tags = new RealmList<>();
-        String tags[] = editTags.getText().toString().split(",");
+        String tags[] = editTags.getText().toString().split(";");
         for (String string : tags) {
             if (validateTags(string.trim()))
                 outputs.data.tags.add(new Tag(string.trim()));
