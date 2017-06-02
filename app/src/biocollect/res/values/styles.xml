@@ -9,7 +9,7 @@
     </style>
 
     <!--login theme-->
-    <style name="LoginTheme" parent="Theme.AppCompat">
+    <style name="LoginTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
