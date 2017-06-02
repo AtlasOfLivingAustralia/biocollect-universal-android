@@ -13,11 +13,11 @@ import android.widget.TextView;
 
 import activity.MainActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.LoginResponse;
 import au.csiro.ozatlas.rest.EcoDataApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
-import au.csiro.ozatlas.base.BaseActivity;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -123,16 +123,26 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.loginButton)
     void loginButton() {
         AtlasManager.hideKeyboard(this);
+        if (getValidated())
+            postLogin(editUsername.getText().toString(), editPassword.getText().toString());
+    }
+
+    private boolean getValidated() {
+        boolean value = true;
         if (!validate(editUsername)) {
             inputLayoutUsername.setError(getString(R.string.username_missing_error));
-            return;
+            value = false;
+        } else {
+            inputLayoutUsername.setError("");
         }
 
         if (!validate(editPassword)) {
             inputLayoutPassword.setError(getString(R.string.password_missing_error));
-            return;
+            value = false;
+        } else {
+            inputLayoutUsername.setError("");
         }
-        postLogin(editUsername.getText().toString(), editPassword.getText().toString());
+        return value;
     }
 
     /**

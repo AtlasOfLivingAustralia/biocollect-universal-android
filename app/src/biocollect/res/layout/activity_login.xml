@@ -46,7 +46,8 @@
                     android:hint="@string/username_hint"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:maxWidth="@dimen/edit_text_maximum_width"
+                    android:textSize="22sp"
+                    android:maxWidth="@dimen/edit_text_minimum_width"
                     android:minWidth="@dimen/edit_text_minimum_width" />
             </android.support.design.widget.TextInputLayout>
 
@@ -60,10 +61,11 @@
                     android:id="@+id/editPassword"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textSize="22sp"
                     android:hint="@string/password_hint"
                     android:inputType="textPassword"
                     android:maxLines="1"
-                    android:maxWidth="@dimen/edit_text_maximum_width"
+                    android:maxWidth="@dimen/edit_text_minimum_width"
                     android:minWidth="@dimen/edit_text_minimum_width" />
             </android.support.design.widget.TextInputLayout>
 
@@ -73,6 +75,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_top_margin_double"
                 android:background="@drawable/button_background"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:textStyle="bold"
                 android:gravity="center"
                 android:maxWidth="@dimen/edit_text_maximum_width"
                 android:minWidth="@dimen/edit_text_minimum_width"
@@ -84,7 +88,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_marginTop="@dimen/view_top_margin"
+                android:textStyle="bold"
                 android:background="?attr/selectableItemBackground"
                 android:text="@string/register" />
         </LinearLayout>
