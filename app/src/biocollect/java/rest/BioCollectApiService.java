@@ -2,11 +2,14 @@ package rest;
 
 import com.google.gson.JsonObject;
 
+import java.util.List;
+
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.SightList;
 import io.reactivex.Observable;
 import model.ProjectList;
+import model.Survey;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -15,6 +18,7 @@ import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
 import retrofit2.http.Part;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -27,4 +31,7 @@ public interface BioCollectApiService {
 
     @GET("bioActivity/searchProjectActivities")
     Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm, @Query("userId") String userId);
+
+    @GET("ws/survey/list/{projectId}")
+    Observable<List<Survey>> getSurveys(@Path("projectId") String id);
 }

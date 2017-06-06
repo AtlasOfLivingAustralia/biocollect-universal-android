@@ -7,6 +7,7 @@ import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -28,6 +29,7 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import model.Survey;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -50,6 +52,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
 
     private List<Sight> sights = new ArrayList<>();
+    private List<Survey> surveys = new ArrayList<>();
     private String viewQuery;
     private int totalSighting;
     private String projectId;
@@ -65,7 +68,9 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         Bundle bundle = getArguments();
         if (bundle != null) {
             this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
-            projectId = bundle.getString(getString(R.string.project_id_parameter));
+            projectId = "bb227dec-f7d7-4bdf-873d-41924c102e1d"; //bundle.getString(getString(R.string.project_id_parameter));
+            if(bundle.getBoolean(getString(R.string.user_project_parameter)))
+                getSurveys(projectId);
         }
 
         //recyclerView setup
@@ -89,6 +94,55 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         return view;
     }
 
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        menu.add(0, R.id.add, Menu.NONE, "Add").setVisible(false).setIcon(R.drawable.ic_add_white_36dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+    }
+
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        super.onPrepareOptionsMenu(menu);
+        if(surveys.size()>0)
+            menu.findItem(R.id.add).setVisible(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.add:
+                break;
+        }
+        return false;
+    }
+
+    /**
+     * get the survey list
+     * to show in the bottom sheet dialog fragment
+     */
+    private void getSurveys(String projectId){
+        mCompositeDisposable.add(restClient.getService().getSurveys(projectId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<List<Survey>>() {
+                    @Override
+                    public void onNext(List<Survey> value) {
+                        surveys.addAll(value);
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError");
+                        handleError(e, 0, "");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        getActivity().supportInvalidateOptionsMenu();
+                    }
+                }));
+    }
 
     /**
      * show popup menu from the more button of recyclerview items

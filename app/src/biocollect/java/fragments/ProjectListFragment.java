@@ -87,6 +87,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
             if (!projects.get(position).isExternal) {
                 Bundle bundle = new Bundle();
                 bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
+                bundle.putBoolean(getString(R.string.user_project_parameter), myProjects);
                 bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
                 Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
                 intent.putExtras(bundle);
