@@ -117,6 +117,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
                 BottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
+                bundle.putString(getString(R.string.title_parameter), getString(R.string.survey_dialog_title));
                 bottomSheetDialogFragment.setArguments(bundle);
                 bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;

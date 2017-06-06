@@ -49,10 +49,13 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         dialog.setContentView(contentView);
 
         ListView listView = (ListView) contentView.findViewById(R.id.listView);
+        TextView title = (TextView) contentView.findViewById(R.id.title);
 
         Bundle bundle = getArguments();
-        if (bundle != null)
+        if (bundle != null) {
             surveys = (ArrayList<Survey>) bundle.getSerializable(getString(R.string.survey_list_parameter));
+            title.setText(bundle.getString(getString(R.string.title_parameter)));
+        }
 
         listView.setAdapter(new SurveyAdapter(getContext(), surveys));
 
