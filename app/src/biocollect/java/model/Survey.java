@@ -1,10 +1,14 @@
 package model;
 
+import com.google.gson.annotations.Expose;
+
+import java.io.Serializable;
+
 /**
  * Created by sad038 on 6/6/17.
  */
 
-public class Survey {
+public class Survey implements Serializable{
     public String startDate;
 
     public Visibility visibility;
@@ -33,6 +37,7 @@ public class Survey {
 
     public String description;
 
+    @Expose
     public String name;
 
     public String projectActivityId;
@@ -89,13 +94,13 @@ public class Survey {
 
     public String restrictRecordToSites;
 
-    public class Alert {
+    public class Alert implements Serializable{
         public String[] allSpecies;
 
         public String[] emailAddresses;
     }
 
-    public class Species {
+    public class Species implements Serializable{
         public SingleSpecies singleSpecies;
 
         public String type;
@@ -103,7 +108,7 @@ public class Survey {
         public String speciesDisplayFormat;
     }
 
-    public class SingleSpecies {
+    public class SingleSpecies implements Serializable{
         public String guid;
 
         public String commonName;
@@ -115,7 +120,7 @@ public class Survey {
         public String name;
     }
 
-    public class Visibility {
+    public class Visibility implements Serializable{
         public String embargoOption;
 
         //public null embargoForDays;

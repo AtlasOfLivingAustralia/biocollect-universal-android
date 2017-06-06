@@ -1,6 +1,7 @@
 package fragments;
 
 import android.os.Bundle;
+import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -26,6 +27,7 @@ import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import dialog.SurveyBottomSheetDialogFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -52,7 +54,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
 
     private List<Sight> sights = new ArrayList<>();
-    private List<Survey> surveys = new ArrayList<>();
+    private ArrayList<Survey> surveys = new ArrayList<>();
     private String viewQuery;
     private int totalSighting;
     private String projectId;
@@ -69,7 +71,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         if (bundle != null) {
             this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
             projectId = "bb227dec-f7d7-4bdf-873d-41924c102e1d"; //bundle.getString(getString(R.string.project_id_parameter));
-            if(bundle.getBoolean(getString(R.string.user_project_parameter)))
+            if (bundle.getBoolean(getString(R.string.user_project_parameter)))
                 getSurveys(projectId);
         }
 
@@ -104,14 +106,19 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if(surveys.size()>0)
+        if (surveys.size() > 0)
             menu.findItem(R.id.add).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.add:
+                BottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
+                bottomSheetDialogFragment.setArguments(bundle);
+                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
         }
         return false;
@@ -121,7 +128,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
      * get the survey list
      * to show in the bottom sheet dialog fragment
      */
-    private void getSurveys(String projectId){
+    private void getSurveys(String projectId) {
         mCompositeDisposable.add(restClient.getService().getSurveys(projectId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
