@@ -63,7 +63,7 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 dismiss();
-                if(bottomSheetListener!=null)
+                if (bottomSheetListener != null)
                     bottomSheetListener.onItemClick(position);
             }
         });
@@ -80,12 +80,11 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         this.bottomSheetListener = bottomSheetListener;
     }
 
-    public class SurveyAdapter extends ArrayAdapter<Survey> {
-        // View lookup cache
-        private class ViewHolder {
-            TextView name;
-        }
+    public interface BottomSheetListener {
+        void onItemClick(int position);
+    }
 
+    public class SurveyAdapter extends ArrayAdapter<Survey> {
         public SurveyAdapter(Context context, ArrayList<Survey> surveys) {
             super(context, R.layout.item_survey, surveys);
         }
@@ -114,9 +113,10 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
             // Return the completed view to render on screen
             return convertView;
         }
-    }
 
-    public interface BottomSheetListener{
-        void onItemClick(int position);
+        // View lookup cache
+        private class ViewHolder {
+            TextView name;
+        }
     }
 }

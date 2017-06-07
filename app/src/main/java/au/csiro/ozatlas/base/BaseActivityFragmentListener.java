@@ -14,6 +14,8 @@ import android.widget.EditText;
 public interface BaseActivityFragmentListener {
     void showProgressDialog();
 
+    void showProgressDialog(boolean isCancelable);
+
     void hideProgressDialog();
 
     boolean validate(EditText editText);

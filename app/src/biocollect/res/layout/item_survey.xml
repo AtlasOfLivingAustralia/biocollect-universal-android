@@ -10,13 +10,13 @@
         android:layout_height="36dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="16dp"
-        android:tint="@android:color/darker_gray"
-        android:src="@drawable/ic_equalizer_black_36dp" />
+        android:src="@drawable/ic_equalizer_black_36dp"
+        android:tint="@android:color/darker_gray" />
 
     <TextView
         android:id="@+id/name"
-        android:layout_gravity="center_vertical"
         style="@style/TextAppearance.AppCompat.Medium"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_vertical" />
 </LinearLayout>

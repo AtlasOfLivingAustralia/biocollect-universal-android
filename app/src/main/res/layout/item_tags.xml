@@ -5,9 +5,9 @@
     android:layout_height="wrap_content"
     android:ellipsize="marquee"
     android:maxLines="1"
-    android:textColor="?attr/editTextColor"
-    android:textSize="@dimen/default_input_font_size"
     android:paddingBottom="2dp"
-    android:paddingRight="2dp"
     android:paddingLeft="@dimen/input_label_horizontal_spacing"
-    android:paddingTop="2dp" />
+    android:paddingRight="2dp"
+    android:paddingTop="2dp"
+    android:textColor="?attr/editTextColor"
+    android:textSize="@dimen/default_input_font_size" />

@@ -38,9 +38,8 @@ import io.reactivex.schedulers.Schedulers;
  * GET sights from biocollect
  */
 public class SightingListFragment extends BaseListWithRefreshFragment implements MoreButtonListener {
-    private final String TAG = "SightingListFragment";
     private final static int MAX = 20;
-
+    private final String TAG = "SightingListFragment";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_container)
@@ -50,6 +49,16 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
 
     private List<Sight> sights = new ArrayList<>();
+    /**
+     * onClick listener for the recyclerview item
+     */
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail), false);
+        }
+    };
     private String myRecords;
     private int totalSighting;
 
@@ -87,9 +96,9 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         return view;
     }
 
-
     /**
      * show popup menu from the more button of recyclerview items
+     *
      * @param view
      * @param position
      */
@@ -117,21 +126,10 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     }
 
     /**
-     * onClick listener for the recyclerview item
-     */
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
-            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail), false);
-        }
-    };
-
-
-    /**
      * get the sighting GET sight
+     *
      * @param searchTerm search string from search bar
-     * @param offset for the pagination
+     * @param offset     for the pagination
      */
     protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)

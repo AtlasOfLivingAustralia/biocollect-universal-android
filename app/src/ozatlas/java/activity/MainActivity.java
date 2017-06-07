@@ -21,13 +21,13 @@ import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.base.MainActivityFragmentListener;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
+import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddSightingFragment;
 import fragments.DraftSightingListFragment;
 import fragments.SightingListFragment;
-import au.csiro.ozatlas.manager.AtlasDialogManager;
-import au.csiro.ozatlas.manager.AtlasManager;
 import upload.Constants;
 
 /**

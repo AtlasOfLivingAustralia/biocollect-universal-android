@@ -16,6 +16,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * constructor
+     *
      * @param context
      */
     public AtlasSharedPreferenceManager(Context context) {
@@ -24,6 +25,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * write auth key
+     *
      * @param authKey
      */
     public void writeAuthKey(String authKey) {
@@ -32,6 +34,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * get the auth key
+     *
      * @return
      */
     public String getAuthKey() {
@@ -40,6 +43,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * write userId
+     *
      * @param userId
      */
     public void writeUserId(String userId) {
@@ -48,6 +52,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * get the userId
+     *
      * @return
      */
     public String getUserId() {
@@ -56,6 +61,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * write user's display name
+     *
      * @param name
      */
     public void writeUserDisplayName(String name) {
@@ -64,6 +70,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * get users display name
+     *
      * @return
      */
     public String getUserDisplayName() {
@@ -72,6 +79,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * write user's username
+     *
      * @param email
      */
     public void writeUsername(String email) {
@@ -80,19 +88,20 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * get the user's username
+     *
      * @return
      */
     public String getUsername() {
         return sharedPreferences.getString("USER_NAME", "");
     }
 
-    public Map getHeaderMap(){
+    public Map getHeaderMap() {
         HashMap<String, String> map = new HashMap<String, String>();
         String key = getAuthKey();
-        if(!key.equals(""))
+        if (!key.equals(""))
             map.put("authKey", key);
         String username = getUsername();
-        if(!username.equals(""))
+        if (!username.equals(""))
             map.put("userName", username);
         return map;
     }

@@ -52,12 +52,12 @@
         <activity
             android:name=".activity.LoginActivity"
             android:label="@string/title_activity_main"
-            android:theme="@style/LoginTheme"/>
+            android:theme="@style/LoginTheme" />
 
         <activity
             android:name="activity.SingleFragmentActivity"
-            android:label="@string/title_activity_main"
-            android:configChanges="orientation|screenSize"/>
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_main" />
 
     </application>
 

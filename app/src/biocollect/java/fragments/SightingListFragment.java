@@ -13,7 +13,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,9 +41,8 @@ import model.Survey;
  * GET sights from biocollect
  */
 public class SightingListFragment extends BaseListWithRefreshFragment implements MoreButtonListener {
-    private final String TAG = "SightingListFragment";
     private final static int MAX = 20;
-
+    private final String TAG = "SightingListFragment";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_container)
@@ -54,6 +52,16 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
 
 
     private List<Sight> sights = new ArrayList<>();
+    /**
+     * onClick listener for the recyclerview item
+     */
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail), false);
+        }
+    };
     private ArrayList<Survey> surveys = new ArrayList<>();
     private String viewQuery;
     private int totalSighting;
@@ -96,7 +104,6 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         return view;
     }
 
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
@@ -113,7 +120,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                if(sights!=null && sights.size()>0) {
+                if (sights != null && sights.size() > 0) {
                     SurveyBottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
@@ -126,7 +133,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
                         }
                     });
                     bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
-                }else {
+                } else {
                     showSnackBarMessage(getString(R.string.survey_permission_denied));
                 }
                 break;
@@ -193,18 +200,6 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         });
         popup.show();
     }
-
-    /**
-     * onClick listener for the recyclerview item
-     */
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
-            startWebViewActivity(getString(R.string.sighting_detail_url, sights.get(position).activityId), getString(R.string.sight_detail), false);
-        }
-    };
-
 
     /**
      * get the sighting GET sight

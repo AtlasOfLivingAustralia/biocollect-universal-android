@@ -38,10 +38,9 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
 
     @Inject
     protected RestClient restClient;
-
-    private ProgressDialog mProgressDialog;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     protected Realm realm;
+    private ProgressDialog mProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,12 +86,22 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      */
     @Override
     public void showProgressDialog() {
+        showProgressDialog(false);
+    }
+
+    /**
+     * spinning dialog
+     *
+     * @param isCancelable
+     */
+    @Override
+    public void showProgressDialog(boolean isCancelable) {
         if (mProgressDialog == null) {
             mProgressDialog = new ProgressDialog(this);
             mProgressDialog = new ProgressDialog(this, R.style.OSSProgressBarTheme);
             mProgressDialog.getWindow().setDimAmount(0.2f);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-            mProgressDialog.setCancelable(false);
+            mProgressDialog.setCancelable(isCancelable);
         }
 
         if (!mProgressDialog.isShowing()) {
@@ -231,6 +240,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
 
     /**
      * This method is called when the up button is pressed. Just the pop back stack.
+     *
      * @return
      */
     @Override

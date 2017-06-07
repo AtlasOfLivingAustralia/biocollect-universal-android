@@ -10,9 +10,6 @@ import io.realm.RealmObject;
  */
 
 public class SightingPhoto extends RealmObject {
-    public SightingPhoto() {
-    }
-
     @Expose
     @SerializedName("dateTaken")
     public String dateTaken;
@@ -46,8 +43,10 @@ public class SightingPhoto extends RealmObject {
     @Expose
     @SerializedName("licensePosition")
     public int licensePosition;
-
     //Not part of Json
     public String filePath;
+
+    public SightingPhoto() {
+    }
 }
 

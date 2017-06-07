@@ -18,22 +18,51 @@ import base.BaseMainActivityFragment;
  * Created by sad038 on 25/5/17.
  */
 
-public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener{
+public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected final static int MAX = 20;
-
+    protected boolean hasNext = true;
+    protected LinearLayoutManager mLayoutManager;
+    protected BaseRecyclerWithFooterViewAdapter adapter;
     private MenuItem searchMenu;
     private String searchTerm;
     private int offset = 0;
     private int preLast;
-    protected boolean hasNext = true;
+    /**
+     * recyclerview scroll listner for
+     * pagination. Ifthe last item is shown then the recyclerview shows an
+     * footer and make the network call for the next page.
+     */
+    protected RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
+        @Override
+        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+            super.onScrollStateChanged(recyclerView, newState);
+        }
+
+        @Override
+        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            super.onScrolled(recyclerView, dx, dy);
+            int visibleItemCount = mLayoutManager.getChildCount();
+            int totalItemCount = mLayoutManager.getItemCount();
+            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
+
+            final int lastItem = firstVisibleItemPosition + visibleItemCount;
+            if (lastItem == totalItemCount && preLast != lastItem) {
+                preLast = lastItem;
+                if (hasNext) {
+                    adapter.setNeedFooter(true);
+                    adapter.notifyDataSetChanged();
+                    offset = offset + MAX;
+                    fetchItems(searchTerm, offset);
+                }
+            }
+        }
+    };
     private boolean isSearched = false;
-    protected LinearLayoutManager mLayoutManager;
-    protected BaseRecyclerWithFooterViewAdapter adapter;
 
     protected abstract void fetchItems(String searchTerm, final int offset);
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mLayoutManager = new LinearLayoutManager(getActivity());
     }
@@ -104,35 +133,4 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
             searchMenu.collapseActionView();
         reset();
     }
-
-    /**
-     * recyclerview scroll listner for
-     * pagination. Ifthe last item is shown then the recyclerview shows an
-     * footer and make the network call for the next page.
-     */
-    protected RecyclerView.OnScrollListener recyclerViewOnScrollListener = new RecyclerView.OnScrollListener() {
-        @Override
-        public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-            super.onScrollStateChanged(recyclerView, newState);
-        }
-
-        @Override
-        public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
-            super.onScrolled(recyclerView, dx, dy);
-            int visibleItemCount = mLayoutManager.getChildCount();
-            int totalItemCount = mLayoutManager.getItemCount();
-            int firstVisibleItemPosition = mLayoutManager.findFirstVisibleItemPosition();
-
-            final int lastItem = firstVisibleItemPosition + visibleItemCount;
-            if (lastItem == totalItemCount && preLast != lastItem) {
-                preLast = lastItem;
-                if (hasNext) {
-                    adapter.setNeedFooter(true);
-                    adapter.notifyDataSetChanged();
-                    offset = offset + MAX;
-                    fetchItems(searchTerm, offset);
-                }
-            }
-        }
-    };
 }

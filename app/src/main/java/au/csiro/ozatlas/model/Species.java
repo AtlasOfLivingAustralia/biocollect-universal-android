@@ -11,12 +11,8 @@ import io.realm.RealmObject;
 
 /**
  * Part of uploading AddSight
- *
  */
 public class Species extends RealmObject {
-    public Species() {
-    }
-
     @Expose
     @SerializedName("guid")
     public String guid;
@@ -32,4 +28,7 @@ public class Species extends RealmObject {
     @Expose
     @SerializedName("name")
     public String name;
+
+    public Species() {
+    }
 }

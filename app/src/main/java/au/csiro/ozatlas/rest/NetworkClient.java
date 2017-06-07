@@ -26,20 +26,8 @@ public class NetworkClient {
     private Retrofit retrofit;
 
     /**
-     * create the OkHttpClient
-     * @return
-     */
-    private OkHttpClient getOkHttpClient() {
-        return new OkHttpClient.Builder()
-                .addInterceptor(new CustomRequestInterceptor())
-                .writeTimeout(60, TimeUnit.SECONDS)
-                .readTimeout(60, TimeUnit.SECONDS)
-                .connectTimeout(60, TimeUnit.SECONDS)
-                .build();
-    }
-
-    /**
      * constructor
+     *
      * @param baseUrl
      */
     public NetworkClient(String baseUrl) {
@@ -59,6 +47,7 @@ public class NetworkClient {
 
     /**
      * constructor with custom gson
+     *
      * @param baseUrl
      * @param gson
      */
@@ -68,6 +57,20 @@ public class NetworkClient {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+    }
+
+    /**
+     * create the OkHttpClient
+     *
+     * @return
+     */
+    private OkHttpClient getOkHttpClient() {
+        return new OkHttpClient.Builder()
+                .addInterceptor(new CustomRequestInterceptor())
+                .writeTimeout(60, TimeUnit.SECONDS)
+                .readTimeout(60, TimeUnit.SECONDS)
+                .connectTimeout(60, TimeUnit.SECONDS)
                 .build();
     }
 

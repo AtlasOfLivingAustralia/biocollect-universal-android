@@ -30,9 +30,9 @@ import io.realm.RealmList;
 
 public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
+    private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private RealmList<SightingPhoto> sightingPhotos;
     private String[] attributionMapStrings;
-    private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private ArrayAdapter licenseAdapter;
 
     public ImageUploadAdapter(RealmList<SightingPhoto> sightingPhotos, Context context) {

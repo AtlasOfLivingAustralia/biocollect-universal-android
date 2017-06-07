@@ -19,21 +19,21 @@ import java.util.ArrayList;
 import java.util.List;
 
 import activity.SingleFragmentActivity;
-import au.csiro.ozatlas.R;
 import adapters.DraftSightAdapter;
+import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
-import base.BaseMainActivityFragment;
-import upload.UploadService;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
+import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import upload.UploadService;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -59,7 +59,38 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
 
     private DraftSightAdapter sightAdapter;
     private List<AddSight> sights = new ArrayList<>();
+    /**
+     * onclick listener for recyclerview items
+     */
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            Bundle bundle = new Bundle();
+            //checking whether the item is being uploaded by the UploadService
+            if (sights.get(position).upLoading) {
+                AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
+            } else {
+                bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, REQUEST_EDIT);
+            }
+        }
+    };
     private Realm realm;
+    /**
+     * Long click listener for recyclerview items
+     * for deleting a draft item
+     */
+    View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(final View v) {
+            delete(recyclerView.getChildAdapterPosition(v));
+            return true;
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -93,42 +124,9 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
     }
 
     /**
-     * onclick listener for recyclerview items
-     */
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
-            Bundle bundle = new Bundle();
-            //checking whether the item is being uploaded by the UploadService
-            if (sights.get(position).upLoading) {
-                AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
-            } else {
-                bundle.putLong(getString(R.string.sight_parameter), sights.get(position).realmId);
-                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_FRAGMENT);
-                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, REQUEST_EDIT);
-            }
-        }
-    };
-
-
-    /**
-     * Long click listener for recyclerview items
-     * for deleting a draft item
-     */
-    View.OnLongClickListener onLongClickListener = new View.OnLongClickListener() {
-        @Override
-        public boolean onLongClick(final View v) {
-            delete(recyclerView.getChildAdapterPosition(v));
-            return true;
-        }
-    };
-
-    /**
      * show an alert for deleting an item.
      * deletes an item upon pressing "OK"
+     *
      * @param position
      */
     private void delete(final int position) {
@@ -186,6 +184,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
 
     /**
      * start the Upload Service
+     *
      * @param all whether all the draft items or selected items
      */
     private void uploadAll(boolean all) {
@@ -247,6 +246,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
 
     /**
      * show popup menu from the more button of recyclerview items
+     *
      * @param view
      * @param position
      */

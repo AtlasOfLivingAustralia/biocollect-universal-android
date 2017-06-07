@@ -5,8 +5,8 @@ import android.support.v4.app.Fragment;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.fragments.WebViewFragment;
 import fragments.AddSightingFragment;
 
 /**

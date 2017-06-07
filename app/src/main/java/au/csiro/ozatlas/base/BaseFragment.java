@@ -17,7 +17,7 @@ import io.reactivex.disposables.CompositeDisposable;
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseFragment extends Fragment implements BaseActivityFragmentListener{
+public class BaseFragment extends Fragment implements BaseActivityFragmentListener {
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
     @Inject
@@ -27,7 +27,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         CsiroApplication.component().inject(this);
     }
@@ -49,6 +49,12 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     public void showProgressDialog() {
         if (baseActivityFragmentListener != null)
             baseActivityFragmentListener.showProgressDialog();
+    }
+
+    @Override
+    public void showProgressDialog(boolean isCancelable) {
+        if (baseActivityFragmentListener != null)
+            baseActivityFragmentListener.showProgressDialog(isCancelable);
     }
 
     @Override

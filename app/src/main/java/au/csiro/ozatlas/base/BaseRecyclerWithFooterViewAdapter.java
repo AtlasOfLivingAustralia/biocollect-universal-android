@@ -1,8 +1,6 @@
 package au.csiro.ozatlas.base;
 
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
-import android.view.ViewGroup;
 
 /**
  * Created by sad038 on 25/5/17.

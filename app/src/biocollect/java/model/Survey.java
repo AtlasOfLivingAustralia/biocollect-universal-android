@@ -8,7 +8,7 @@ import java.io.Serializable;
  * Created by sad038 on 6/6/17.
  */
 
-public class Survey implements Serializable{
+public class Survey implements Serializable {
     public String startDate;
 
     public Visibility visibility;
@@ -96,13 +96,13 @@ public class Survey implements Serializable{
 
     public String restrictRecordToSites;
 
-    public class Alert implements Serializable{
+    public class Alert implements Serializable {
         public String[] allSpecies;
 
         public String[] emailAddresses;
     }
 
-    public class Species implements Serializable{
+    public class Species implements Serializable {
         public SingleSpecies singleSpecies;
 
         public String type;
@@ -110,7 +110,7 @@ public class Survey implements Serializable{
         public String speciesDisplayFormat;
     }
 
-    public class SingleSpecies implements Serializable{
+    public class SingleSpecies implements Serializable {
         public String guid;
 
         public String commonName;
@@ -122,7 +122,7 @@ public class Survey implements Serializable{
         public String name;
     }
 
-    public class Visibility implements Serializable{
+    public class Visibility implements Serializable {
         public String embargoOption;
 
         //public null embargoForDays;

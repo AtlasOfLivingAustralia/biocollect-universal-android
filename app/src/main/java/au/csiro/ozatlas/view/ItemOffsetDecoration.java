@@ -21,6 +21,7 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * constructor
+     *
      * @param itemOffset
      */
     public ItemOffsetDecoration(int itemOffset) {
@@ -29,6 +30,7 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * constructor
+     *
      * @param itemOffsetH
      * @param itemOffsetV
      */
@@ -39,6 +41,7 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * constructor
+     *
      * @param context
      * @param itemOffsetId
      */
@@ -48,6 +51,7 @@ public class ItemOffsetDecoration extends RecyclerView.ItemDecoration {
 
     /**
      * constructor
+     *
      * @param context
      * @param itemOffsetIdHorizontal
      * @param itemOffsetIdVertical

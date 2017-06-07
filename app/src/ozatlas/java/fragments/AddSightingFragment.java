@@ -116,20 +116,15 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class AddSightingFragment extends BaseMainActivityFragment {
-    final String TAG = "AddSightingFragment";
-
-    private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
-
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final int REQUEST_PLACE_PICKER = 2;
-
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
-
     private static final int DELAY_IN_MILLIS = 400;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
-
+    final String TAG = "AddSightingFragment";
+    private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
     @BindView(R.id.time)
@@ -157,6 +152,29 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private ArrayAdapter<String> individualSpinnerAdapter;
     private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
+    /**
+     * Time picker Listener
+     */
+    TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            now.set(Calendar.MINUTE, minute);
+            time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
+    };
+    /**
+     * Date Picker Listener
+     */
+    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            now.set(Calendar.YEAR, year);
+            now.set(Calendar.MONTH, month);
+            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+        }
+    };
     private LocationManager locationManager;
     private BieApiService bieApiService;
     private List<String> tagList;
@@ -164,8 +182,27 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private SpeciesSearchResponse.Species selectedSpecies;
     private Double latitude;
     private Double longitude;
-    private String outputSpeciesId;
+    // Define a listener that responds to location updates
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            hideProgressDialog();
+            // Called when a new location is found by the network location provider.
+            setCoordinate(location);
+            //pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
+            // Remove the listener you previously added
+            locationManager.removeUpdates(locationListener);
+        }
 
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+    };
+    private String outputSpeciesId;
     private ImageUploadAdapter imageUploadAdapter;
     //private Uri fileUri;
     private String mCurrentPhotoPath;
@@ -622,27 +659,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
     }
 
-    // Define a listener that responds to location updates
-    LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            hideProgressDialog();
-            // Called when a new location is found by the network location provider.
-            setCoordinate(location);
-            //pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
-            // Remove the listener you previously added
-            locationManager.removeUpdates(locationListener);
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-
-        public void onProviderEnabled(String provider) {
-        }
-
-        public void onProviderDisabled(String provider) {
-        }
-    };
-
     /**
      * @param json to make the string list for keys
      * @return
@@ -698,35 +714,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         (new TimePickerDialog(getActivity(), R.style.DateTimeDialogTheme, timeSetListener, now.get(Calendar.HOUR), now.get(Calendar.MINUTE), false)).show();
     }
 
-    /**
-     * Time picker Listener
-     */
-    TimePickerDialog.OnTimeSetListener timeSetListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            now.set(Calendar.MINUTE, minute);
-            time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
-        }
-    };
-
     @OnClick(R.id.date)
     public void date() {
         (new DatePickerDialog(getActivity(), R.style.DateTimeDialogTheme, onDateSetListener, now.get(Calendar.YEAR), now.get(Calendar.MONTH), now.get(Calendar.DAY_OF_MONTH))).show();
     }
-
-    /**
-     * Date Picker Listener
-     */
-    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            now.set(Calendar.YEAR, year);
-            now.set(Calendar.MONTH, month);
-            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
-        }
-    };
 
     @OnClick(R.id.pickLocation)
     void pickLocation() {

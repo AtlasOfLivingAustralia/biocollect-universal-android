@@ -15,7 +15,6 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
-import au.csiro.ozatlas.model.Sight;
 import model.Projects;
 
 /**
@@ -34,8 +33,8 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
     /**
      * constructor
      *
-     * @param projectses             projects to show
-     * @param onClickListener    a click listener for the tap/single click listener
+     * @param projectses      projects to show
+     * @param onClickListener a click listener for the tap/single click listener
      */
     public ProjectListAdapter(List<Projects> projectses, View.OnClickListener onClickListener) {
         this.projectses = projectses;

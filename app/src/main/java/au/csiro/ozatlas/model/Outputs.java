@@ -13,9 +13,6 @@ import io.realm.RealmObject;
  * Part of Upload Sight [AddSight]
  */
 public class Outputs extends RealmObject {
-    public Outputs() {
-    }
-
     @Expose
     @SerializedName("name")
     public String name;
@@ -28,4 +25,7 @@ public class Outputs extends RealmObject {
     @Expose
     @SerializedName("outputNotCompleted")
     public String outputNotCompleted;
+
+    public Outputs() {
+    }
 }

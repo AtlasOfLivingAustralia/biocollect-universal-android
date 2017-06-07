@@ -14,11 +14,10 @@ import android.support.v7.app.AlertDialog;
 public class AtlasDialogManager {
 
     /**
-     *
      * @param context
-     * @param message message to show in the Alert Dialog
-     * @param title Dialog Title
-     * @param positiveButtonText The text for the positive button such as "OK"
+     * @param message               message to show in the Alert Dialog
+     * @param title                 Dialog Title
+     * @param positiveButtonText    The text for the positive button such as "OK"
      * @param positiveClickListener listener when the user click "OK" or positive button
      * @param negativeClickListener listener when the user click "CANCEL" or negative button
      */
@@ -34,11 +33,10 @@ public class AtlasDialogManager {
     }
 
     /**
-     *
      * @param context
-     * @param message message to show in the Alert Dialog
-     * @param title Dialog Title
-     * @param positiveButtonText The text for the positive button such as "OK"
+     * @param message               message to show in the Alert Dialog
+     * @param title                 Dialog Title
+     * @param positiveButtonText    The text for the positive button such as "OK"
      * @param positiveClickListener listener when the user click "OK" or positive button
      */
     public static void alertBoxForSetting(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener) {
@@ -51,10 +49,9 @@ public class AtlasDialogManager {
     }
 
     /**
-     *
      * @param context
-     * @param message message to show in the Alert Dialog
-     * @param title Dialog Title
+     * @param message               message to show in the Alert Dialog
+     * @param title                 Dialog Title
      * @param positiveClickListener listener when the user click "OK" or positive button
      */
     public static void alertBoxForSetting(Context context, String message, String title, DialogInterface.OnClickListener positiveClickListener) {
@@ -67,9 +64,8 @@ public class AtlasDialogManager {
     }
 
     /**
-     *
      * @param context
-     * @param message message to show in the Alert Dialog
+     * @param message            message to show in the Alert Dialog
      * @param positiveButtonText The text for the positive button such as "OK"
      */
     public static void alertBoxForMessage(Context context, String message, String positiveButtonText) {

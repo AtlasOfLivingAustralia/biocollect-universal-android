@@ -46,13 +46,13 @@ import static android.app.Activity.RESULT_OK;
  * This class layout has a webview.
  */
 public class WebViewFragment extends BaseMainActivityFragment {
+    private final static int FCR = 1;
+    private final static int PERMISSION_REQUEST = 2;
     private WebView webView;
     private String mCM;
     private String url;
     private ValueCallback<Uri> mUM;
     private ValueCallback<Uri[]> mUMA;
-    private final static int FCR = 1;
-    private final static int PERMISSION_REQUEST = 2;
     private LocationManager locationManager;
 
     @Override
@@ -240,7 +240,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
 
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
-                showProgressDialog();
+                showProgressDialog(true);
                 running = Math.max(running, 1); // First request move it to 1.
             }
 

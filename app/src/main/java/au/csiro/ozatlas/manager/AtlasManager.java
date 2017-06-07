@@ -17,6 +17,7 @@ public class AtlasManager {
 
     /**
      * hide the Keyboard
+     *
      * @param activity
      */
     public static void hideKeyboard(Activity activity) {
@@ -30,6 +31,7 @@ public class AtlasManager {
 
     /**
      * checks the availability of the network
+     *
      * @param context
      * @return true or false depending on any network availability
      */

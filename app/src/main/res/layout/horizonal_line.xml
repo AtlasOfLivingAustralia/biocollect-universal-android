@@ -2,6 +2,6 @@
 <View xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="1dp"
-    android:background="@android:color/darker_gray"
+    android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
     android:layout_marginRight="@dimen/input_label_horizontal_spacing"
-    android:layout_marginLeft="@dimen/input_label_horizontal_spacing"/>
+    android:background="@android:color/darker_gray" />

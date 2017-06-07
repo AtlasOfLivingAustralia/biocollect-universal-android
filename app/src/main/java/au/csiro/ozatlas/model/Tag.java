@@ -14,14 +14,14 @@ import io.realm.RealmObject;
  * This is because Realm can not handle primitive Arraylist
  */
 public class Tag extends RealmObject {
+    @Expose
+    @SerializedName("val")
+    public String val;
+
     public Tag() {
     }
 
     public Tag(String val) {
         this.val = val;
     }
-
-    @Expose
-    @SerializedName("val")
-    public String val;
 }

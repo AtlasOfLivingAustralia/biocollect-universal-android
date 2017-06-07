@@ -15,9 +15,6 @@ import io.realm.RealmObject;
  * AddSight - > Outputs
  */
 public class Data extends RealmObject {
-    public Data() {
-    }
-
     @Expose
     @SerializedName("tags")
     public RealmList<Tag> tags;
@@ -48,4 +45,7 @@ public class Data extends RealmObject {
     @Expose
     @SerializedName("surveyDate")
     public String surveyDate;
+
+    public Data() {
+    }
 }

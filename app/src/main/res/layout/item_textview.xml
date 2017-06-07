@@ -6,6 +6,6 @@
     android:ellipsize="marquee"
     android:maxLines="1"
     android:paddingBottom="2dp"
-    android:paddingRight="2dp"
     android:paddingLeft="@dimen/input_label_horizontal_spacing"
+    android:paddingRight="2dp"
     android:paddingTop="2dp" />

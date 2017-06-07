@@ -42,6 +42,26 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
 
     private List<Projects> projects = new ArrayList<>();
     private Boolean myProjects;
+    /**
+     * onClick listener for the recyclerview item
+     */
+    View.OnClickListener onClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            if (!projects.get(position).isExternal) {
+                Bundle bundle = new Bundle();
+                bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
+                bundle.putBoolean(getString(R.string.user_project_parameter), myProjects);
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
+            } else {
+                startWebViewActivity(projects.get(position).urlWeb, projects.get(position).name, false);
+            }
+        }
+    };
     private int totalSighting;
 
     @Override
@@ -75,29 +95,6 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
 
         return view;
     }
-
-
-    /**
-     * onClick listener for the recyclerview item
-     */
-    View.OnClickListener onClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
-            if (!projects.get(position).isExternal) {
-                Bundle bundle = new Bundle();
-                bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
-                bundle.putBoolean(getString(R.string.user_project_parameter), myProjects);
-                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
-                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            } else {
-                startWebViewActivity(projects.get(position).urlWeb, projects.get(position).name, false);
-            }
-        }
-    };
-
 
     /**
      * get the sighting GET sight

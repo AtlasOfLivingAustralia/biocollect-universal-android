@@ -4,8 +4,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -43,7 +41,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
         this.sights = sights;
         this.moreButtonListener = moreButtonListener;
         this.onClickListener = onClickListener;
-        isShowMoreButton = myRecords!=null;
+        isShowMoreButton = myRecords != null;
     }
 
     @Override
@@ -66,7 +64,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
         if (holder instanceof SightViewHolders) {
             final SightViewHolders sightViewHolders = (SightViewHolders) holder;
             Sight sight = sights.get(position);
-            if(isShowMoreButton) {
+            if (isShowMoreButton) {
                 sightViewHolders.moreButton.setVisibility(View.VISIBLE);
                 sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
                     @Override

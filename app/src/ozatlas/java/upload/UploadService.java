@@ -40,11 +40,10 @@ public class UploadService extends IntentService {
     private final String TAG = "UploadService";
     @Inject
     protected RestClient restClient;
-
+    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private BroadcastNotifier mBroadcaster;
     private Realm realm;
     private int imageUploadCount;
-    protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
