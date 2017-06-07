@@ -1,7 +1,6 @@
 package fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.BottomSheetDialogFragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -107,26 +106,29 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (surveys.size() > 0)
-            menu.findItem(R.id.add).setVisible(true);
+        menu.findItem(R.id.add).setVisible(true);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                SurveyBottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
-                bundle.putString(getString(R.string.title_parameter), getString(R.string.survey_dialog_title));
-                bottomSheetDialogFragment.setArguments(bundle);
-                bottomSheetDialogFragment.setBottomSheetListener(new SurveyBottomSheetDialogFragment.BottomSheetListener() {
-                    @Override
-                    public void onItemClick(int position) {
-                        Toast.makeText(getContext(), surveys.get(position).id, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+                if(sights!=null && sights.size()>0) {
+                    SurveyBottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
+                    bundle.putString(getString(R.string.title_parameter), getString(R.string.survey_dialog_title));
+                    bottomSheetDialogFragment.setArguments(bundle);
+                    bottomSheetDialogFragment.setBottomSheetListener(new SurveyBottomSheetDialogFragment.BottomSheetListener() {
+                        @Override
+                        public void onItemClick(int position) {
+                            startWebViewActivity(getString(R.string.survey_entry_url, surveys.get(position).projectActivityId), getString(R.string.survey_entry_title), false);
+                        }
+                    });
+                    bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
+                }else {
+                    showSnackBarMessage(getString(R.string.survey_permission_denied));
+                }
                 break;
         }
         return false;
@@ -143,7 +145,10 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
                 .subscribeWith(new DisposableObserver<List<Survey>>() {
                     @Override
                     public void onNext(List<Survey> value) {
-                        surveys.addAll(value);
+                        for (Survey survey : value) {
+                            if (survey.published)
+                                surveys.add(survey);
+                        }
                     }
 
                     @Override

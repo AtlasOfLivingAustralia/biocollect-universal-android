@@ -40,7 +40,7 @@ public class Survey implements Serializable{
 
     @Expose
     public String name;
-
+    @Expose
     public String projectActivityId;
 
     public String methodAbstract;
@@ -49,7 +49,8 @@ public class Survey implements Serializable{
 
     public String authorGivenNames;
 
-    public String published;
+    @Expose
+    public Boolean published;
 
     public String methodName;
 

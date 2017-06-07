@@ -161,7 +161,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         if (this instanceof SingleFragmentActivity) {
             Fragment fragment = new WebViewFragment();
             fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
         } else {
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
             Intent intent = new Intent(this, SingleFragmentActivity.class);
