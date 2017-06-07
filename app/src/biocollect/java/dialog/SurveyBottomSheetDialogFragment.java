@@ -10,6 +10,7 @@ import android.support.design.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -26,7 +27,7 @@ import model.Survey;
 public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     private ArrayList<Survey> surveys;
-
+    private BottomSheetListener bottomSheetListener;
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
 
         @Override
@@ -58,6 +59,13 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         }
 
         listView.setAdapter(new SurveyAdapter(getContext(), surveys));
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if(bottomSheetListener!=null)
+                    bottomSheetListener.onItemClick(position);
+            }
+        });
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();
@@ -67,6 +75,9 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         }
     }
 
+    public void setBottomSheetListener(BottomSheetListener bottomSheetListener) {
+        this.bottomSheetListener = bottomSheetListener;
+    }
 
     public class SurveyAdapter extends ArrayAdapter<Survey> {
         // View lookup cache
@@ -102,5 +113,9 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
             // Return the completed view to render on screen
             return convertView;
         }
+    }
+
+    public interface BottomSheetListener{
+        void onItemClick(int position);
     }
 }

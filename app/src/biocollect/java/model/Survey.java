@@ -27,6 +27,7 @@ public class Survey implements Serializable{
 
     public String pActivityFormName;
 
+    @Expose
     public String id;
 
     public String[] environmentalFeatures;

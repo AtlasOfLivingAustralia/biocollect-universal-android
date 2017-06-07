@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -114,11 +115,17 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                BottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
+                SurveyBottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
                 Bundle bundle = new Bundle();
                 bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
                 bundle.putString(getString(R.string.title_parameter), getString(R.string.survey_dialog_title));
                 bottomSheetDialogFragment.setArguments(bundle);
+                bottomSheetDialogFragment.setBottomSheetListener(new SurveyBottomSheetDialogFragment.BottomSheetListener() {
+                    @Override
+                    public void onItemClick(int position) {
+                        Toast.makeText(getContext(), surveys.get(position).id, Toast.LENGTH_SHORT).show();
+                    }
+                });
                 bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
         }
