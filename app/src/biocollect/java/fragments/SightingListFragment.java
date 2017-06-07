@@ -145,6 +145,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
                 .subscribeWith(new DisposableObserver<List<Survey>>() {
                     @Override
                     public void onNext(List<Survey> value) {
+                        surveys.clear();
                         for (Survey survey : value) {
                             if (survey.published)
                                 surveys.add(survey);
