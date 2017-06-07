@@ -78,7 +78,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         Bundle bundle = getArguments();
         if (bundle != null) {
             this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
-            projectId = "bb227dec-f7d7-4bdf-873d-41924c102e1d"; //bundle.getString(getString(R.string.project_id_parameter));
+            projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
             if (bundle.getBoolean(getString(R.string.user_project_parameter)))
                 getSurveys(projectId);
         }
@@ -154,7 +154,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
                     public void onNext(List<Survey> value) {
                         surveys.clear();
                         for (Survey survey : value) {
-                            if (survey.published)
+                            if (survey.published!=null && survey.published)
                                 surveys.add(survey);
                         }
                     }
