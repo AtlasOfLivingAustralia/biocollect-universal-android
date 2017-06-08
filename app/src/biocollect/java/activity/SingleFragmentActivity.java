@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.fragments.WebViewFragment;
+import fragments.ContactUsFragment;
 import fragments.SightingListFragment;
 
 /**
@@ -35,6 +36,9 @@ public class SingleFragmentActivity extends BaseActivity {
                     break;
                 case RECORD_LIST:
                     fragment = new SightingListFragment();
+                    break;
+                case CONTACT_US:
+                    fragment = new ContactUsFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -78,6 +82,7 @@ public class SingleFragmentActivity extends BaseActivity {
      */
     public enum FragmentType {
         WEB_FRAGMENT,
-        RECORD_LIST
+        RECORD_LIST,
+        CONTACT_US
     }
 }

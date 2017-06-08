@@ -1,6 +1,7 @@
 package activity;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -133,11 +134,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             Fragment fragment = new SightingListFragment();
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
-        } else if (id == R.id.nav_about) {
+        } /*else if (id == R.id.nav_about) {
             //startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title), false);
             startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title), true);
-        } else if (id == R.id.nav_contact) {
-            startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
+        }*/ else if (id == R.id.nav_contact) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.CONTACT_US);
+            Intent intent = new Intent(this, SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
