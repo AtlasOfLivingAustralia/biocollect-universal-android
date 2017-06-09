@@ -5,22 +5,22 @@
 
         <item
             android:id="@+id/nav_all_projects"
-            android:icon="@drawable/ic_work_black_24px"
+            android:icon="@drawable/ic_card_travel_black_24dp"
             android:title="All Projects" />
 
         <item
             android:id="@+id/nav_all_sighting"
-            android:icon="@drawable/ic_folder_black_24px"
+            android:icon="@drawable/ic_folder_open_black_24dp"
             android:title="All Records" />
 
         <item
             android:id="@+id/nav_my_projects"
-            android:icon="@drawable/ic_work_black_24px"
+            android:icon="@drawable/ic_card_travel_black_24dp"
             android:title="My Projects" />
 
         <item
             android:id="@+id/nav_my_sighting"
-            android:icon="@drawable/ic_folder_black_24px"
+            android:icon="@drawable/ic_folder_open_black_24dp"
             android:title="My Records" />
 
     </group>
@@ -30,7 +30,7 @@
         <menu>
             <item
                 android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_menu_logout"
+                android:icon="@drawable/ic_exit_to_app_black_24dp"
                 android:title="Logout" />
         </menu>
     </item>
@@ -39,7 +39,7 @@
         <menu>
             <item
                 android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_email_white_24px"
+                android:icon="@drawable/ic_mail_outline_black_24dp"
                 android:title="Contact Us" />
         </menu>
     </item>
