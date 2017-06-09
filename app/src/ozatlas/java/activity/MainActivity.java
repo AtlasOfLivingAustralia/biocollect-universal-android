@@ -40,6 +40,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     private FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
     private DataChangeNotificationReceiver dataChangeNotificationReceiver;
+    protected Realm realm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

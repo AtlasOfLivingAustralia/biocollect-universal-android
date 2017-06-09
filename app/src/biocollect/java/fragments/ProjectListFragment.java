@@ -41,7 +41,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     TextView total;
 
     private List<Projects> projects = new ArrayList<>();
-    private Boolean myProjects;
+    private Boolean myProjects = false;
     /**
      * onClick listener for the recyclerview item
      */

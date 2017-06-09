@@ -47,7 +47,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         super.onCreate(savedInstanceState);
         //initializing dagger
         CsiroApplication.component().inject(this);
-        realm = Realm.getDefaultInstance();
+        if (getApplicationContext().getPackageName().equals("au.csiro.ozatlas"))
+            realm = Realm.getDefaultInstance();
     }
 
     @Override
@@ -143,12 +144,13 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     public void launchLoginActivity() {
         sharedPreferences.writeAuthKey("");
         sharedPreferences.writeUserId("");
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.deleteAll();
-            }
-        });
+        if (realm != null)
+            realm.executeTransactionAsync(new Realm.Transaction() {
+                @Override
+                public void execute(Realm realm) {
+                    realm.deleteAll();
+                }
+            });
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
