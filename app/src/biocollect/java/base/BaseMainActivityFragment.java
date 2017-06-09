@@ -3,6 +3,7 @@ package base;
 import android.content.Context;
 
 import activity.MainActivity;
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 
@@ -18,6 +19,8 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
         super.onAttach(context);
         if (context instanceof MainActivity) {
             mainActivityFragmentListener = (MainActivity) context;
+        }else if(context instanceof SingleFragmentActivity){
+            mainActivityFragmentListener = (SingleFragmentActivity) context;
         }
     }
 
@@ -35,7 +38,7 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
 
     @Override
     public void showSnackBarMessage(String string) {
-        if (getActivity() instanceof MainActivity && mainActivityFragmentListener != null) {
+        if (mainActivityFragmentListener != null) {
             mainActivityFragmentListener.showSnackBarMessage(string);
         }
     }

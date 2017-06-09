@@ -120,7 +120,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.add:
-                if (sights != null && sights.size() > 0) {
+                if (surveys != null && surveys.size() > 0) {
                     SurveyBottomSheetDialogFragment bottomSheetDialogFragment = new SurveyBottomSheetDialogFragment();
                     Bundle bundle = new Bundle();
                     bundle.putSerializable(getString(R.string.survey_list_parameter), surveys);
