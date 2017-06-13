@@ -2,6 +2,8 @@ package application;
 
 import android.app.Application;
 import android.content.Context;
+import android.support.multidex.MultiDex;
+import android.support.multidex.MultiDexApplication;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.di.PreferenceModule;
@@ -18,7 +20,7 @@ import io.realm.Realm;
  * Application class to initialise Realm
  * and Dagger
  */
-public class CsiroApplication extends Application {
+public class CsiroApplication extends MultiDexApplication {
     private static AppComponent component;
 
     public static AppComponent component() {

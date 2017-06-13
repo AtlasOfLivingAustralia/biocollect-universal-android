@@ -32,7 +32,7 @@
                 android:layout_marginLeft="4dp"
                 android:adjustViewBounds="true"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_file_upload_black_24px"
+                android:src="@drawable/ic_file_upload_black_24dp"
                 android:tint="@color/colorPrimary"
                 android:visibility="gone" />
 
@@ -94,7 +94,7 @@
                 android:layout_alignBottom="@+id/time"
                 android:layout_alignParentRight="true"
                 android:scaleType="fitEnd"
-                android:src="@drawable/ic_more_vert_black_36px"
+                android:src="@drawable/ic_more_vert_black_36dp"
                 android:tint="@color/colorPrimary"
                 android:visibility="gone" />
         </RelativeLayout>

@@ -20,7 +20,7 @@
         android:layout_alignRight="@+id/imageView"
         android:layout_alignTop="@+id/imageView"
         android:background="@drawable/cross_circle"
-        android:src="@drawable/ic_clear_white_24px" />
+        android:src="@drawable/ic_clear_white_24dp" />
 
     <TextView
         android:id="@+id/date"
