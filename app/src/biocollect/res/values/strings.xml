@@ -6,6 +6,7 @@
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="survey_list_parameter">SURVEY_LIST</string>
     <string name="project_id_parameter">PROJECT_ID</string>
+    <string name="project_name_parameter">PROJECT_NAME</string>
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>
@@ -14,6 +15,10 @@
 
     <string name="about_title">About BioCollect</string>
     <string name="contact_us_title">Contact BioCollect</string>
+    <string name="all_project_title">All Projects</string>
+    <string name="all_record_title">All Records</string>
+    <string name="my_record_title">My Records</string>
+    <string name="my_project_title">My Projects</string>
     <string name="survey_dialog_title">Select survey to add records</string>
     <string name="survey_permission_denied">You do not have permission to add records.</string>
     <string name="survey_entry_title">Add Records</string>
