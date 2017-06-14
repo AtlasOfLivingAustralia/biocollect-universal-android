@@ -189,4 +189,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void handleError(Throwable e, int code, String message) {
         handleError(coordinatorLayout, e, code, message);
     }
+
+    @Override
+    public void setTitle(String title) {
+        if(getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(title);
+    }
 }

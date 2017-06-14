@@ -52,6 +52,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
             if (!projects.get(position).isExternal) {
                 Bundle bundle = new Bundle();
                 bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
+                bundle.putString(getString(R.string.project_name_parameter), projects.get(position).name);
                 bundle.putBoolean(getString(R.string.user_project_parameter), myProjects);
                 bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
                 Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
@@ -75,6 +76,9 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
+            setTitle(getString(R.string.my_project_title));
+        }else{
+            setTitle(getString(R.string.all_project_title));
         }
 
         //recyclerView setup

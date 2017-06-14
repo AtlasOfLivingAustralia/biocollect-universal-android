@@ -16,4 +16,6 @@ public interface MainActivityFragmentListener {
     void showSnackBarMessage(String string);
 
     void handleError(Throwable e, int code, String message);
+
+    void setTitle(String title);
 }

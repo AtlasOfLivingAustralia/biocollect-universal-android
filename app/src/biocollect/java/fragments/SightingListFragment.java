@@ -79,8 +79,17 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         if (bundle != null) {
             this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
             projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
-            if (bundle.getBoolean(getString(R.string.user_project_parameter)))
+            if(viewQuery!=null){
+                setTitle(getString(R.string.my_record_title));
+            }else if(projectId!=null){
+                String title = bundle.getString(getString(R.string.project_name_parameter));
+                setTitle(title);
+            }
+            if (bundle.getBoolean(getString(R.string.user_project_parameter))) {
                 getSurveys(projectId);
+            }
+        }else{
+            setTitle(getString(R.string.all_record_title));
         }
 
         //recyclerView setup
