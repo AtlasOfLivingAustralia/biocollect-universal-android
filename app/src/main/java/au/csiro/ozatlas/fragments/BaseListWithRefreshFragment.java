@@ -76,24 +76,25 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
         searchMenu = menu.findItem(R.id.search);
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                searchTerm = query;
-                searchView.clearFocus();
-                offset = 0;
-                hasNext = true;
-                isSearched = true;
-                fetchItems(searchTerm, offset);
-                return true;
-            }
+        if (searchView != null)
+            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                @Override
+                public boolean onQueryTextSubmit(String query) {
+                    searchTerm = query;
+                    searchView.clearFocus();
+                    offset = 0;
+                    hasNext = true;
+                    isSearched = true;
+                    fetchItems(searchTerm, offset);
+                    return true;
+                }
 
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                searchTerm = newText;
-                return false;
-            }
-        });
+                @Override
+                public boolean onQueryTextChange(String newText) {
+                    searchTerm = newText;
+                    return false;
+                }
+            });
 
         MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat.OnActionExpandListener() {
             @Override

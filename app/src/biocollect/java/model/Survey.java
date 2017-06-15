@@ -1,6 +1,7 @@
 package model;
 
 import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
 
@@ -28,6 +29,7 @@ public class Survey implements Serializable {
     public String pActivityFormName;
 
     @Expose
+    @SerializedName("id")
     public String id;
 
     public String[] environmentalFeatures;
@@ -39,8 +41,10 @@ public class Survey implements Serializable {
     public String description;
 
     @Expose
+    @SerializedName("name")
     public String name;
     @Expose
+    @SerializedName("projectActivityId")
     public String projectActivityId;
 
     public String methodAbstract;
@@ -50,6 +54,7 @@ public class Survey implements Serializable {
     public String authorGivenNames;
 
     @Expose
+    @SerializedName("published")
     public Boolean published;
 
     public String methodName;

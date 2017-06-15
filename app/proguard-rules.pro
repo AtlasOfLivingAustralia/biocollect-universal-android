@@ -26,3 +26,45 @@
 
 -keep class au.csiro.ozatlas.model.** { <fields>; }
 -keepclassmembers class au.csiro.ozatlas.model.** { <fields>; }
+-keepclassmembers class au.csiro.biocollect.model.** { <fields>; }
+
+-keepclassmembers,allowobfuscation class * {
+    @javax.inject.* *;
+    @dagger.* *;
+    <init>();
+}
+
+-keep class javax.inject.** { *; }
+-keep class **$$ModuleAdapter
+-keep class **$$InjectAdapter
+-keep class **$$StaticInjection
+-keep class dagger.** { *; }
+-dontwarn dagger.internal.codegen.**
+-dontwarn dagger.shaded.auto.common.*
+
+-dontwarn javax.annotation.**
+-dontwarn javax.inject.**
+-dontwarn sun.misc.Unsafe
+
+# butterknife
+
+-keepattributes *Annotation*
+-keep class butterknife.** { *; }
+-keep class **$$ViewInjector { *; }
+
+-dontwarn okhttp3.**
+-dontwarn com.squareup.okhttp.**
+
+-dontwarn okio.**
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+
+-keepclasseswithmembernames class * {
+    @butterknife.* <fields>;
+}
+-keepclasseswithmembernames class * {
+    @butterknife.* <methods>;
+}
+-dontwarn butterknife.internal.**
