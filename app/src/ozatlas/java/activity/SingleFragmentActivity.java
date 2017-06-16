@@ -113,6 +113,12 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
         handleError(coordinatorLayout, e, code, message);
     }
 
+    @Override
+    public void setTitle(String title) {
+        if(getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(title);
+    }
+
     /**
      * Type of Fragments
      */

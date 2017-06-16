@@ -2,13 +2,19 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="@dimen/activity_padding">
+    android:layout_height="match_parent">
 
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            android:src="@drawable/bk8" />
 
         <ImageView
             android:layout_width="wrap_content"
@@ -17,7 +23,8 @@
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
             android:scaleType="centerInside"
-            android:src="@drawable/banner" />
+            android:src="@drawable/banner"
+            android:tint="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/filedLayout"
@@ -35,13 +42,11 @@
 
                 <EditText
                     android:id="@+id/editUsername"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/edit_text_minimum_width"
                     android:layout_height="wrap_content"
                     android:hint="@string/username_hint"
                     android:inputType="textEmailAddress"
-                    android:maxLines="1"
-                    android:maxWidth="@dimen/edit_text_maximum_width"
-                    android:minWidth="@dimen/edit_text_minimum_width" />
+                    android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -52,17 +57,16 @@
 
                 <EditText
                     android:id="@+id/editPassword"
-                    android:layout_width="wrap_content"
+                    android:layout_width="@dimen/edit_text_minimum_width"
                     android:layout_height="wrap_content"
                     android:hint="@string/password_hint"
                     android:inputType="textPassword"
-                    android:maxLines="1"
-                    android:maxWidth="@dimen/edit_text_maximum_width"
-                    android:minWidth="@dimen/edit_text_minimum_width" />
+                    android:maxLines="1" />
             </android.support.design.widget.TextInputLayout>
 
             <Button
                 android:id="@+id/loginButton"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_top_margin_double"
@@ -71,10 +75,12 @@
                 android:maxWidth="@dimen/edit_text_maximum_width"
                 android:minWidth="@dimen/edit_text_minimum_width"
                 android:text="@string/login"
-                android:textColor="@android:color/white" />
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/registerLabel"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"

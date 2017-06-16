@@ -89,7 +89,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (AtlasManager.isTesting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         } else {
-            //navigationView.getMenu().findItem(R.id.nav_all_sighting).setChecked(true);
+            navigationView.getMenu().findItem(R.id.nav_all_sighting).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         }
     }
@@ -127,7 +127,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        /*if (id == R.id.nav_logout) {
+        if (id == R.id.nav_logout) {
             AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
         } else if (id == R.id.nav_draft_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
-        }*/
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -203,6 +203,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void handleError(Throwable e, int code, String message) {
         handleError(coordinatorLayout, e, code, message);
+    }
+
+    @Override
+    public void setTitle(String title) {
+        if(getSupportActionBar()!=null)
+            getSupportActionBar().setTitle(title);
     }
 
     /**

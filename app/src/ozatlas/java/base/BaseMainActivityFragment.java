@@ -48,4 +48,10 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.handleError(e, code, message);
     }
+
+    @Override
+    public void setTitle(String title) {
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.setTitle(title);
+    }
 }
