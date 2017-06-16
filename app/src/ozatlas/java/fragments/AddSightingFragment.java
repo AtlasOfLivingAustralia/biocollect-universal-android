@@ -145,6 +145,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
     Switch confidenceSwitch;
+    @BindView(R.id.pickImage)
+    TextView pickImage;
     @BindView(R.id.inputLayoutSpeciesName)
     TextInputLayout inputLayoutSpeciesName;
 
@@ -259,6 +261,15 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity());
+        imageUploadAdapter.buttonVisibilityListener = new ImageUploadAdapter.ButtonVisibilityListener() {
+            @Override
+            public void update() {
+                if(imageUploadAdapter.getItemCount()==0)
+                    pickImage.setVisibility(View.VISIBLE);
+                else
+                    pickImage.setVisibility(View.GONE);
+            }
+        };
         recyclerView.setAdapter(imageUploadAdapter);
 
         //reading the tags from file
@@ -825,12 +836,14 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         sightingPhotos.add(sightingPhoto);
                         imageUploadAdapter.notifyDataSetChanged();
                         mCurrentPhotoPath = null;
+                        imageUploadAdapter.buttonVisibilityListener.update();
                     }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
                     sightingPhotos.add(getSightingPhotoWithFileNameAdded(selectedImageUri));
                     imageUploadAdapter.notifyDataSetChanged();
+                    imageUploadAdapter.buttonVisibilityListener.update();
                     break;
                 case REQUEST_CODE_AUTOCOMPLETE:
                     final Place place = PlaceAutocomplete.getPlace(getActivity(), data);

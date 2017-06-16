@@ -35,6 +35,7 @@
     <string name="species_text">SPECIES INFORMATION</string>
     <string name="location_heading_text">LOCATION INFORMATION</string>
     <string name="image_text">IMAGE</string>
+    <string name="additional_information">ADDITIONAL INFORMATION</string>
     <string name="individual_text">Individuals</string>
     <string name="license_text">Licence</string>
     <string name="identification_tags">Identification tags</string>

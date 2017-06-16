@@ -34,6 +34,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
     private RealmList<SightingPhoto> sightingPhotos;
     private String[] attributionMapStrings;
     private ArrayAdapter licenseAdapter;
+    public ButtonVisibilityListener buttonVisibilityListener;
 
     public ImageUploadAdapter(RealmList<SightingPhoto> sightingPhotos, Context context) {
         this.sightingPhotos = sightingPhotos;
@@ -64,6 +65,8 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             public void onClick(View v) {
                 sightingPhotos.remove(holder.getAdapterPosition());
                 ImageUploadAdapter.this.notifyDataSetChanged();
+                if(buttonVisibilityListener!=null)
+                    buttonVisibilityListener.update();
             }
         });
 
@@ -154,6 +157,10 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public interface ButtonVisibilityListener {
+        void update();
     }
 }
 
