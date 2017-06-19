@@ -88,8 +88,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (AtlasManager.isTesting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         } else {
-            navigationView.getMenu().findItem(R.id.nav_all_sighting).setChecked(true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
+            navigationView.getMenu().findItem(R.id.nav_add).setChecked(true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
         }
     }
 
