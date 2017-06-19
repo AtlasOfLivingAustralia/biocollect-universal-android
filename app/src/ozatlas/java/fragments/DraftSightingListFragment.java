@@ -97,6 +97,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+        setTitle(getString(R.string.draft_sighting_title));
 
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.showFloatingButton();

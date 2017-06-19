@@ -13,6 +13,10 @@
 
     <string name="title_activity_main">OzAtlas</string>
     <string name="about_title">About OzAtlas</string>
+    <string name="add_title">Add Record</string>
+    <string name="all_sighting_title">Add Sightings</string>
+    <string name="my_sighting_title">My Sightings</string>
+    <string name="draft_sighting_title">Draft Sightings</string>
     <string name="contact_us_title">Contact OzAtlas</string>
 
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>

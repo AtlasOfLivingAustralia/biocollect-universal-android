@@ -219,6 +219,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+        setTitle(getString(R.string.add_title));
         realm = Realm.getDefaultInstance();
 
         //species search service

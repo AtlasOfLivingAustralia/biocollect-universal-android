@@ -67,12 +67,16 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+
         mainActivityFragmentListener.showFloatingButton();
 
         //for my sighting
         Bundle bundle = getArguments();
         if (bundle != null) {
             myRecords = bundle.getString(getString(R.string.myview_parameter));
+            setTitle(getString(R.string.my_sighting_title));
+        }else{
+            setTitle(getString(R.string.all_sighting_title));
         }
 
         //recyclerView setup
