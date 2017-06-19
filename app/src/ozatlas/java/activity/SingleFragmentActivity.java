@@ -115,7 +115,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     @Override
     public void setTitle(String title) {
-        if(getSupportActionBar()!=null)
+        if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(title);
     }
 

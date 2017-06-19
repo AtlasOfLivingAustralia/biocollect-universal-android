@@ -19,7 +19,7 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
         super.onAttach(context);
         if (context instanceof MainActivity) {
             mainActivityFragmentListener = (MainActivity) context;
-        }else if(context instanceof SingleFragmentActivity){
+        } else if (context instanceof SingleFragmentActivity) {
             mainActivityFragmentListener = (SingleFragmentActivity) context;
         }
     }

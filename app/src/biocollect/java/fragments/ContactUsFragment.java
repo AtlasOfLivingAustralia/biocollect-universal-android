@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseFragment;
 import base.BaseMainActivityFragment;
 
 /**

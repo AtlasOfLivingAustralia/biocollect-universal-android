@@ -1,8 +1,6 @@
 package application;
 
-import android.app.Application;
 import android.content.Context;
-import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
 import au.csiro.ozatlas.R;
@@ -10,7 +8,6 @@ import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
 import di.AppComponent;
 import di.DaggerAppComponent;
-import io.realm.Realm;
 
 /**
  * Created by sad038 on 5/4/17.

@@ -77,7 +77,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         if (bundle != null) {
             myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
             setTitle(getString(R.string.my_project_title));
-        }else{
+        } else {
             setTitle(getString(R.string.all_project_title));
         }
 

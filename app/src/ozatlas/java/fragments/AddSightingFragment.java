@@ -264,7 +264,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         imageUploadAdapter.buttonVisibilityListener = new ImageUploadAdapter.ButtonVisibilityListener() {
             @Override
             public void update() {
-                if(imageUploadAdapter.getItemCount()==0)
+                if (imageUploadAdapter.getItemCount() == 0)
                     pickImage.setVisibility(View.VISIBLE);
                 else
                     pickImage.setVisibility(View.GONE);

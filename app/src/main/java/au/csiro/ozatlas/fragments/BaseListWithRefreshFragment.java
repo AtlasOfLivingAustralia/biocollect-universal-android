@@ -11,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import base.BaseMainActivityFragment;
 
@@ -73,28 +74,29 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
         /**
          * search layout setup
          */
-        searchMenu = menu.findItem(R.id.search);
-        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        searchMenu = menu.findItem(R.id.action_search);
+        //final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        final SearchView searchView = new SearchView(((BaseActivity) getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(searchMenu, searchView);
 
-        if (searchView != null)
-            searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-                @Override
-                public boolean onQueryTextSubmit(String query) {
-                    searchTerm = query;
-                    searchView.clearFocus();
-                    offset = 0;
-                    hasNext = true;
-                    isSearched = true;
-                    fetchItems(searchTerm, offset);
-                    return true;
-                }
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchTerm = query;
+                searchView.clearFocus();
+                offset = 0;
+                hasNext = true;
+                isSearched = true;
+                fetchItems(searchTerm, offset);
+                return true;
+            }
 
-                @Override
-                public boolean onQueryTextChange(String newText) {
-                    searchTerm = newText;
-                    return false;
-                }
-            });
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchTerm = newText;
+                return false;
+            }
+        });
 
         MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat.OnActionExpandListener() {
             @Override
