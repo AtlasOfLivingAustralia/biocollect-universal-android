@@ -55,7 +55,7 @@
     <string name="logout_title">Logout</string>
     <string name="permission_denied">Those Permissions are needed. </string>
 
-    <string name="total_sighting">Total Sighting: %1$d</string>
+    <string name="total_sighting">Total Sightings: %1$d</string>
     <string name="species_name">Species: %1$s</string>
     <string name="tags_name">Tags: %1$s</string>
     <string name="album_name">Atlas Camera</string>

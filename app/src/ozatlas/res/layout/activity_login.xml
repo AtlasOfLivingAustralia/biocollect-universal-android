@@ -85,6 +85,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/view_top_margin"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
                 android:background="?attr/selectableItemBackground"
                 android:text="@string/register" />
         </LinearLayout>
