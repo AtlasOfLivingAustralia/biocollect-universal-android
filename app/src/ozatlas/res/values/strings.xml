@@ -14,7 +14,8 @@
     <string name="title_activity_main">OzAtlas</string>
     <string name="about_title">About OzAtlas</string>
     <string name="add_title">Add Record</string>
-    <string name="all_sighting_title">Add Sightings</string>
+    <string name="map_explore_title">Explore Species By Location</string>
+    <string name="all_sighting_title">All Sightings</string>
     <string name="my_sighting_title">My Sightings</string>
     <string name="draft_sighting_title">Draft Sightings</string>
     <string name="contact_us_title">Contact OzAtlas</string>
@@ -22,8 +23,11 @@
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
 
     <string name="logout_message">All your draft projects will be deleted. Would you like to logout?</string>
+    <string name="nothing_to_upload">There is no draft record to upload</string>
 
     <string name="total_sighting">Total Sighting: %1$d</string>
+    <string name="draft_sighting_plural">Following %1$d Records are not yet submitted to the server</string>
+    <string name="draft_sighting_singular">Following %1$d Record is not yet submitted to the server</string>
     <string name="species_name">Species: %1$s</string>
     <string name="tags_name">Tags: %1$s</string>
     <string name="album_name">Atlas Camera</string>

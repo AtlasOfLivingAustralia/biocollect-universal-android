@@ -234,7 +234,12 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
      * updating the heading
      */
     private void updateTotal() {
-        total.setText(getString(R.string.total_sighting, sights.size()));
+        if (sights.size() > 1)
+            total.setText(getString(R.string.draft_sighting_plural, sights.size()));
+        else if (sights.size() == 1)
+            total.setText(getString(R.string.draft_sighting_singular, sights.size()));
+        else
+            total.setText(getString(R.string.nothing_to_upload));
     }
 
     /**

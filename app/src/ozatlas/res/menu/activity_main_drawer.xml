@@ -5,27 +5,27 @@
         <item
             android:id="@+id/nav_add"
             android:icon="@drawable/ic_add_to_photos_black_24dp"
-            android:title="Add Sighting" />
+            android:title="@string/add_title" />
 
         <item
             android:id="@+id/nav_all_sighting"
             android:icon="@drawable/ic_collections_black_24dp"
-            android:title="All Sightings" />
+            android:title="@string/all_sighting_title" />
 
         <item
             android:id="@+id/nav_my_sighting"
             android:icon="@drawable/ic_collections_black_24dp"
-            android:title="My Sightings" />
+            android:title="@string/my_sighting_title" />
 
         <item
             android:id="@+id/nav_draft_sighting"
             android:icon="@drawable/ic_collections_black_24dp"
-            android:title="Draft Sightings" />
+            android:title="@string/draft_sighting_title" />
 
         <item
             android:id="@+id/nav_location_species"
             android:icon="@drawable/ic_location_on_black_24dp"
-            android:title="Explore Species By Location" />
+            android:title="@string/map_explore_title" />
 
     </group>
 
@@ -44,12 +44,12 @@
             <item
                 android:id="@+id/nav_about"
                 android:icon="@drawable/ic_info_outline_black_24dp"
-                android:title="About" />
+                android:title="@string/about_title" />
 
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Contact Us" />
+                android:title="@string/contact_us_title" />
         </menu>
     </item>
 </menu>
