@@ -24,6 +24,7 @@
     <string name="password_hint">Password</string>
     <string name="species_name_hint">Species name</string>
     <string name="location_hint">Location</string>
+    <string name="address_hint">Type Address</string>
     <string name="date_text">Date</string>
     <string name="time_text">Time</string>
     <string name="note_text">Note</string>
@@ -43,6 +44,7 @@
     <string name="username_missing_error">UserName Missing</string>
     <string name="password_missing_error">Password Missing</string>
     <string name="login">Login</string>
+    <string name="next">Next</string>
     <string name="register">Click to register</string>
     <string name="not_internet_title">No Internet Connection</string>
     <string name="no_internet_message">Would you like to save your data so that you submit later.</string>

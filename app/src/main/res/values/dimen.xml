@@ -2,6 +2,7 @@
 <resources>
     <dimen name="edit_text_minimum_width">300dp</dimen>
     <dimen name="edit_text_maximum_width">400dp</dimen>
+    <dimen name="button_maximum_width">192dp</dimen>
     <dimen name="selected_image_width">150dp</dimen>
     <dimen name="view_top_margin">24dp</dimen>
     <dimen name="input_view_top_margin">12dp</dimen>

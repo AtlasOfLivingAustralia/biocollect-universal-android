@@ -20,6 +20,7 @@
     <string name="my_sighting_title">My Sightings</string>
     <string name="draft_sighting_title">Draft Sightings</string>
     <string name="contact_us_title">Contact OzAtlas</string>
+    <string name="explore_species_title">Explore Species</string>
 
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
 

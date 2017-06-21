@@ -27,6 +27,7 @@ import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddSightingFragment;
 import fragments.DraftSightingListFragment;
+import fragments.ExploreSpeciesFragment;
 import fragments.SightingListFragment;
 import upload.Constants;
 
@@ -150,6 +151,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
         } else if (id == R.id.nav_draft_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
+        }else if(id==R.id.nav_location_species){
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
