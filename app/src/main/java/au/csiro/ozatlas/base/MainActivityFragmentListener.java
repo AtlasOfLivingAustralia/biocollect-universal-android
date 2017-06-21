@@ -18,4 +18,6 @@ public interface MainActivityFragmentListener {
     void handleError(Throwable e, int code, String message);
 
     void setTitle(String title);
+
+    void setDrawerMenuChecked(int menuRes);
 }

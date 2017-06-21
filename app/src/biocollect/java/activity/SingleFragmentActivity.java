@@ -123,6 +123,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
             getSupportActionBar().setTitle(title);
     }
 
+    @Override
+    public void setDrawerMenuChecked(int menuRes) {
+        
+    }
+
     /**
      * Type of Fragments
      */

@@ -219,8 +219,9 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         View view = inflater.inflate(R.layout.fragment_add_sight, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        setTitle(getString(R.string.add_title));
         realm = Realm.getDefaultInstance();
+
+        setTitle(getString(R.string.add_title));
 
         //species search service
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
@@ -310,15 +311,18 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private void getSightForEdit() {
         Bundle bundle = getArguments();
         if (bundle != null) {
+            setTitle(getString(R.string.edit_title));
             Long id = bundle.getLong(getString(R.string.sight_parameter));
             RealmQuery<AddSight> query = realm.where(AddSight.class).equalTo("realmId", id);
             RealmResults<AddSight> results = query.findAllAsync();
             results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
                 @Override
                 public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
-                    addSight = collection.first();
-                    if (addSight != null)
-                        setSightValues();
+                    if(collection.size()>0) {
+                        addSight = collection.first();
+                        if (addSight != null)
+                            setSightValues();
+                    }
                 }
             });
         }
@@ -390,6 +394,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                                 getActivity().setResult(RESULT_OK);
                                 getActivity().onBackPressed();
                             } else {
+                                setDrawerMenuChecked(R.id.nav_draft_sighting);
                                 getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
                             }
                         }
@@ -461,8 +466,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         if (getActivity() instanceof SingleFragmentActivity) {
                             getActivity().setResult(RESULT_OK);
                             getActivity().onBackPressed();
-                        } else
+                        } else {
+                            setDrawerMenuChecked(R.id.nav_all_sighting);
                             getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
+                        }
                     }
                 }));
     }

@@ -195,4 +195,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (getSupportActionBar() != null)
             getSupportActionBar().setTitle(title);
     }
+
+    @Override
+    public void setDrawerMenuChecked(int menuRes) {
+        navigationView.getMenu().findItem(menuRes).setChecked(true);
+    }
 }

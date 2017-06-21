@@ -135,10 +135,10 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AddSight addSight = sights.get(position);
+                sights.remove(position);
                 realm.beginTransaction();
                 addSight.deleteFromRealm();
                 realm.commitTransaction();
-                //sights.remove(position);
                 sightAdapter.notifyDataSetChanged();
                 updateTotal();
             }
