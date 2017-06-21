@@ -125,7 +125,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     @Override
     public void setDrawerMenuChecked(int menuRes) {
-        
+
     }
 
     /**
