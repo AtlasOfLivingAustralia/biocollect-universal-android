@@ -8,11 +8,6 @@
             android:title="@string/add_title" />
 
         <item
-            android:id="@+id/nav_all_sighting"
-            android:icon="@drawable/ic_collections_black_24dp"
-            android:title="@string/all_sighting_title" />
-
-        <item
             android:id="@+id/nav_my_sighting"
             android:icon="@drawable/ic_collections_black_24dp"
             android:title="@string/my_sighting_title" />
@@ -21,6 +16,11 @@
             android:id="@+id/nav_draft_sighting"
             android:icon="@drawable/ic_collections_black_24dp"
             android:title="@string/draft_sighting_title" />
+
+        <item
+            android:id="@+id/nav_all_sighting"
+            android:icon="@drawable/ic_collections_black_24dp"
+            android:title="@string/all_sighting_title" />
 
         <item
             android:id="@+id/nav_location_species"
@@ -39,7 +39,7 @@
         </menu>
     </item>
 
-    <item android:title="Atlas">
+    <item android:title="Atlas of Living Australia">
         <menu>
             <item
                 android:id="@+id/nav_about"
