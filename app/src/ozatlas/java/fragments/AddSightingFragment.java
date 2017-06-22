@@ -20,6 +20,7 @@ import android.support.v4.content.FileProvider;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SwitchCompat;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -144,7 +145,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     @BindView(R.id.editSpeciesName)
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
-    Switch confidenceSwitch;
+    SwitchCompat confidenceSwitch;
     @BindView(R.id.pickImage)
     TextView pickImage;
     @BindView(R.id.inputLayoutSpeciesName)

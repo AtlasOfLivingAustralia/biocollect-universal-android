@@ -50,6 +50,24 @@
                         android:textSize="@dimen/default_input_font_size" />
                 </android.support.design.widget.TextInputLayout>
 
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/inputLayoutTag"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
+                    android:minHeight="@dimen/minimum_height_input_views">
+
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/editTags"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:completionThreshold="1"
+                        android:hint="@string/identification_tags"
+                        android:inputType="text"
+                        android:maxLines="1"
+                        android:textSize="@dimen/default_input_font_size" />
+                </android.support.design.widget.TextInputLayout>
+
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -57,7 +75,8 @@
                     android:minHeight="@dimen/minimum_height_input_views"
                     android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
-                    <Switch
+                    <android.support.v7.widget.SwitchCompat
+                        android:theme="@style/ConfidenceSwitch"
                         android:id="@+id/confidenceSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -209,24 +228,6 @@
                 android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/inputLayoutTag"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:minHeight="@dimen/minimum_height_input_views">
-
-                    <MultiAutoCompleteTextView
-                        android:id="@+id/editTags"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:completionThreshold="1"
-                        android:hint="@string/identification_tags"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textSize="@dimen/default_input_font_size" />
-                </android.support.design.widget.TextInputLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
