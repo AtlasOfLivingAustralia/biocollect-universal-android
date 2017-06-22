@@ -247,7 +247,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
         makeIndividualLimit();
         // Create an ArrayAdapter using the string array and a default spinner layout
-        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_textview, individualSpinnerValue);
+        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_textview_individual_count, individualSpinnerValue);
         // Specify the layout to use when the list of choices appears
         individualSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         // Apply the adapter to the spinner

@@ -76,22 +76,22 @@
                     android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
                     <android.support.v7.widget.SwitchCompat
-                        android:theme="@style/ConfidenceSwitch"
                         android:id="@+id/confidenceSwitch"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:checked="true" />
+                        android:checked="true"
+                        android:theme="@style/ConfidenceSwitch" />
 
                     <TextView
+                        style="@style/TextAppearance.AppCompat.Caption"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
                         android:layout_marginRight="16dp"
                         android:layout_toLeftOf="@+id/confidenceSwitch"
                         android:text="@string/confidence_label"
-                        android:textColor="?attr/editTextColor"
                         android:textSize="@dimen/default_input_font_size" />
                 </RelativeLayout>
 
@@ -233,55 +233,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:minHeight="@dimen/minimum_height_input_views"
-                    android:paddingLeft="@dimen/input_label_horizontal_spacing">
-
-                    <Spinner
-                        android:id="@+id/individualSpinner"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentRight="true"
-                        android:layout_centerVertical="true"
-                        android:minWidth="100dp"
-                        android:textSize="@dimen/default_input_font_size" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_centerVertical="true"
-                        android:layout_marginRight="16dp"
-                        android:layout_toLeftOf="@+id/individualSpinner"
-                        android:text="@string/individual_text"
-                        android:textColor="?attr/editTextColor"
-                        android:textSize="@dimen/default_input_font_size" />
-                </RelativeLayout>
-
-                <include layout="@layout/horizonal_line" />
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/inputLayoutNotes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:minHeight="@dimen/minimum_height_input_views">
-
-                    <EditText
-                        android:id="@+id/editNote"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top|left"
-                        android:hint="@string/note_text"
-                        android:inputType="textMultiLine"
-                        android:maxLines="3"
-                        android:minLines="3"
-                        android:textSize="@dimen/default_input_font_size" />
-                </android.support.design.widget.TextInputLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
                     android:layout_marginBottom="@dimen/input_view_top_margin"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/minimum_height_input_views">
 
@@ -312,6 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/timeLabel"
+                        android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
                         android:layout_marginRight="16dp"
                         android:background="@drawable/button_background"
                         android:clickable="true"
@@ -320,6 +273,59 @@
                         android:textSize="@dimen/default_input_font_size"
                         android:textStyle="bold" />
                 </RelativeLayout>
+
+                <include layout="@layout/horizonal_line" />
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:minHeight="@dimen/minimum_height_input_views"
+                    android:paddingLeft="@dimen/input_label_horizontal_spacing">
+
+                    <Spinner
+                        android:id="@+id/individualSpinner"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="@dimen/input_label_horizontal_spacing"
+                        android:background="@drawable/button_background"
+                        android:minWidth="60dp"
+                        android:paddingRight="8dp"
+                        android:textSize="@dimen/default_input_font_size" />
+
+                    <TextView
+                        style="@style/TextAppearance.AppCompat.Caption"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_centerVertical="true"
+                        android:layout_marginRight="16dp"
+                        android:layout_toLeftOf="@+id/individualSpinner"
+                        android:text="@string/individual_label"
+                        android:textSize="@dimen/default_input_font_size" />
+                </RelativeLayout>
+
+                <include layout="@layout/horizonal_line" />
+
+                <android.support.design.widget.TextInputLayout
+                    android:id="@+id/inputLayoutNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
+                    android:minHeight="@dimen/minimum_height_input_views">
+
+                    <EditText
+                        android:id="@+id/editNote"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="top|left"
+                        android:hint="@string/note_text"
+                        android:inputType="textMultiLine"
+                        android:maxLines="3"
+                        android:minLines="3"
+                        android:textSize="@dimen/default_input_font_size" />
+                </android.support.design.widget.TextInputLayout>
+
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

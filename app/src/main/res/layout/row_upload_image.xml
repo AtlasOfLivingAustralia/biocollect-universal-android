@@ -49,7 +49,7 @@
             android:id="@+id/noteEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/note_text"
+            android:hint="@string/image_note_text"
             android:inputType="text"
             android:maxLines="1"
             android:textSize="@dimen/smaller_input_font_size" />
