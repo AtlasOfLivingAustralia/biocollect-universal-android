@@ -274,6 +274,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     void editTags(){
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.TAG_SELECTION);
+        bundle.putString(getString(R.string.tag_string_parameter), editTags.getText().toString());
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_TAG);

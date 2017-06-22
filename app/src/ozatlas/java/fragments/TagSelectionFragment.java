@@ -65,6 +65,13 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
             }
         });
 
+        String[] existingTags = null;
+
+        if (getArguments() != null) {
+            String str = getArguments().getString(getString(R.string.tag_string_parameter));
+            existingTags = TextUtils.split(str, "; ");
+        }
+
         //reading the tags from file
         showProgressDialog();
         mCompositeDisposable.add(getFileReadObservable()
@@ -76,6 +83,19 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
                         Log.d("", value);
                         createTagLists(value);
                         selections = new boolean[tags.size()];
+
+                        String[] existingTags = null;
+
+                        if (getArguments() != null) {
+                            String str = getArguments().getString(getString(R.string.tag_string_parameter));
+                            existingTags = TextUtils.split(str, "; ");
+                            if (existingTags != null)
+                                for (int i = 0; i < tags.size(); i++) {
+                                    for (String existingTag : existingTags)
+                                        if (tags.get(i).equals(existingTag))
+                                            selections[i] = true;
+                                }
+                        }
                     }
 
                     @Override
@@ -127,10 +147,10 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
         return true;
     }
 
-    private String getTags(){
+    private String getTags() {
         List<String> selectedTags = new ArrayList<>();
-        for(int i=0;i<tags.size();i++){
-            if(selections[i]){
+        for (int i = 0; i < tags.size(); i++) {
+            if (selections[i]) {
                 selectedTags.add(tags.get(i));
             }
         }
@@ -186,11 +206,11 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
             holder.tagName.setText(tags.get(position));
-            if(selections!=null){
-                if(selections[position]){
+            if (selections != null) {
+                if (selections[position]) {
                     holder.tick.setBackgroundResource(R.drawable.filled_circle);
                     holder.tick.setImageResource(R.drawable.ic_done_white_24dp);
-                }else{
+                } else {
                     holder.tick.setBackgroundResource(R.drawable.ring);
                     holder.tick.setImageResource(0);
                 }
