@@ -119,23 +119,24 @@
                 <TextView
                     android:id="@+id/pickLocation"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_marginTop="@dimen/input_view_top_margin"
                     android:background="@drawable/button_background"
                     android:clickable="true"
+                    android:drawableLeft="@drawable/ic_action_add_location"
+                    android:drawableTint="@android:color/white"
                     android:gravity="center_vertical"
                     android:padding="4dp"
                     android:text="@string/location_text"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/default_input_font_size"
+                    android:textSize="@dimen/smaller_input_font_size"
                     android:textStyle="bold" />
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/inputLayoutLocation"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
-                    android:visibility="gone">
+                    android:layout_marginTop="@dimen/input_view_top_margin">
 
                     <EditText
                         android:id="@+id/editLocation"
@@ -145,7 +146,7 @@
                         android:cursorVisible="false"
                         android:focusable="false"
                         android:focusableInTouchMode="false"
-                        android:hint="@string/location_hint"
+                        android:hint="@string/no_location_hint"
                         android:inputType="text"
                         android:maxLines="1"
                         android:textSize="@dimen/default_input_font_size" />
@@ -192,16 +193,19 @@
                 <TextView
                     android:id="@+id/pickImage"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="32dp"
                     android:layout_marginBottom="@dimen/input_view_top_margin"
                     android:layout_marginTop="@dimen/input_view_top_margin"
                     android:background="@drawable/button_background"
                     android:clickable="true"
+                    android:drawableLeft="@drawable/ic_add_a_photo_white_24dp"
+                    android:drawablePadding="6dp"
+                    android:drawableTint="@android:color/white"
                     android:gravity="center_vertical"
                     android:padding="4dp"
                     android:text="@string/pick_image_text"
                     android:textColor="@android:color/white"
-                    android:textSize="@dimen/default_input_font_size"
+                    android:textSize="@dimen/smaller_input_font_size"
                     android:textStyle="bold" />
 
                 <android.support.v7.widget.RecyclerView
@@ -232,8 +236,8 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
                     android:layout_marginBottom="@dimen/input_view_top_margin"
+                    android:layout_marginTop="@dimen/input_view_top_margin"
                     android:gravity="center_vertical"
                     android:minHeight="@dimen/minimum_height_input_views">
 
@@ -248,29 +252,37 @@
                     <TextView
                         android:id="@+id/time"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="32dp"
                         android:layout_below="@+id/timeLabel"
                         android:layout_toRightOf="@+id/date"
                         android:background="@drawable/button_background"
                         android:clickable="true"
+                        android:drawableLeft="@drawable/ic_action_access_time"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="@android:color/white"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/input_label_horizontal_spacing"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/default_input_font_size"
+                        android:textSize="@dimen/smaller_input_font_size"
                         android:textStyle="bold" />
 
                     <TextView
                         android:id="@+id/date"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:layout_height="32dp"
                         android:layout_alignParentLeft="true"
                         android:layout_below="@+id/timeLabel"
                         android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
                         android:layout_marginRight="16dp"
                         android:background="@drawable/button_background"
                         android:clickable="true"
+                        android:drawableLeft="@drawable/ic_action_date_range"
+                        android:drawablePadding="4dp"
+                        android:drawableTint="@android:color/white"
+                        android:gravity="center_vertical"
                         android:padding="@dimen/input_label_horizontal_spacing"
                         android:textColor="@android:color/white"
-                        android:textSize="@dimen/default_input_font_size"
+                        android:textSize="@dimen/smaller_input_font_size"
                         android:textStyle="bold" />
                 </RelativeLayout>
 

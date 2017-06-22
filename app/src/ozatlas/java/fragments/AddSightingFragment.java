@@ -541,6 +541,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         editLocation.setVisibility(View.VISIBLE);
                     latitude = addSight.outputs.get(0).data.locationLatitude;
                     longitude = addSight.outputs.get(0).data.locationLongitude;
+                    inputLayoutLocation.setHint(getString(R.string.location_hint));
                     editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
                 }
 
@@ -887,11 +888,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      * @param place
      */
     private void setCoordinate(Place place) {
-        if (inputLayoutLocation.getVisibility() == View.GONE)
-            inputLayoutLocation.setVisibility(View.VISIBLE);
         pickLocation.setText(R.string.location_change_text);
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
+        inputLayoutLocation.setHint(getString(R.string.location_hint));
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
     }
 
@@ -902,11 +902,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      * @param location
      */
     private void setCoordinate(Location location) {
-        if (inputLayoutLocation.getVisibility() == View.GONE)
-            inputLayoutLocation.setVisibility(View.VISIBLE);
         pickLocation.setText(R.string.location_change_text);
         latitude = location.getLatitude();
         longitude = location.getLongitude();
+        inputLayoutLocation.setHint(getString(R.string.location_hint));
         editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
     }
 

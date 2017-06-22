@@ -24,6 +24,7 @@
     <string name="password_hint">Password</string>
     <string name="species_name_hint">Species name</string>
     <string name="location_hint">Location</string>
+    <string name="no_location_hint">No location information</string>
     <string name="address_hint">Type Address</string>
     <string name="date_text">Date</string>
     <string name="time_label">Date and Time of observation</string>
