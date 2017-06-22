@@ -41,7 +41,7 @@
     <string name="additional_information">DETAILS</string>
     <string name="individual_label">Number of individuals seen</string>
     <string name="license_text">Licence</string>
-    <string name="identification_tags">Identification tags</string>
+    <string name="identification_tags">Identification Tags</string>
     <string name="confidence_label">Are you confident of the species identification?</string>
     <string name="username_missing_error">UserName Missing</string>
     <string name="password_missing_error">Password Missing</string>

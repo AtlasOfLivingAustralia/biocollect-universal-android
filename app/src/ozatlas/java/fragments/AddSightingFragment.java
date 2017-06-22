@@ -36,7 +36,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -54,19 +53,12 @@ import com.google.gson.JsonObject;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
-import java.util.Set;
-import java.util.concurrent.Callable;
 import java.util.concurrent.TimeUnit;
 
 import activity.SingleFragmentActivity;
@@ -94,7 +86,6 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -108,7 +99,6 @@ import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import retrofit2.Response;
-import util.AtlasTokenizer;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -121,6 +111,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private static final int REQUEST_PLACE_PICKER = 2;
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
+    private static final int REQUEST_TAG = 5;
     private static final int DELAY_IN_MILLIS = 400;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
@@ -141,7 +132,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.editTags)
-    MultiAutoCompleteTextView editTags;
+    EditText editTags;
     @BindView(R.id.editSpeciesName)
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
@@ -153,7 +144,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
-    private ArrayAdapter<String> tagsSpinnerAdapter;
     private Calendar now = Calendar.getInstance();
     /**
      * Time picker Listener
@@ -180,7 +170,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     };
     private LocationManager locationManager;
     private BieApiService bieApiService;
-    private List<String> tagList;
     private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
     private SpeciesSearchResponse.Species selectedSpecies;
     private Double latitude;
@@ -275,33 +264,19 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         };
         recyclerView.setAdapter(imageUploadAdapter);
 
-        //reading the tags from file
-        mCompositeDisposable.add(getFileReadObservable()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<String>() {
-                    @Override
-                    public void onNext(String value) {
-                        Log.d("", value);
-                        tagList = createTagLists(value);
-                        tagsSpinnerAdapter = new ArrayAdapter<>(getActivity(), R.layout.item_tags, tagList);
-                        editTags.setAdapter(tagsSpinnerAdapter);
-                        editTags.setTokenizer(new AtlasTokenizer(';'));
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        showSnackBarMessage(e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        getSightForEdit();
-                    }
-                }));
-
+        getSightForEdit();
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
         return view;
+    }
+
+
+    @OnClick(R.id.editTags)
+    void editTags(){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.TAG_SELECTION);
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, REQUEST_TAG);
     }
 
     /**
@@ -319,7 +294,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
                 @Override
                 public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
-                    if(collection.size()>0) {
+                    if (collection.size() > 0) {
                         addSight = collection.first();
                         if (addSight != null)
                             setSightValues();
@@ -600,28 +575,13 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         outputs.data.tags = new RealmList<>();
         String tags[] = editTags.getText().toString().split(";");
         for (String string : tags) {
-            if (validateTags(string.trim()))
-                outputs.data.tags.add(new Tag(string.trim()));
+            outputs.data.tags.add(new Tag(string.trim()));
         }
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;
         addSight.outputs.add(outputs);
         //realm.commitTransaction();
         return addSight;
-    }
-
-    /**
-     * validates the string from MultiAutoComplete text value
-     *
-     * @param tag
-     * @return
-     */
-    private boolean validateTags(String tag) {
-        for (String string : tagList) {
-            if (string.equals(tag))
-                return true;
-        }
-        return false;
     }
 
     /**
@@ -678,47 +638,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     }
                 });
 
-    }
-
-    /**
-     * @param json to make the string list for keys
-     * @return
-     */
-    private List<String> createTagLists(String json) {
-        List<String> tags = new ArrayList<>();
-        Set<String> set = new HashSet<>();
-
-        try {
-            JSONObject jObject = new JSONObject(json);
-            Iterator<?> keys = jObject.keys();
-
-            while (keys.hasNext()) {
-                String key = (String) keys.next();
-                String value = jObject.getString(key);
-                if (!set.contains(value)) {
-                    tags.add(value);
-                    set.add(value);
-                }
-                tags.add(value.concat(" - ").concat(key));
-            }
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        return tags;
-    }
-
-    /**
-     * Observable to read the tag.txt file
-     *
-     * @return
-     */
-    private Observable<String> getFileReadObservable() {
-        return Observable.defer(new Callable<ObservableSource<? extends String>>() {
-            @Override
-            public ObservableSource<? extends String> call() throws Exception {
-                return Observable.just(FileUtils.readAsset("tags.txt", getActivity()));
-            }
-        });
     }
 
     /**
@@ -862,6 +781,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 case REQUEST_PLACE_PICKER:
                     final Place place1 = PlacePicker.getPlace(getActivity(), data);
                     setCoordinate(place1);
+                    break;
+                case REQUEST_TAG:
+                    String tagValues = data.getStringExtra(getString(R.string.tag_string_parameter));
+                    editTags.setText(tagValues);
                     break;
             }
         }

@@ -23,6 +23,7 @@
     <string name="explore_species_title">Explore Species</string>
 
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
+    <string name="tag_string_parameter">TAGS</string>
 
     <string name="logout_message">All your draft projects will be deleted. Would you like to logout?</string>
     <string name="nothing_to_upload">There is no draft record to upload</string>

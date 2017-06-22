@@ -9,6 +9,9 @@
     <dimen name="view_top_margin_double">48dp</dimen>
     <dimen name="activity_padding">20dp</dimen>
 
+    <dimen name="row_tick_width">16dp</dimen>
+    <dimen name="row_padding">16dp</dimen>
+
     <dimen name="minimum_height_input_views">64dp</dimen>
     <dimen name="row_cross_round_tick_width">24dp</dimen>
     <dimen name="list_item_margin">8dp</dimen>

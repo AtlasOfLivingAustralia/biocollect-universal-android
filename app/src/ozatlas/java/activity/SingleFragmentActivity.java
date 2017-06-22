@@ -13,6 +13,7 @@ import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.AddSightingFragment;
+import fragments.TagSelectionFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -43,6 +44,9 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
                     break;
                 case EDIT_FRAGMENT:
                     fragment = new AddSightingFragment();
+                    break;
+                case TAG_SELECTION:
+                    fragment = new TagSelectionFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -129,6 +133,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
      */
     public enum FragmentType {
         WEB_FRAGMENT,
-        EDIT_FRAGMENT
+        EDIT_FRAGMENT,
+        TAG_SELECTION
     }
 }

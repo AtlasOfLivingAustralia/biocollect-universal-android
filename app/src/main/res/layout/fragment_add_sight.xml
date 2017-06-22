@@ -57,21 +57,21 @@
                     android:layout_marginTop="@dimen/input_view_top_margin"
                     android:minHeight="@dimen/minimum_height_input_views">
 
-                    <MultiAutoCompleteTextView
+                    <EditText
                         android:id="@+id/editTags"
+                        android:cursorVisible="false"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:completionThreshold="1"
                         android:hint="@string/identification_tags"
-                        android:inputType="text"
-                        android:maxLines="1"
+                        android:inputType="textMultiLine"
                         android:textSize="@dimen/default_input_font_size" />
                 </android.support.design.widget.TextInputLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="@dimen/input_view_top_margin"
                     android:minHeight="@dimen/minimum_height_input_views"
                     android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
@@ -303,7 +303,6 @@
                         android:layout_marginRight="@dimen/input_label_horizontal_spacing"
                         android:background="@drawable/button_background"
                         android:minWidth="60dp"
-                        android:paddingRight="8dp"
                         android:textSize="@dimen/default_input_font_size" />
 
                     <TextView
