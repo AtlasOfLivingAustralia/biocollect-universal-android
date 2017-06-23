@@ -30,6 +30,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
+
         return view;
     }
 
