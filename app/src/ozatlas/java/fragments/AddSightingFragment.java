@@ -13,6 +13,8 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.ResultReceiver;
 import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
@@ -87,6 +89,8 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import geocode.Constants;
+import geocode.FetchAddressIntentService;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
@@ -134,6 +138,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     RecyclerView recyclerView;
     @BindView(R.id.editTags)
     EditText editTags;
+    @BindView(R.id.editLatitude)
+    EditText editLatitude;
+    @BindView(R.id.editLongitude)
+    EditText editLongitude;
     @BindView(R.id.editSpeciesName)
     AutoCompleteTextView editSpeciesName;
     @BindView(R.id.confidenceSwitch)
@@ -142,6 +150,21 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     TextView pickImage;
     @BindView(R.id.inputLayoutSpeciesName)
     TextInputLayout inputLayoutSpeciesName;
+
+    /**
+     * Receiver registered with this activity to get the response from FetchAddressIntentService.
+     */
+    private AddressResultReceiver mResultReceiver;
+    /**
+     * Tracks whether the user has requested an address. Becomes true when the user requests an
+     * address and false when the address (or an error message) is delivered.
+     */
+    private boolean mAddressRequested = false;
+
+    /**
+     * The formatted location address.
+     */
+    private String mAddressOutput;
 
     private String[] individualSpinnerValue = new String[NUMBER_OF_INDIVIDUAL_LIMIT];
     private ArrayAdapter<String> individualSpinnerAdapter;
@@ -181,7 +204,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             hideProgressDialog();
             // Called when a new location is found by the network location provider.
             setCoordinate(location);
-            //pickLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
+            //pickLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", location.getLatitude(), location.getLongitude()));
             // Remove the listener you previously added
             locationManager.removeUpdates(locationListener);
         }
@@ -234,6 +257,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
         // Acquire a reference to the system Location Manager
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mResultReceiver = new AddressResultReceiver(new Handler());
 
         makeIndividualLimit();
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -279,6 +303,14 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivityForResult(intent, REQUEST_TAG);
+    }
+
+    /**
+     * click on editLocation editText
+     */
+    @OnClick(R.id.editLocation)
+    void editLocation(){
+        pickLocation();
     }
 
     /**
@@ -519,7 +551,14 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     latitude = addSight.outputs.get(0).data.locationLatitude;
                     longitude = addSight.outputs.get(0).data.locationLongitude;
                     inputLayoutLocation.setHint(getString(R.string.location_hint));
-                    editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
+                    
+                    Location location = new Location("");
+                    location.setLatitude(latitude);
+                    location.setLongitude(longitude);
+                    editLatitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLatitude()));
+                    editLongitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLongitude()));
+                    startIntentService(location);
+                    //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
                 }
 
                 if (addSight.outputs.get(0).data.sightingPhoto != null) {
@@ -817,7 +856,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
         inputLayoutLocation.setHint(getString(R.string.location_hint));
-        editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", place.getLatLng().latitude, place.getLatLng().longitude));
+        editLatitude.setText(String.format(Locale.getDefault(), "%.4f",place.getLatLng().latitude));
+        editLongitude.setText(String.format(Locale.getDefault(), "%.4f",place.getLatLng().longitude));
+        //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", place.getLatLng().latitude, place.getLatLng().longitude));
+        editLocation.setText(place.getAddress());
     }
 
     /**
@@ -831,7 +873,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         inputLayoutLocation.setHint(getString(R.string.location_hint));
-        editLocation.setText(String.format(Locale.getDefault(), "%.3f, %.3f", location.getLatitude(), location.getLongitude()));
+        editLatitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLatitude()));
+        editLongitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLongitude()));
+        //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", location.getLatitude(), location.getLongitude()));
+        startIntentService(location);
     }
 
     /**
@@ -951,5 +996,53 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         super.onDestroy();
         if (realm != null)
             realm.close();
+    }
+
+    /**
+     * Creates an intent, adds location data to it as an extra, and starts the intent service for
+     * fetching an address.
+     */
+    private void startIntentService(Location location) {
+        // Create an intent for passing to the intent service responsible for fetching the address.
+        Intent intent = new Intent(getActivity(), FetchAddressIntentService.class);
+
+        // Pass the result receiver as an extra to the service.
+        intent.putExtra(Constants.RECEIVER, mResultReceiver);
+
+        // Pass the location data as an extra to the service.
+        intent.putExtra(Constants.LOCATION_DATA_EXTRA, location);
+
+        // Start the service. If the service isn't already running, it is instantiated and started
+        // (creating a process for it if needed); if it is running then it remains running. The
+        // service kills itself automatically once all intents are processed.
+        getActivity().startService(intent);
+    }
+
+    /**
+     * Receiver for data sent from FetchAddressIntentService.
+     */
+    private class AddressResultReceiver extends ResultReceiver {
+        AddressResultReceiver(Handler handler) {
+            super(handler);
+        }
+
+        /**
+         *  Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
+         */
+        @Override
+        protected void onReceiveResult(int resultCode, Bundle resultData) {
+
+            // Display the address string or an error message sent from the intent service.
+            mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
+            editLocation.setText(mAddressOutput);
+
+            // Show a toast message if an address was found.
+            /*if (resultCode == Constants.SUCCESS_RESULT) {
+                showToast(getString(R.string.address_found));
+            }*/
+
+            // Reset. Enable the Fetch Address button and stop showing the progress bar.
+            mAddressRequested = false;
+        }
     }
 }

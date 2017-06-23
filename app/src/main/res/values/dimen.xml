@@ -5,7 +5,7 @@
     <dimen name="button_maximum_width">192dp</dimen>
     <dimen name="selected_image_width">150dp</dimen>
     <dimen name="view_top_margin">24dp</dimen>
-    <dimen name="input_view_top_margin">12dp</dimen>
+    <dimen name="input_view_top_margin">8dp</dimen>
     <dimen name="view_top_margin_double">48dp</dimen>
     <dimen name="activity_padding">20dp</dimen>
 

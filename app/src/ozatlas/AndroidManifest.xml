@@ -64,6 +64,13 @@
         <service
             android:name="upload.UploadService"
             android:exported="false" />
+
+        <!-- Service to asynchronously fetch a location address using a Geocoder. Setting the
+        android:exported attribute to "false" stops other apps from starting this
+        service, even when using an explicit intent. -->
+        <service
+            android:name="geocode.FetchAddressIntentService"
+            android:exported="false"/>
     </application>
 
 </manifest>
