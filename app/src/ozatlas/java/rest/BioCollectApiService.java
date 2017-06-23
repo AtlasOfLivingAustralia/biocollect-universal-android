@@ -8,7 +8,8 @@ import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.SightList;
 import io.reactivex.Observable;
-import model.Explore;
+import model.ExploreAnimal;
+import model.ExploreGroup;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -47,5 +48,9 @@ public interface BioCollectApiService {
     //map explore
     //http://biocache.ala.org.au/ws/explore/groups.json?fq=geospatial_kosher%3Atrue&facets=species_group&lat=27.76&lon=138.55&radius=532
     @GET("ws/explore/groups.json")
-    Observable<List<Explore>> getSpeciesFromMap(@Query("fq") String fq, @Query("facets") String facets, @Query("lat") Double lat, @Query("lon") Double lon, @Query("radius") Integer radius);
+    Observable<List<ExploreGroup>> getSpeciesGroupFromMap(@Query("fq") String fq, @Query("facets") String facets, @Query("lat") Double lat, @Query("lon") Double lon, @Query("radius") Integer radius);
+
+    //http://biocache.ala.org.au/ws/explore/group/Animals?fq=geospatial_kosher%3Atrue&facets=species_group&lat=27.76&lon=138.55&radius=532
+    @GET("ws/explore/group/Animals")
+    Observable<List<ExploreAnimal>> getSpeciesAnimalFromMap(@Query("fq") String fq, @Query("facets") String facets, @Query("lat") Double lat, @Query("lon") Double lon, @Query("radius") Integer radius);
 }
