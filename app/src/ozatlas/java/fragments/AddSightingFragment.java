@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -896,6 +897,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             f = setUpPhotoFile();
             mCurrentPhotoPath = f.getAbsolutePath();
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(f));
+
         } catch (IOException e) {
             e.printStackTrace();
             f = null;
@@ -903,6 +905,11 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         }
 
         if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+            List<ResolveInfo> resInfoList = getActivity().getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+            for (ResolveInfo resolveInfo : resInfoList) {
+                String packageName = resolveInfo.activityInfo.packageName;
+                getActivity().grantUriPermission(packageName, getUriFromFileProvider(f), Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+            }
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
