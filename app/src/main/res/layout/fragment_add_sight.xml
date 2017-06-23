@@ -29,7 +29,6 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:paddingLeft="@dimen/activity_horizontal_margin"
                 android:paddingRight="@dimen/activity_horizontal_margin">
 
@@ -37,6 +36,7 @@
                     android:id="@+id/pickImage"
                     android:layout_width="wrap_content"
                     android:layout_height="32dp"
+                    android:layout_centerVertical="true"
                     android:layout_marginBottom="@dimen/input_view_top_margin"
                     android:layout_marginTop="@dimen/input_view_top_margin"
                     android:background="@drawable/button_background"
@@ -51,11 +51,21 @@
                     android:textSize="@dimen/smaller_input_font_size"
                     android:textStyle="bold" />
 
+                <ImageView
+                    android:id="@+id/imagePlaceHolder"
+                    android:layout_width="64dp"
+                    android:layout_height="64dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:adjustViewBounds="true"
+                    android:src="@drawable/ic_camera_alt_black_48dp"
+                    android:tint="@android:color/darker_gray" />
+
                 <android.support.v7.widget.RecyclerView
-                    android:layout_below="@+id/pickImage"
                     android:id="@+id/recyclerView"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/pickImage" />
             </RelativeLayout>
 
             <TextView

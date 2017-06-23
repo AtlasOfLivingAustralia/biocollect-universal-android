@@ -37,6 +37,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -148,6 +149,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     SwitchCompat confidenceSwitch;
     @BindView(R.id.pickImage)
     TextView pickImage;
+    @BindView(R.id.imagePlaceHolder)
+    ImageView imagePlaceHolder;
     @BindView(R.id.inputLayoutSpeciesName)
     TextInputLayout inputLayoutSpeciesName;
 
@@ -281,10 +284,13 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         imageUploadAdapter.buttonVisibilityListener = new ImageUploadAdapter.ButtonVisibilityListener() {
             @Override
             public void update() {
-                if (imageUploadAdapter.getItemCount() == 0)
+                if (imageUploadAdapter.getItemCount() == 0) {
                     pickImage.setVisibility(View.VISIBLE);
-                else
+                    imagePlaceHolder.setVisibility(View.VISIBLE);
+                }else {
                     pickImage.setVisibility(View.GONE);
+                    imagePlaceHolder.setVisibility(View.GONE);
+                }
             }
         };
         recyclerView.setAdapter(imageUploadAdapter);
