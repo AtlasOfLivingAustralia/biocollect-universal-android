@@ -30,14 +30,15 @@ import io.realm.RealmList;
 
 public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
 
-    private static final String DATE_FORMAT = "dd MMMM, yyyy";
     public ButtonVisibilityListener buttonVisibilityListener;
     private RealmList<SightingPhoto> sightingPhotos;
     private String[] attributionMapStrings;
     private ArrayAdapter licenseAdapter;
+    private String userDisplay;
 
-    public ImageUploadAdapter(RealmList<SightingPhoto> sightingPhotos, Context context) {
+    public ImageUploadAdapter(RealmList<SightingPhoto> sightingPhotos, Context context, String displayUser) {
         this.sightingPhotos = sightingPhotos;
+        this.userDisplay = displayUser;
         this.licenseAdapter = ArrayAdapter.createFromResource(context, R.array.license_array, R.layout.item_textview);
         this.attributionMapStrings = context.getResources().getStringArray(R.array.license_map_array);
     }
@@ -85,57 +86,14 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
             }
         });
 
-        final Calendar calendar = Calendar.getInstance();
-        if (sightingPhotos.get(position).dateTaken != null) {
-            calendar.setTime(AtlasDateTimeUtils.getDateFromString(sightingPhotos.get(position).dateTaken));
-        }
-        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(calendar.getTime(), DATE_FORMAT));
-        holder.date.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                (new DatePickerDialog(holder.date.getContext(), R.style.DateTimeDialogTheme, new DatePickerDialog.OnDateSetListener() {
-                    @Override
-                    public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-                        calendar.set(Calendar.YEAR, year);
-                        calendar.set(Calendar.MONTH, month);
-                        calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-                        sightingPhotos.get(position).dateTaken = AtlasDateTimeUtils.getStringFromDate(calendar.getTime());
-                        holder.date.setText(AtlasDateTimeUtils.getStringFromDate(calendar.getTime(), DATE_FORMAT));
-                    }
-                }, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH))).show();
-            }
-        });
-
         if (sightingPhotos.get(position).attribution == null) {
-            sightingPhotos.get(position).attribution = "";
+            sightingPhotos.get(position).attribution = userDisplay;
         }
         holder.attributionEditText.setText(sightingPhotos.get(position).attribution);
         holder.attributionEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 sightingPhotos.get(position).attribution = s.toString();
-            }
-        });
-
-        if (sightingPhotos.get(position).notes == null) {
-            sightingPhotos.get(position).notes = "";
-        }
-        holder.noteEditText.setText(sightingPhotos.get(position).notes);
-        holder.noteEditText.addTextChangedListener(new SimpleTextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                sightingPhotos.get(position).notes = s.toString();
-            }
-        });
-
-        if (sightingPhotos.get(position).name == null) {
-            sightingPhotos.get(position).name = "";
-        }
-        holder.titleEditText.setText(sightingPhotos.get(position).name);
-        holder.titleEditText.addTextChangedListener(new SimpleTextWatcher() {
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                sightingPhotos.get(position).name = s.toString();
             }
         });
     }
@@ -171,17 +129,14 @@ class ImageViewHolders extends RecyclerView.ViewHolder {
     ImageView imageView;
     ImageView crossButton;
     AppCompatSpinner spinner;
-    TextView date;
-    EditText noteEditText, titleEditText, attributionEditText;
+    //TextView date;
+    EditText attributionEditText;
 
     public ImageViewHolders(View itemView) {
         super(itemView);
-        date = (TextView) itemView.findViewById(R.id.date);
         imageView = (ImageView) itemView.findViewById(R.id.imageView);
         crossButton = (ImageView) itemView.findViewById(R.id.crossButton);
         spinner = (AppCompatSpinner) itemView.findViewById(R.id.licenseSpinner);
         attributionEditText = (EditText) itemView.findViewById(R.id.attributionEditText);
-        titleEditText = (EditText) itemView.findViewById(R.id.titleEditText);
-        noteEditText = (EditText) itemView.findViewById(R.id.noteEditText);
     }
 }

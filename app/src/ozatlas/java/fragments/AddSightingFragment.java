@@ -280,7 +280,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         recyclerView.addItemDecoration(itemDecoration);
         //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity());
+        imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity(), sharedPreferences.getUserDisplayName());
         imageUploadAdapter.buttonVisibilityListener = new ImageUploadAdapter.ButtonVisibilityListener() {
             @Override
             public void update() {
@@ -735,8 +735,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
         if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
             showProgressDialog();
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } else {
             AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
