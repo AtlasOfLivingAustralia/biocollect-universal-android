@@ -119,10 +119,13 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private static final int REQUEST_IMAGE_CAPTURE = 4;
     private static final int REQUEST_TAG = 5;
     private static final int DELAY_IN_MILLIS = 400;
+    private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
+
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
+
     final String TAG = "AddSightingFragment";
-    private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
+
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
     @BindView(R.id.time)
@@ -158,11 +161,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      * Receiver registered with this activity to get the response from FetchAddressIntentService.
      */
     private AddressResultReceiver mResultReceiver;
-    /**
-     * Tracks whether the user has requested an address. Becomes true when the user requests an
-     * address and false when the address (or an error message) is delivered.
-     */
-    private boolean mAddressRequested = false;
 
     /**
      * The formatted location address.
@@ -316,6 +314,16 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      */
     @OnClick(R.id.editLocation)
     void editLocation(){
+        pickLocation();
+    }
+
+    @OnClick(R.id.editLatitude)
+    void editLatitude(){
+        pickLocation();
+    }
+
+    @OnClick(R.id.editLongitude)
+    void editLongitude(){
         pickLocation();
     }
 
@@ -1050,7 +1058,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             }*/
 
             // Reset. Enable the Fetch Address button and stop showing the progress bar.
-            mAddressRequested = false;
+            //mAddressRequested = false;
         }
     }
 }

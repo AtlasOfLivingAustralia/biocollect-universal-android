@@ -180,24 +180,6 @@
                     </android.support.design.widget.TextInputLayout>
                 </LinearLayout>
 
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/inputLayoutLocationNotes"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/coordinateLayout"
-                    android:layout_marginTop="@dimen/input_view_top_margin">
-
-                    <EditText
-                        android:id="@+id/editLocationNote"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="top|left"
-                        android:hint="@string/location_note_text"
-                        android:inputType="textMultiLine"
-                        android:maxLines="3"
-                        android:minLines="3"
-                        android:textSize="@dimen/default_input_font_size" />
-                </android.support.design.widget.TextInputLayout>
             </RelativeLayout>
 
             <TextView
@@ -268,7 +250,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
-                        android:checked="true"
+                        android:checked="false"
                         android:theme="@style/ConfidenceSwitch" />
 
                     <TextView
