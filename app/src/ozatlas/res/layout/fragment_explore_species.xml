@@ -10,15 +10,33 @@
         android:layout_height="wrap_content">
 
         <EditText
+            android:id="@+id/address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:clickable="true"
             android:cursorVisible="false"
             android:focusable="false"
             android:focusableInTouchMode="false"
-            android:id="@+id/address"
+            android:hint="@string/centre_location_hint"
+            android:inputType="text"
+            android:maxLines="1" />
+    </android.support.design.widget.TextInputLayout>
+
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputLayoutRadius"
+        android:layout_below="@+id/inputLayoutAddress"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/editRadius"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/address_hint"
-            android:inputType="textEmailAddress"
+            android:clickable="false"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
+            android:hint="@string/radius_hint"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
 
@@ -27,7 +45,7 @@
         android:name="com.google.android.gms.maps.SupportMapFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/inputLayoutAddress"
+        android:layout_below="@+id/inputLayoutRadius"
         android:layout_marginTop="8dp" />
 
     <Button
@@ -37,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="32dp"
+        android:layout_marginBottom="28dp"
         android:background="@drawable/button_background"
         android:gravity="center"
         android:minWidth="@dimen/button_maximum_width"

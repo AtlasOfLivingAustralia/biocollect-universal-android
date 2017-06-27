@@ -27,7 +27,8 @@
     <string name="no_location_hint">No location information</string>
     <string name="latitude_hint">Latitude</string>
     <string name="longitude_hint">Longitude</string>
-    <string name="address_hint">Type Address</string>
+    <string name="centre_location_hint">Center Location Address</string>
+    <string name="radius_hint">Radius From Center</string>
     <string name="date_text">Date</string>
     <string name="time_label">Date and Time of observation</string>
     <string name="note_text">Observation Notes</string>

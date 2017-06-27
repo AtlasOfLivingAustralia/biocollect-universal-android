@@ -24,10 +24,14 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.Locale;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
@@ -53,7 +57,6 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     private SupportMapFragment mapFragment;
     private GoogleMap googleMap;
     private FusedLocationProviderClient mFusedLocationClient;
-    private LatLng currentLocation;
 
     /**
      * Receiver registered with this activity to get the response from FetchAddressIntentService.
@@ -62,6 +65,8 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
     @BindView(R.id.address)
     EditText address;
+    @BindView(R.id.editRadius)
+    EditText editRadius;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,22 +109,45 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
                         // Got last known location. In some rare situations this can be null.
                         if (location != null) {
                             startIntentService(location);
-                            currentLocation = new LatLng(location.getLatitude(), location.getLongitude());
-                            setGoogleMapMarker();
+                            setGoogleMapMarker(new LatLng(location.getLatitude(), location.getLongitude()));
                         }
                     }
                 });
     }
 
-    private void setGoogleMapMarker(){
-        googleMap.addMarker(new MarkerOptions().position(currentLocation));
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(currentLocation, INITIAL_ZOOM));
+    private void setGoogleMapMarker(LatLng latLng){
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        this.googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+            @Override
+            public void onCameraIdle() {
+                Projection projection = ExploreSpeciesFragment.this.googleMap.getProjection();
+                LatLng centerLatLng = projection.getVisibleRegion().latLngBounds.getCenter();
+                LatLng topLeft = projection.getVisibleRegion().farLeft;
+                ExploreSpeciesFragment.this.googleMap.addMarker(new MarkerOptions().position(centerLatLng));
+                Location location = new Location("");
+                location.setLatitude(centerLatLng.latitude);
+                location.setLongitude(centerLatLng.longitude);
+                startIntentService(location);
+                float boundary = getBoundary(centerLatLng, topLeft);
+                editRadius.setText(String.format(Locale.getDefault(), "%.2f meter", boundary));
+            }
+        });
         getLastLocation();
+    }
+
+    private float getBoundary(LatLng centerLatLng, LatLng topLeft) {
+        Location loc1 = new Location("");
+        Location loc2 = new Location("");
+        loc1.setLatitude(centerLatLng.latitude);
+        loc2.setLatitude(topLeft.latitude);
+        loc1.setLongitude(centerLatLng.longitude);
+        loc2.setLongitude(topLeft.longitude);
+        return loc1.distanceTo(loc2);
     }
 
     /**
@@ -148,9 +176,8 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         if (requestCode == PLACE_AUTOCOMPLETE_REQUEST_CODE) {
             if (resultCode == RESULT_OK) {
                 Place place = PlaceAutocomplete.getPlace(getActivity(), data);
-                currentLocation = place.getLatLng();
                 address.setText(place.getAddress());
-                setGoogleMapMarker();
+                setGoogleMapMarker(place.getLatLng());
 
                 Log.i(TAG, "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
