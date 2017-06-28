@@ -26,13 +26,13 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.Locale;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import base.BaseMainActivityFragment;
@@ -62,6 +62,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
      * Receiver registered with this activity to get the response from FetchAddressIntentService.
      */
     private AddressResultReceiver mResultReceiver;
+    private LatLng centerLatLng;
 
     @BindView(R.id.address)
     EditText address;
@@ -83,8 +84,24 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         return view;
     }
 
+    @OnClick(R.id.nextButton)
+    void nextButton() {
+        if (centerLatLng != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
+            bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
+            bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
+            bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("meter", "")));
+            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        }else{
+            showSnackBarMessage(getString(R.string.location_missing));
+        }
+    }
+
     @OnClick(R.id.address)
-    void address(){
+    void address() {
         try {
             Intent intent = new PlaceAutocomplete.IntentBuilder(PlaceAutocomplete.MODE_OVERLAY).build(getActivity());
             startActivityForResult(intent, PLACE_AUTOCOMPLETE_REQUEST_CODE);
@@ -95,7 +112,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         }
     }
 
-    private void getLastLocation(){
+    private void getLastLocation() {
         MarshMallowPermission marshMallowPermission = new MarshMallowPermission(ExploreSpeciesFragment.this);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             marshMallowPermission.requestPermissionForLocation();
@@ -116,7 +133,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
                 });
     }
 
-    private void setGoogleMapMarker(LatLng latLng){
+    private void setGoogleMapMarker(LatLng latLng) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
@@ -128,7 +145,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
             public void onCameraIdle() {
                 ExploreSpeciesFragment.this.googleMap.clear();
                 Projection projection = ExploreSpeciesFragment.this.googleMap.getProjection();
-                LatLng centerLatLng = projection.getVisibleRegion().latLngBounds.getCenter();
+                centerLatLng = projection.getVisibleRegion().latLngBounds.getCenter();
                 LatLng topLeft = projection.getVisibleRegion().farLeft;
                 ExploreSpeciesFragment.this.googleMap.addMarker(new MarkerOptions().position(centerLatLng));
                 Location location = new Location("");
@@ -223,7 +240,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         }
 
         /**
-         *  Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
+         * Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
          */
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {

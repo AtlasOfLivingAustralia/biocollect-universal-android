@@ -4,6 +4,7 @@
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
+    <string name="bio_cache_url">http://biocache.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
@@ -18,6 +19,7 @@
     <string name="map_explore_title">Explore Species By Location</string>
     <string name="all_sighting_title">All Sightings</string>
     <string name="my_sighting_title">My Sightings</string>
+    <string name="species_group_title">Species Groups</string>
     <string name="draft_sighting_title">Draft Sightings</string>
     <string name="contact_us_title">Contact the ALA</string>
     <string name="explore_species_title">Explore Species</string>
@@ -43,6 +45,7 @@
     <string name="project_output_name">Single Sighting - Advanced</string>
 
 
+    <string name="location_missing">Please select a location</string>
     <string name="no_geocoder_available">No geocoder available</string>
     <string name="address_found">Address found</string>
 
@@ -50,6 +53,9 @@
     <string name="no_location_data_provided">No location data provided</string>
     <string name="service_not_available">Sorry, the service is not available</string>
     <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
+
+    <string name="species_count">Count: %1$d</string>
+    <string name="total_group_count">Total Groups: %1$d</string>
 
 
     <string name="permission_rationale">Location permission is needed for core functionality</string>

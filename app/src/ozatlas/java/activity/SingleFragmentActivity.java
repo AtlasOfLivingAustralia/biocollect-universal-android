@@ -13,6 +13,7 @@ import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.AddSightingFragment;
+import fragments.SpeciesGroupListFragment;
 import fragments.TagSelectionFragment;
 
 /**
@@ -47,6 +48,9 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
                     break;
                 case TAG_SELECTION:
                     fragment = new TagSelectionFragment();
+                    break;
+                case SPECIES_GROUP_FRAGMENT:
+                    fragment = new SpeciesGroupListFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -134,6 +138,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     public enum FragmentType {
         WEB_FRAGMENT,
         EDIT_FRAGMENT,
-        TAG_SELECTION
+        TAG_SELECTION,
+        SPECIES_GROUP_FRAGMENT
     }
 }
