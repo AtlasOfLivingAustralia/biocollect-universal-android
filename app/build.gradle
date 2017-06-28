@@ -17,6 +17,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         applicationId 'au.csiro'
+        //applicationId 'au.org'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -35,6 +36,7 @@ android {
             versionName '1.0'
         }
         ozatlas {
+            //applicationIdSuffix '.ala.mobile.ozatlas'
             applicationIdSuffix '.ozatlas'
             versionCode 1
             versionName '1.0'

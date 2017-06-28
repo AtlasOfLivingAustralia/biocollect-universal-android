@@ -102,6 +102,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
             return;
         }
 
+        this.googleMap.setMyLocationEnabled(true);
         mFusedLocationClient.getLastLocation()
                 .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
                     @Override
@@ -125,6 +126,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         this.googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
             @Override
             public void onCameraIdle() {
+                ExploreSpeciesFragment.this.googleMap.clear();
                 Projection projection = ExploreSpeciesFragment.this.googleMap.getProjection();
                 LatLng centerLatLng = projection.getVisibleRegion().latLngBounds.getCenter();
                 LatLng topLeft = projection.getVisibleRegion().farLeft;
