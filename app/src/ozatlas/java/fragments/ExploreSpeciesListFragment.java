@@ -51,6 +51,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     private List<ExploreGroup> exploreGroups = new ArrayList<>();
     private List<ExploreAnimal> exploreAnimals = new ArrayList<>();
     private double latitude, longitude, radius;
+    private String group;
     private RecyclerView.Adapter adapter;
     private BioCacheApiService bioCacheApiService;
     private boolean isForAnimals;
@@ -73,6 +74,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             int position = recyclerView.getChildAdapterPosition(v);
             Bundle bundle = getArguments();
             bundle.putBoolean(getString(R.string.is_for_animal_parameter), true);
+            bundle.putString(getString(R.string.group_parameter), exploreGroups.get(position).name);
             Fragment fragment = new ExploreSpeciesListFragment();
             fragment.setArguments(bundle);
             getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
@@ -95,6 +97,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         Bundle bundle = getArguments();
         if (bundle != null) {
             isForAnimals = bundle.getBoolean(getString(R.string.is_for_animal_parameter));
+            group = bundle.getString(getString(R.string.group_parameter));
             latitude = bundle.getDouble(getString(R.string.latitude_parameter));
             longitude = bundle.getDouble(getString(R.string.longitude_parameter));
             radius = bundle.getDouble(getString(R.string.radius_parameter));
@@ -124,7 +127,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
         //get the groups
         if(isForAnimals)
-            fetchAnimals(latitude, longitude, radius);
+            fetchAnimals(group, latitude, longitude, radius);
         else
             fetchGroups(latitude, longitude, radius);
 
@@ -164,9 +167,9 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
                 }));
     }
 
-    protected void fetchAnimals(double latitude, double longitude, double radius) {
+    protected void fetchAnimals(String group, double latitude, double longitude, double radius) {
         swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(FQ, FACET, latitude, longitude, radius)
+        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(group, FQ, FACET, latitude, longitude, radius)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<ExploreAnimal>>() {
@@ -199,7 +202,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     @Override
     public void onRefresh() {
         if(isForAnimals)
-            fetchAnimals(latitude, longitude, radius);
+            fetchAnimals(group, latitude, longitude, radius);
         else
             fetchGroups(latitude, longitude, radius);
     }

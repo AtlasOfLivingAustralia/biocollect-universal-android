@@ -6,6 +6,7 @@ import io.reactivex.Observable;
 import model.ExploreAnimal;
 import model.ExploreGroup;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -19,6 +20,6 @@ public interface BioCacheApiService {
     Observable<List<ExploreGroup>> getSpeciesGroupFromMap(@Query("fq") String fq, @Query("facets") String facets, @Query("lat") Double lat, @Query("lon") Double lon, @Query("radius") Double radius);
 
     //http://biocache.ala.org.au/ws/explore/group/Animals?fq=geospatial_kosher%3Atrue&facets=species_group&lat=27.76&lon=138.55&radius=532
-    @GET("ws/explore/group/Animals")
-    Observable<List<ExploreAnimal>> getSpeciesAnimalFromMap(@Query("fq") String fq, @Query("facets") String facets, @Query("lat") Double lat, @Query("lon") Double lon, @Query("radius") Double radius);
+    @GET("ws/explore/group/{group}")
+    Observable<List<ExploreAnimal>> getSpeciesAnimalFromMap(@Path("group") String group, @Query("fq") String fq, @Query("facets") String facets, @Query("lat") Double lat, @Query("lon") Double lon, @Query("radius") Double radius);
 }
