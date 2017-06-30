@@ -38,7 +38,7 @@ import rest.BioCacheApiService;
 public class ExploreSpeciesListFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
     private final String TAG = "SpeciesGroupFragment";
 
-    private final String FQ = "geospatial_kosher%3Atrue";
+    private final String FQ = "geospatial_kosher:true";
     private final String FACET = "species_group";
 
     @BindView(R.id.recyclerView)
@@ -63,8 +63,11 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
-
-            //startWebViewActivity(getString(R.string.sighting_detail_url, exploreGroups.get(position).activityId), getString(R.string.sight_detail), false);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(getString(R.string.species_parameter), exploreAnimals.get(position));
+            Fragment fragment = new SpeciesDetailFragment();
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
         }
     };
 
@@ -137,7 +140,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
     protected void fetchGroups(double latitude, double longitude, double radius) {
         swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(bioCacheApiService.getSpeciesGroupFromMap(FQ, FACET, latitude, longitude, radius)
+        mCompositeDisposable.add(bioCacheApiService.getSpeciesGroupFromMap(FQ, FACET, 27.76, 138.55, 532.0)//latitude, longitude, radius)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<ExploreGroup>>() {
@@ -169,7 +172,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
     protected void fetchAnimals(String group, double latitude, double longitude, double radius) {
         swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(group, FQ, FACET, latitude, longitude, radius)
+        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(group, FQ, FACET, 27.76, 138.55, 532.0)//latitude, longitude, radius)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<ExploreAnimal>>() {
@@ -261,7 +264,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
         @Override
         public int getItemCount() {
-            return exploreGroups.size();
+            return exploreAnimals.size();
         }
     }
 

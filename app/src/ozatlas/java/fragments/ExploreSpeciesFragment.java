@@ -86,18 +86,18 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
     @OnClick(R.id.nextButton)
     void nextButton() {
-        if (centerLatLng != null) {
+        //if (centerLatLng != null) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
-            bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
+            /*bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
             bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
             bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("meter", "")));
-            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+            */Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
             intent.putExtras(bundle);
             startActivity(intent);
-        }else{
+        /*}else{
             showSnackBarMessage(getString(R.string.location_missing));
-        }
+        }*/
     }
 
     @OnClick(R.id.address)

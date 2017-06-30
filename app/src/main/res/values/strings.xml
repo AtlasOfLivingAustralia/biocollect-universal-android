@@ -22,6 +22,7 @@
     <string name="latitude_parameter">LATITUDE</string>
     <string name="is_for_animal_parameter">FOR_ANIMAL</string>
     <string name="group_parameter">GROUP</string>
+    <string name="species_parameter">SPECIES</string>
     <string name="longitude_parameter">LONGITUDE</string>
     <string name="radius_parameter">RADIUS</string>
 
