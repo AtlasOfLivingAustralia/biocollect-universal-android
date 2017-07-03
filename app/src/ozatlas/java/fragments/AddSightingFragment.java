@@ -105,6 +105,7 @@ import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import model.ExploreAnimal;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -242,6 +243,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         realm = Realm.getDefaultInstance();
 
         setTitle(getString(R.string.add_title));
+        getSightForEdit();
 
         //species search service
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
@@ -300,7 +302,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         };
         recyclerView.setAdapter(imageUploadAdapter);
 
-        getSightForEdit();
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
         return view;
     }
@@ -342,20 +343,31 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private void getSightForEdit() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            setTitle(getString(R.string.edit_title));
-            Long id = bundle.getLong(getString(R.string.sight_parameter));
-            RealmQuery<AddSight> query = realm.where(AddSight.class).equalTo("realmId", id);
-            RealmResults<AddSight> results = query.findAllAsync();
-            results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
-                @Override
-                public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
-                    if (collection.size() > 0) {
-                        addSight = collection.first();
-                        if (addSight != null)
-                            setSightValues();
+            ExploreAnimal animal = (ExploreAnimal) getArguments().getSerializable(getString(R.string.species_parameter));
+            if(animal==null) {
+                setTitle(getString(R.string.edit_title));
+                Long id = bundle.getLong(getString(R.string.sight_parameter));
+                RealmQuery<AddSight> query = realm.where(AddSight.class).equalTo("realmId", id);
+                RealmResults<AddSight> results = query.findAllAsync();
+                results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
+                    @Override
+                    public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
+                        if (collection.size() > 0) {
+                            addSight = collection.first();
+                            if (addSight != null)
+                                setSightValues();
+                        }
                     }
-                }
-            });
+                });
+            }else{
+                selectedSpecies = new SpeciesSearchResponse.Species();
+                selectedSpecies.name = animal.name;
+                selectedSpecies.kingdom = animal.kingdom;
+                selectedSpecies.guid = animal.guid;
+                speciesDetailLayout.setVisibility(View.VISIBLE);
+                speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", animal.guid));
+                editSpeciesName.setText(animal.name);
+            }
         }
     }
 

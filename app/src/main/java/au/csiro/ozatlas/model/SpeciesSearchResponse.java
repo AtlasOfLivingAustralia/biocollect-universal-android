@@ -20,7 +20,7 @@ public class SpeciesSearchResponse {
     @SerializedName("results")
     public List<Species> results;
 
-    public class Species {
+    public static class Species {
         @Expose
         @SerializedName("id")
         public String id;
