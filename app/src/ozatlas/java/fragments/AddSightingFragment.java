@@ -38,6 +38,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -134,6 +135,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     TextView date;
     @BindView(R.id.pickLocation)
     TextView pickLocation;
+    @BindView(R.id.speciesDetailLayout)
+    LinearLayout speciesDetailLayout;
+    @BindView(R.id.speciesURL)
+    TextView speciesURL;
     @BindView(R.id.inputLayoutLocation)
     TextInputLayout inputLayoutLocation;
     @BindView(R.id.editLocation)
@@ -246,6 +251,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 selectedSpecies = species.get(position);
+                speciesDetailLayout.setVisibility(View.VISIBLE);
+                speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", selectedSpecies.guid));
                 if (AtlasManager.isTesting) {
                     Toast.makeText(getActivity(), selectedSpecies.highlight, Toast.LENGTH_LONG).show();
                 }
@@ -679,6 +686,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                             editSpeciesName.dismissDropDown();
                         } else {
                             editSpeciesName.showDropDown();
+                            speciesDetailLayout.setVisibility(View.GONE);
                         }
                     }
 
@@ -729,6 +737,12 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         }
                     }
                 }).show();
+    }
+
+
+    @OnClick(R.id.speciesDetailLayout)
+    void speciesDetailLayout(){
+        startWebViewActivity(speciesURL.getText().toString(), "Species Detail", false);
     }
 
     /**

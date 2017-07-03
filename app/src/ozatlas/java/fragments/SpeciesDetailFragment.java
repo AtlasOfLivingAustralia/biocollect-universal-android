@@ -6,10 +6,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Locale;
+
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.fragments.WebViewFragment;
 import base.BaseMainActivityFragment;
 import butterknife.ButterKnife;
+import model.ExploreAnimal;
 
 /**
  * Created by sad038 on 30/6/17.
@@ -32,6 +35,15 @@ public class SpeciesDetailFragment extends BaseMainActivityFragment {
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         view.findViewById(R.id.record).setOnClickListener(onClickListener);
+
+        ExploreAnimal animal = (ExploreAnimal) getArguments().getSerializable(getString(R.string.species_parameter));
+        if (animal != null) {
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.url_parameter), String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", animal.guid));
+            Fragment fragment = new WebViewFragment();
+            fragment.setArguments(bundle);
+            getChildFragmentManager().beginTransaction().replace(R.id.speciesFragmentHolder, fragment).commit();
+        }
         return view;
     }
 }

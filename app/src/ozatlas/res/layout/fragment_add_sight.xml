@@ -2,7 +2,8 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@android:color/white">
 
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -218,6 +219,31 @@
                         android:maxLines="1"
                         android:textSize="@dimen/default_input_font_size" />
                 </android.support.design.widget.TextInputLayout>
+
+                <LinearLayout
+                    android:id="@+id/speciesDetailLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="?attr/selectableItemBackground"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:visibility="gone">
+
+                    <ImageView
+                        android:layout_width="@dimen/row_cross_round_tick_width"
+                        android:layout_height="@dimen/row_cross_round_tick_width"
+                        android:src="@drawable/ic_info_outline_black_24dp"
+                        android:tint="@color/colorPrimary" />
+
+                    <TextView
+                        android:id="@+id/speciesURL"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:ellipsize="end"
+                        android:maxLines="1"
+                        android:textSize="@dimen/smaller_input_font_size" />
+                </LinearLayout>
 
                 <android.support.design.widget.TextInputLayout
                     android:id="@+id/inputLayoutTag"

@@ -153,7 +153,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
                 location.setLongitude(centerLatLng.longitude);
                 startIntentService(location);
                 float boundary = getBoundary(centerLatLng, topLeft);
-                editRadius.setText(String.format(Locale.getDefault(), "%.2f meter", boundary));
+                editRadius.setText(String.format(Locale.getDefault(), "%.2f km", boundary/1000));
             }
         });
         getLastLocation();
