@@ -52,6 +52,7 @@ import static android.app.Activity.RESULT_OK;
 public class ExploreSpeciesFragment extends BaseMainActivityFragment implements OnMapReadyCallback {
     private final int INITIAL_ZOOM = 15;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
+    private final int ADD_SIGHT_REQUEST_CODE = 2;
     private final String TAG = "ExploreSpeciesFragment";
 
     private SupportMapFragment mapFragment;
@@ -87,14 +88,15 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     @OnClick(R.id.nextButton)
     void nextButton() {
         //if (centerLatLng != null) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
             /*bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
             bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
             bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("meter", "")));
-            */Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            */
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);
         /*}else{
             showSnackBarMessage(getString(R.string.location_missing));
         }*/
@@ -153,7 +155,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
                 location.setLongitude(centerLatLng.longitude);
                 startIntentService(location);
                 float boundary = getBoundary(centerLatLng, topLeft);
-                editRadius.setText(String.format(Locale.getDefault(), "%.2f km", boundary/1000));
+                editRadius.setText(String.format(Locale.getDefault(), "%.2f km", boundary / 1000));
             }
         });
         getLastLocation();
@@ -207,6 +209,9 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
+        } else if (requestCode == ADD_SIGHT_REQUEST_CODE && resultCode == RESULT_OK) {
+            setDrawerMenuChecked(R.id.nav_all_sighting);
+            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         }
     }
 

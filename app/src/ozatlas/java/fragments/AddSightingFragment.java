@@ -508,7 +508,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
                         if (getActivity() instanceof SingleFragmentActivity) {
                             getActivity().setResult(RESULT_OK);
-                            getActivity().onBackPressed();
+                            getActivity().finish();
                         } else {
                             setDrawerMenuChecked(R.id.nav_all_sighting);
                             getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
@@ -751,7 +751,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 }).show();
     }
 
-
     @OnClick(R.id.speciesDetailLayout)
     void speciesDetailLayout(){
         startWebViewActivity(speciesURL.getText().toString(), "Species Detail", false);
@@ -950,6 +949,9 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         }
     }
 
+    /**
+     * when the user clicks "add image" button
+     */
     @OnClick(R.id.pickImage)
     void pickImage() {
         MarshMallowPermission marshMallowPermission = new MarshMallowPermission(this);
