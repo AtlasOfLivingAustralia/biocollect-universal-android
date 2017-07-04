@@ -42,6 +42,9 @@ import io.reactivex.schedulers.Schedulers;
  * Created by sad038 on 22/6/17.
  */
 
+/**
+ * This class is to show all the available tags and to select multiple tags
+ */
 public class TagSelectionFragment extends BaseMainActivityFragment {
     @BindView(R.id.listView)
     ListView listView;
@@ -57,6 +60,8 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
         setTitle(getString(R.string.identification_tags));
         setHasOptionsMenu(true);
+
+        //click the item of the lsitview
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -64,13 +69,6 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
                 tagsAdapter.notifyDataSetChanged();
             }
         });
-
-        String[] existingTags = null;
-
-        if (getArguments() != null) {
-            String str = getArguments().getString(getString(R.string.tag_string_parameter));
-            existingTags = TextUtils.split(str, "; ");
-        }
 
         //reading the tags from file
         showProgressDialog();
@@ -136,7 +134,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //when the user will press the upload menu item
+            //when the user will press the donr menu item
             case R.id.done:
                 Intent resultIntent = new Intent();
                 resultIntent.putExtra(getString(R.string.tag_string_parameter), getTags());
@@ -147,6 +145,10 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
         return true;
     }
 
+    /**
+     * joining the selected tags separated by "; "
+     * @return
+     */
     private String getTags() {
         List<String> selectedTags = new ArrayList<>();
         for (int i = 0; i < tags.size(); i++) {
@@ -183,9 +185,12 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
         return tags;
     }
 
-    public class TagAdapter extends ArrayAdapter<String> {
+    /**
+     * Adapters for Tag ListView
+     */
+    private class TagAdapter extends ArrayAdapter<String> {
 
-        public TagAdapter() {
+        TagAdapter() {
             super(getActivity(), 0, tags);
         }
 

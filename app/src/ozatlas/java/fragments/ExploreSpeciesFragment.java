@@ -249,17 +249,8 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
          */
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
-
             // Display the address string or an error message sent from the intent service.
             address.setText(resultData.getString(Constants.RESULT_DATA_KEY));
-
-            // Show a toast message if an address was found.
-            /*if (resultCode == Constants.SUCCESS_RESULT) {
-                showToast(getString(R.string.address_found));
-            }*/
-
-            // Reset. Enable the Fetch Address button and stop showing the progress bar.
-            //mAddressRequested = false;
         }
     }
 }

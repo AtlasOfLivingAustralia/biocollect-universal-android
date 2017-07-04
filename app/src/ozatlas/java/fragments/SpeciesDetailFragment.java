@@ -18,7 +18,13 @@ import model.ExploreAnimal;
  * Created by sad038 on 30/6/17.
  */
 
+/**
+ * This class is to show the detail of a selected species.
+ */
 public class SpeciesDetailFragment extends BaseMainActivityFragment {
+    /**
+     * click listener for "record a sight" button
+     */
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -36,9 +42,11 @@ public class SpeciesDetailFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
         view.findViewById(R.id.record).setOnClickListener(onClickListener);
 
+        //Retrieving the selected species
         ExploreAnimal animal = (ExploreAnimal) getArguments().getSerializable(getString(R.string.species_parameter));
         if (animal != null) {
             Bundle bundle = new Bundle();
+            //showing the detail of the species in a fragment.
             bundle.putString(getString(R.string.url_parameter), String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", animal.guid));
             Fragment fragment = new WebViewFragment();
             fragment.setArguments(bundle);

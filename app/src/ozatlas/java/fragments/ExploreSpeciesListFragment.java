@@ -57,7 +57,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     private boolean isForAnimals;
 
     /**
-     * onClick listener for the recyclerview item
+     * onClick listener for the recyclerview animal item
      */
     View.OnClickListener onAnimalClickListener = new View.OnClickListener() {
         @Override
@@ -71,6 +71,9 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         }
     };
 
+    /**
+     * onClick listener for the recyclerview group item
+     */
     View.OnClickListener onGroupClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
