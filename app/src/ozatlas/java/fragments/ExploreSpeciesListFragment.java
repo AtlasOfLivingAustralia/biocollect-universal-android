@@ -9,7 +9,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +146,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
     protected void fetchGroups(double latitude, double longitude, double radius) {
         swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(bioCacheApiService.getSpeciesGroupFromMap(FQ, FACET, 27.76, 138.55, 532.0)//latitude, longitude, radius)
+        mCompositeDisposable.add(bioCacheApiService.getSpeciesGroupFromMap(FQ, FACET, latitude, longitude, radius) //27.76, 138.55, 532.0)//
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<ExploreGroup>>() {
@@ -175,7 +178,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
     protected void fetchAnimals(String group, double latitude, double longitude, double radius) {
         swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(group, FQ, FACET, 27.76, 138.55, 532.0)//latitude, longitude, radius)
+        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(group, FQ, FACET, latitude, longitude, radius) //27.76, 138.55, 532.0)//
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<ExploreAnimal>>() {
@@ -227,6 +230,11 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             ExploreGroup group = exploreGroups.get(position);
             holder.name.setText(group.name);
             holder.count.setText(getString(R.string.count, group.speciesCount));
+            /*Glide.with(getActivity())
+                    .load(getString(R.string.explore_image_url, group.))
+                    .placeholder(R.drawable.ala_transparent)
+                    .crossFade()
+                    .into(holder.icon);*/
         }
 
         @Override
@@ -240,11 +248,13 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
      */
     class SpeciesGroupViewHolders extends RecyclerView.ViewHolder {
         TextView name, count;
+        ImageView icon;
 
         SpeciesGroupViewHolders(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             count = (TextView) itemView.findViewById(R.id.count);
+            icon = (ImageView) itemView.findViewById(R.id.icon);
         }
     }
 
@@ -263,6 +273,11 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             holder.name.setText(animal.name);
             holder.count.setText(getString(R.string.count, animal.count));
             holder.family.setText(animal.family);
+            Glide.with(getActivity())
+                    .load(getString(R.string.explore_image_url, animal.guid))
+                    .placeholder(R.drawable.no_image_available)
+                    .crossFade()
+                    .into(holder.icon);
         }
 
         @Override

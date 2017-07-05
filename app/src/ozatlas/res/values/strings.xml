@@ -10,7 +10,7 @@
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
-
+    <string name="explore_image_url">http://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
 
     <string name="title_activity_main">OzAtlas</string>
     <string name="about_title">About the ALA</string>
