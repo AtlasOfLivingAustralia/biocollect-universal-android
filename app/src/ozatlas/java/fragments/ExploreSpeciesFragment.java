@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,6 +27,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.Projection;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -50,7 +52,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class ExploreSpeciesFragment extends BaseMainActivityFragment implements OnMapReadyCallback {
-    private final int INITIAL_ZOOM = 15;
+    private final float INITIAL_ZOOM = 12.2f;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private final int ADD_SIGHT_REQUEST_CODE = 2;
     private final String TAG = "ExploreSpeciesFragment";
@@ -87,19 +89,19 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
     @OnClick(R.id.nextButton)
     void nextButton() {
-        //if (centerLatLng != null) {
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
-            /*bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
+        if (centerLatLng != null) {
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
+            bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
             bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
-            bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("meter", "")));
-            */
-        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-        intent.putExtras(bundle);
-        startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);
-        /*}else{
+            bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("km", "")));
+
+            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);
+        } else {
             showSnackBarMessage(getString(R.string.location_missing));
-        }*/
+        }
     }
 
     @OnClick(R.id.address)
@@ -114,6 +116,9 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         }
     }
 
+    /**
+     * getting last location from fused location service
+     */
     private void getLastLocation() {
         MarshMallowPermission marshMallowPermission = new MarshMallowPermission(ExploreSpeciesFragment.this);
         if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -148,17 +153,46 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
                 ExploreSpeciesFragment.this.googleMap.clear();
                 Projection projection = ExploreSpeciesFragment.this.googleMap.getProjection();
                 centerLatLng = projection.getVisibleRegion().latLngBounds.getCenter();
-                LatLng topLeft = projection.getVisibleRegion().farLeft;
                 ExploreSpeciesFragment.this.googleMap.addMarker(new MarkerOptions().position(centerLatLng));
                 Location location = new Location("");
                 location.setLatitude(centerLatLng.latitude);
                 location.setLongitude(centerLatLng.longitude);
                 startIntentService(location);
-                float boundary = getBoundary(centerLatLng, topLeft);
-                editRadius.setText(String.format(Locale.getDefault(), "%.2f km", boundary / 1000));
+
+                LatLng bottomLeft = projection.getVisibleRegion().latLngBounds.southwest;
+                LatLng topRight = projection.getVisibleRegion().latLngBounds.northeast;
+
+                LatLng middleLeft = new LatLng(centerLatLng.latitude, bottomLeft.longitude);
+                LatLng middleTop = new LatLng(topRight.latitude, centerLatLng.longitude);
+                float distanceBetweenMiddleLeftAndCentre = getBoundary(centerLatLng, middleLeft);
+                float distanceBetweenMiddleTopAndCentre = getBoundary(centerLatLng, middleTop);
+                if (distanceBetweenMiddleLeftAndCentre > distanceBetweenMiddleTopAndCentre) {
+                    updateMap(distanceBetweenMiddleTopAndCentre);
+                } else {
+                    updateMap(distanceBetweenMiddleLeftAndCentre);
+                }
+
+                //float boundary = getBoundary(centerLatLng, topLeft);
+
             }
         });
         getLastLocation();
+    }
+
+    private void updateMap(double distance) {
+        drawCircle(centerLatLng.latitude, centerLatLng.longitude, distance * .97);
+        editRadius.setText(String.format(Locale.getDefault(), "%.2f km", distance / 1000));
+    }
+
+    private void drawCircle(double lat, double lng, double radius) {
+        if (googleMap != null) {
+            googleMap.addCircle(new CircleOptions()
+                    .center(new LatLng(lat, lng))
+                    .radius(radius)
+                    .strokeColor(ContextCompat.getColor(getActivity(), R.color.colorPrimary))
+                    .strokeWidth(getResources().getDimension(R.dimen.map_circle_stroke_width))
+                    .fillColor(ContextCompat.getColor(getActivity(), R.color.map_circle_background)));
+        }
     }
 
     private float getBoundary(LatLng centerLatLng, LatLng topLeft) {
