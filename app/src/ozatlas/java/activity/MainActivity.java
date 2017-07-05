@@ -1,5 +1,7 @@
 package activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -51,7 +53,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         // The filter's action is BROADCAST_ACTION
         IntentFilter statusIntentFilter = new IntentFilter(Constants.BROADCAST_ACTION);
         // Instantiates a new DownloadStateReceiver
@@ -64,7 +65,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
+                if (!(getSupportFragmentManager().findFragmentById(R.id.fragmentHolder) instanceof AddSightingFragment))
+                    getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
             }
         });
 
@@ -151,7 +153,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
         } else if (id == R.id.nav_draft_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
-        }else if(id==R.id.nav_location_species){
+        } else if (id == R.id.nav_location_species) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).commit();
         }
 
@@ -167,13 +169,21 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             LocalBroadcastManager.getInstance(this).unregisterReceiver(dataChangeNotificationReceiver);
     }
 
+
+
     /**
      * hides the floating button if its not hidden
      */
     @Override
     public void hideFloatingButton() {
         if (fab.getScaleX() != 0.0f)
-            fab.animate().scaleX(0.0f).scaleY(0.0f).setDuration(100).setInterpolator(new AccelerateInterpolator()).start();
+            fab.animate().scaleX(0.0f).scaleY(0.0f).setDuration(100).setInterpolator(new AccelerateInterpolator()).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationEnd(Animator animation) {
+                    super.onAnimationEnd(animation);
+                    fab.setVisibility(View.GONE);
+                }
+            }).start();
     }
 
     /**
@@ -182,7 +192,13 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void showFloatingButton() {
         if (fab.getScaleX() != 1.0f)
-            fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).start();
+            fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).setListener(new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationStart(Animator animation) {
+                    super.onAnimationStart(animation);
+                    fab.setVisibility(View.VISIBLE);
+                }
+            }).start();
     }
 
     /**

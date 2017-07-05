@@ -75,7 +75,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         View view = inflater.inflate(R.layout.fragment_explore_species, container, false);
         ButterKnife.bind(this, view);
         setTitle(getString(R.string.explore_species_title));
-
+        hideFloatingButton();
         mResultReceiver = new AddressResultReceiver(new Handler());
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
 
