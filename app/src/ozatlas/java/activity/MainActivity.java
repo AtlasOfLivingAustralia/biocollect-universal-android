@@ -7,20 +7,27 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.TextView;
+
+import com.androidadvance.topsnackbar.TSnackbar;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
@@ -169,7 +176,19 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             LocalBroadcastManager.getInstance(this).unregisterReceiver(dataChangeNotificationReceiver);
     }
 
-
+    /**
+     * Showing the snackbar from the Top
+     * @param str
+     */
+    @Override
+    public void showSnackBarFromTop(String str){
+        TSnackbar snackbar = TSnackbar.make(coordinatorLayout,str,TSnackbar.LENGTH_LONG);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.ala_dark_background));
+        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
+    }
 
     /**
      * hides the floating button if its not hidden

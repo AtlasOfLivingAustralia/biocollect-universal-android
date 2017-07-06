@@ -44,6 +44,13 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
     }
 
     @Override
+    public void showSnackBarFromTop(String string) {
+        if (mainActivityFragmentListener != null) {
+            mainActivityFragmentListener.showSnackBarFromTop(string);
+        }
+    }
+
+    @Override
     public void handleError(Throwable e, int code, String message) {
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.handleError(e, code, message);

@@ -7,13 +7,16 @@ import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 
 import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
 import com.google.android.gms.common.GooglePlayServicesRepairableException;
@@ -84,12 +87,14 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
+        showSnackBarFromTop("Zoom out/pan to expand/move the target area.");
         return view;
     }
 
     @OnClick(R.id.nextButton)
     void nextButton() {
-        if (centerLatLng != null) {
+        showSnackBarFromTop("Zoom out/pan to expand/move the target area.");
+        /*if (centerLatLng != null) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
             bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
@@ -101,7 +106,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
             startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);
         } else {
             showSnackBarMessage(getString(R.string.location_missing));
-        }
+        }*/
     }
 
     @OnClick(R.id.address)

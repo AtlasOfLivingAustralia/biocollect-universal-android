@@ -1,10 +1,16 @@
 package activity;
 
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
+import com.androidadvance.topsnackbar.TSnackbar;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
@@ -107,6 +113,21 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     @Override
     public void showSnackBarMessage(String string) {
         showSnackBarMessage(coordinatorLayout, string);
+    }
+
+    /**
+     * Showing the snackbar from the Top
+     *
+     * @param str
+     */
+    @Override
+    public void showSnackBarFromTop(String str) {
+        TSnackbar snackbar = TSnackbar.make(coordinatorLayout, str, TSnackbar.LENGTH_LONG);
+        View snackbarView = snackbar.getView();
+        snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.ala_dark_background));
+        TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);
+        textView.setTextColor(Color.WHITE);
+        snackbar.show();
     }
 
     /**
