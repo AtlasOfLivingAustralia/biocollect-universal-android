@@ -68,6 +68,8 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             int position = recyclerView.getChildAdapterPosition(v);
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.species_parameter), exploreAnimals.get(position));
+            bundle.putDouble(getString(R.string.latitude_parameter), latitude);
+            bundle.putDouble(getString(R.string.longitude_parameter), longitude);
             Fragment fragment = new SpeciesDetailFragment();
             fragment.setArguments(bundle);
             getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
@@ -136,9 +138,9 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
         //get the groups
         if(isForAnimals)
-            fetchAnimals(group, latitude, longitude, radius);
+            fetchAnimals(group, 27.76, 138.55, 532.0);//(group, latitude, longitude, radius);
         else
-            fetchGroups(latitude, longitude, radius);
+            fetchGroups(27.76, 138.55, 532.0);//latitude, longitude, radius);
 
         return view;
     }
@@ -215,9 +217,9 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     @Override
     public void onRefresh() {
         if(isForAnimals)
-            fetchAnimals(group, latitude, longitude, radius);
+            fetchAnimals(group, 27.76, 138.55, 532.0);//(group, latitude, longitude, radius);
         else
-            fetchGroups(latitude, longitude, radius);
+            fetchGroups(27.76, 138.55, 532.0);//latitude, longitude, radius);
     }
 
     private class SpeciesGroupAdapter extends RecyclerView.Adapter<SpeciesGroupViewHolders> {

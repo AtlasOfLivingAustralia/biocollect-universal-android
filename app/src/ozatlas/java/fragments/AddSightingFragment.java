@@ -243,6 +243,11 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         realm = Realm.getDefaultInstance();
 
         setTitle(getString(R.string.add_title));
+
+        // Acquire a reference to the system Location Manager
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        mResultReceiver = new AddressResultReceiver(new Handler());
+
         getSightForEdit();
 
         //species search service
@@ -264,10 +269,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         //hiding the floating action button
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.hideFloatingButton();
-
-        // Acquire a reference to the system Location Manager
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-        mResultReceiver = new AddressResultReceiver(new Handler());
 
         makeIndividualLimit();
         // Create an ArrayAdapter using the string array and a default spinner layout
@@ -367,6 +368,17 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 speciesDetailLayout.setVisibility(View.VISIBLE);
                 speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", animal.guid));
                 editSpeciesName.setText(animal.name);
+                latitude = bundle.getDouble(getString(R.string.latitude_parameter));
+                longitude = bundle.getDouble(getString(R.string.longitude_parameter));
+                inputLayoutLocation.setHint(getString(R.string.location_hint));
+
+                Location location = new Location("");
+                location.setLatitude(latitude);
+                location.setLongitude(longitude);
+                editLatitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLatitude()));
+                editLongitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLongitude()));
+                startIntentService(location);
+
             }
         }
     }
