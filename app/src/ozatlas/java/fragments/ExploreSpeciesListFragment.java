@@ -170,7 +170,11 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
                     public void onComplete() {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
-                        total.setText(getString(R.string.total_group_count, totalCount));
+                        int totalSpecies = 0;
+                        for(ExploreGroup exploreGroup: exploreGroups){
+                            totalSpecies = totalSpecies + exploreGroup.speciesCount;
+                        }
+                        total.setText(getString(R.string.total_group_count, totalCount, totalSpecies));
                         Log.d(TAG, "onComplete");
                     }
                 }));
@@ -229,7 +233,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         public void onBindViewHolder(SpeciesGroupViewHolders holder, int position) {
             ExploreGroup group = exploreGroups.get(position);
             holder.name.setText(group.name);
-            holder.count.setText(getString(R.string.count, group.speciesCount));
+            holder.count.setText(getString(R.string.species_count, group.speciesCount));
             /*Glide.with(getActivity())
                     .load(getString(R.string.explore_image_url, group.))
                     .placeholder(R.drawable.ala_transparent)
@@ -271,7 +275,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         public void onBindViewHolder(SpeciesAnimalViewHolders holder, int position) {
             ExploreAnimal animal = exploreAnimals.get(position);
             holder.name.setText(animal.name);
-            holder.count.setText(getString(R.string.count, animal.count));
+            holder.count.setText(getString(R.string.species_count, animal.count));
             holder.family.setText(animal.family);
             Glide.with(getActivity())
                     .load(getString(R.string.explore_image_url, animal.guid))

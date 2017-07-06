@@ -93,8 +93,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
     @OnClick(R.id.nextButton)
     void nextButton() {
-        showSnackBarFromTop("Zoom out/pan to expand/move the target area.");
-        /*if (centerLatLng != null) {
+        if (centerLatLng != null) {
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
             bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
@@ -106,7 +105,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
             startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);
         } else {
             showSnackBarMessage(getString(R.string.location_missing));
-        }*/
+        }
     }
 
     @OnClick(R.id.address)
