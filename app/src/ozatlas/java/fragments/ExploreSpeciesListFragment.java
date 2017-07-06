@@ -15,7 +15,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.rest.NetworkClient;
@@ -58,6 +60,15 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     private RecyclerView.Adapter adapter;
     private BioCacheApiService bioCacheApiService;
     private boolean isForAnimals;
+    private final int[] icons = {R.drawable.algae, R.drawable.amphibians, R.drawable.angiosperms,
+            R.drawable.birds, R.drawable.bryophytes, R.drawable.crustaceans, R.drawable.dicots,
+            R.drawable.fernsandallies, R.drawable.fish,
+            R.drawable.fungi, R.drawable.gymnosperms, R.drawable.insects,
+            R.drawable.mammals, R.drawable.molluscs, R.drawable.monocots,
+            R.drawable.plants, R.drawable.reptiles};
+    private final String[] groups = new String[]{"Algae", "Amphibians", "Angiosperms", "Birds", "Bryophytes", "Crustaceans",
+            "Dicots", "FernsAndAllies", "Fishes", "Fungi", "Gymnosperms", "Insects", "Mammals", "Molluscs", "Monocots",
+            "Plants", "Reptiles"};
 
     /**
      * onClick listener for the recyclerview animal item
@@ -112,9 +123,9 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             latitude = bundle.getDouble(getString(R.string.latitude_parameter));
             longitude = bundle.getDouble(getString(R.string.longitude_parameter));
             radius = bundle.getDouble(getString(R.string.radius_parameter));
-            if(isForAnimals){
+            if (isForAnimals) {
                 setTitle(getString(R.string.species_animal_title));
-            }else{
+            } else {
                 setTitle(getString(R.string.species_group_title));
             }
         }
@@ -125,7 +136,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        if(isForAnimals)
+        if (isForAnimals)
             adapter = new SpeciesAnimalAdapter();
         else
             adapter = new SpeciesGroupAdapter();
@@ -137,7 +148,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         //get the groups
-        if(isForAnimals)
+        if (isForAnimals)
             fetchAnimals(group, 27.76, 138.55, 532.0);//(group, latitude, longitude, radius);
         else
             fetchGroups(27.76, 138.55, 532.0);//latitude, longitude, radius);
@@ -173,8 +184,10 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
                         int totalSpecies = 0;
-                        for(ExploreGroup exploreGroup: exploreGroups){
+                        String string = "";
+                        for (ExploreGroup exploreGroup : exploreGroups) {
                             totalSpecies = totalSpecies + exploreGroup.speciesCount;
+                            string = string + "\"" + exploreGroup.name + "\",";
                         }
                         total.setText(getString(R.string.total_group_count, totalCount, totalSpecies));
                         Log.d(TAG, "onComplete");
@@ -216,13 +229,19 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
     @Override
     public void onRefresh() {
-        if(isForAnimals)
+        if (isForAnimals)
             fetchAnimals(group, 27.76, 138.55, 532.0);//(group, latitude, longitude, radius);
         else
             fetchGroups(27.76, 138.55, 532.0);//latitude, longitude, radius);
     }
 
     private class SpeciesGroupAdapter extends RecyclerView.Adapter<SpeciesGroupViewHolders> {
+        Map<String, Integer> map = new HashMap<>();
+        SpeciesGroupAdapter(){
+            for(int i=0;i<groups.length;i++){
+                map.put(groups[i], icons[i]);
+            }
+        }
 
         @Override
         public SpeciesGroupViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -236,6 +255,13 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             ExploreGroup group = exploreGroups.get(position);
             holder.name.setText(group.name);
             holder.count.setText(getString(R.string.species_count, group.speciesCount));
+
+            Integer icon = map.get(group.name);
+            if(icon!=null){
+                holder.icon.setImageResource(icon);
+            }else{
+                holder.icon.setImageResource(R.drawable.no_image_available);
+            }
             /*Glide.with(getActivity())
                     .load(getString(R.string.explore_image_url, group.))
                     .placeholder(R.drawable.ala_transparent)
