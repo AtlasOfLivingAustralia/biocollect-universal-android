@@ -16,7 +16,7 @@ android {
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
-        applicationId 'au.csiro'
+        applicationId 'au.org'
         //applicationId 'au.org'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -37,7 +37,7 @@ android {
         }
         ozatlas {
             //applicationIdSuffix '.ala.mobile.ozatlas'
-            applicationIdSuffix '.ozatlas'
+            applicationIdSuffix '.ala.mobile.ozatlas'
             versionCode 1
             versionName '1.0'
         }
@@ -91,7 +91,7 @@ dependencies {
     compile 'com.android.support:design:25.3.1'
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-places:11.0.1'
-    compile 'com.google.android.gms:play-services-location:11.0.1'
+    compile 'com.google.android.gms:play-services-places:11.0.2'
+    compile 'com.google.android.gms:play-services-location:11.0.2'
     testCompile 'junit:junit:4.12'
 }

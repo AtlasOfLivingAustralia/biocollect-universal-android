@@ -87,7 +87,6 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
 
-        showSnackBarFromTop("Zoom out/pan to expand/move the target area.");
         return view;
     }
 
@@ -185,7 +184,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
     private void updateMap(double distance) {
         drawCircle(centerLatLng.latitude, centerLatLng.longitude, distance * .97);
-        editRadius.setText(String.format(Locale.getDefault(), "%.2f km", distance / 1000));
+        editRadius.setText(String.format(Locale.getDefault(), "%.2f km", distance * .97 / 1000));
     }
 
     private void drawCircle(double lat, double lng, double radius) {
