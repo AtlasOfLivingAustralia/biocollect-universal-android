@@ -138,7 +138,7 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
     protected void fetchItems(String searchTerm, final int offset) {
         if (offset == 0)
             swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.project_id), MAX, offset, true, myRecords, searchTerm)
+        mCompositeDisposable.add(restClient.getService().getSightings(getString(R.string.facet), getString(R.string.project_id), MAX, offset, true, myRecords, searchTerm)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<SightList>() {

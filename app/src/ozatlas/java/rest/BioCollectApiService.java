@@ -26,7 +26,7 @@ import retrofit2.http.Query;
 
 public interface BioCollectApiService {
     @GET("bioActivity/searchProjectActivities")
-    Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm);
+    Observable<SightList> getSightings(@Query("fq") String fq, @Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm);
 
     //for multiple image upload
     @POST("ws/attachment/upload")

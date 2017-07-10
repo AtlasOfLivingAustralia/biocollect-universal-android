@@ -44,6 +44,7 @@
     <string name="project_id">b3d8e243-1137-4d26-9e15-c5a6f90815eb</string>
     <string name="project_type">OzAtlas Sightings</string>
     <string name="project_output_name">Single Sighting - Advanced</string>
+    <string name="facet">projectNameFacet:ALA species sightings - OzAtlas</string>
 
 
     <string name="location_missing">Please select a location</string>
