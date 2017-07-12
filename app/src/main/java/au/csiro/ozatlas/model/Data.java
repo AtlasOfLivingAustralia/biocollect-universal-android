@@ -45,6 +45,9 @@ public class Data extends RealmObject {
     @Expose
     @SerializedName("surveyDate")
     public String surveyDate;
+    @Expose
+    @SerializedName("notes")
+    public String notes;
 
     public Data() {
     }

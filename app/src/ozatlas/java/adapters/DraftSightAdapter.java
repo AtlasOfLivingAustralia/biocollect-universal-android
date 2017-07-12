@@ -131,7 +131,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
             sightViewHolders.name.setText(sight.outputs.get(0).name);
             if (sight.outputs.get(0).data != null) {
                 sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.outputs.get(0).data.surveyDate, "dd MMM, yyyy"));
-                sightViewHolders.user.setText(context.getString(R.string.tags_name, tagJoin(", ", sight.outputs.get(0).data.tags)));
+                sightViewHolders.user.setText(context.getString(R.string.tags_name, tagJoin(context.getString(R.string.tag_separator), sight.outputs.get(0).data.tags)));
                 if (sight.outputs.get(0).data.species != null) {
                     sightViewHolders.type.setText(context.getString(R.string.species_name, sight.outputs.get(0).data.species.name == null ? "" : sight.outputs.get(0).data.species.name));
                 }

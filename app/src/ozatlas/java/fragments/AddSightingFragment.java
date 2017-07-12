@@ -39,7 +39,6 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.MultiAutoCompleteTextView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -144,6 +143,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     TextInputLayout inputLayoutLocation;
     @BindView(R.id.editLocation)
     EditText editLocation;
+    @BindView(R.id.editNote)
+    EditText editNote;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.editTags)
@@ -227,9 +228,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     };
     private String outputSpeciesId;
     private ImageUploadAdapter imageUploadAdapter;
-    //private Uri fileUri;
     private String mCurrentPhotoPath;
-    //private ArrayList<Uri> paths = new ArrayList<>();
     private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
     private int imageUploadCount;
     private Realm realm;
@@ -244,9 +243,45 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
         setTitle(getString(R.string.add_title));
 
+        //hiding the floating action button
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.hideFloatingButton();
+
         // Acquire a reference to the system Location Manager
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         mResultReceiver = new AddressResultReceiver(new Handler());
+
+        //setting the date
+        time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+
+        makeIndividualLimit();
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_textview_individual_count, individualSpinnerValue);
+        // Specify the layout to use when the list of choices appears
+        individualSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // Apply the adapter to the spinner
+        individualSpinner.setAdapter(individualSpinnerAdapter);
+
+        //recycler view setup
+        recyclerView.setHasFixedSize(true);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.zero_dp, R.dimen.list_item_margin);
+        recyclerView.addItemDecoration(itemDecoration);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity(), sharedPreferences.getUserDisplayName());
+        imageUploadAdapter.buttonVisibilityListener = new ImageUploadAdapter.ButtonVisibilityListener() {
+            @Override
+            public void update() {
+                if (imageUploadAdapter.getItemCount() == 0) {
+                    pickImage.setVisibility(View.VISIBLE);
+                    imagePlaceHolder.setVisibility(View.VISIBLE);
+                } else {
+                    pickImage.setVisibility(View.GONE);
+                    imagePlaceHolder.setVisibility(View.GONE);
+                }
+            }
+        };
+        recyclerView.setAdapter(imageUploadAdapter);
 
         getSightForEdit();
 
@@ -266,50 +301,13 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             }
         });
 
-        //hiding the floating action button
-        if (mainActivityFragmentListener != null)
-            mainActivityFragmentListener.hideFloatingButton();
-
-        makeIndividualLimit();
-        // Create an ArrayAdapter using the string array and a default spinner layout
-        individualSpinnerAdapter = new ArrayAdapter<String>(getActivity(), R.layout.item_textview_individual_count, individualSpinnerValue);
-        // Specify the layout to use when the list of choices appears
-        individualSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
-        individualSpinner.setAdapter(individualSpinnerAdapter);
-
-        //setting the date
-        time.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
-        date.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
-
-        //recycler view setup
-        recyclerView.setHasFixedSize(true);
-        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.zero_dp, R.dimen.list_item_margin);
-        recyclerView.addItemDecoration(itemDecoration);
-        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 4));
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        imageUploadAdapter = new ImageUploadAdapter(sightingPhotos, getActivity(), sharedPreferences.getUserDisplayName());
-        imageUploadAdapter.buttonVisibilityListener = new ImageUploadAdapter.ButtonVisibilityListener() {
-            @Override
-            public void update() {
-                if (imageUploadAdapter.getItemCount() == 0) {
-                    pickImage.setVisibility(View.VISIBLE);
-                    imagePlaceHolder.setVisibility(View.VISIBLE);
-                }else {
-                    pickImage.setVisibility(View.GONE);
-                    imagePlaceHolder.setVisibility(View.GONE);
-                }
-            }
-        };
-        recyclerView.setAdapter(imageUploadAdapter);
-
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
         return view;
     }
 
 
     @OnClick(R.id.editTags)
-    void editTags(){
+    void editTags() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.TAG_SELECTION);
         bundle.putString(getString(R.string.tag_string_parameter), editTags.getText().toString());
@@ -322,17 +320,17 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      * click on editLocation editText
      */
     @OnClick(R.id.editLocation)
-    void editLocation(){
+    void editLocation() {
         pickLocation();
     }
 
     @OnClick(R.id.editLatitude)
-    void editLatitude(){
+    void editLatitude() {
         pickLocation();
     }
 
     @OnClick(R.id.editLongitude)
-    void editLongitude(){
+    void editLongitude() {
         pickLocation();
     }
 
@@ -345,7 +343,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             ExploreAnimal animal = (ExploreAnimal) getArguments().getSerializable(getString(R.string.species_parameter));
-            if(animal==null) {
+            if (animal == null) {
                 setTitle(getString(R.string.edit_title));
                 Long id = bundle.getLong(getString(R.string.sight_parameter));
                 RealmQuery<AddSight> query = realm.where(AddSight.class).equalTo("realmId", id);
@@ -360,7 +358,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         }
                     }
                 });
-            }else{
+            } else {
                 selectedSpecies = new SpeciesSearchResponse.Species();
                 selectedSpecies.name = animal.name;
                 selectedSpecies.kingdom = animal.kingdom;
@@ -375,10 +373,9 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 Location location = new Location("");
                 location.setLatitude(latitude);
                 location.setLongitude(longitude);
-                editLatitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLatitude()));
-                editLongitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLongitude()));
+                editLatitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLatitude()));
+                editLongitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLongitude()));
                 startIntentService(location);
-
             }
         }
     }
@@ -582,13 +579,17 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     editSpeciesName.setText(addSight.outputs.get(0).data.species.name);
                 }
 
+                if (addSight.outputs.get(0).data.notes != null) {
+                    editNote.setText(addSight.outputs.get(0).data.notes);
+                }
+
                 if (addSight.outputs.get(0).data.tags != null) {
                     String s[] = new String[addSight.outputs.get(0).data.tags.size()];
                     for (int i = 0; i < addSight.outputs.get(0).data.tags.size(); i++) {
                         s[i] = addSight.outputs.get(0).data.tags.get(i).val;
                     }
-                    String tags = TextUtils.join(", ", s);
-                    editTags.setText(tags.length() > 0 ? tags + ", " : "");
+                    String tags = TextUtils.join(getString(R.string.tag_separator), s);
+                    editTags.setText(tags.length() > 0 ? tags + getString(R.string.tag_separator) : "");
                 }
 
                 if (addSight.outputs.get(0).data.locationLatitude != null) {
@@ -597,19 +598,20 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     latitude = addSight.outputs.get(0).data.locationLatitude;
                     longitude = addSight.outputs.get(0).data.locationLongitude;
                     inputLayoutLocation.setHint(getString(R.string.location_hint));
-                    
+
                     Location location = new Location("");
                     location.setLatitude(latitude);
                     location.setLongitude(longitude);
-                    editLatitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLatitude()));
-                    editLongitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLongitude()));
+                    editLatitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLatitude()));
+                    editLongitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLongitude()));
                     startIntentService(location);
-                    //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", addSight.outputs.get(0).data.locationLatitude, addSight.outputs.get(0).data.locationLongitude));
                 }
 
                 if (addSight.outputs.get(0).data.sightingPhoto != null) {
                     sightingPhotos.addAll(realm.copyFromRealm(addSight.outputs.get(0).data.sightingPhoto));
                     imageUploadAdapter.notifyDataSetChanged();
+                    if (imageUploadAdapter.buttonVisibilityListener != null)
+                        imageUploadAdapter.buttonVisibilityListener.update();
                 }
             }
         }
@@ -666,6 +668,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         }
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;
+        outputs.data.notes = editNote.getText().toString();
         addSight.outputs.add(outputs);
         //realm.commitTransaction();
         return addSight;
@@ -765,7 +768,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     }
 
     @OnClick(R.id.speciesDetailLayout)
-    void speciesDetailLayout(){
+    void speciesDetailLayout() {
         startWebViewActivity(speciesURL.getText().toString(), "Species Detail", false);
     }
 
@@ -910,8 +913,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
         inputLayoutLocation.setHint(getString(R.string.location_hint));
-        editLatitude.setText(String.format(Locale.getDefault(), "%.4f",place.getLatLng().latitude));
-        editLongitude.setText(String.format(Locale.getDefault(), "%.4f",place.getLatLng().longitude));
+        editLatitude.setText(String.format(Locale.getDefault(), "%.4f", place.getLatLng().latitude));
+        editLongitude.setText(String.format(Locale.getDefault(), "%.4f", place.getLatLng().longitude));
         //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", place.getLatLng().latitude, place.getLatLng().longitude));
         editLocation.setText(place.getAddress());
     }
@@ -927,8 +930,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         latitude = location.getLatitude();
         longitude = location.getLongitude();
         inputLayoutLocation.setHint(getString(R.string.location_hint));
-        editLatitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLatitude()));
-        editLongitude.setText(String.format(Locale.getDefault(), "%.4f",location.getLongitude()));
+        editLatitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLatitude()));
+        editLongitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLongitude()));
         //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", location.getLatitude(), location.getLongitude()));
         startIntentService(location);
     }
@@ -1084,7 +1087,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         }
 
         /**
-         *  Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
+         * Receives data sent from FetchAddressIntentService and updates the UI in MainActivity.
          */
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
@@ -1092,14 +1095,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             // Display the address string or an error message sent from the intent service.
             mAddressOutput = resultData.getString(Constants.RESULT_DATA_KEY);
             editLocation.setText(mAddressOutput);
-
-            // Show a toast message if an address was found.
-            /*if (resultCode == Constants.SUCCESS_RESULT) {
-                showToast(getString(R.string.address_found));
-            }*/
-
-            // Reset. Enable the Fetch Address button and stop showing the progress bar.
-            //mAddressRequested = false;
         }
     }
 }

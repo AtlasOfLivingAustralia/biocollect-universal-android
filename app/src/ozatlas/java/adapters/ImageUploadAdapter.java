@@ -129,7 +129,6 @@ class ImageViewHolders extends RecyclerView.ViewHolder {
     ImageView imageView;
     ImageView crossButton;
     AppCompatSpinner spinner;
-    //TextView date;
     EditText attributionEditText;
 
     public ImageViewHolders(View itemView) {

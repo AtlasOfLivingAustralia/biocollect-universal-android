@@ -86,7 +86,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
 
                         if (getArguments() != null) {
                             String str = getArguments().getString(getString(R.string.tag_string_parameter));
-                            existingTags = TextUtils.split(str, "; ");
+                            existingTags = TextUtils.split(str, getString(R.string.tag_separator));
                             if (existingTags != null)
                                 for (int i = 0; i < tags.size(); i++) {
                                     for (String existingTag : existingTags)
@@ -146,7 +146,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
     }
 
     /**
-     * joining the selected tags separated by "; "
+     * joining the selected tags separated by getString(R.string.tag_separator)
      * @return
      */
     private String getTags() {
@@ -156,7 +156,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
                 selectedTags.add(tags.get(i));
             }
         }
-        return TextUtils.join("; ", selectedTags);
+        return TextUtils.join(getString(R.string.tag_separator), selectedTags);
     }
 
     /**

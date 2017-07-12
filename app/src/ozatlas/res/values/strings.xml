@@ -44,7 +44,7 @@
     <string name="project_id">f813c99c-1a1d-4096-8eeb-cbc40e321101</string>
     <string name="project_type">OzAtlas Sightings</string>
     <string name="project_output_name">Single Sighting - Advanced</string>
-    <string name="facet">projectNameFacet:ALA species sightings - OzAtlas</string>
+    <string name="facet">projectNameFacet:ALA species sightings and OzAtlas</string>
 
 
     <string name="location_missing">Please select a location</string>
@@ -60,14 +60,10 @@
     <string name="species_count">Species Count: %1$d</string>
     <string name="total_group_count">Total Groups: %1$d, Total Species: %2$d</string>
     <string name="total_species_count">Total Species: %1$d</string>
+    <string name="tag_separator">;&#160;</string>
 
 
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
-
-    <!--
-    http://biocollect.ala.org.au/bioActivity/searchProjectActivities?fq=projectNameFacet:ALA%20species%20sightings%20-%20OzAtlas&projectId=f813c99c-1a1d-4096-8eeb-cbc40e321101&max=20&offset=0&mobile=true&view=project
-    http://biocollect-test.ala.org.au/bioActivity/searchProjectActivities?fq=projectNameFacet:ALA%20species%20sightings%20and%20OzAtlas&projectId=b3d8e243-1137-4d26-9e15-c5a6f90815eb&max=20&offset=0&mobile=true&view=project
-    -->
 </resources>
 
