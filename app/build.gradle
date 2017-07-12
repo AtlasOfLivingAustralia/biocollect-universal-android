@@ -23,7 +23,6 @@ android {
     }
     buildTypes {
         release {
-            debuggable true
             minifyEnabled true
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -38,7 +37,7 @@ android {
         ozatlas {
             //applicationIdSuffix '.ala.mobile.ozatlas'
             applicationIdSuffix '.ala.mobile.ozatlas'
-            versionCode 6
+            versionCode 7
             versionName '2.0'
         }
     }

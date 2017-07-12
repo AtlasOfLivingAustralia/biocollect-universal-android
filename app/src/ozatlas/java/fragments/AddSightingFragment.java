@@ -396,7 +396,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         }
         if (latitude == null || longitude == null) {
             value = false;
-            showSnackBarMessage("Please Add a location");
+            inputLayoutLocation.setError(getString(R.string.location_missing));
+            showSnackBarMessage(getString(R.string.location_missing));
         }
         return value;
     }

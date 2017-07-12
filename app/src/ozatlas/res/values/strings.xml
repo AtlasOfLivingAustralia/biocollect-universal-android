@@ -1,15 +1,15 @@
 <resources>
     <string name="app_name">OzAtlas</string>
 
-    <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
-    <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
+    <string name="ecodata_url">https://ecodata.ala.org.au/</string>
+    <string name="biocollect_url">https://biocollect.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
     <string name="bio_cache_url">http://biocache.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
-    <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
+    <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
     <string name="explore_image_url">http://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
 
     <string name="title_activity_main">OzAtlas</string>
@@ -40,8 +40,8 @@
 
     <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
 
-    <string name="project_activity_id">d57961a1-517d-42f2-8446-c373c0c59579</string>
-    <string name="project_id">b3d8e243-1137-4d26-9e15-c5a6f90815eb</string>
+    <string name="project_activity_id">e61eb018-02a9-4e3b-a4b3-9d6be33d9cbb</string>
+    <string name="project_id">f813c99c-1a1d-4096-8eeb-cbc40e321101</string>
     <string name="project_type">OzAtlas Sightings</string>
     <string name="project_output_name">Single Sighting - Advanced</string>
     <string name="facet">projectNameFacet:ALA species sightings - OzAtlas</string>
@@ -64,4 +64,10 @@
 
     <string name="permission_rationale">Location permission is needed for core functionality</string>
     <string name="permission_denied_explanation">Permission was denied, but is needed for core functionality.</string>
+
+    <!--
+    http://biocollect.ala.org.au/bioActivity/searchProjectActivities?fq=projectNameFacet:ALA%20species%20sightings%20-%20OzAtlas&projectId=f813c99c-1a1d-4096-8eeb-cbc40e321101&max=20&offset=0&mobile=true&view=project
+    http://biocollect-test.ala.org.au/bioActivity/searchProjectActivities?fq=projectNameFacet:ALA%20species%20sightings%20and%20OzAtlas&projectId=b3d8e243-1137-4d26-9e15-c5a6f90815eb&max=20&offset=0&mobile=true&view=project
+    -->
 </resources>
+
