@@ -19,7 +19,7 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.MoreButtonListener;
-import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
+import au.csiro.ozatlas.fragments.BaseListWithRefreshIncludingSearchFragment;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -37,7 +37,7 @@ import io.reactivex.schedulers.Schedulers;
  * This class is to show the sights
  * GET sights from biocollect
  */
-public class SightingListFragment extends BaseListWithRefreshFragment implements MoreButtonListener {
+public class SightingListFragment extends BaseListWithRefreshIncludingSearchFragment implements MoreButtonListener {
     private final static int MAX = 20;
     private final String TAG = "SightingListFragment";
     @BindView(R.id.recyclerView)
@@ -83,7 +83,6 @@ public class SightingListFragment extends BaseListWithRefreshFragment implements
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new SightAdapter(sights, onClickListener, this, myRecords);

@@ -20,6 +20,9 @@ import java.util.List;
 import java.util.Map;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.adapter.FooterViewHolders;
+import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
+import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
@@ -37,10 +40,10 @@ import rest.BioCacheApiService;
  */
 
 /**
- * This class is to show the  Species Groups
+ * This class is to show the  Species Groups and Animals
  * GET exploreGroups from biocache
  */
-public class ExploreSpeciesListFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
+public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     private final String TAG = "SpeciesGroupFragment";
 
     private final String FQ = "geospatial_kosher:true";
@@ -56,8 +59,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     private List<ExploreGroup> exploreGroups = new ArrayList<>();
     private List<ExploreAnimal> exploreAnimals = new ArrayList<>();
     private double latitude, longitude, radius;
-    private String group;
-    private RecyclerView.Adapter adapter;
+    private ExploreGroup group;
     private BioCacheApiService bioCacheApiService;
     private boolean isForAnimals;
     private final int[] icons = {R.drawable.algae, R.drawable.amphibians, R.drawable.angiosperms,
@@ -96,7 +98,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
             int position = recyclerView.getChildAdapterPosition(v);
             Bundle bundle = getArguments();
             bundle.putBoolean(getString(R.string.is_for_animal_parameter), true);
-            bundle.putString(getString(R.string.group_parameter), exploreGroups.get(position).name);
+            bundle.putSerializable(getString(R.string.group_parameter), exploreGroups.get(position));
             Fragment fragment = new ExploreSpeciesListFragment();
             fragment.setArguments(bundle);
             getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
@@ -104,6 +106,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     };
 
     private int totalCount;
+    private int totalAnimalCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -119,7 +122,7 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         Bundle bundle = getArguments();
         if (bundle != null) {
             isForAnimals = bundle.getBoolean(getString(R.string.is_for_animal_parameter));
-            group = bundle.getString(getString(R.string.group_parameter));
+            group = (ExploreGroup) bundle.getSerializable(getString(R.string.group_parameter));
             latitude = bundle.getDouble(getString(R.string.latitude_parameter));
             longitude = bundle.getDouble(getString(R.string.longitude_parameter));
             radius = bundle.getDouble(getString(R.string.radius_parameter));
@@ -134,11 +137,12 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        recyclerView.setLayoutManager(mLayoutManager);
 
-        if (isForAnimals)
+        if (isForAnimals) {
             adapter = new SpeciesAnimalAdapter();
-        else
+            recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
+        }else
             adapter = new SpeciesGroupAdapter();
 
         recyclerView.setAdapter(adapter);
@@ -149,9 +153,9 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
 
         //get the groups
         if (isForAnimals)
-            fetchAnimals(group, 27.76, 138.55, 532.0);//(group, latitude, longitude, radius);
+            fetchAnimals(group.name, /*27.76, 138.55, 532.0);//(group,*/ latitude, longitude, radius, 0);
         else
-            fetchGroups(27.76, 138.55, 532.0);//latitude, longitude, radius);
+            fetchGroups(/*27.76, 138.55, 532.0);//*/latitude, longitude, radius);
 
         return view;
     }
@@ -195,18 +199,25 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
                 }));
     }
 
-    protected void fetchAnimals(String group, double latitude, double longitude, double radius) {
+    protected void fetchAnimals(String groupName, double latitude, double longitude, double radius, final int offset) {
         swipeRefreshLayout.setRefreshing(true);
-        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(group, FQ, FACET, latitude, longitude, radius) //27.76, 138.55, 532.0)//
+        mCompositeDisposable.add(bioCacheApiService.getSpeciesAnimalFromMap(groupName, FQ, FACET, latitude, longitude, radius, MAX, offset) //27.76, 138.55, 532.0)//
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<List<ExploreAnimal>>() {
                     @Override
                     public void onNext(List<ExploreAnimal> value) {
-                        totalCount = value.size();
-                        exploreAnimals.clear();
-                        exploreAnimals.addAll(value);
-                        adapter.notifyDataSetChanged();
+                        if(value!=null) {
+                            if (offset == 0)
+                                exploreAnimals.clear();
+
+                            exploreAnimals.addAll(value);
+                            if(group.speciesCount==exploreAnimals.size())
+                                hasNext = false;
+                            totalCount = exploreAnimals.size();
+                            adapter.setNeedFooter(false);
+                            adapter.notifyDataSetChanged();
+                        }
                     }
 
                     @Override
@@ -228,14 +239,19 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
     }
 
     @Override
-    public void onRefresh() {
-        if (isForAnimals)
-            fetchAnimals(group, 27.76, 138.55, 532.0);//(group, latitude, longitude, radius);
-        else
-            fetchGroups(27.76, 138.55, 532.0);//latitude, longitude, radius);
+    protected void fetchItems(int offset) {
+        fetchAnimals(group.name, latitude, longitude, radius, offset);
     }
 
-    private class SpeciesGroupAdapter extends RecyclerView.Adapter<SpeciesGroupViewHolders> {
+    @Override
+    public void onRefresh() {
+        if (isForAnimals)
+            fetchAnimals(group.name, /*27.76, 138.55, 532.0);//(group,*/ latitude, longitude, radius, 0);
+        else
+            fetchGroups(/*27.76, 138.55, 532.0);//*/latitude, longitude, radius);
+    }
+
+    private class SpeciesGroupAdapter extends BaseRecyclerWithFooterViewAdapter {
         Map<String, Integer> map = new HashMap<>();
         SpeciesGroupAdapter(){
             for(int i=0;i<groups.length;i++){
@@ -251,22 +267,20 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         }
 
         @Override
-        public void onBindViewHolder(SpeciesGroupViewHolders holder, int position) {
-            ExploreGroup group = exploreGroups.get(position);
-            holder.name.setText(group.name);
-            holder.count.setText(getString(R.string.species_count, group.speciesCount));
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            if (holder instanceof SpeciesGroupViewHolders) {
+                SpeciesGroupViewHolders speciesGroupViewHolders = (SpeciesGroupViewHolders) holder;
+                ExploreGroup group = exploreGroups.get(position);
+                speciesGroupViewHolders.name.setText(group.name);
+                speciesGroupViewHolders.count.setText(getString(R.string.species_count, group.speciesCount));
 
-            Integer icon = map.get(group.name);
-            if(icon!=null){
-                holder.icon.setImageResource(icon);
-            }else{
-                holder.icon.setImageResource(R.drawable.no_image_available);
+                Integer icon = map.get(group.name);
+                if(icon!=null){
+                    speciesGroupViewHolders.icon.setImageResource(icon);
+                }else{
+                    speciesGroupViewHolders.icon.setImageResource(R.drawable.no_image_available);
+                }
             }
-            /*Glide.with(getActivity())
-                    .load(getString(R.string.explore_image_url, group.))
-                    .placeholder(R.drawable.ala_transparent)
-                    .crossFade()
-                    .into(holder.icon);*/
         }
 
         @Override
@@ -290,31 +304,62 @@ public class ExploreSpeciesListFragment extends BaseMainActivityFragment impleme
         }
     }
 
-    private class SpeciesAnimalAdapter extends RecyclerView.Adapter<SpeciesAnimalViewHolders> {
+    private class SpeciesAnimalAdapter extends BaseRecyclerWithFooterViewAdapter {
 
         @Override
-        public SpeciesAnimalViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
-            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_animal, null);
-            layoutView.setOnClickListener(onAnimalClickListener);
-            return new SpeciesAnimalViewHolders(layoutView);
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (viewType == NORMAL) {
+                View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_animal, null);
+                layoutView.setOnClickListener(onAnimalClickListener);
+                return new SpeciesAnimalViewHolders(layoutView);
+            }else{
+                View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_footer, null);
+                layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                return new FooterViewHolders(layoutView);
+            }
         }
 
         @Override
-        public void onBindViewHolder(SpeciesAnimalViewHolders holder, int position) {
-            ExploreAnimal animal = exploreAnimals.get(position);
-            holder.name.setText(animal.name);
-            holder.count.setText(getString(R.string.species_count, animal.count));
-            holder.family.setText(animal.family);
-            Glide.with(getActivity())
-                    .load(getString(R.string.explore_image_url, animal.guid))
-                    .placeholder(R.drawable.no_image_available)
-                    .crossFade()
-                    .into(holder.icon);
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            if(holder instanceof SpeciesAnimalViewHolders){
+                SpeciesAnimalViewHolders speciesAnimalViewHolders = (SpeciesAnimalViewHolders) holder;
+                ExploreAnimal animal = exploreAnimals.get(position);
+                speciesAnimalViewHolders.name.setText(animal.name);
+                speciesAnimalViewHolders.count.setText(getString(R.string.species_count, animal.count));
+                speciesAnimalViewHolders.family.setText(animal.family);
+                Glide.with(getActivity())
+                        .load(getString(R.string.explore_image_url, animal.guid))
+                        .placeholder(R.drawable.no_image_available)
+                        .crossFade()
+                        .into(speciesAnimalViewHolders.icon);
+            }
         }
 
+        /**
+         * @return an extra item if the needFooter (for showing the footer) is enabled
+         */
         @Override
         public int getItemCount() {
-            return exploreAnimals.size();
+            if (needFooter)
+                return exploreAnimals.size() + 1; // adding footer count
+            else
+                return exploreAnimals.size();
+        }
+
+        /**
+         * if the position is equal to the sight list size then this is Footer
+         * as usually the last position is sights.size()-1
+         *
+         * @param position
+         * @return
+         */
+        @Override
+        public int getItemViewType(int position) {
+            if (position == exploreAnimals.size())
+                return FOOTER;
+            else
+                return NORMAL;
+
         }
     }
 

@@ -19,11 +19,13 @@ import base.BaseMainActivityFragment;
  * Created by sad038 on 25/5/17.
  */
 
-public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
+public abstract class BaseListWithRefreshIncludingSearchFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
     protected final static int MAX = 20;
     protected boolean hasNext = true;
     protected LinearLayoutManager mLayoutManager;
     protected BaseRecyclerWithFooterViewAdapter adapter;
+    private MenuItem searchMenu;
+    private String searchTerm;
     private int offset = 0;
     private int preLast;
     /**
@@ -51,13 +53,14 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
                     adapter.setNeedFooter(true);
                     adapter.notifyDataSetChanged();
                     offset = offset + MAX;
-                    fetchItems(offset);
+                    fetchItems(searchTerm, offset);
                 }
             }
         }
     };
+    private boolean isSearched = false;
 
-    protected abstract void fetchItems(final int offset);
+    protected abstract void fetchItems(String searchTerm, final int offset);
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,13 +68,63 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
         mLayoutManager = new LinearLayoutManager(getActivity());
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.search, menu);
+        /**
+         * search layout setup
+         */
+        searchMenu = menu.findItem(R.id.action_search);
+        //final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchMenu);
+        final SearchView searchView = new SearchView(((BaseActivity) getActivity()).getSupportActionBar().getThemedContext());
+        MenuItemCompat.setActionView(searchMenu, searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchTerm = query;
+                searchView.clearFocus();
+                offset = 0;
+                hasNext = true;
+                isSearched = true;
+                fetchItems(searchTerm, offset);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                searchTerm = newText;
+                return false;
+            }
+        });
+
+        MenuItemCompat.setOnActionExpandListener(searchMenu, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                if (isSearched) {
+                    reset();
+                }
+                return true;
+            }
+        });
+
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
     /**
      * reset every data to init
      */
     private void reset() {
+        searchTerm = null;
         hasNext = true;
         offset = 0;
-        fetchItems(offset);
+        isSearched = false;
+        fetchItems(null, offset);
     }
 
     /**
@@ -79,6 +132,8 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
      */
     @Override
     public void onRefresh() {
+        if (searchMenu.isActionViewExpanded())
+            searchMenu.collapseActionView();
         reset();
     }
 }
