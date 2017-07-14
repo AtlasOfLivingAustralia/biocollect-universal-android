@@ -14,6 +14,8 @@ public class ExploreAnimal implements Serializable{
     @SerializedName("guid")
     public String guid;
 
+    @Expose
+    @SerializedName("commonName")
     public String commonName;
 
     public String rank;

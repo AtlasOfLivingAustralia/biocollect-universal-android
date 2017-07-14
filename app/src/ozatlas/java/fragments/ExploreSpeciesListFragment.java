@@ -3,7 +3,6 @@ package fragments;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -25,7 +24,6 @@ import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
-import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -142,7 +140,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
         if (isForAnimals) {
             adapter = new SpeciesAnimalAdapter();
             recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
-        }else
+        } else
             adapter = new SpeciesGroupAdapter();
 
         recyclerView.setAdapter(adapter);
@@ -207,12 +205,12 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 .subscribeWith(new DisposableObserver<List<ExploreAnimal>>() {
                     @Override
                     public void onNext(List<ExploreAnimal> value) {
-                        if(value!=null) {
+                        if (value != null) {
                             if (offset == 0)
                                 exploreAnimals.clear();
 
                             exploreAnimals.addAll(value);
-                            if(group.speciesCount==exploreAnimals.size())
+                            if (group.speciesCount == exploreAnimals.size())
                                 hasNext = false;
                             totalCount = exploreAnimals.size();
                             adapter.setNeedFooter(false);
@@ -253,8 +251,9 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
 
     private class SpeciesGroupAdapter extends BaseRecyclerWithFooterViewAdapter {
         Map<String, Integer> map = new HashMap<>();
-        SpeciesGroupAdapter(){
-            for(int i=0;i<groups.length;i++){
+
+        SpeciesGroupAdapter() {
+            for (int i = 0; i < groups.length; i++) {
                 map.put(groups[i], icons[i]);
             }
         }
@@ -275,9 +274,9 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 speciesGroupViewHolders.count.setText(getString(R.string.species_count, group.speciesCount));
 
                 Integer icon = map.get(group.name);
-                if(icon!=null){
+                if (icon != null) {
                     speciesGroupViewHolders.icon.setImageResource(icon);
-                }else{
+                } else {
                     speciesGroupViewHolders.icon.setImageResource(R.drawable.no_image_available);
                 }
             }
@@ -312,7 +311,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_animal, null);
                 layoutView.setOnClickListener(onAnimalClickListener);
                 return new SpeciesAnimalViewHolders(layoutView);
-            }else{
+            } else {
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_footer, null);
                 layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
                 return new FooterViewHolders(layoutView);
@@ -321,12 +320,12 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            if(holder instanceof SpeciesAnimalViewHolders){
+            if (holder instanceof SpeciesAnimalViewHolders) {
                 SpeciesAnimalViewHolders speciesAnimalViewHolders = (SpeciesAnimalViewHolders) holder;
                 ExploreAnimal animal = exploreAnimals.get(position);
                 speciesAnimalViewHolders.name.setText(animal.name);
                 speciesAnimalViewHolders.count.setText(getString(R.string.species_count, animal.count));
-                speciesAnimalViewHolders.family.setText(animal.family);
+                speciesAnimalViewHolders.family.setText(animal.commonName == null ? animal.family : animal.commonName);
                 Glide.with(getActivity())
                         .load(getString(R.string.explore_image_url, animal.guid))
                         .placeholder(R.drawable.no_image_available)

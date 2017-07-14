@@ -41,7 +41,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
         this.sights = sights;
         this.moreButtonListener = moreButtonListener;
         this.onClickListener = onClickListener;
-        //isShowMoreButton = !(myRecords != null && myRecords.equals("project"));
+        isShowMoreButton = !(myRecords != null && myRecords.equals("project"));
     }
 
     @Override

@@ -47,8 +47,8 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     @BindView(R.id.total)
     TextView total;
 
-
     private List<Sight> sights = new ArrayList<>();
+
     /**
      * onClick listener for the recyclerview item
      */
@@ -115,11 +115,11 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
             public boolean onMenuItemClick(MenuItem item) {
                 //do your things in each of the following cases
                 switch (item.getItemId()) {
-                    case R.id.delete:
+                    /*case R.id.delete:
 
-                        break;
+                        break;*/
                     case R.id.edit:
-
+                        startWebViewActivity(getString(R.string.sighting_edit_url, sights.get(position).activityId),getString(R.string.edit_title),true);
                         break;
                 }
                 return true;
