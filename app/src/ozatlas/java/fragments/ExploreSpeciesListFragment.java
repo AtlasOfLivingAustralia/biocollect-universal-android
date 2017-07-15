@@ -104,7 +104,6 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     };
 
     private int totalCount;
-    private int totalAnimalCount;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -185,13 +184,8 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                     public void onComplete() {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
-                        int totalSpecies = 0;
-                        String string = "";
-                        for (ExploreGroup exploreGroup : exploreGroups) {
-                            totalSpecies = totalSpecies + exploreGroup.speciesCount;
-                            string = string + "\"" + exploreGroup.name + "\",";
-                        }
-                        total.setText(getString(R.string.total_group_count, totalCount, totalSpecies));
+
+                        total.setText(getString(R.string.total_group_count, totalCount));
                         Log.d(TAG, "onComplete");
                     }
                 }));

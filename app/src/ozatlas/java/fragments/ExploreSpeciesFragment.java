@@ -116,6 +116,12 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         }
     }
 
+
+    @OnClick(R.id.editRadius)
+    void editRadius(){
+        showSnackBarMessage(getString(R.string.map_zoom_message));
+    }
+
     /**
      * getting last location from fused location service
      */

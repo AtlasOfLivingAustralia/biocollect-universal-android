@@ -26,6 +26,7 @@ public abstract class BaseListWithRefreshFragment extends BaseMainActivityFragme
     protected BaseRecyclerWithFooterViewAdapter adapter;
     private int offset = 0;
     private int preLast;
+
     /**
      * recyclerview scroll listner for
      * pagination. Ifthe last item is shown then the recyclerview shows an

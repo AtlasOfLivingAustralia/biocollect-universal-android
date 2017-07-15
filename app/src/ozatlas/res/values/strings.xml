@@ -60,7 +60,8 @@
     <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
 
     <string name="species_count">Species Count: %1$d</string>
-    <string name="total_group_count">Total Groups: %1$d, Total Species: %2$d</string>
+    <!--<string name="total_group_count">Total Groups: %1$d, Total Species: %2$d</string>-->
+    <string name="total_group_count">Total Groups: %1$d</string>
     <string name="total_species_count">Total Species: %1$d</string>
     <string name="tag_separator">;&#160;</string>
 

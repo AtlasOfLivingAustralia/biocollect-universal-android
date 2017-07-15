@@ -28,6 +28,7 @@ public abstract class BaseListWithRefreshIncludingSearchFragment extends BaseMai
     private String searchTerm;
     private int offset = 0;
     private int preLast;
+
     /**
      * recyclerview scroll listner for
      * pagination. Ifthe last item is shown then the recyclerview shows an
