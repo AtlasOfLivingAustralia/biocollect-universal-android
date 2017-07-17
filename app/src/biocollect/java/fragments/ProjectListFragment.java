@@ -17,6 +17,7 @@ import activity.SingleFragmentActivity;
 import adapters.ProjectListAdapter;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
+import au.csiro.ozatlas.fragments.BaseListWithRefreshIncludingSearchFragment;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ import model.Projects;
  * Created by sad038 on 25/5/17.
  */
 
-public class ProjectListFragment extends BaseListWithRefreshFragment {
+public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragment {
     private final String TAG = "ProjectListFragment";
 
     @BindView(R.id.recyclerView)
