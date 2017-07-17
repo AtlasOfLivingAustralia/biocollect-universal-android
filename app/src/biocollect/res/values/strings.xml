@@ -1,7 +1,13 @@
 <resources>
     <string name="app_name">BioCollect</string>
 
-    <string name="survey_entry_url">https://biocollect-test.ala.org.au/bioActivity/mobileCreate/%1$s</string>
+    <string name="ecodata_url">https://ecodata.ala.org.au/</string>
+    <string name="biocollect_url">https://biocollect.ala.org.au/</string>
+
+    <string name="survey_entry_url">https://biocollect.ala.org.au/bioActivity/mobileCreate/%1$s</string>
+    <string name="sighting_edit_url">https://biocollect.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
+    <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
+    <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
 
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="survey_list_parameter">SURVEY_LIST</string>
@@ -22,8 +28,6 @@
     <string name="survey_dialog_title">Select survey to add records</string>
     <string name="survey_permission_denied">You do not have permission to add records.</string>
     <string name="survey_entry_title">Add Records</string>
-
-    <string name="map_key">AIzaSyBpgo31aRaVLoMdVzFQx4Rqp67wURzdMYU</string>
 
     <string name="logout_message">Would you like to logout?</string>
 

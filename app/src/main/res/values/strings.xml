@@ -1,16 +1,8 @@
 <resources>
-    <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
-    <string name="biocollect_url">http://biocollect-test.ala.org.au/</string>
-    <string name="bie_url">http://bie.ala.org.au/</string>
-
-    <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
-    <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
-    <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
-    <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
-
     <string name="title">Title</string>
     <string name="search_title">Search</string>
     <string name="sight_detail">Record Details</string>
+    <string name="edit_title">Edit Record</string>
 
 
     <string name="url_parameter">URL</string>
