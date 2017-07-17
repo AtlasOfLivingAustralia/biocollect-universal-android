@@ -37,8 +37,8 @@ android {
         ozatlas {
             //applicationIdSuffix '.ala.mobile.ozatlas'
             applicationIdSuffix '.ala.mobile.ozatlas'
-            versionCode 8
-            versionName '2.0'
+            versionCode 9
+            versionName '2.0.1'
         }
     }
     packagingOptions {
