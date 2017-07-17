@@ -205,7 +205,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
                         //// TODO: 21/6/17  
                         break;
                     case R.id.edit:
-                        //// TODO: 21/6/17
+                        startWebViewActivity(getString(R.string.sighting_edit_url, sights.get(position).activityId),getString(R.string.edit_title),true);
                         break;
                 }
                 return true;

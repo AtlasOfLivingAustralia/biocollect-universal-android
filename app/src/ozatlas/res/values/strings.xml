@@ -17,7 +17,6 @@
     <string name="title_activity_main">OzAtlas</string>
     <string name="about_title">About the ALA</string>
     <string name="add_title">Record a Sighting</string>
-    <string name="edit_title">Edit Record</string>
     <string name="map_explore_title">Explore Species By Location</string>
     <string name="all_sighting_title">All Sightings</string>
     <string name="my_sighting_title">My Sightings</string>
