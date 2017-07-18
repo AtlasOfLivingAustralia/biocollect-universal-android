@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">OzAtlas</string>
-    <string name="app_version">Version 2.0</string>
+    <string name="app_version">Version 2.0.1</string>
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
@@ -58,6 +58,7 @@
     <string name="service_not_available">Sorry, the service is not available</string>
     <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
 
+    <string name="total_sighting">Total Sightings: %1$d</string>
     <string name="species_count">Species Count: %1$d</string>
     <!--<string name="total_group_count">Total Groups: %1$d, Total Species: %2$d</string>-->
     <string name="total_group_count">Total Groups: %1$d</string>

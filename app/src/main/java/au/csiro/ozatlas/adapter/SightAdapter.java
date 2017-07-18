@@ -80,7 +80,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
             sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.lastUpdated, "dd MMM, yyyy"));
             Glide.with(sightViewHolders.image.getContext())
                     .load(getImageURL(sight))
-                    .placeholder(R.drawable.ala_transparent)
+                    .placeholder(R.drawable.no_image_available)
                     .crossFade()
                     .into(sightViewHolders.image);
         }

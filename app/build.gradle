@@ -17,25 +17,24 @@ android {
         minSdkVersion 15
         targetSdkVersion 25
         applicationId 'au.org'
-        //applicationId 'au.org'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
             minifyEnabled true
+            shrinkResources true
             signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
     productFlavors {
         biocollect {
-            applicationIdSuffix '.biocollect'
+            applicationIdSuffix '.ala.biocollect'
             versionCode 1
             versionName '1.0'
         }
         ozatlas {
-            //applicationIdSuffix '.ala.mobile.ozatlas'
             applicationIdSuffix '.ala.mobile.ozatlas'
             versionCode 9
             versionName '2.0.1'

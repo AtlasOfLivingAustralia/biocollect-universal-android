@@ -68,7 +68,7 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
             projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(project.startDate, "dd MMM, yyyy"));
             Glide.with(projectViewHolders.image.getContext())
                     .load(project.urlImage)
-                    .placeholder(R.drawable.ala_transparent)
+                    .placeholder(R.drawable.no_image_available)
                     .crossFade()
                     .into(projectViewHolders.image);
         }

@@ -16,7 +16,6 @@ import java.util.List;
 import activity.SingleFragmentActivity;
 import adapters.ProjectListAdapter;
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshIncludingSearchFragment;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
@@ -64,7 +63,7 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
             }
         }
     };
-    private int totalSighting;
+    private int totalProjects;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -117,7 +116,7 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
                     @Override
                     public void onNext(ProjectList value) {
                         if (value != null && value.total != null) {
-                            totalSighting = value.total;
+                            totalProjects = value.total;
                             if (offset == 0)
                                 projects.clear();
                             if (projects.size() == value.total) {
@@ -143,7 +142,7 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
                     public void onComplete() {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
-                        total.setText(getString(R.string.total_sighting, totalSighting));
+                        total.setText(getString(R.string.total_projects, totalProjects));
                         Log.d(TAG, "onComplete");
                     }
                 }));
