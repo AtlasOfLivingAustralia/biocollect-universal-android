@@ -23,6 +23,7 @@ import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
 import au.csiro.ozatlas.fragments.WebViewFragment;
+import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -47,6 +48,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         super.onCreate(savedInstanceState);
         //initializing dagger
         CsiroApplication.component().inject(this);
+        //// TODO: 20/7/17 FIX
         if (getApplicationContext().getPackageName().equals("au.csiro.ozatlas"))
             realm = Realm.getDefaultInstance();
     }

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">OzAtlas</string>
     <string name="app_version">Version 2.0.1</string>
+    <string name="package_name">au.org.ala.mobile.ozatlas</string>
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
