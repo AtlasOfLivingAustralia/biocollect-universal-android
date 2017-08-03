@@ -36,7 +36,6 @@ import fragments.DraftSightingListFragment;
 import fragments.ExploreSpeciesFragment;
 import fragments.SightingListFragment;
 import upload.Constants;
-import util.RealmTest;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -53,13 +52,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        //// TODO
-        if(AtlasManager.isTesting){
-            RealmTest  realmTest = new RealmTest();
-            realmTest.freeMemory();
-            //realmTest.insert();
-        }
 
         //setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
