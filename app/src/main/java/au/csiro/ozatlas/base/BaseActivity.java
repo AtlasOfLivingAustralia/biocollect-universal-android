@@ -43,7 +43,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Inject
     Tracker analyticsTracker;
 
-    protected String className = getClass().getSimpleName();
+    protected final String TAG = getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     protected Realm realm;
     private ProgressDialog mProgressDialog;

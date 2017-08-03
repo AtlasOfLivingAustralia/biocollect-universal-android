@@ -42,8 +42,6 @@ import rest.BioCacheApiService;
  * GET exploreGroups from biocache
  */
 public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
-    private final String TAG = "SpeciesGroupFragment";
-
     private final String FQ = "geospatial_kosher:true";
     private final String FACET = "species_group";
 

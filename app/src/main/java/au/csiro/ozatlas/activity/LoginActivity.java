@@ -35,8 +35,6 @@ import io.reactivex.schedulers.Schedulers;
  * functionlity for the users
  */
 public class LoginActivity extends BaseActivity {
-    private final String TAG = "LoginActivity";
-
     @BindView(R.id.inputLayoutUsername)
     TextInputLayout inputLayoutUsername;
     @BindView(R.id.editUsername)

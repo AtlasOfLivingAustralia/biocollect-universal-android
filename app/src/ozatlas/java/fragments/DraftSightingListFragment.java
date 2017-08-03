@@ -46,7 +46,6 @@ import static android.app.Activity.RESULT_OK;
  * From Navigation Drawer -> Draft Shift
  */
 public class DraftSightingListFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {
-    private final String TAG = "DraftSightingList";
     private final int REQUEST_EDIT = 1;
 
     @BindView(R.id.recyclerView)

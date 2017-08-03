@@ -42,7 +42,6 @@ import model.Survey;
  */
 public class SightingListFragment extends BaseListWithRefreshIncludingSearchFragment implements MoreButtonListener {
     private final static int MAX = 20;
-    private final String TAG = "SightingListFragment";
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_container)

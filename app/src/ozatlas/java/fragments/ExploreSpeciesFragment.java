@@ -55,7 +55,6 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     private final float INITIAL_ZOOM = 12.2f;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private final int ADD_SIGHT_REQUEST_CODE = 2;
-    private final String TAG = "ExploreSpeciesFragment";
 
     private SupportMapFragment mapFragment;
     private GoogleMap googleMap;

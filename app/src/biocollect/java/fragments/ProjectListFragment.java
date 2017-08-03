@@ -31,8 +31,6 @@ import model.Projects;
  */
 
 public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragment {
-    private final String TAG = "ProjectListFragment";
-
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_container)

@@ -27,7 +27,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     @Inject
     Tracker analyticsTracker;
 
-    protected String className = getClass().getSimpleName();
+    protected final String TAG = getClass().getSimpleName();
     protected BaseActivityFragmentListener baseActivityFragmentListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 

@@ -125,8 +125,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
 
-    final String TAG = "AddSightingFragment";
-
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
     @BindView(R.id.time)
