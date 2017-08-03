@@ -27,4 +27,6 @@ public interface BaseActivityFragmentListener {
     void showToast(String str);
 
     void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message);
+
+    void sendAnalyticsScreenName(String name);
 }

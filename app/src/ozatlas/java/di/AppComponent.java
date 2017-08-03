@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.di.AnalyticsModule;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
 import au.csiro.ozatlas.rest.CustomRequestInterceptor;
@@ -15,7 +16,7 @@ import upload.UploadService;
  */
 
 @Singleton
-@Component(modules = {PreferenceModule.class, RestModule.class})
+@Component(modules = {PreferenceModule.class, RestModule.class, AnalyticsModule.class})
 public interface AppComponent {
     void inject(BaseActivity activity);
 

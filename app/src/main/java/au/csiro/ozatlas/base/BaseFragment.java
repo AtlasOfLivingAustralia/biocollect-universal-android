@@ -6,6 +6,8 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
+import com.google.android.gms.analytics.Tracker;
+
 import javax.inject.Inject;
 
 import application.CsiroApplication;
@@ -22,7 +24,10 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     protected AtlasSharedPreferenceManager sharedPreferences;
     @Inject
     protected RestClient restClient;
+    @Inject
+    Tracker analyticsTracker;
 
+    protected String className = getClass().getSimpleName();
     protected BaseActivityFragmentListener baseActivityFragmentListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
@@ -93,6 +98,12 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     public void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message) {
         if (baseActivityFragmentListener != null)
             baseActivityFragmentListener.handleError(coordinatorLayout, e, code, message);
+    }
+
+    @Override
+    public void sendAnalyticsScreenName(String name) {
+        if (baseActivityFragmentListener != null)
+            baseActivityFragmentListener.sendAnalyticsScreenName(name);
     }
 
     @Override

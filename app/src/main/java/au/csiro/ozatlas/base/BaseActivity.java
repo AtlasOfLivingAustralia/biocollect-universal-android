@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import java.net.UnknownHostException;
@@ -36,9 +38,12 @@ import io.realm.Realm;
 public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, FragmentManager.OnBackStackChangedListener {
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
-
     @Inject
     protected RestClient restClient;
+    @Inject
+    Tracker analyticsTracker;
+
+    protected String className = getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     protected Realm realm;
     private ProgressDialog mProgressDialog;
@@ -210,6 +215,12 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         } else {
             showSnackBarMessage(coordinatorLayout, getString(R.string.generic_error));
         }
+    }
+
+    @Override
+    public void sendAnalyticsScreenName(String name) {
+        analyticsTracker.setScreenName(name);
+        analyticsTracker.send(new HitBuilders.ScreenViewBuilder().build());
     }
 
     /**
