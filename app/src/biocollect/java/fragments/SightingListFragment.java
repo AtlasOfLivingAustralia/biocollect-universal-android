@@ -20,7 +20,6 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SightAdapter;
 import au.csiro.ozatlas.base.MoreButtonListener;
-import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshIncludingSearchFragment;
 import au.csiro.ozatlas.model.Sight;
 import au.csiro.ozatlas.model.SightList;
@@ -117,6 +116,18 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        if (myProjects) {
+            if (projectId != null)
+                sendAnalyticsScreenName("Project's Record List");
+            else
+                sendAnalyticsScreenName("My Record List");
+        } else
+            sendAnalyticsScreenName("All Record List");
+    }
+
+    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         menu.add(0, R.id.add, Menu.NONE, "Add").setVisible(false).setIcon(R.drawable.ic_add_white_36dp).setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
@@ -205,7 +216,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
                         //// TODO: 21/6/17  
                         break;
                     case R.id.edit:
-                        startWebViewActivity(getString(R.string.sighting_edit_url, sights.get(position).activityId),getString(R.string.edit_title),true);
+                        startWebViewActivity(getString(R.string.sighting_edit_url, sights.get(position).activityId), getString(R.string.edit_title), true);
                         break;
                 }
                 return true;

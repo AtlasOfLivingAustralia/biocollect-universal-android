@@ -100,6 +100,15 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (myProjects)
+            sendAnalyticsScreenName("My Project List");
+        else
+            sendAnalyticsScreenName("All Project List");
+    }
+
     /**
      * get the sighting GET sight
      *

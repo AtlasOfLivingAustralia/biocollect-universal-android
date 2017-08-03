@@ -19,4 +19,10 @@ public class ContactUsFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.contact_us_title));
         return view;
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        sendAnalyticsScreenName("Contact Us");
+    }
 }
