@@ -99,6 +99,15 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if(myRecords.equals("projects"))
+        sendAnalyticsScreenName("My Sighting List");
+        else
+        sendAnalyticsScreenName("All Sighting List");
+    }
+
     /**
      * show popup menu from the more button of recyclerview items
      *

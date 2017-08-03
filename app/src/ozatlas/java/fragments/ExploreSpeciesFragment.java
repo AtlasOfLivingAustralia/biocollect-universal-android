@@ -87,6 +87,12 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sendAnalyticsScreenName("Explore Species Map");
+    }
+
     @OnClick(R.id.nextButton)
     void nextButton() {
         if (centerLatLng != null) {

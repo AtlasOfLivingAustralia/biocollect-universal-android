@@ -111,6 +111,12 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
         return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sendAnalyticsScreenName("Individual Tag List");
+    }
+
     /**
      * Observable to read the tag.txt file
      *

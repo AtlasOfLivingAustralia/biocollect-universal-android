@@ -78,6 +78,12 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sendAnalyticsScreenName("Login Activity");
+    }
+
     /**
      * make a network call for getting the AuthKey and user display name
      *

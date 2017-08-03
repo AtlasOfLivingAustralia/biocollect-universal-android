@@ -157,6 +157,14 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (isForAnimals)
+            sendAnalyticsScreenName("Explore Animal List");
+        else
+            sendAnalyticsScreenName("Explore Group List");
+    }
 
     protected void fetchGroups(double latitude, double longitude, double radius) {
         swipeRefreshLayout.setRefreshing(true);

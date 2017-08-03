@@ -124,6 +124,12 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
         return view;
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        sendAnalyticsScreenName("Draft Sighting List");
+    }
+
     /**
      * show an alert for deleting an item.
      * deletes an item upon pressing "OK"

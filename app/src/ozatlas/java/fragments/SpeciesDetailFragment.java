@@ -54,4 +54,10 @@ public class SpeciesDetailFragment extends BaseMainActivityFragment {
         }
         return view;
     }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        sendAnalyticsScreenName("Species Detail");
+    }
 }
