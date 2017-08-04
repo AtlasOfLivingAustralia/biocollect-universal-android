@@ -102,9 +102,9 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
     public void onResume() {
         super.onResume();
         if (myProjects)
-            sendAnalyticsScreenName("My Project List");
+            sendAnalyticsScreenName("My Project List", TAG);
         else
-            sendAnalyticsScreenName("All Project List");
+            sendAnalyticsScreenName("All Project List", TAG);
     }
 
     /**

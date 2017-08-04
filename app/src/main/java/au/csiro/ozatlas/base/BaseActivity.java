@@ -12,8 +12,7 @@ import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.android.gms.analytics.HitBuilders;
-import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import java.net.UnknownHostException;
@@ -41,7 +40,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Inject
     protected RestClient restClient;
     @Inject
-    Tracker analyticsTracker;
+    FirebaseAnalytics firebaseAnalytics;
 
     protected final String TAG = getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
@@ -218,9 +217,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     }
 
     @Override
-    public void sendAnalyticsScreenName(String name) {
-        analyticsTracker.setScreenName(name);
-        analyticsTracker.send(new HitBuilders.ScreenViewBuilder().build());
+    public void sendAnalyticsScreenName(String name, String className) {
+        firebaseAnalytics.setCurrentScreen(this, name, className);
     }
 
     /**

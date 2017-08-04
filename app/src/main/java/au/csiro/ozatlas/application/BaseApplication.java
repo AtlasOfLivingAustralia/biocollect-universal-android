@@ -2,9 +2,7 @@ package au.csiro.ozatlas.application;
 
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
-
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.di.AnalyticsModule;
@@ -23,8 +21,12 @@ import di.DaggerAppComponent;
  */
 public class BaseApplication extends MultiDexApplication {
     protected static AppComponent component;
-    private static GoogleAnalytics sAnalytics;
-    private static Tracker sTracker;
+    /**
+     * The {@code FirebaseAnalytics} used to record screen views.
+     */
+    // [START declare_analytics]
+    private FirebaseAnalytics mFirebaseAnalytics;
+    // [END declare_analytics]
 
     public static AppComponent component() {
         return component;
@@ -42,24 +44,19 @@ public class BaseApplication extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
 
-        //Google Analytics
-        sAnalytics = GoogleAnalytics.getInstance(this);
+        // Obtain the FirebaseAnalytics instance.
+        mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
         //initialize Dagger component
         component = init(this);
     }
 
     /**
-     * Gets the default {@link Tracker} for this {@link BaseApplication}.
-     * @return tracker
+     *
+     * @return Firebase analytics instance
      */
-    synchronized public Tracker getDefaultTracker() {
-        // To enable debug logging use: adb shell setprop log.tag.GAv4 DEBUG
-        if (sTracker == null) {
-            sTracker = sAnalytics.newTracker(R.xml.global_tracker);
-        }
-
-        return sTracker;
+    public FirebaseAnalytics getFirebaseAnalytics(){
+        return mFirebaseAnalytics;
     }
 }
 

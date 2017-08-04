@@ -1,10 +1,6 @@
 package application;
 
 import android.content.Context;
-import android.support.multidex.MultiDexApplication;
-
-import com.google.android.gms.analytics.GoogleAnalytics;
-import com.google.android.gms.analytics.Tracker;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.application.BaseApplication;

@@ -94,6 +94,7 @@ dependencies {
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile "com.google.android.gms:play-services-places:${gms_library_version}"
     compile "com.google.android.gms:play-services-location:${gms_library_version}"
-    compile "com.google.android.gms:play-services-analytics:${gms_library_version}"
+    compile "com.google.firebase:firebase-core:${gms_library_version}"
     testCompile 'junit:junit:4.12'
 }
+apply plugin: 'com.google.gms.google-services'

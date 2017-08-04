@@ -99,7 +99,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("WebView Fragment");
+        sendAnalyticsScreenName("WebView Fragment", TAG);
     }
 
     private boolean checkPermissionForChromeClient() {

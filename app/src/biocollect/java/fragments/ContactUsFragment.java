@@ -23,6 +23,6 @@ public class ContactUsFragment extends BaseMainActivityFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Contact Us");
+        sendAnalyticsScreenName("Contact Us", TAG);
     }
 }

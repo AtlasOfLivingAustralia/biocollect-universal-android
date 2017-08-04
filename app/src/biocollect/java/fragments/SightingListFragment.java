@@ -117,13 +117,13 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     @Override
     public void onResume() {
         super.onResume();
-        if (myProjects) {
-            if (projectId != null)
-                sendAnalyticsScreenName("Project's Record List");
-            else
-                sendAnalyticsScreenName("My Record List");
-        } else
-            sendAnalyticsScreenName("All Record List");
+
+        if (projectId != null)
+            sendAnalyticsScreenName("Project's Record List", TAG);
+        else if (viewQuery != null)
+            sendAnalyticsScreenName("My Record List", TAG);
+        else
+            sendAnalyticsScreenName("All Record List", TAG);
     }
 
     @Override

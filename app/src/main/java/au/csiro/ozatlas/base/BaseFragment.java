@@ -6,8 +6,6 @@ import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
 import android.widget.EditText;
 
-import com.google.android.gms.analytics.Tracker;
-
 import javax.inject.Inject;
 
 import application.CsiroApplication;
@@ -24,8 +22,7 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     protected AtlasSharedPreferenceManager sharedPreferences;
     @Inject
     protected RestClient restClient;
-    @Inject
-    Tracker analyticsTracker;
+
 
     protected final String TAG = getClass().getSimpleName();
     protected BaseActivityFragmentListener baseActivityFragmentListener;
@@ -75,7 +72,6 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
         return false;
     }
 
-
     @Override
     public void launchLoginActivity() {
         if (baseActivityFragmentListener != null)
@@ -101,9 +97,9 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
     }
 
     @Override
-    public void sendAnalyticsScreenName(String name) {
+    public void sendAnalyticsScreenName(String name, String className) {
         if (baseActivityFragmentListener != null)
-            baseActivityFragmentListener.sendAnalyticsScreenName(name);
+            baseActivityFragmentListener.sendAnalyticsScreenName(name, className);
     }
 
     @Override

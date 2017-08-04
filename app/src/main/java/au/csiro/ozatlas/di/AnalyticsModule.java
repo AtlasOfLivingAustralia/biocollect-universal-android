@@ -2,7 +2,7 @@ package au.csiro.ozatlas.di;
 
 import android.content.Context;
 
-import com.google.android.gms.analytics.Tracker;
+import com.google.firebase.analytics.FirebaseAnalytics;
 
 import javax.inject.Singleton;
 
@@ -29,8 +29,8 @@ public class AnalyticsModule {
 
     @Singleton
     @Provides
-    Tracker provideAnalyticsTracker() {
+    FirebaseAnalytics provideAnalyticsTracker() {
         BaseApplication application = (BaseApplication) context.getApplicationContext();
-        return application.getDefaultTracker();
+        return application.getFirebaseAnalytics();
     }
 }

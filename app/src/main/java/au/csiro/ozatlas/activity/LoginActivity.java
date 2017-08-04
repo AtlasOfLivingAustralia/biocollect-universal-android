@@ -79,7 +79,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Login Activity");
+        sendAnalyticsScreenName("Login Activity", TAG);
     }
 
     /**

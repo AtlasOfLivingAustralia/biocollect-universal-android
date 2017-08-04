@@ -28,5 +28,5 @@ public interface BaseActivityFragmentListener {
 
     void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message);
 
-    void sendAnalyticsScreenName(String name);
+    void sendAnalyticsScreenName(String name, String className);
 }
