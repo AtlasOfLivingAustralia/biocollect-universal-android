@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
 

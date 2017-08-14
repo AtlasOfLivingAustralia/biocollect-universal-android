@@ -126,7 +126,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Draft Sighting List");
+        sendAnalyticsScreenName("Draft Sighting List", TAG);
     }
 
     /**

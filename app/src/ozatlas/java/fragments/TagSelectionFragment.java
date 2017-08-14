@@ -114,7 +114,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Individual Tag List");
+        sendAnalyticsScreenName("Individual Tag List", TAG);
     }
 
     /**

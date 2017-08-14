@@ -102,9 +102,9 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     public void onResume(){
         super.onResume();
         if(myRecords.equals("projects"))
-        sendAnalyticsScreenName("My Sighting List");
+        sendAnalyticsScreenName("My Sighting List", TAG);
         else
-        sendAnalyticsScreenName("All Sighting List");
+        sendAnalyticsScreenName("All Sighting List", TAG);
     }
 
     /**

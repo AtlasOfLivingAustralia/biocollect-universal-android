@@ -89,7 +89,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Explore Species Map");
+        sendAnalyticsScreenName("Explore Species Map", TAG);
     }
 
     @OnClick(R.id.nextButton)

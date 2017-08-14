@@ -306,7 +306,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Add Sight");
+        sendAnalyticsScreenName("Add Sight", TAG);
     }
 
     @OnClick(R.id.editTags)

@@ -58,6 +58,6 @@ public class SpeciesDetailFragment extends BaseMainActivityFragment {
     @Override
     public void onResume(){
         super.onResume();
-        sendAnalyticsScreenName("Species Detail");
+        sendAnalyticsScreenName("Species Detail", TAG);
     }
 }

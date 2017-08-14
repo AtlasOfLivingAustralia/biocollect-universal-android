@@ -159,9 +159,9 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     public void onResume() {
         super.onResume();
         if (isForAnimals)
-            sendAnalyticsScreenName("Explore Animal List");
+            sendAnalyticsScreenName("Explore Animal List", TAG);
         else
-            sendAnalyticsScreenName("Explore Group List");
+            sendAnalyticsScreenName("Explore Group List", TAG);
     }
 
     protected void fetchGroups(double latitude, double longitude, double radius) {
