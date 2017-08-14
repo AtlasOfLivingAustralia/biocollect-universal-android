@@ -13,6 +13,7 @@ android {
     }
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
+
     defaultConfig {
         minSdkVersion 15
         targetSdkVersion 25
@@ -20,6 +21,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
     buildTypes {
         release {
             minifyEnabled true
@@ -28,6 +30,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
     productFlavors {
         biocollect {
             applicationIdSuffix '.ala.biocollect'
@@ -39,7 +42,13 @@ android {
             versionCode 9
             versionName '2.0.1'
         }
+        biocontrolhub {
+            applicationIdSuffix '.ala.biocontrolhub'
+            versionCode 1
+            versionName '1.0'
+        }
     }
+
     packagingOptions {
         pickFirst 'META-INF/rxjava.properties'
     }
