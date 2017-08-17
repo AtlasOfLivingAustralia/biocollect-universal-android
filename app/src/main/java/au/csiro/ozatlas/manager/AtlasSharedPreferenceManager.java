@@ -24,6 +24,22 @@ public class AtlasSharedPreferenceManager {
     }
 
     /**
+     * constructor
+     * @param sharedPreferences
+     */
+    public AtlasSharedPreferenceManager(SharedPreferences sharedPreferences) {
+        this.sharedPreferences = sharedPreferences;
+    }
+
+    /**
+     * get the shared preference
+     * @return
+     */
+    public SharedPreferences getSharedPreferences() {
+        return sharedPreferences;
+    }
+
+    /**
      * write auth key
      *
      * @param authKey
