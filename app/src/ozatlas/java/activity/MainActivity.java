@@ -34,6 +34,7 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddSightingFragment;
 import fragments.DraftSightingListFragment;
 import fragments.ExploreSpeciesFragment;
+import fragments.OfflineSpeciesFragment;
 import fragments.SightingListFragment;
 import upload.Constants;
 
@@ -93,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isTesting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.nav_add).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();

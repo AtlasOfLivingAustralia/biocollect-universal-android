@@ -27,6 +27,11 @@
             android:icon="@drawable/ic_location_on_black_24dp"
             android:title="@string/map_explore_title" />
 
+        <item
+            android:id="@+id/nav_offline_species"
+            android:icon="@drawable/ic_offline_pin_black_24dp"
+            android:title="@string/offline_species_title" />
+
     </group>
 
 
