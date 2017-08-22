@@ -1,12 +1,14 @@
 package fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.Species;
@@ -54,7 +56,11 @@ public class OfflineSpeciesFragment extends BaseMainActivityFragment{
 
     @OnClick(R.id.available_species)
     void availableSpecies(){
-
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_SPECIES_FRAGMENT);
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @OnClick(R.id.clear_data)

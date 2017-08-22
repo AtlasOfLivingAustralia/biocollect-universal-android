@@ -160,6 +160,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         } else if (id == R.id.nav_location_species) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).commit();
+        }else if (id == R.id.nav_offline_species) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

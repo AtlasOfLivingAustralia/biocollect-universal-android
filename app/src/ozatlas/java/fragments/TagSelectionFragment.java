@@ -57,7 +57,6 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_tag_list, container, false);
         ButterKnife.bind(this, view);
-        setHasOptionsMenu(true);
         setTitle(getString(R.string.identification_tags));
         setHasOptionsMenu(true);
 
