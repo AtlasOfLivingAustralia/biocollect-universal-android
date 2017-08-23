@@ -19,7 +19,7 @@
     <string name="about_title">About the ALA</string>
     <string name="add_title">Record a Sighting</string>
     <string name="map_explore_title">Explore Species By Location</string>
-    <string name="offline_species_title">Offline Species</string>
+    <string name="offline_information_title">Offline Information</string>
     <string name="all_sighting_title">All Sightings</string>
     <string name="my_sighting_title">My Sightings</string>
     <string name="species_group_title">Explore Species Groups</string>
@@ -29,7 +29,9 @@
     <string name="explore_species_title">Explore Species</string>
 
     <string name="add_offline_species">Add Species</string>
+    <string name="add_offline_location">Add Locations</string>
     <string name="available_species">Available Species</string>
+    <string name="available_locations">Available Locations</string>
     <string name="clear_data">Clear Data</string>
     <string name="clear_data_confirmation">Are you sure you want to delete all the offline species?</string>
     <string name="delete_species_confirmation">Are you sure you want to delete this species?</string>

@@ -99,7 +99,7 @@
                     android:drawableTint="@android:color/white"
                     android:gravity="center_vertical"
                     android:padding="4dp"
-                    android:text="@string/location_text"
+                    android:text="@string/add_location_text"
                     android:textColor="@android:color/white"
                     android:textSize="@dimen/smaller_input_font_size"
                     android:textStyle="bold" />

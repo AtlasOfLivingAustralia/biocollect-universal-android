@@ -33,7 +33,8 @@
     <string name="image_note_text">Image Notes</string>
     <string name="attribution_text">Attribution</string>
     <string name="location_note_text">Location Note</string>
-    <string name="location_text">ADD LOCATION</string>
+    <string name="add_location_text">ADD LOCATION</string>
+    <string name="location_text">LOCATION</string>
     <string name="location_change_text">CHANGE LOCATION</string>
     <string name="pick_image_text">ADD IMAGE</string>
     <string name="species_text">SPECIES</string>
