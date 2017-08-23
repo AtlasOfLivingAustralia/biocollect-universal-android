@@ -1084,7 +1084,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     /**
      * Receiver for data sent from FetchAddressIntentService.
      */
-    private class AddressResultReceiver extends ResultReceiver {
+    class AddressResultReceiver extends ResultReceiver {
         AddressResultReceiver(Handler handler) {
             super(handler);
         }

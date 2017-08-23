@@ -67,6 +67,7 @@
     <string name="tags_name">Tags: %1$s</string>
     <string name="album_name">Atlas Camera</string>
 
+    <string name="successful_message">Operation is successfully done.</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 

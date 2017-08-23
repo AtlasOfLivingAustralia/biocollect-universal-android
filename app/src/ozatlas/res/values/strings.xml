@@ -34,6 +34,7 @@
     <string name="available_locations">Available Locations</string>
     <string name="clear_data">Clear Data</string>
     <string name="clear_data_confirmation">Are you sure you want to delete all the offline species?</string>
+    <string name="clear_location_confirmation">Are you sure you want to delete all the offline locations?</string>
     <string name="delete_species_confirmation">Are you sure you want to delete this species?</string>
     <string name="delete_species_title">Delete Species</string>
 
