@@ -36,10 +36,13 @@
     <string name="clear_data_confirmation">Are you sure you want to delete all the offline species?</string>
     <string name="clear_location_confirmation">Are you sure you want to delete all the offline locations?</string>
     <string name="delete_species_confirmation">Are you sure you want to delete this species?</string>
+    <string name="delete_location_confirmation">Are you sure you want to delete this location?</string>
     <string name="delete_species_title">Delete Species</string>
 
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
     <string name="tag_string_parameter">TAGS</string>
+    <string name="is_location_selection_parameter">IS_LOCATION_SELECTION</string>
+    <string name="location_selection_parameter">LOCATION_SELECTION</string>
 
     <string name="logout_message">All your draft projects will be deleted. Would you like to logout?</string>
     <string name="nothing_to_upload">There is no draft record to upload</string>

@@ -320,6 +320,8 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
         location.latitude = place.getLatLng().latitude;
         location.longitude = place.getLatLng().longitude;
         location.addressLine = place.getAddress().toString();
+        location.id = getNextId();
+
         realm.executeTransactionAsync(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -340,6 +342,18 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
         super.onDestroy();
         if (realm != null)
             realm.close();
+    }
+
+    private int getNextId(){
+        // increment index
+        Number currentIdNum = realm.where(OzAtlasLocation.class).max("id");
+        int nextId;
+        if(currentIdNum == null) {
+            nextId = 1;
+        } else {
+            nextId = currentIdNum.intValue() + 1;
+        }
+        return nextId;
     }
 
     /**
@@ -381,6 +395,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
             realm.executeTransactionAsync(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {
+                    ozAtlasLocation.id = getNextId();
                     realm.copyToRealm(ozAtlasLocation);
                     showSnackBarMessage(getString(R.string.successful_message));
                 }

@@ -105,6 +105,7 @@ import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import model.ExploreAnimal;
+import model.OzAtlasLocation;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -119,6 +120,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
     private static final int REQUEST_TAG = 5;
+    private static final int REQUEST_OFFLINE_LOCATION = 6;
     private static final int DELAY_IN_MILLIS = 400;
     private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
 
@@ -755,19 +757,28 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
     @OnClick(R.id.pickLocation)
     void pickLocation() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DateTimeDialogTheme);
-        builder//.setTitle(R.string.select_strategy)
-                .setItems(R.array.location_strategies, new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        if (which == 0) {
-                            lookForGPSLocation();
-                        } else if (which == 1) {
-                            openMapToPickLocation();
-                        } else if (which == 2) {
-                            openAutocompleteActivity();
+        if(AtlasManager.isNetworkAvailable(getActivity())) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DateTimeDialogTheme);
+            builder//.setTitle(R.string.select_strategy)
+                    .setItems(R.array.location_strategies, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (which == 0) {
+                                lookForGPSLocation();
+                            } else if (which == 1) {
+                                openMapToPickLocation();
+                            } else if (which == 2) {
+                                openAutocompleteActivity();
+                            }
                         }
-                    }
-                }).show();
+                    }).show();
+        }else{
+            Bundle bundle = new Bundle();
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_LOCATION_FRAGMENT);
+            bundle.putBoolean(getString(R.string.is_location_selection_parameter), true);
+            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, REQUEST_OFFLINE_LOCATION);
+        }
     }
 
     @OnClick(R.id.speciesDetailLayout)
@@ -887,6 +898,24 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     String tagValues = data.getStringExtra(getString(R.string.tag_string_parameter));
                     editTags.setText(tagValues);
                     break;
+                case REQUEST_OFFLINE_LOCATION:
+                    int id = data.getIntExtra(getString(R.string.location_selection_parameter), -1);
+                    if(id!=-1) {
+                        setLocationLabels();
+                        RealmQuery<OzAtlasLocation> query = realm.where(OzAtlasLocation.class).equalTo("id", id);
+                        RealmResults<OzAtlasLocation> results = query.findAllAsync();
+                        results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<OzAtlasLocation>>() {
+                            @Override
+                            public void onChange(RealmResults<OzAtlasLocation> collection, OrderedCollectionChangeSet changeSet) {
+                                OzAtlasLocation ozAtlasLocation = collection.first();
+                                setLatitudeLongitude(ozAtlasLocation.latitude, ozAtlasLocation.longitude);
+                                latitude = ozAtlasLocation.latitude;
+                                longitude = ozAtlasLocation.longitude;
+                                editLocation.setText(ozAtlasLocation.addressLine);
+                            }
+                        });
+                    }
+                    break;
             }
         }
     }
@@ -912,13 +941,10 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      * @param place
      */
     private void setCoordinate(Place place) {
-        pickLocation.setText(R.string.location_change_text);
+        setLocationLabels();
+        setLatitudeLongitude(place.getLatLng().latitude, place.getLatLng().longitude);
         latitude = place.getLatLng().latitude;
         longitude = place.getLatLng().longitude;
-        inputLayoutLocation.setHint(getString(R.string.location_hint));
-        editLatitude.setText(String.format(Locale.getDefault(), "%.4f", place.getLatLng().latitude));
-        editLongitude.setText(String.format(Locale.getDefault(), "%.4f", place.getLatLng().longitude));
-        //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", place.getLatLng().latitude, place.getLatLng().longitude));
         editLocation.setText(place.getAddress());
     }
 
@@ -929,16 +955,25 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      * @param location
      */
     private void setCoordinate(Location location) {
-        pickLocation.setText(R.string.location_change_text);
+        setLocationLabels();
         latitude = location.getLatitude();
         longitude = location.getLongitude();
-        inputLayoutLocation.setHint(getString(R.string.location_hint));
-        editLatitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLatitude()));
-        editLongitude.setText(String.format(Locale.getDefault(), "%.4f", location.getLongitude()));
-        //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", location.getLatitude(), location.getLongitude()));
+        setLatitudeLongitude(latitude, longitude);
         startIntentService(location);
     }
 
+    /**
+     * changing the labels after choosing/picking an address
+     */
+    private void setLocationLabels(){
+        pickLocation.setText(R.string.location_change_text);
+        inputLayoutLocation.setHint(getString(R.string.location_hint));
+    }
+
+    private void setLatitudeLongitude(Double latitude, Double longitude){
+        editLatitude.setText(String.format(Locale.getDefault(), "%.4f", latitude));
+        editLongitude.setText(String.format(Locale.getDefault(), "%.4f", longitude));
+    }
     /**
      * Marshmellow permission
      *
