@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by sad038 on 23/6/17.
  */
 
-public class ExploreAnimal implements Serializable{
+public class ExploreAnimal implements Serializable {
     @Expose
     @SerializedName("guid")
     public String guid;

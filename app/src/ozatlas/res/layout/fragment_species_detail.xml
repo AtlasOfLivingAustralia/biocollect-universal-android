@@ -12,16 +12,16 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/button_background"
         android:text="@string/add_title"
-        android:textSize="@dimen/bigger_input_font_size"
         android:textColor="@android:color/white"
+        android:textSize="@dimen/bigger_input_font_size"
         android:textStyle="bold" />
 
     <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/speciesFragmentHolder"
-        android:layout_marginBottom="@dimen/activity_horizontal_margin"
-        android:layout_above="@+id/record"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_above="@+id/record"
+        android:layout_marginBottom="@dimen/activity_horizontal_margin" />
 
 
 </RelativeLayout>

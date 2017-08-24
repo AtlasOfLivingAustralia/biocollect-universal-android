@@ -122,11 +122,9 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     private static final int REQUEST_TAG = 5;
     private static final int REQUEST_OFFLINE_LOCATION = 6;
     private static final int DELAY_IN_MILLIS = 400;
-    private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
-
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
-
+    private final int NUMBER_OF_INDIVIDUAL_LIMIT = 100;
     @BindView(R.id.individualSpinner)
     Spinner individualSpinner;
     @BindView(R.id.time)
@@ -306,7 +304,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Add Sight", TAG);
     }
@@ -757,7 +755,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
     @OnClick(R.id.pickLocation)
     void pickLocation() {
-        if(AtlasManager.isNetworkAvailable(getActivity())) {
+        if (AtlasManager.isNetworkAvailable(getActivity())) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity(), R.style.DateTimeDialogTheme);
             builder//.setTitle(R.string.select_strategy)
                     .setItems(R.array.location_strategies, new DialogInterface.OnClickListener() {
@@ -771,7 +769,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                             }
                         }
                     }).show();
-        }else{
+        } else {
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_LOCATION_FRAGMENT);
             bundle.putBoolean(getString(R.string.is_location_selection_parameter), true);
@@ -900,7 +898,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     break;
                 case REQUEST_OFFLINE_LOCATION:
                     int id = data.getIntExtra(getString(R.string.location_selection_parameter), -1);
-                    if(id!=-1) {
+                    if (id != -1) {
                         setLocationLabels();
                         RealmQuery<OzAtlasLocation> query = realm.where(OzAtlasLocation.class).equalTo("id", id);
                         RealmResults<OzAtlasLocation> results = query.findAllAsync();
@@ -965,15 +963,16 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     /**
      * changing the labels after choosing/picking an address
      */
-    private void setLocationLabels(){
+    private void setLocationLabels() {
         pickLocation.setText(R.string.location_change_text);
         inputLayoutLocation.setHint(getString(R.string.location_hint));
     }
 
-    private void setLatitudeLongitude(Double latitude, Double longitude){
+    private void setLatitudeLongitude(Double latitude, Double longitude) {
         editLatitude.setText(String.format(Locale.getDefault(), "%.4f", latitude));
         editLongitude.setText(String.format(Locale.getDefault(), "%.4f", longitude));
     }
+
     /**
      * Marshmellow permission
      *

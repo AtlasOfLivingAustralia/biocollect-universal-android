@@ -2,14 +2,10 @@ package rest;
 
 import com.google.gson.JsonObject;
 
-import java.util.List;
-
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.SightList;
 import io.reactivex.Observable;
-import model.ExploreAnimal;
-import model.ExploreGroup;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;

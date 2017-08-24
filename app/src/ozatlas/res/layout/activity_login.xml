@@ -24,7 +24,7 @@
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
             android:src="@drawable/banner"
-            android:tint="@android:color/white"/>
+            android:tint="@android:color/white" />
 
         <LinearLayout
             android:id="@+id/filedLayout"
@@ -85,10 +85,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/view_top_margin"
-                android:textStyle="bold"
-                android:textColor="@android:color/white"
                 android:background="?attr/selectableItemBackground"
-                android:text="@string/register" />
+                android:text="@string/register"
+                android:textColor="@android:color/white"
+                android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>
 

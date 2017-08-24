@@ -26,9 +26,8 @@ import io.realm.RealmResults;
 public class AvailableSpeciesFragment extends BaseMainActivityFragment {
     @BindView(R.id.listView)
     ListView listView;
-
-    private Realm realm;
     RealmResults<Species> speciesRealmResults;
+    private Realm realm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,7 +44,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Available Species List", TAG);
     }

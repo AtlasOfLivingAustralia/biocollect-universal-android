@@ -8,10 +8,10 @@
         android:id="@+id/tick"
         android:layout_width="@dimen/row_tick_width"
         android:layout_height="@dimen/row_tick_width"
-        android:padding="2dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
         android:adjustViewBounds="true"
+        android:padding="2dp"
         android:scaleType="fitCenter" />
 
     <TextView

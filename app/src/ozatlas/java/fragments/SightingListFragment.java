@@ -74,7 +74,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         if (bundle != null) {
             myRecords = bundle.getString(getString(R.string.myview_parameter));
             setTitle(getString(R.string.my_sighting_title));
-        }else{
+        } else {
             setTitle(getString(R.string.all_sighting_title));
         }
 
@@ -99,12 +99,12 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if(myRecords.equals("projects"))
-        sendAnalyticsScreenName("My Sighting List", TAG);
+        if (myRecords.equals("projects"))
+            sendAnalyticsScreenName("My Sighting List", TAG);
         else
-        sendAnalyticsScreenName("All Sighting List", TAG);
+            sendAnalyticsScreenName("All Sighting List", TAG);
     }
 
     /**
@@ -127,7 +127,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
 
                         break;*/
                     case R.id.edit:
-                        startWebViewActivity(getString(R.string.sighting_edit_url, sights.get(position).activityId),getString(R.string.edit_title),true);
+                        startWebViewActivity(getString(R.string.sighting_edit_url, sights.get(position).activityId), getString(R.string.edit_title), true);
                         break;
                 }
                 return true;

@@ -1,6 +1,5 @@
 package adapters;
 
-import android.app.DatePickerDialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,16 +10,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.Calendar;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.listener.SimpleTextWatcher;
-import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.SightingPhoto;
 import io.realm.RealmList;
 

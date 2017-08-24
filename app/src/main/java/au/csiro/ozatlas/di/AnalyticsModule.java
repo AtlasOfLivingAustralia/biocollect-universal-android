@@ -7,7 +7,6 @@ import com.google.firebase.analytics.FirebaseAnalytics;
 import javax.inject.Singleton;
 
 import au.csiro.ozatlas.application.BaseApplication;
-import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import dagger.Module;
 import dagger.Provides;
 

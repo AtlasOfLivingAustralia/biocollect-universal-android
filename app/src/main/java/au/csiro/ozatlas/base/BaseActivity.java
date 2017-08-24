@@ -24,7 +24,6 @@ import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
 import au.csiro.ozatlas.fragments.WebViewFragment;
-import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -35,16 +34,15 @@ import io.realm.Realm;
  */
 
 public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, FragmentManager.OnBackStackChangedListener {
+    protected final String TAG = getClass().getSimpleName();
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
     @Inject
     protected RestClient restClient;
-    @Inject
-    FirebaseAnalytics firebaseAnalytics;
-
-    protected final String TAG = getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     protected Realm realm;
+    @Inject
+    FirebaseAnalytics firebaseAnalytics;
     private ProgressDialog mProgressDialog;
 
     @Override

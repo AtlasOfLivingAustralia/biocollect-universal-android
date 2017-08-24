@@ -1,20 +1,11 @@
 package base;
 
 import android.content.Context;
-import android.graphics.Color;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.widget.TextView;
-
-import com.androidadvance.topsnackbar.TSnackbar;
 
 import activity.MainActivity;
 import activity.SingleFragmentActivity;
-import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
-
-import static au.csiro.ozatlas.R.id.coordinatorLayout;
 
 /**
  * Created by sad038 on 5/4/17.

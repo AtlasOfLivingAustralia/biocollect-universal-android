@@ -1,14 +1,6 @@
 package application;
 
-import android.content.Context;
-import android.support.multidex.MultiDexApplication;
-
-import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.application.BaseApplication;
-import au.csiro.ozatlas.di.PreferenceModule;
-import au.csiro.ozatlas.di.RestModule;
-import di.AppComponent;
-import di.DaggerAppComponent;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 

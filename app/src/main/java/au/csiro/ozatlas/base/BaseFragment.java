@@ -18,13 +18,11 @@ import io.reactivex.disposables.CompositeDisposable;
  */
 
 public class BaseFragment extends Fragment implements BaseActivityFragmentListener {
+    protected final String TAG = getClass().getSimpleName();
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
     @Inject
     protected RestClient restClient;
-
-
-    protected final String TAG = getClass().getSimpleName();
     protected BaseActivityFragmentListener baseActivityFragmentListener;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 

@@ -55,21 +55,18 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     private final float INITIAL_ZOOM = 12.2f;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
     private final int ADD_SIGHT_REQUEST_CODE = 2;
-
+    @BindView(R.id.address)
+    EditText address;
+    @BindView(R.id.editRadius)
+    EditText editRadius;
     private SupportMapFragment mapFragment;
     private GoogleMap googleMap;
     private FusedLocationProviderClient mFusedLocationClient;
-
     /**
      * Receiver registered with this activity to get the response from FetchAddressIntentService.
      */
     private AddressResultReceiver mResultReceiver;
     private LatLng centerLatLng;
-
-    @BindView(R.id.address)
-    EditText address;
-    @BindView(R.id.editRadius)
-    EditText editRadius;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -87,7 +84,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Explore Species Map", TAG);
     }
@@ -123,7 +120,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
 
     @OnClick(R.id.editRadius)
-    void editRadius(){
+    void editRadius() {
         showSnackBarMessage(getString(R.string.map_zoom_message));
     }
 

@@ -1,17 +1,10 @@
 package au.csiro.ozatlas.fragments;
 
 import android.os.Bundle;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 
-import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import base.BaseMainActivityFragment;
 

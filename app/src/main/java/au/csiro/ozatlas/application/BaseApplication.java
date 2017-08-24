@@ -2,6 +2,7 @@ package au.csiro.ozatlas.application;
 
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
+
 import com.google.firebase.analytics.FirebaseAnalytics;
 
 import au.csiro.ozatlas.R;
@@ -52,10 +53,9 @@ public class BaseApplication extends MultiDexApplication {
     }
 
     /**
-     *
      * @return Firebase analytics instance
      */
-    public FirebaseAnalytics getFirebaseAnalytics(){
+    public FirebaseAnalytics getFirebaseAnalytics() {
         return mFirebaseAnalytics;
     }
 }

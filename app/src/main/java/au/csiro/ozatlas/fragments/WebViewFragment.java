@@ -97,7 +97,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("WebView Fragment", TAG);
     }

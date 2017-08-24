@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         } else if (id == R.id.nav_location_species) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).commit();
-        }else if (id == R.id.nav_offline_species) {
+        } else if (id == R.id.nav_offline_species) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineInformationFragment()).commit();
         }
 
@@ -178,11 +178,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     /**
      * Showing the snackbar from the Top
+     *
      * @param str
      */
     @Override
-    public void showSnackBarFromTop(String str){
-        TSnackbar snackbar = TSnackbar.make(coordinatorLayout,str,TSnackbar.LENGTH_LONG);
+    public void showSnackBarFromTop(String str) {
+        TSnackbar snackbar = TSnackbar.make(coordinatorLayout, str, TSnackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
         snackbarView.setBackgroundColor(ContextCompat.getColor(this, R.color.ala_dark_background));
         TextView textView = (TextView) snackbarView.findViewById(com.androidadvance.topsnackbar.R.id.snackbar_text);

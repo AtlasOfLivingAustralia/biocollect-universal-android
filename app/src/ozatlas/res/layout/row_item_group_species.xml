@@ -16,8 +16,8 @@
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
-            android:src="@drawable/no_image_available"
-            android:scaleType="fitCenter" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/no_image_available" />
 
         <LinearLayout
             android:layout_width="match_parent"

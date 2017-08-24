@@ -25,6 +25,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * constructor
+     *
      * @param sharedPreferences
      */
     public AtlasSharedPreferenceManager(SharedPreferences sharedPreferences) {
@@ -33,6 +34,7 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * get the shared preference
+     *
      * @return
      */
     public SharedPreferences getSharedPreferences() {

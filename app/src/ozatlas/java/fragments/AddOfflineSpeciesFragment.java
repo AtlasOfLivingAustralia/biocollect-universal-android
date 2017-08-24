@@ -36,7 +36,7 @@ public class AddOfflineSpeciesFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Add Offline Species", TAG);
     }

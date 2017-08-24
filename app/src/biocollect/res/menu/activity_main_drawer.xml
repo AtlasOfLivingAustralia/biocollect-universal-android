@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group android:checkableBehavior="single" android:id="@+id/operation">
+    <group
+        android:id="@+id/operation"
+        android:checkableBehavior="single">
 
         <item
             android:id="@+id/nav_all_projects"
@@ -44,7 +46,9 @@
         </menu>
     </item>
 
-    <group android:id="@+id/version" android:checkableBehavior="none">
+    <group
+        android:id="@+id/version"
+        android:checkableBehavior="none">
         <item
             android:icon="@mipmap/ic_launcher"
             android:title="@string/app_version" />

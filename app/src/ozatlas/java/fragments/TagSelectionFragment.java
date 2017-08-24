@@ -111,7 +111,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Individual Tag List", TAG);
     }
@@ -152,6 +152,7 @@ public class TagSelectionFragment extends BaseMainActivityFragment {
 
     /**
      * joining the selected tags separated by getString(R.string.tag_separator)
+     *
      * @return
      */
     private String getTags() {

@@ -12,10 +12,10 @@
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Help in using the Atlas"
+            android:textColor="@android:color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -49,10 +49,10 @@
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Media and communications"
+            android:textColor="@android:color/black"
             android:textStyle="bold" />
 
         <TextView
@@ -94,10 +94,10 @@
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
-            android:textColor="@android:color/black"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Advice on sharing data with the Atlas"
+            android:textColor="@android:color/black"
             android:textStyle="bold" />
 
         <TextView

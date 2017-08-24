@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by sad038 on 23/6/17.
  */
 
-public class ExploreGroup implements Serializable{
+public class ExploreGroup implements Serializable {
     public String level;
 
     @Expose

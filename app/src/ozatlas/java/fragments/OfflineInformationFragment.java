@@ -8,7 +8,6 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -30,14 +29,10 @@ import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
 
-import java.io.File;
-
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
-import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
-import au.csiro.ozatlas.model.SightingPhoto;
 import au.csiro.ozatlas.model.Species;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -54,7 +49,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 21/8/17.
  */
 
-public class OfflineInformationFragment extends BaseMainActivityFragment{
+public class OfflineInformationFragment extends BaseMainActivityFragment {
     private static final int REQUEST_CODE_AUTOCOMPLETE = 1;
     private static final int REQUEST_PLACE_PICKER = 2;
 
@@ -125,12 +120,12 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
     }
 
     @OnClick(R.id.add_species)
-    void addSpecies(){
+    void addSpecies() {
 
     }
 
     @OnClick(R.id.available_species)
-    void availableSpecies(){
+    void availableSpecies() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_SPECIES_FRAGMENT);
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
@@ -139,7 +134,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
     }
 
     @OnClick(R.id.clear_species)
-    void clearData(){
+    void clearData() {
         AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.clear_data_confirmation), getString(R.string.clear_data), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -155,12 +150,12 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
     }
 
     @OnClick(R.id.add_location)
-    void addLocation(){
+    void addLocation() {
         pickLocation();
     }
 
     @OnClick(R.id.available_location)
-    void availableLocations(){
+    void availableLocations() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_LOCATION_FRAGMENT);
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
@@ -169,7 +164,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
     }
 
     @OnClick(R.id.clear_location)
-    void clearLocation(){
+    void clearLocation() {
         AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.clear_location_confirmation), getString(R.string.clear_data), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -315,7 +310,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
         }
     }
 
-    private void saveLocation(Place place){
+    private void saveLocation(Place place) {
         final OzAtlasLocation location = new OzAtlasLocation();
         location.latitude = place.getLatLng().latitude;
         location.longitude = place.getLatLng().longitude;
@@ -332,7 +327,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Offline Information", TAG);
     }
@@ -344,11 +339,11 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
             realm.close();
     }
 
-    private int getNextId(){
+    private int getNextId() {
         // increment index
         Number currentIdNum = realm.where(OzAtlasLocation.class).max("id");
         int nextId;
-        if(currentIdNum == null) {
+        if (currentIdNum == null) {
             nextId = 1;
         } else {
             nextId = currentIdNum.intValue() + 1;
@@ -389,9 +384,9 @@ public class OfflineInformationFragment extends BaseMainActivityFragment{
          */
         @Override
         protected void onReceiveResult(int resultCode, Bundle resultData) {
-
             // Display the address string or an error message sent from the intent service.
-            ozAtlasLocation.addressLine = resultData.getString(Constants.RESULT_DATA_KEY);
+            if (resultCode == Constants.SUCCESS_RESULT)
+                ozAtlasLocation.addressLine = resultData.getString(Constants.RESULT_DATA_KEY);
             realm.executeTransactionAsync(new Realm.Transaction() {
                 @Override
                 public void execute(Realm realm) {

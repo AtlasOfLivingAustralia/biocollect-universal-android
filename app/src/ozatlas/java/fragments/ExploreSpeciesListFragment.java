@@ -44,20 +44,6 @@ import rest.BioCacheApiService;
 public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     private final String FQ = "geospatial_kosher:true";
     private final String FACET = "species_group";
-
-    @BindView(R.id.recyclerView)
-    RecyclerView recyclerView;
-    @BindView(R.id.swipe_container)
-    SwipeRefreshLayout swipeRefreshLayout;
-    @BindView(R.id.total)
-    TextView total;
-
-    private List<ExploreGroup> exploreGroups = new ArrayList<>();
-    private List<ExploreAnimal> exploreAnimals = new ArrayList<>();
-    private double latitude, longitude, radius;
-    private ExploreGroup group;
-    private BioCacheApiService bioCacheApiService;
-    private boolean isForAnimals;
     private final int[] icons = {R.drawable.algae, R.drawable.amphibians, R.drawable.angiosperms,
             R.drawable.birds, R.drawable.bryophytes, R.drawable.crustaceans, R.drawable.dicots,
             R.drawable.fernsandallies, R.drawable.fish,
@@ -67,7 +53,30 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     private final String[] groups = new String[]{"Algae", "Amphibians", "Angiosperms", "Birds", "Bryophytes", "Crustaceans",
             "Dicots", "FernsAndAllies", "Fishes", "Fungi", "Gymnosperms", "Insects", "Mammals", "Molluscs", "Monocots",
             "Plants", "Reptiles"};
-
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.total)
+    TextView total;
+    private List<ExploreGroup> exploreGroups = new ArrayList<>();
+    /**
+     * onClick listener for the recyclerview group item
+     */
+    View.OnClickListener onGroupClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int position = recyclerView.getChildAdapterPosition(v);
+            Bundle bundle = getArguments();
+            bundle.putBoolean(getString(R.string.is_for_animal_parameter), true);
+            bundle.putSerializable(getString(R.string.group_parameter), exploreGroups.get(position));
+            Fragment fragment = new ExploreSpeciesListFragment();
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
+        }
+    };
+    private List<ExploreAnimal> exploreAnimals = new ArrayList<>();
+    private double latitude, longitude, radius;
     /**
      * onClick listener for the recyclerview animal item
      */
@@ -84,23 +93,9 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
             getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
         }
     };
-
-    /**
-     * onClick listener for the recyclerview group item
-     */
-    View.OnClickListener onGroupClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
-            Bundle bundle = getArguments();
-            bundle.putBoolean(getString(R.string.is_for_animal_parameter), true);
-            bundle.putSerializable(getString(R.string.group_parameter), exploreGroups.get(position));
-            Fragment fragment = new ExploreSpeciesListFragment();
-            fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
-        }
-    };
-
+    private ExploreGroup group;
+    private BioCacheApiService bioCacheApiService;
+    private boolean isForAnimals;
     private int totalCount;
 
     @Override

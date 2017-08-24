@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.Locale;
+
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import base.BaseMainActivityFragment;
@@ -121,28 +123,34 @@ public class AvailableLocationsFragment extends BaseMainActivityFragment {
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
             final OzAtlasLocation location = locationsRealmResults.get(position);
-            holder.addressLine.setText(location.addressLine);
-            //editLocation.setText(String.format(Locale.getDefault(), "%.4f, %.4f", place.getLatLng().latitude, place.getLatLng().longitude))
+            if (location.addressLine == null || location.addressLine.equals(""))
+                holder.addressLine.setText(String.format(Locale.getDefault(), "%.4f, %.4f", location.latitude, location.longitude));
+            else
+                holder.addressLine.setText(location.addressLine);
 
-            //clicking on the cross button in each row
-            holder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.delete_location_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            realm.executeTransaction(new Realm.Transaction() {
-                                @Override
-                                public void execute(Realm realm) {
-                                    //deleting the location item from Realm database
-                                    location.deleteFromRealm();
-                                    locationAdapter.notifyDataSetChanged();
-                                }
-                            });
-                        }
-                    });
-                }
-            });
+            if (isForLocationSelection) {
+                holder.delete.setVisibility(View.INVISIBLE);
+            } else {
+                //clicking on the cross button in each row
+                holder.delete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.delete_location_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                realm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        //deleting the location item from Realm database
+                                        location.deleteFromRealm();
+                                        locationAdapter.notifyDataSetChanged();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            }
 
             return rowView;
         }
