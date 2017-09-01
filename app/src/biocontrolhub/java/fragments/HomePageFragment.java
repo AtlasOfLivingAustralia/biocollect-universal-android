@@ -17,6 +17,7 @@ import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by sad038 on 1/9/17.
@@ -26,13 +27,17 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
     @BindView(R.id.listView)
     ListView listView;
-    List<ListItem> listItems = new ArrayList<>();
+    @BindView(R.id.name)
+    TextView name;
+
+    private List<ListItem> listItems = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
+        name.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
         prepareItemList();
         listView.setAdapter(new HomePageItemAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -49,6 +54,11 @@ public class HomePageFragment extends BaseMainActivityFragment {
             }
         });
         return view;
+    }
+
+    @OnClick(R.id.logoutButton)
+    void logoutButton(){
+        launchLoginActivity();
     }
 
     private void prepareItemList() {
