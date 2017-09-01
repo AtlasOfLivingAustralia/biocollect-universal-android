@@ -21,6 +21,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasManager;
+import fragments.HomePageFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -69,10 +70,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isTesting) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
+            setDrawerMenuClicked(R.id.home);
+            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
-            //navigationView.getMenu().findItem(R.id.nav_all_projects).setChecked(true);
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
+            navigationView.getMenu().findItem(R.id.nav_all_projects).setChecked(true);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         }
     }
 
@@ -108,7 +110,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
+        if (id == R.id.home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
+        }
         /*if (id == R.id.nav_logout) {
             AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                 @Override
@@ -207,5 +211,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     @Override
     public void setDrawerMenuChecked(int menuRes) {
         navigationView.getMenu().findItem(menuRes).setChecked(true);
+    }
+
+    @Override
+    public void setDrawerMenuClicked(int menuRes) {
+        setDrawerMenuChecked(menuRes);
+        onNavigationItemSelected(navigationView.getMenu().findItem(menuRes));
     }
 }

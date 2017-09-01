@@ -22,4 +22,6 @@ public interface MainActivityFragmentListener {
     void setTitle(String title);
 
     void setDrawerMenuChecked(int menuRes);
+
+    void setDrawerMenuClicked(int menuRes);
 }

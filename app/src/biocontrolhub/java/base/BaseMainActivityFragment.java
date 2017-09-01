@@ -66,4 +66,10 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.setDrawerMenuChecked(menuRes);
     }
+
+    @Override
+    public void setDrawerMenuClicked(int menuRes) {
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.setDrawerMenuClicked(menuRes);
+    }
 }

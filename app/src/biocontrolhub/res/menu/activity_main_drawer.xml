@@ -6,6 +6,11 @@
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="Home" />
+
+        <item
             android:id="@+id/nav_all_projects"
             android:icon="@drawable/ic_card_travel_black_24dp"
             android:title="All Projects" />
@@ -27,6 +32,14 @@
 
     </group>
 
+    <item android:title="BioControl Hub">
+        <menu>
+            <item
+                android:id="@+id/nav_contact"
+                android:icon="@drawable/ic_mail_outline_black_24dp"
+                android:title="Contact Us" />
+        </menu>
+    </item>
 
     <item android:title="Account">
         <menu>
@@ -37,20 +50,11 @@
         </menu>
     </item>
 
-    <item android:title="BioCollect">
-        <menu>
-            <item
-                android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Contact Us" />
-        </menu>
-    </item>
-
     <group
         android:id="@+id/version"
         android:checkableBehavior="none">
         <item
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_info_outline_black_24dp"
             android:title="@string/app_version" />
 
     </group>
