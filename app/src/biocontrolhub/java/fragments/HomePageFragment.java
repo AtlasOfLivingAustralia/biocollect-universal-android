@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -33,6 +34,20 @@ public class HomePageFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
         prepareItemList();
+        listView.setAdapter(new HomePageItemAdapter());
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                ListItem item = listItems.get(position);
+                if(item.isForWebView){
+                    startWebViewActivity(item.url, item.text, false);
+                }else if(item.text.equals(getString(R.string.all_project_title))){
+                    setDrawerMenuClicked(R.id.nav_all_projects);
+                }else if(item.text.equals(getString(R.string.all_record_title))){
+                    setDrawerMenuClicked(R.id.nav_all_sighting);
+                }
+            }
+        });
         return view;
     }
 
@@ -116,6 +131,9 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
+            ListItem item = listItems.get(position);
+            holder.imageView.setImageResource(item.icon);
+            holder.textView.setText(item.text);
 
             return rowView;
         }

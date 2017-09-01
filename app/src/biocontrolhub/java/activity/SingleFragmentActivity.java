@@ -15,6 +15,7 @@ import com.androidadvance.topsnackbar.TSnackbar;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
+import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -41,17 +42,17 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
         if (bundle != null) {
             FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
             setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
-            /*switch (fragmentType) {
+            switch (fragmentType) {
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
                     break;
-                case RECORD_LIST:
+                /*case RECORD_LIST:
                     fragment = new SightingListFragment();
                     break;
                 case CONTACT_US:
                     fragment = new ContactUsFragment();
-                    break;
-            }*/
+                    break;*/
+            }
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         }
