@@ -13,33 +13,37 @@
         <item
             android:id="@+id/nav_all_projects"
             android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="All Projects" />
+            android:title="@string/all_project_title" />
 
         <item
             android:id="@+id/nav_all_sighting"
             android:icon="@drawable/ic_folder_open_black_24dp"
-            android:title="All Records" />
-
-        <item
-            android:id="@+id/nav_my_projects"
-            android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="My Projects" />
-
-        <item
-            android:id="@+id/nav_my_sighting"
-            android:icon="@drawable/ic_folder_open_black_24dp"
-            android:title="My Records" />
+            android:title="@string/all_record_title" />
 
     </group>
 
-    <item android:title="BioControl Hub">
-        <menu>
-            <item
-                android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Contact Us" />
-        </menu>
-    </item>
+    <group
+        android:id="@+id/info_group"
+        android:checkableBehavior="none">
+        <item
+            android:id="@+id/nav_case_study"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/case_study_title" />
+
+        <item
+            android:id="@+id/nav_additional_resources"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/additional_resources_title" />
+        <item
+            android:id="@+id/nav_get_involved"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/get_involced_title" />
+        <item
+            android:id="@+id/nav_about_us"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/about_title" />
+
+    </group>
 
     <item android:title="Account">
         <menu>

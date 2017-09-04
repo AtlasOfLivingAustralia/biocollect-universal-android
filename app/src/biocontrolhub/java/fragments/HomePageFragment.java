@@ -27,8 +27,6 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
     @BindView(R.id.listView)
     ListView listView;
-    @BindView(R.id.name)
-    TextView name;
 
     private List<ListItem> listItems = new ArrayList<>();
 
@@ -37,7 +35,11 @@ public class HomePageFragment extends BaseMainActivityFragment {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
-        name.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
+
+        View header = getActivity().getLayoutInflater().inflate(R.layout.header_list,null);
+        setupHeader(header);
+        listView.addHeaderView(header);
+
         prepareItemList();
         listView.setAdapter(new HomePageItemAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -56,9 +58,16 @@ public class HomePageFragment extends BaseMainActivityFragment {
         return view;
     }
 
-    @OnClick(R.id.logoutButton)
-    void logoutButton(){
-        launchLoginActivity();
+    private void setupHeader(View header){
+        TextView name = (TextView) header.findViewById(R.id.name);
+        TextView logout = (TextView) header.findViewById(R.id.logoutButton);
+        name.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                launchLoginActivity();
+            }
+        });
     }
 
     private void prepareItemList() {
@@ -111,7 +120,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         boolean isForWebView;
     }
 
-    private interface UrlConstants {
+    public interface UrlConstants {
         String BASE_URL = "https://biocollect.ala.org.au/";
         String CASE_STUDY_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=related_websites&mobile=true";
         String ADDITIONAL_RESOURCES_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=materialss&mobile=true";
