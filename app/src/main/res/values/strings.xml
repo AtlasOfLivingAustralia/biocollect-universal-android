@@ -16,6 +16,7 @@
     <string name="group_parameter">GROUP</string>
     <string name="species_parameter">SPECIES</string>
     <string name="longitude_parameter">LONGITUDE</string>
+    <string name="survey_list_parameter">SURVEY_LIST</string>
     <string name="radius_parameter">RADIUS</string>
 
     <string name="username_hint">Username</string>
@@ -66,6 +67,10 @@
     <string name="species_name">Species: %1$s</string>
     <string name="tags_name">Tags: %1$s</string>
     <string name="album_name">Atlas Camera</string>
+
+    <string name="survey_dialog_title">Select survey to add records</string>
+    <string name="survey_permission_denied">You do not have permission to add records.</string>
+    <string name="survey_entry_title">Add Records</string>
 
     <string name="successful_message">Operation is successfully done.</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>

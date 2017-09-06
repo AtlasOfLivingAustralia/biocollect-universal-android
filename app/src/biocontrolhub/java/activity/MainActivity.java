@@ -24,6 +24,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
+import fragments.ProjectListFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -123,7 +124,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             });
         } else if (id == R.id.nav_all_projects) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } /*else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(getString(R.string.user_project_parameter), true);

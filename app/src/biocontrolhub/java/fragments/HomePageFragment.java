@@ -27,6 +27,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
     @BindView(R.id.listView)
     ListView listView;
 
+    //list of items in home page
     private List<ListItem> listItems = new ArrayList<>();
 
     @Override
@@ -35,10 +36,12 @@ public class HomePageFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
 
+        //preparing the header
         View header = getActivity().getLayoutInflater().inflate(R.layout.header_list, null);
         setupHeader(header);
         listView.addHeaderView(header);
 
+        //preparign the list
         prepareItemList();
         listView.setAdapter(new HomePageItemAdapter());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -58,6 +61,10 @@ public class HomePageFragment extends BaseMainActivityFragment {
         return view;
     }
 
+    /**
+     * setting up the header information of the option list
+     * @param header
+     */
     private void setupHeader(View header) {
         TextView name = (TextView) header.findViewById(R.id.name);
         TextView logout = (TextView) header.findViewById(R.id.logoutButton);
@@ -70,6 +77,9 @@ public class HomePageFragment extends BaseMainActivityFragment {
         });
     }
 
+    /**
+     * preparing the items for the list at home page
+     */
     private void prepareItemList() {
         ListItem item = new ListItem();
         item.icon = R.drawable.ic_card_travel_black_24dp;
@@ -107,12 +117,18 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listItems.add(item);
     }
 
+    /**
+     * sedting the analytics info
+     */
     @Override
     public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Home Page", TAG);
     }
 
+    /**
+     * Model for List item
+     */
     private class ListItem {
         String text;
         int icon;
@@ -120,6 +136,9 @@ public class HomePageFragment extends BaseMainActivityFragment {
         boolean isForWebView;
     }
 
+    /**
+     * URL Constants for the static pages
+     */
     public interface UrlConstants {
         String BASE_URL = "https://biocollect.ala.org.au/";
         String CASE_STUDY_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=related_websites&mobile=true";
@@ -128,6 +147,9 @@ public class HomePageFragment extends BaseMainActivityFragment {
         String ABOUT_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=what_is_biocontrol&mobile=true";
     }
 
+    /**
+     * Home Page List Adapter
+     */
     private class HomePageItemAdapter extends ArrayAdapter<ListItem> {
 
         HomePageItemAdapter() {
