@@ -16,7 +16,7 @@
         <item name="colorAccent">@android:color/white</item>
 
         <item name="android:textColorHint">@android:color/white</item>
-        <item name="textColorError">@android:color/white</item>
+        <item name="textColorError">@android:color/holo_red_dark</item>
     </style>
 
     <!--date and time picker-->

@@ -17,7 +17,6 @@ import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by sad038 on 1/9/17.
@@ -36,7 +35,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
 
-        View header = getActivity().getLayoutInflater().inflate(R.layout.header_list,null);
+        View header = getActivity().getLayoutInflater().inflate(R.layout.header_list, null);
         setupHeader(header);
         listView.addHeaderView(header);
 
@@ -45,12 +44,13 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                ListItem item = listItems.get(position);
-                if(item.isForWebView){
+                //subtracting 1 due to adding header
+                ListItem item = listItems.get(position - 1);
+                if (item.isForWebView) {
                     startWebViewActivity(item.url, item.text, false);
-                }else if(item.text.equals(getString(R.string.all_project_title))){
+                } else if (item.text.equals(getString(R.string.all_project_title))) {
                     setDrawerMenuClicked(R.id.nav_all_projects);
-                }else if(item.text.equals(getString(R.string.all_record_title))){
+                } else if (item.text.equals(getString(R.string.all_record_title))) {
                     setDrawerMenuClicked(R.id.nav_all_sighting);
                 }
             }
@@ -58,7 +58,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         return view;
     }
 
-    private void setupHeader(View header){
+    private void setupHeader(View header) {
         TextView name = (TextView) header.findViewById(R.id.name);
         TextView logout = (TextView) header.findViewById(R.id.logoutButton);
         name.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));

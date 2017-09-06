@@ -144,7 +144,7 @@ public class LoginActivity extends BaseActivity {
             inputLayoutPassword.setError(getString(R.string.password_missing_error));
             value = false;
         } else {
-            inputLayoutUsername.setError("");
+            inputLayoutPassword.setError("");
         }
         return value;
     }

@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
+            android:src="@drawable/biocontrolhub_login_bk"
             android:scaleType="centerCrop" />
 
         <ImageView
@@ -88,6 +89,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/view_top_margin"
+                android:textColor="@android:color/white"
                 android:background="?attr/selectableItemBackground"
                 android:text="@string/register"
                 android:textStyle="bold" />
