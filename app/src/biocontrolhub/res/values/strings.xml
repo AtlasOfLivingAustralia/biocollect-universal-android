@@ -2,14 +2,6 @@
     <string name="app_name">BioControl Hub</string>
     <string name="app_version">Version 1.0</string>
 
-    <string name="ecodata_url">https://ecodata.ala.org.au/</string>
-    <string name="biocollect_url">https://biocollect.ala.org.au/</string>
-
-    <string name="survey_entry_url">https://biocollect.ala.org.au/bioActivity/mobileCreate/%1$s</string>
-    <string name="sighting_edit_url">https://biocollect.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
-    <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
-    <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
-
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="project_id_parameter">PROJECT_ID</string>
     <string name="project_name_parameter">PROJECT_NAME</string>

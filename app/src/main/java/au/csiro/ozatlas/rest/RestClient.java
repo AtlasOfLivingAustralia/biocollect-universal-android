@@ -1,6 +1,6 @@
 package au.csiro.ozatlas.rest;
 
-import rest.BioControlHubApiService;
+import rest.BioCollectApiService;
 import retrofit2.Retrofit;
 
 /**
@@ -8,14 +8,14 @@ import retrofit2.Retrofit;
  */
 
 public class RestClient {
-    private BioControlHubApiService service;
+    private BioCollectApiService service;
 
     public RestClient(String baseUrl) {
         Retrofit retrofit = new NetworkClient(baseUrl).getRetrofit();
-        service = retrofit.create(BioControlHubApiService.class);
+        service = retrofit.create(BioCollectApiService.class);
     }
 
-    public BioControlHubApiService getService() {
+    public BioCollectApiService getService() {
         return service;
     }
 }

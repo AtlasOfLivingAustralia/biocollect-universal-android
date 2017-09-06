@@ -216,4 +216,10 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void setDrawerMenuChecked(int menuRes) {
         navigationView.getMenu().findItem(menuRes).setChecked(true);
     }
+
+    @Override
+    public void setDrawerMenuClicked(int menuRes) {
+        setDrawerMenuChecked(menuRes);
+        onNavigationItemSelected(navigationView.getMenu().findItem(menuRes));
+    }
 }

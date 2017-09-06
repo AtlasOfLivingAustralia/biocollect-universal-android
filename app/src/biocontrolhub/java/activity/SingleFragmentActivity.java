@@ -18,6 +18,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.SightingListFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -46,12 +47,9 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
                     break;
-                /*case RECORD_LIST:
+                case RECORD_LIST:
                     fragment = new SightingListFragment();
                     break;
-                case CONTACT_US:
-                    fragment = new ContactUsFragment();
-                    break;*/
             }
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
@@ -153,6 +151,5 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     public enum FragmentType {
         WEB_FRAGMENT,
         RECORD_LIST,
-        CONTACT_US
     }
 }
