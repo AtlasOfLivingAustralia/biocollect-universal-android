@@ -65,7 +65,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     private String viewQuery;
     private int totalSighting;
     private String projectId;
-    private Boolean myProjects = false;
+    //private Boolean myProjects = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,17 +79,21 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         if (bundle != null) {
             this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
             projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
-            myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
-            if (viewQuery != null) {
-                setTitle(getString(R.string.my_record_title));
-            } else if (projectId != null) {
+            //myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
+
+            if (projectId != null) {
                 String title = bundle.getString(getString(R.string.project_name_parameter));
                 setTitle(title);
+            } else {
+                setTitle(getString(R.string.my_record_title));
             }
-            if (myProjects && projectId != null) {
+
+            if (/*myProjects &&*/ projectId != null) {
                 getSurveys(projectId);
             }
         } else {
+            //from all data
+            viewQuery = "allrecords";
             setTitle(getString(R.string.all_record_title));
         }
 
@@ -97,7 +101,6 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new SightAdapter(sights, onClickListener, this, this.viewQuery);
@@ -135,7 +138,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (myProjects && projectId != null)
+        if (/*myProjects &&*/ projectId != null)
             menu.findItem(R.id.add).setVisible(true);
     }
 

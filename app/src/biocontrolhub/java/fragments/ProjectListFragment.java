@@ -52,6 +52,7 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
                 bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
                 bundle.putString(getString(R.string.project_name_parameter), projects.get(position).name);
                 bundle.putBoolean(getString(R.string.user_project_parameter), myProjects);
+                bundle.putString(getString(R.string.myview_parameter), "project");
                 bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.RECORD_LIST);
                 Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
                 intent.putExtras(bundle);

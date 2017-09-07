@@ -25,6 +25,7 @@ import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
 import fragments.ProjectListFragment;
+import fragments.SightingListFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -132,7 +133,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         }*/ else if (id == R.id.nav_all_sighting) {
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         } /*else if (id == R.id.nav_my_sighting) {
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.myview_parameter), "myrecords");

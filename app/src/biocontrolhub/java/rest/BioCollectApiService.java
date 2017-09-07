@@ -18,7 +18,7 @@ public interface BioCollectApiService {
     @GET("/ws/project/search?initiator=biocollect&sort=nameSort&hub=biocontrolhub")
     Observable<ProjectList> getProjects(@Query("initiator") String initiator, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("sort") String sort, @Query("q") String q, @Query("isUserPage") Boolean isUserPage);
 
-    @GET("bioActivity/searchProjectActivities")
+    @GET("bioActivity/searchProjectActivities?hub=biocontrolhub")
     Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm, @Query("userId") String userId);
 
     @GET("ws/survey/list/{projectId}")
