@@ -17,6 +17,7 @@
     <dimen name="row_bigger_icon_width">84dp</dimen>
     <dimen name="row_padding">16dp</dimen>
     <dimen name="row_padding_smaller">12dp</dimen>
+    <dimen name="home_page_image_height">250dp</dimen>
 
     <dimen name="minimum_height_input_views">64dp</dimen>
     <dimen name="row_cross_round_tick_width">24dp</dimen>
