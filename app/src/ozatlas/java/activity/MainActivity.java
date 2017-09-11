@@ -254,6 +254,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.getMenu().findItem(menuRes).setChecked(true);
     }
 
+    @Override
+    public void setDrawerMenuClicked(int menuRes) {
+        setDrawerMenuChecked(menuRes);
+        onNavigationItemSelected(navigationView.getMenu().findItem(menuRes));
+    }
+
     /**
      * Boradcast Receiver for letting the fragments to know that
      * the realm data has been changed.

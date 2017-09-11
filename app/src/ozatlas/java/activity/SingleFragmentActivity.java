@@ -161,6 +161,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     }
 
+    @Override
+    public void setDrawerMenuClicked(int menuRes) {
+
+    }
+
     /**
      * Type of Fragments
      */
