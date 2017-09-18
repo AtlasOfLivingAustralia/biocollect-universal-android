@@ -50,7 +50,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //subtracting 1 due to adding header
                 HomePageListItem item = listItems.get(position - 1);
-                if (item.isForWebView) {
+                /*if (item.isForWebView) {
                     startWebViewActivity(item.url, item.text, false);
                 } else if (item.text.equals(getString(R.string.all_project_title))) {
                     setDrawerMenuClicked(R.id.nav_all_projects);
@@ -62,7 +62,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
                     setDrawerMenuClicked(R.id.nav_my_sighting);
                 }else if (item.text.equals(getString(R.string.contact_us_title))) {
                     setDrawerMenuClicked(R.id.nav_contact);
-                }
+                }*/
             }
         });
         return view;
@@ -89,7 +89,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     private void prepareItemList() {
         HomePageListItem item = new HomePageListItem();
-        item.icon = R.drawable.ic_card_travel_black_24dp;
+        /*item.icon = R.drawable.ic_card_travel_black_24dp;
         item.text = getString(R.string.all_project_title);
         item.isForWebView = false;
         listItems.add(item);
@@ -108,7 +108,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.text = getString(R.string.my_record_title);
         item.isForWebView = false;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new HomePageListItem();*/
         item.icon = R.drawable.ic_mail_outline_black_24dp;
         item.text = getString(R.string.contact_us_title);
         item.isForWebView = false;

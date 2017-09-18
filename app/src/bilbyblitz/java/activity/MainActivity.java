@@ -25,6 +25,7 @@ import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
+import fragments.HomePageFragment;
 
 import static au.csiro.ozatlas.R.id.coordinatorLayout;
 
@@ -74,12 +75,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        /*if (AtlasManager.isTesting) {
+        if (AtlasManager.isTesting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        }*/
+        }
     }
 
     /**
@@ -115,7 +116,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        /*if (id == R.id.home) {
+        if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         }else if (id == R.id.nav_logout) {
             AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
@@ -124,7 +125,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     launchLoginActivity();
                 }
             });
-        } else if (id == R.id.nav_all_projects) {
+        } /*else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();
