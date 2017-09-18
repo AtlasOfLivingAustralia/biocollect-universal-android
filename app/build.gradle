@@ -47,6 +47,11 @@ android {
             versionCode 1
             versionName '1.0'
         }
+        bilbyblitz {
+            applicationIdSuffix '.ala.bilbyblitz'
+            versionCode 1
+            versionName '1.0'
+        }
     }
 
     packagingOptions {
@@ -92,20 +97,19 @@ dependencies {
     //ciruclar imageview
     compile 'de.hdodenhof:circleimageview:2.1.0'
     //cardview
-    compile 'com.android.support:cardview-v7:' + rootProject.supportLibraryVersion;
+    compile 'com.android.support:cardview-v7:' + rootProject.supportLibraryVersion
     //top snackbar
     compile 'com.androidadvance:topsnackbar:1.1.1'
     //android support
     compile 'com.android.support:multidex:1.0.1'
-    compile 'com.android.support:design:' + rootProject.supportLibraryVersion;
-    compile 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion;
+    compile 'com.android.support:design:' + rootProject.supportLibraryVersion
+    compile 'com.android.support:appcompat-v7:' + rootProject.supportLibraryVersion
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.google.android.gms:play-services-places:' + rootProject.gms_library_version;
-    compile 'com.google.android.gms:play-services-location:' + rootProject.gms_library_version;
-    compile 'com.google.firebase:firebase-core:' + rootProject.gms_library_version;
-
+    compile 'com.google.android.gms:play-services-places:' + rootProject.gms_library_version
+    compile 'com.google.android.gms:play-services-location:' + rootProject.gms_library_version
+    compile 'com.google.firebase:firebase-core:' + rootProject.gms_library_version
     // Unit testing dependencies.
-    testCompile 'junit:junit:' + rootProject.junitVersion;
-    testCompile 'org.mockito:mockito-core:' + rootProject.mockitoVersion;
+    testCompile 'junit:junit:' + rootProject.junitVersion
+    testCompile 'org.mockito:mockito-core:' + rootProject.mockitoVersion
 }
 apply plugin: 'com.google.gms.google-services'
