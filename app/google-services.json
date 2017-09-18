@@ -96,17 +96,17 @@
     },
     {
       "client_info": {
-        "mobilesdk_app_id": "1:897588946952:android:3cdc5b8eb890b1ca",
+        "mobilesdk_app_id": "1:897588946952:android:988f5be785e7f386",
         "android_client_info": {
-          "package_name": "au.org.ala.biocontrolhub"
+          "package_name": "au.org.ala.bilbyblitz"
         }
       },
       "oauth_client": [
         {
-          "client_id": "897588946952-2sa6m5rn1s5ke7697nn9ei90o3315bs0.apps.googleusercontent.com",
+          "client_id": "897588946952-pf0vuc7q5cbbk9gfot8eem710nggat6u.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "au.org.ala.biocontrolhub",
+            "package_name": "au.org.ala.bilbyblitz",
             "certificate_hash": "eb938fd0257fa7345fbedcdf2da124ece9cd5e2b"
           }
         },
