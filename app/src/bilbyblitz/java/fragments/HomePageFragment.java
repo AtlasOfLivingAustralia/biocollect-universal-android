@@ -89,27 +89,32 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     private void prepareItemList() {
         HomePageListItem item = new HomePageListItem();
-        /*item.icon = R.drawable.ic_card_travel_black_24dp;
-        item.text = getString(R.string.all_project_title);
+        item.icon = R.drawable.animal_track;
+        item.text = getString(R.string.add_track);
         item.isForWebView = false;
         listItems.add(item);
         item = new HomePageListItem();
-        item.icon = R.drawable.ic_folder_open_black_24dp;
-        item.text = getString(R.string.all_record_title);
+        item.icon = R.drawable.animal_track;
+        item.text = getString(R.string.practise_track);
         item.isForWebView = false;
         listItems.add(item);
         item = new HomePageListItem();
-        item.icon = R.drawable.ic_card_travel_black_24dp;
-        item.text = getString(R.string.my_project_title);
+        item.icon = R.drawable.animal_track;
+        item.text = getString(R.string.review_track);
         item.isForWebView = false;
         listItems.add(item);
         item = new HomePageListItem();
-        item.icon = R.drawable.ic_folder_open_black_24dp;
-        item.text = getString(R.string.my_record_title);
+        item.icon = R.drawable.ic_settings_black_36dp;
+        item.text = getString(R.string.setting);
         item.isForWebView = false;
         listItems.add(item);
-        item = new HomePageListItem();*/
-        item.icon = R.drawable.ic_mail_outline_black_24dp;
+        item = new HomePageListItem();
+        item.icon = R.drawable.ic_help_black_36dp;
+        item.text = getString(R.string.help);
+        item.isForWebView = false;
+        listItems.add(item);
+        item = new HomePageListItem();
+        item.icon = R.drawable.ic_email_black_36dp;
         item.text = getString(R.string.contact_us_title);
         item.isForWebView = false;
         listItems.add(item);
