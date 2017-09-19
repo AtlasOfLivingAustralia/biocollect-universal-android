@@ -19,6 +19,11 @@
     <string name="help">Help</string>
     <string name="setting">Setting</string>
 
+    <string name="choose_project">Choose Project</string>
+    <string name="terms_condition">Do you agree to the terms of use for this app?</string>
+    <string name="choose_language">Choose Language</string>
+    <string name="data_share">Do you agree to share data from this project?</string>
+
     <string name="all_project_title">All Projects</string>
     <string name="all_record_title">All Records</string>
     <string name="my_record_title">My Records</string>

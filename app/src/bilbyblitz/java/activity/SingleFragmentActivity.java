@@ -19,8 +19,6 @@ import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-import static au.csiro.ozatlas.R.id.coordinatorLayout;
-
 /**
  * Created by sad038 on 21/4/17.
  */

@@ -70,6 +70,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
     /**
      * setting up the header information of the option list
+     *
      * @param header
      */
     private void setupHeader(View header) {

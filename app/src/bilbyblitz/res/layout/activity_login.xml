@@ -21,7 +21,7 @@
             android:layout_above="@+id/filedLayout"
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerInside" />
 
         <LinearLayout
             android:id="@+id/filedLayout"

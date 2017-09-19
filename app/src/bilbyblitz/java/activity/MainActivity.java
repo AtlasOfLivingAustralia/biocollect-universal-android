@@ -1,13 +1,11 @@
 package activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -26,8 +24,6 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
-
-import static au.csiro.ozatlas.R.id.coordinatorLayout;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -118,7 +114,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        }else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
