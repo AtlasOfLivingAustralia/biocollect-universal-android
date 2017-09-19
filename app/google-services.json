@@ -137,6 +137,37 @@
           "status": 2
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:897588946952:android:3de26ab573f7e50a",
+        "android_client_info": {
+          "package_name": "au.org.ala.biocontrolhub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "897588946952-5jm1nc2aunea30hss56f9l55132in2tr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC5DZURZZYeiLQQ9I1RpBOPVlc2bQf4cU8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
     }
   ],
   "configuration_version": "1"
