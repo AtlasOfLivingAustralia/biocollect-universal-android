@@ -147,11 +147,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             //startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title), false);
             startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title), true);
         }*/ else if (id == R.id.nav_contact) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.CONTACT_US);
-            Intent intent = new Intent(this, SingleFragmentActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
+            startWebViewActivity("https://www.ala.org.au/who-we-are/contact-us/", getString(R.string.contact_us_title), true);
+        }else if (id == R.id.nav_about_biocollect) {
+            startWebViewActivity("https://www.ala.org.au/biocollect/", getString(R.string.about_title), true);
+        }else if (id == R.id.nav_about_ala) {
+            startWebViewActivity("https://www.ala.org.au/who-we-are/", getString(R.string.about_ala_title), true);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

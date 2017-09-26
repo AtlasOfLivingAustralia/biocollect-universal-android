@@ -46,7 +46,17 @@
             <item
                 android:id="@+id/nav_contact"
                 android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Contact Us" />
+                android:title="@string/contact_us_title" />
+
+            <item
+                android:id="@+id/nav_about_biocollect"
+                android:icon="@drawable/ic_info_outline_black_24dp"
+                android:title="@string/about_title" />
+
+            <item
+                android:id="@+id/nav_about_ala"
+                android:icon="@drawable/ala_transparent"
+                android:title="@string/about_ala_title" />
         </menu>
     </item>
 
