@@ -86,7 +86,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
                 String title = bundle.getString(getString(R.string.project_name_parameter));
                 setTitle(title);
             }
-            if (myProjects && projectId != null) {
+            if (projectId != null) {
                 getSurveys(projectId);
             }
         } else {
@@ -97,7 +97,6 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         recyclerView.setHasFixedSize(true);
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
-        //recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
         adapter = new SightAdapter(sights, onClickListener, this, this.viewQuery);
@@ -117,11 +116,10 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     @Override
     public void onResume() {
         super.onResume();
-
-        if (projectId != null)
-            sendAnalyticsScreenName("Project's Record List", TAG);
-        else if (viewQuery != null)
+        if (viewQuery != null)
             sendAnalyticsScreenName("My Record List", TAG);
+        else if (projectId != null)
+            sendAnalyticsScreenName("Project's Record List", TAG);
         else
             sendAnalyticsScreenName("All Record List", TAG);
     }
@@ -135,7 +133,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         super.onPrepareOptionsMenu(menu);
-        if (myProjects && projectId != null)
+        if (projectId != null)
             menu.findItem(R.id.add).setVisible(true);
     }
 
