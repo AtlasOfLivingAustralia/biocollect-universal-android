@@ -62,8 +62,6 @@ public class HomePageFragment extends BaseMainActivityFragment {
                     setDrawerMenuClicked(R.id.nav_my_projects);
                 } else if (item.text.equals(getString(R.string.my_record_title))) {
                     setDrawerMenuClicked(R.id.nav_my_sighting);
-                } else if (item.text.equals(getString(R.string.contact_us_title))) {
-                    setDrawerMenuClicked(R.id.nav_contact);
                 }
             }
         });

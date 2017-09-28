@@ -34,7 +34,7 @@ android {
     productFlavors {
         biocollect {
             applicationIdSuffix '.ala.biocollect'
-            versionCode 2
+            versionCode 4
             versionName '1.1.0'
         }
         ozatlas {
