@@ -35,7 +35,7 @@ public class Sight {
     public String activityId;
     @Expose
     @SerializedName("showCrud")
-    public String showCrud;
+    public Boolean showCrud;
     @Expose
     @SerializedName("activityOwnerName")
     public String activityOwnerName;

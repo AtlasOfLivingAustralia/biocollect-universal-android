@@ -28,7 +28,6 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
     private List<Sight> sights;
     private MoreButtonListener moreButtonListener;
     private View.OnClickListener onClickListener;
-    private boolean isShowMoreButton = false;
 
     /**
      * constructor
@@ -37,11 +36,11 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
      * @param onClickListener    a click listener for the tap/single click listener
      * @param moreButtonListener a click listener for showing the popup menu
      */
-    public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener, String myRecords) {
+    public SightAdapter(List<Sight> sights, View.OnClickListener onClickListener, MoreButtonListener moreButtonListener) {
         this.sights = sights;
         this.moreButtonListener = moreButtonListener;
         this.onClickListener = onClickListener;
-        isShowMoreButton = (myRecords != null && myRecords.equals("myrecords")); //|| !(myRecords != null && myRecords.equals("project"));
+        //isShowMoreButton = (myRecords != null && myRecords.equals("myrecords")); //|| !(myRecords != null && myRecords.equals("project"));
     }
 
     @Override
@@ -64,7 +63,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
         if (holder instanceof SightViewHolders) {
             final SightViewHolders sightViewHolders = (SightViewHolders) holder;
             Sight sight = sights.get(position);
-            if (isShowMoreButton) {
+            if (sight.showCrud) {
                 sightViewHolders.moreButton.setVisibility(View.VISIBLE);
                 sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -73,6 +72,8 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
                             moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
                     }
                 });
+            }else{
+                sightViewHolders.moreButton.setVisibility(View.INVISIBLE);
             }
             sightViewHolders.name.setText(sight.projectName);
             sightViewHolders.type.setText(sight.type);

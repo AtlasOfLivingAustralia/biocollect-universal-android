@@ -1,6 +1,7 @@
 package adapters;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.Utils;
 import model.Projects;
 
 /**
@@ -62,10 +64,10 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
             final ProjectViewHolders projectViewHolders = (ProjectViewHolders) holder;
             Projects project = projectses.get(position);
 
-            projectViewHolders.name.setText(project.name);
-            projectViewHolders.type.setText(project.organisationName);
-            projectViewHolders.user.setText(project.projectType);
-            projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(project.startDate, "dd MMM, yyyy"));
+            projectViewHolders.name.setText(Utils.nullCheck(project.name));
+            projectViewHolders.type.setText(Utils.nullCheck(project.organisationName));
+            projectViewHolders.user.setText(Utils.nullCheck(project.projectType));
+            projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(Utils.nullCheck(project.startDate), "dd MMM, yyyy"));
             Glide.with(projectViewHolders.image.getContext())
                     .load(project.urlImage)
                     .placeholder(R.drawable.no_image_available)

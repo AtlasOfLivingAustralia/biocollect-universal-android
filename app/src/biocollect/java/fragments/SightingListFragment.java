@@ -49,7 +49,6 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     @BindView(R.id.total)
     TextView total;
 
-
     private List<Sight> sights = new ArrayList<>();
     /**
      * onClick listener for the recyclerview item
@@ -65,7 +64,6 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     private String viewQuery;
     private int totalSighting;
     private String projectId;
-    private Boolean myProjects = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -79,7 +77,6 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         if (bundle != null) {
             this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
             projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
-            myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
             if (viewQuery != null) {
                 setTitle(getString(R.string.my_record_title));
             } else if (projectId != null) {
@@ -99,7 +96,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         recyclerView.addItemDecoration(itemDecoration);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        adapter = new SightAdapter(sights, onClickListener, this, this.viewQuery);
+        adapter = new SightAdapter(sights, onClickListener, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 

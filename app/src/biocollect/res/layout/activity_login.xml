@@ -17,13 +17,13 @@
             android:src="@drawable/login_bg" />
 
         <ImageView
-            android:layout_width="wrap_content"
+            android:layout_width="@dimen/edit_text_minimum_width"
             android:layout_height="match_parent"
             android:layout_above="@+id/filedLayout"
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/banner" />
+            android:scaleType="fitCenter"
+            android:src="@drawable/ala_logo_inline" />
 
         <LinearLayout
             android:id="@+id/filedLayout"
