@@ -37,16 +37,19 @@
 
         <TextView
             android:id="@+id/logoutButton"
-            style="@style/TextAppearance.AppCompat.Medium"
+            android:background="@drawable/button_background"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:textColor="@android:color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="12dp"
             android:gravity="center"
-            android:maxWidth="@dimen/button_maximum_width"
-            android:minWidth="@dimen/button_maximum_width"
+            android:paddingTop="6dp"
+            android:paddingBottom="6dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/logout_title"
             android:textAllCaps="true"
-            android:textColor="@color/colorPrimary"
             android:textStyle="bold" />
     </LinearLayout>
 
