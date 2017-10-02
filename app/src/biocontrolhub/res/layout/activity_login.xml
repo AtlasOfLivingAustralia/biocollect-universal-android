@@ -16,13 +16,16 @@
             android:src="@drawable/biocontrolhub_login_bk"
             android:scaleType="centerCrop" />
 
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+        <de.hdodenhof.circleimageview.CircleImageView
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_marginTop="@dimen/activity_padding"
+            android:layout_width="110dp"
+            android:layout_height="110dp"
             android:layout_above="@+id/filedLayout"
             android:layout_centerHorizontal="true"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside" />
+            android:src="@drawable/biocontrolhub_logo"
+            app:civ_border_width="1dp"
+            app:civ_border_color="#FF999999" />
 
         <LinearLayout
             android:id="@+id/filedLayout"

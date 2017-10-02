@@ -103,7 +103,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         recyclerView.addItemDecoration(itemDecoration);
         mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        adapter = new SightAdapter(sights, onClickListener, this, this.viewQuery);
+        adapter = new SightAdapter(sights, onClickListener, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
