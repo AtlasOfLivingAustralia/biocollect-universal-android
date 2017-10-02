@@ -28,21 +28,23 @@
         <item
             android:id="@+id/nav_case_study"
             android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="@string/case_study_title" />
-
+            android:title="@string/what_is_biological" />
+        <item
+            android:id="@+id/nav_get_involved"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/sharing_and_using" />
         <item
             android:id="@+id/nav_additional_resources"
             android:icon="@drawable/ic_info_outline_black_24dp"
             android:title="@string/additional_resources_title" />
         <item
-            android:id="@+id/nav_get_involved"
-            android:icon="@drawable/ic_info_outline_black_24dp"
-            android:title="@string/get_involced_title" />
-        <item
             android:id="@+id/nav_about_us"
             android:icon="@drawable/ic_info_outline_black_24dp"
             android:title="@string/about_title" />
-
+        <item
+            android:id="@+id/nav_biocollect"
+            android:icon="@drawable/ic_info_outline_black_24dp"
+            android:title="@string/biocollect_title" />
     </group>
 
     <item android:title="Account">

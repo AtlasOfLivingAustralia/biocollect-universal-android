@@ -78,7 +78,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (AtlasManager.isTesting) {
             setDrawerMenuClicked(R.id.home);
-            //getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
@@ -143,28 +143,18 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         } else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
-        } /*else if (id == R.id.nav_my_projects) {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(getString(R.string.user_project_parameter), true);
-            Fragment fragment = new ProjectListFragment();
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
-        }*/ else if (id == R.id.nav_all_sighting) {
+        } else if (id == R.id.nav_all_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
-        } /*else if (id == R.id.nav_my_sighting) {
-            Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.myview_parameter), "myrecords");
-            Fragment fragment = new SightingListFragment();
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
-        }*/ else if (id == R.id.nav_about_us) {
+        } else if (id == R.id.nav_about_us) {
             startWebViewActivity(HomePageFragment.UrlConstants.ABOUT_URL, getString(R.string.about_title), false);
         } else if (id == R.id.nav_case_study) {
-            startWebViewActivity(HomePageFragment.UrlConstants.CASE_STUDY_URL, getString(R.string.case_study_title), false);
+            startWebViewActivity(HomePageFragment.UrlConstants.WHAT_IS_BIOLOGICAL, getString(R.string.what_is_biological), false);
         } else if (id == R.id.nav_additional_resources) {
             startWebViewActivity(HomePageFragment.UrlConstants.ADDITIONAL_RESOURCES_URL, getString(R.string.additional_resources_title), false);
         } else if (id == R.id.nav_get_involved) {
-            startWebViewActivity(HomePageFragment.UrlConstants.GET_INVOLVED_URL, getString(R.string.get_involced_title), false);
+            startWebViewActivity(HomePageFragment.UrlConstants.SHARING_AND_USING, getString(R.string.sharing_and_using), false);
+        }else if (id == R.id.nav_biocollect) {
+            startWebViewActivity(HomePageFragment.UrlConstants.BIO_COLLECT, getString(R.string.biocollect_title), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

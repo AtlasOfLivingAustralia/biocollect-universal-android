@@ -93,9 +93,15 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listItems.add(item);
         item = new ListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
-        item.text = getString(R.string.case_study_title);
+        item.text = getString(R.string.what_is_biological);
         item.isForWebView = true;
-        item.url = UrlConstants.CASE_STUDY_URL;
+        item.url = UrlConstants.WHAT_IS_BIOLOGICAL;
+        listItems.add(item);
+        item = new ListItem();
+        item.icon = R.drawable.ic_info_outline_black_24dp;
+        item.text = getString(R.string.sharing_and_using);
+        item.url = UrlConstants.SHARING_AND_USING;
+        item.isForWebView = true;
         listItems.add(item);
         item = new ListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
@@ -105,14 +111,14 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listItems.add(item);
         item = new ListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
-        item.text = getString(R.string.get_involced_title);
-        item.url = UrlConstants.GET_INVOLVED_URL;
+        item.text = getString(R.string.about_title);
+        item.url = UrlConstants.ABOUT_URL;
         item.isForWebView = true;
         listItems.add(item);
         item = new ListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
-        item.text = getString(R.string.about_title);
-        item.url = UrlConstants.ABOUT_URL;
+        item.text = getString(R.string.biocollect_title);
+        item.url = UrlConstants.BIO_COLLECT;
         item.isForWebView = true;
         listItems.add(item);
     }
@@ -141,10 +147,11 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     public interface UrlConstants {
         String BASE_URL = "https://biocollect.ala.org.au/";
-        String CASE_STUDY_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=related_websites&mobile=true";
-        String ADDITIONAL_RESOURCES_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=materialss&mobile=true";
-        String GET_INVOLVED_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=get_involved";
-        String ABOUT_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=what_is_biocontrol&mobile=true";
+        String WHAT_IS_BIOLOGICAL = BASE_URL + "/biocontrolhub/staticPage/index?page=what_is_biocontrol&mobile=true";
+        String ADDITIONAL_RESOURCES_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=materials&mobile=true";
+        String SHARING_AND_USING = BASE_URL + "/biocontrolhub/staticPage/index?page=get_involved&mobile=true";
+        String ABOUT_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=identify_biocontrol_agents&mobile=true";
+        String BIO_COLLECT = "https://www.ala.org.au/biocollect/";
     }
 
     /**
