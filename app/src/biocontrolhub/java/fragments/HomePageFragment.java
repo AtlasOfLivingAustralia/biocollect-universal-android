@@ -1,5 +1,6 @@
 package fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -55,6 +57,8 @@ public class HomePageFragment extends BaseMainActivityFragment {
                     setDrawerMenuClicked(R.id.nav_all_projects);
                 } else if (item.text.equals(getString(R.string.all_record_title))) {
                     setDrawerMenuClicked(R.id.nav_all_sighting);
+                } else if (item.text.equals(getString(R.string.my_record_title))) {
+                    setDrawerMenuClicked(R.id.nav_my_sighting);
                 }
             }
         });
@@ -72,7 +76,12 @@ public class HomePageFragment extends BaseMainActivityFragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchLoginActivity();
+                AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        launchLoginActivity();
+                    }
+                });
             }
         });
     }
@@ -89,6 +98,11 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item = new ListItem();
         item.icon = R.drawable.ic_folder_open_black_24dp;
         item.text = getString(R.string.all_record_title);
+        item.isForWebView = false;
+        listItems.add(item);
+        item = new ListItem();
+        item.icon = R.drawable.ic_folder_open_black_24dp;
+        item.text = getString(R.string.my_record_title);
         item.isForWebView = false;
         listItems.add(item);
         item = new ListItem();

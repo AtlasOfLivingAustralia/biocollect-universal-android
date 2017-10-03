@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -143,6 +144,12 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         } else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
+        }else if (id == R.id.nav_my_sighting) {
+            Bundle bundle = new Bundle();
+            bundle.putString(getString(R.string.myview_parameter), "myrecords");
+            Fragment fragment = new SightingListFragment();
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_all_sighting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
         } else if (id == R.id.nav_about_us) {
