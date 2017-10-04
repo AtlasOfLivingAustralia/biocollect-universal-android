@@ -16,6 +16,7 @@ import java.util.List;
 import activity.SingleFragmentActivity;
 import adapters.ProjectListAdapter;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshIncludingSearchFragment;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
@@ -30,7 +31,7 @@ import model.Projects;
  * Created by sad038 on 25/5/17.
  */
 
-public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragment {
+public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragment implements MoreButtonListener {
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_container)
@@ -84,7 +85,7 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
         ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
         recyclerView.addItemDecoration(itemDecoration);
         recyclerView.setLayoutManager(mLayoutManager);
-        adapter = new ProjectListAdapter(projects, onClickListener);
+        adapter = new ProjectListAdapter(projects, onClickListener, this);
         recyclerView.setAdapter(adapter);
         recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
 
@@ -153,6 +154,11 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
                         Log.d(TAG, "onComplete");
                     }
                 }));
+    }
+
+    @Override
+    public void onMoreButtonClick(View view, int position) {
+        startWebViewActivity(getString(R.string.project_info_url, projects.get(position).projectId), projects.get(position).name, false);
     }
 }
 

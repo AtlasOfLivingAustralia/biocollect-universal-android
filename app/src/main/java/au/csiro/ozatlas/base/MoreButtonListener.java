@@ -11,5 +11,5 @@ import android.view.View;
  * from the recyclerview items
  */
 public interface MoreButtonListener {
-    void onPopupMenuClick(View view, int position);
+    void onMoreButtonClick(View view, int position);
 }

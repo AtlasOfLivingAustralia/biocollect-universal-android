@@ -205,7 +205,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
      * @param position
      */
     @Override
-    public void onPopupMenuClick(View view, final int position) {
+    public void onMoreButtonClick(View view, final int position) {
         PopupMenu popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.sight_menu, popup.getMenu());

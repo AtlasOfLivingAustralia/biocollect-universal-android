@@ -14,6 +14,7 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
+import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import model.Projects;
 
@@ -29,6 +30,7 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
 
     private List<Projects> projectses;
     private View.OnClickListener onClickListener;
+    private MoreButtonListener onInfoClickListener;
 
     /**
      * constructor
@@ -36,16 +38,17 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
      * @param projectses      projects to show
      * @param onClickListener a click listener for the tap/single click listener
      */
-    public ProjectListAdapter(List<Projects> projectses, View.OnClickListener onClickListener) {
+    public ProjectListAdapter(List<Projects> projectses, View.OnClickListener onClickListener, MoreButtonListener onInfoClickListener) {
         this.projectses = projectses;
         this.onClickListener = onClickListener;
+        this.onInfoClickListener = onInfoClickListener;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         //returning different view holders depending on viewType
         if (viewType == NORMAL) {
-            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
+            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_project, null);
             layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
             layoutView.setOnClickListener(onClickListener);
             return new ProjectViewHolders(layoutView);
@@ -57,7 +60,7 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+    public void onBindViewHolder(final RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof ProjectViewHolders) {
             final ProjectViewHolders projectViewHolders = (ProjectViewHolders) holder;
             Projects project = projectses.get(position);
@@ -71,6 +74,12 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
                     .placeholder(R.drawable.no_image_available)
                     .crossFade()
                     .into(projectViewHolders.image);
+            projectViewHolders.infoButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    onInfoClickListener.onMoreButtonClick(v, holder.getAdapterPosition());
+                }
+            });
         }
     }
 
@@ -105,7 +114,7 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
 
 class ProjectViewHolders extends RecyclerView.ViewHolder {
     TextView name, user, time, type;
-    ImageView image, moreButton;
+    ImageView image, infoButton;
 
     ProjectViewHolders(View itemView) {
         super(itemView);
@@ -114,7 +123,7 @@ class ProjectViewHolders extends RecyclerView.ViewHolder {
         time = (TextView) itemView.findViewById(R.id.time);
         type = (TextView) itemView.findViewById(R.id.type);
         image = (ImageView) itemView.findViewById(R.id.image);
-        moreButton = (ImageView) itemView.findViewById(R.id.more_button);
+        infoButton = (ImageView) itemView.findViewById(R.id.infoIcon);
     }
 }
 

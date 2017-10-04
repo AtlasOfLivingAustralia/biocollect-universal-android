@@ -69,7 +69,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
                     @Override
                     public void onClick(View v) {
                         if (moreButtonListener != null)
-                            moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
+                            moreButtonListener.onMoreButtonClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
                     }
                 });
             }else{
