@@ -24,6 +24,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
+import fragments.country.TrackCountryFragment;
 import fragments.map.TrackMapFragment;
 
 /**
@@ -73,7 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isTesting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackMapFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackCountryFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();

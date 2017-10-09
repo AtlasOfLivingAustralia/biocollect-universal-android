@@ -33,6 +33,13 @@
     <string name="start_gps">Start GPS</string>
     <string name="stop_gps">Stop GPS</string>
     <string name="survey_type">Survey Type</string>
+    <string name="country_type">Country Type</string>
+    <string name="add_photo">Add Photo</string>
+    <string name="ground_type">Ground Type</string>
+    <string name="detailed_habitat">Detailed habitat</string>
+    <string name="fire">Fire</string>
+    <string name="disturbance">Disturbance</string>
+    <string name="country_name">Country Name</string>
     <string name="centroid_longitude">Centroid Longitude</string>
     <string name="centroid_latitude">Centroid Latitude</string>
     <string name="gps_start_message">Start GPS to begin recording your track. Remember to stop when finished.</string>

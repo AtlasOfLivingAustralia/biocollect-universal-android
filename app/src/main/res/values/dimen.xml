@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="edit_text_minimum_width">300dp</dimen>
+    <dimen name="button_minimum_width">92dp</dimen>
     <dimen name="banner_minimum_width">320dp</dimen>
     <dimen name="edit_text_maximum_width">400dp</dimen>
     <dimen name="button_maximum_width">148dp</dimen>
