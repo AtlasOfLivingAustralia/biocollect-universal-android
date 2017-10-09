@@ -53,8 +53,6 @@
     <string name="tags_name">Tags: %1$s</string>
     <string name="album_name">Atlas Camera</string>
 
-    <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
-
     <string name="project_activity_id">e61eb018-02a9-4e3b-a4b3-9d6be33d9cbb</string>
     <string name="project_id">f813c99c-1a1d-4096-8eeb-cbc40e321101</string>
     <string name="project_type">OzAtlas Sightings</string>

@@ -78,6 +78,8 @@
     <string name="good_day_message">G\'Day %1$s</string>
     <string name="welcome_message">Welcome to %1$s</string>
 
+    <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
+
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
     <string name="survey_entry_url">https://biocollect.ala.org.au/bioActivity/mobileCreate/%1$s</string>

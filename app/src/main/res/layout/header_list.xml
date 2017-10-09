@@ -4,11 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/home_page_image_height">
 
+    <!--android:src="@drawable/home_page_header_background"-->
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_page_image_height"
         android:adjustViewBounds="true"
-        android:src="@drawable/home_page_header_background"
         android:scaleType="centerCrop" />
 
     <LinearLayout

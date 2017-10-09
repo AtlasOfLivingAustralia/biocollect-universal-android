@@ -36,7 +36,8 @@
 
         <activity
             android:name="activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -53,7 +54,9 @@
             android:name="activity.SingleFragmentActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main" />
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/map_key" />
     </application>
 
 </manifest>
