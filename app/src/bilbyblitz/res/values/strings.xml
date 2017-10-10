@@ -46,5 +46,11 @@
     <string name="lead_tracker">Lead Tracker</string>
     <string name="other_tracker">Other Tracker Names</string>
     <string name="group_selfie">Group Selfie</string>
+    <string name="kind_of_animal">Kind of Animal</string>
+    <string name="size">Size</string>
+    <string name="covering">Covering</string>
+    <string name="animal_name">Animal Name</string>
+    <string name="what_you_see">What did you see?</string>
+    <string name="how_recent">How recent</string>
     <string name="gps_start_message">Start GPS to begin recording your track. Remember to stop when finished.</string>
 </resources>
