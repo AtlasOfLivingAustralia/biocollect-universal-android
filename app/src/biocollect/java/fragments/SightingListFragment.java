@@ -147,7 +147,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
                     bottomSheetDialogFragment.setBottomSheetListener(new SurveyBottomSheetDialogFragment.BottomSheetListener() {
                         @Override
                         public void onItemClick(int position) {
-                            startWebViewActivity(getString(R.string.survey_entry_url, surveys.get(position).projectActivityId), getString(R.string.survey_entry_title), false);
+                            startWebViewActivity(getString(R.string.survey_entry_url, surveys.get(position).projectActivityId), getString(R.string.survey_entry_title), true);
                         }
                     });
                     bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
