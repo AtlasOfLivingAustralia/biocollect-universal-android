@@ -70,7 +70,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
         //test code
-        if (AtlasManager.isTesting) {
+        if (AtlasManager.isDebug) {
             editUsername.setText("sadat.sadat@csiro.au");
             editPassword.setText("password");
         }

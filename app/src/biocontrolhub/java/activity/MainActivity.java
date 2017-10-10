@@ -77,7 +77,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (AtlasManager.isTesting) {
+        if (AtlasManager.isDebug) {
             setDrawerMenuClicked(R.id.home);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {

@@ -9,6 +9,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.di.AnalyticsModule;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
+import au.csiro.ozatlas.manager.AtlasManager;
 import di.AppComponent;
 import di.DaggerAppComponent;
 
@@ -44,7 +45,7 @@ public class BaseApplication extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        AtlasManager.isDebug = getResources().getBoolean(R.bool.is_debug);
         // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
 
