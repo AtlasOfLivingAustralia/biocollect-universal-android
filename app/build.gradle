@@ -108,6 +108,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-places:' + rootProject.gms_library_version
     compile 'com.google.android.gms:play-services-location:' + rootProject.gms_library_version
     compile 'com.google.firebase:firebase-core:' + rootProject.gms_library_version
+    compile 'com.google.firebase:firebase-messaging:' + rootProject.gms_library_version
     // Unit testing dependencies.
     testCompile 'junit:junit:' + rootProject.junitVersion
     testCompile 'org.mockito:mockito-core:' + rootProject.mockitoVersion

@@ -73,7 +73,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (AtlasManager.isTesting) {
+        if (AtlasManager.isDebug) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackCountryFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
