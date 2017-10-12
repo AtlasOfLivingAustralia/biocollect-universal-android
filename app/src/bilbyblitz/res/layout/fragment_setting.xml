@@ -10,6 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/input_view_top_margin"
         android:layout_marginTop="@dimen/input_view_top_margin"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/minimum_height_input_medium_views"
         android:orientation="vertical">
 
         <TextView
@@ -26,11 +28,15 @@
             android:textSize="@dimen/default_input_font_size" />
     </LinearLayout>
 
+    <include layout="@layout/horizonal_line" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/input_view_top_margin"
         android:layout_marginTop="@dimen/input_view_top_margin"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/minimum_height_input_medium_views"
         android:orientation="vertical">
 
         <TextView
@@ -47,11 +53,30 @@
             android:textSize="@dimen/default_input_font_size" />
     </LinearLayout>
 
+    <include layout="@layout/horizonal_line" />
+
+    <TextView
+        android:id="@+id/offlineSpecies"
+        style="@style/TextAppearance.AppCompat.Medium"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/input_view_top_margin"
+        android:layout_marginTop="@dimen/input_view_top_margin"
+        android:background="?attr/selectableItemBackground"
+        android:gravity="center_vertical"
+        android:minHeight="@dimen/minimum_height_input_medium_views"
+        android:paddingLeft="@dimen/input_label_horizontal_spacing"
+        android:text="@string/offline_species"
+        android:textSize="@dimen/default_input_font_size" />
+
+    <include layout="@layout/horizonal_line" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/input_view_top_margin"
         android:layout_marginTop="@dimen/input_view_top_margin"
+        android:minHeight="@dimen/minimum_height_input_medium_views"
         android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
         <android.support.v7.widget.SwitchCompat
@@ -63,7 +88,7 @@
             android:checked="false" />
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Caption"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
@@ -73,11 +98,14 @@
             android:textSize="@dimen/default_input_font_size" />
     </RelativeLayout>
 
+    <include layout="@layout/horizonal_line" />
+
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/input_view_top_margin"
         android:layout_marginTop="@dimen/input_view_top_margin"
+        android:minHeight="@dimen/minimum_height_input_medium_views"
         android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
         <android.support.v7.widget.SwitchCompat
@@ -89,7 +117,7 @@
             android:checked="false" />
 
         <TextView
-            style="@style/TextAppearance.AppCompat.Caption"
+            style="@style/TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"

@@ -1,4 +1,4 @@
-package fragments.setting;
+package fragments.offline_species;
 
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
@@ -13,26 +13,17 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.setting.SettingFragmentView;
 
 /**
  * Created by sad038 on 19/9/17.
  */
 
-public class SettingFragment extends BaseMainActivityFragment implements SettingFragmentView{
-    @BindView(R.id.projectSpinner)
-    Spinner projectSpinner;
-    @BindView(R.id.languageSpinner)
-    Spinner languageSpinner;
-    @BindView(R.id.dataShareSwitch)
-    SwitchCompat dataShareSwitch;
-    @BindView(R.id.termsAgreeSwitch)
-    SwitchCompat termsAgreeSwitch;
-    @BindView(R.id.offlineSpecies)
-    TextView offlineSpecies;
+public class OfflineSpeciesFragment extends BaseMainActivityFragment implements SettingFragmentView{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        View view = inflater.inflate(R.layout.fragment_offline_species, container, false);
         setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
@@ -41,11 +32,6 @@ public class SettingFragment extends BaseMainActivityFragment implements Setting
 
     @Override
     public void languageSelect() {
-
-    }
-
-    @OnClick(R.id.offlineSpecies)
-    void offlineSpecies(){
 
     }
 }

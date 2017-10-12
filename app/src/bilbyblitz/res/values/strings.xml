@@ -52,5 +52,14 @@
     <string name="animal_name">Animal Name</string>
     <string name="what_you_see">What did you see?</string>
     <string name="how_recent">How recent</string>
+    <string name="offline_species">Offline Species</string>
+    <string name="search_and_add">Search and Add</string>
+    <string name="search_and_add_description">Search and Add Description</string>
+    <string name="download_from_map">Download from Map</string>
+    <string name="download_from_map_description">Download from Map Description</string>
+    <string name="available_species">Available Species</string>
+    <string name="available_species_description">Available Species Description</string>
+    <string name="group_species">Group Species</string>
+    <string name="group_species_description">Group Species Description</string>
     <string name="gps_start_message">Start GPS to begin recording your track. Remember to stop when finished.</string>
 </resources>

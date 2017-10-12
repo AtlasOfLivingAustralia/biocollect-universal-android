@@ -26,6 +26,8 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
 import fragments.country.TrackCountryFragment;
 import fragments.map.TrackMapFragment;
+import fragments.offline_species.OfflineSpeciesFragment;
+import fragments.setting.SettingFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -74,7 +76,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isDebug) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackCountryFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();

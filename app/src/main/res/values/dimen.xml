@@ -21,6 +21,7 @@
     <dimen name="home_page_image_height">250dp</dimen>
 
     <dimen name="minimum_height_input_views">64dp</dimen>
+    <dimen name="minimum_height_input_medium_views">48dp</dimen>
     <dimen name="row_cross_round_tick_width">24dp</dimen>
     <dimen name="list_item_margin">8dp</dimen>
     <dimen name="zero_dp">0dp</dimen>
