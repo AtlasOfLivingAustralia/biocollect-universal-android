@@ -51,7 +51,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         //initializing dagger
         CsiroApplication.component().inject(this);
         //// TODO: 20/7/17 FIX
-        if (getApplicationContext().getPackageName().equals("au.csiro.ozatlas"))
+        if (getApplicationContext().getPackageName().equals("au.org.ala.mobile.ozatlas") || getApplicationContext().getPackageName().equals("au.org.ala.bilbyblitz"))
             realm = Realm.getDefaultInstance();
     }
 

@@ -19,7 +19,7 @@ import fragments.setting.SettingFragmentView;
  * Created by sad038 on 19/9/17.
  */
 
-public class OfflineSpeciesFragment extends BaseMainActivityFragment implements SettingFragmentView{
+public class OfflineSpeciesFragment extends BaseMainActivityFragment{
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -30,8 +30,23 @@ public class OfflineSpeciesFragment extends BaseMainActivityFragment implements 
         return view;
     }
 
-    @Override
-    public void languageSelect() {
+    @OnClick(R.id.availableSpeciesLayout)
+    void availableSpeciesLayout(){
+        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AvailableSpeciesFragment()).addToBackStack(null).commit();
+    }
+
+    @OnClick(R.id.searchAndAddLayout)
+    void searchAndAddLayout(){
+
+    }
+
+    @OnClick(R.id.downloadFromMapLayout)
+    void downloadFromMapLayout(){
+
+    }
+
+    @OnClick(R.id.groupSpeciesLayout)
+    void groupSpeciesLayout(){
 
     }
 }
