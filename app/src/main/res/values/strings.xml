@@ -82,6 +82,7 @@
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
+    <string name="bie_url">http://bie.ala.org.au/</string>
     <string name="survey_entry_url">https://biocollect.ala.org.au/bioActivity/mobileCreate/%1$s</string>
     <string name="sighting_edit_url">https://biocollect.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
     <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>

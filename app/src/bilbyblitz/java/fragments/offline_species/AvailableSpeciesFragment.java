@@ -66,6 +66,11 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
         }
 
         @Override
+        public int getCount(){
+            return speciesRealmResults.size();
+        }
+
+        @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             View rowView = convertView;
             // reuse views

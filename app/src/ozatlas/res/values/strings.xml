@@ -5,7 +5,6 @@
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
-    <string name="bie_url">http://bie.ala.org.au/</string>
     <string name="bio_cache_url">http://biocache.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>

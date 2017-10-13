@@ -37,7 +37,7 @@ public class OfflineSpeciesFragment extends BaseMainActivityFragment{
 
     @OnClick(R.id.searchAndAddLayout)
     void searchAndAddLayout(){
-
+        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SearchAndAddFragment()).addToBackStack(null).commit();
     }
 
     @OnClick(R.id.downloadFromMapLayout)
