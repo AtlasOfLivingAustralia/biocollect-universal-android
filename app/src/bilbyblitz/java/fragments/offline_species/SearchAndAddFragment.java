@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -158,11 +159,12 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             // reuse views
             if (rowView == null) {
                 LayoutInflater inflater = getActivity().getLayoutInflater();
-                rowView = inflater.inflate(R.layout.row_item_species, parent, false);
+                rowView = inflater.inflate(R.layout.row_item_online_species, parent, false);
                 // configure view holder
                 ViewHolder viewHolder = new ViewHolder();
-                viewHolder.delete = (ImageView) rowView.findViewById(R.id.delete);
+                viewHolder.addButton = (Button) rowView.findViewById(R.id.addButton);
                 viewHolder.speciesName = (TextView) rowView.findViewById(R.id.species_name);
+                viewHolder.kingdomName = (TextView) rowView.findViewById(R.id.kingdom_name);
                 rowView.setTag(viewHolder);
             }
 
@@ -170,7 +172,13 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             ViewHolder holder = (ViewHolder) rowView.getTag();
             final SpeciesSearchResponse.Species species = SearchAndAddFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
-            holder.delete.setOnClickListener(new View.OnClickListener() {
+            if(species.kingdom==null){
+                holder.kingdomName.setVisibility(View.GONE);
+            }else {
+                holder.kingdomName.setVisibility(View.VISIBLE);
+                holder.kingdomName.setText(getString(R.string.kingdom_name, species.kingdom));
+            }
+            holder.addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
 
@@ -186,8 +194,9 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
         }
 
         class ViewHolder {
-            ImageView delete;
+            Button addButton;
             TextView speciesName;
+            TextView kingdomName;
         }
     }
 }
