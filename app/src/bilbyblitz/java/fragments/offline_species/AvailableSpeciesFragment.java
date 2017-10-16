@@ -7,6 +7,9 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -76,24 +79,38 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         return view;
     }
 
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.delete, menu);
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            //when the user will press the upload menu item
+            case R.id.delete:
+                AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_all_species_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        species.clear();
+                        speciesAdapter.notifyDataSetChanged();
+                        realm.executeTransactionAsync(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                realm.delete(SearchSpecies.class);
+                            }
+                        });
+                    }
+                });
+
+                break;
+        }
+        return true;
+    }
 
     private void updateTotal() {
         total.setText(getString(R.string.total_species, species.size()));
-    }
-
-    private void delete(final int position) {
-        AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
-                AvailableSpeciesFragment.this.species.remove(position);
-                realm.beginTransaction();
-                species.deleteFromRealm();
-                realm.commitTransaction();
-                speciesAdapter.notifyDataSetChanged();
-                updateTotal();
-            }
-        });
     }
 
     public void readAvailableSpecies() {
@@ -151,9 +168,9 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
             final SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
-            if(species.kingdom==null){
+            if (species.kingdom == null) {
                 holder.kingdomName.setText(getString(R.string.kingdom_name, "Undefined"));
-            }else {
+            } else {
                 holder.kingdomName.setText(getString(R.string.kingdom_name, species.kingdom));
             }
             holder.delete.setOnClickListener(new View.OnClickListener() {
@@ -166,7 +183,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                             realm.beginTransaction();
                             species.deleteFromRealm();
                             realm.commitTransaction();
-                            Log.d(TAG, holder.getAdapterPosition() + "   "+ AvailableSpeciesFragment.this.species.size());
+                            Log.d(TAG, holder.getAdapterPosition() + "   " + AvailableSpeciesFragment.this.species.size());
                             notifyDataSetChanged();
                         }
                     });

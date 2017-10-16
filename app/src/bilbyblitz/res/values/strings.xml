@@ -63,5 +63,6 @@
     <string name="group_species_description">Group Species Description</string>
     <string name="gps_start_message">Start GPS to begin recording your track. Remember to stop when finished.</string>
     <string name="delete_species_confirmation">Are you sure you want to delete this species?</string>
+    <string name="delete_all_species_confirmation">Are you sure you want to delete all the species?</string>
     <string name="delete_species_title">Delete Species</string>
 </resources>

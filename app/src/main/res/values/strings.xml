@@ -29,6 +29,7 @@
     <string name="centre_location_hint">Center Location Address</string>
     <string name="radius_hint">Radius From Center</string>
     <string name="date_text">Date</string>
+    <string name="delete_text">Delete</string>
     <string name="time_label">Date and Time of observation</string>
     <string name="note_text">Observation Notes</string>
     <string name="image_note_text">Image Notes</string>
