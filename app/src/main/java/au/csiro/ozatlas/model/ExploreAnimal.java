@@ -1,4 +1,4 @@
-package model;
+package au.csiro.ozatlas.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -24,6 +24,8 @@ public class ExploreAnimal implements Serializable {
     @SerializedName("count")
     public Integer count;
 
+    @Expose
+    @SerializedName("kingdom")
     public String kingdom;
 
     @Expose

@@ -1,4 +1,4 @@
-package fragments;
+package fragments.offline_species;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -22,6 +22,9 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
+import au.csiro.ozatlas.model.ExploreAnimal;
+import au.csiro.ozatlas.model.ExploreGroup;
+import au.csiro.ozatlas.rest.BioCacheApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
@@ -29,9 +32,6 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import au.csiro.ozatlas.model.ExploreAnimal;
-import model.ExploreGroup;
-import au.csiro.ozatlas.rest.BioCacheApiService;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -80,7 +80,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     /**
      * onClick listener for the recyclerview animal item
      */
-    View.OnClickListener onAnimalClickListener = new View.OnClickListener() {
+    /*View.OnClickListener onAnimalClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
@@ -92,7 +92,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
             fragment.setArguments(bundle);
             getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
         }
-    };
+    };*/
     private ExploreGroup group;
     private BioCacheApiService bioCacheApiService;
     private boolean isForAnimals;
@@ -116,11 +116,11 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
             latitude = bundle.getDouble(getString(R.string.latitude_parameter));
             longitude = bundle.getDouble(getString(R.string.longitude_parameter));
             radius = bundle.getDouble(getString(R.string.radius_parameter));
-            if (isForAnimals) {
+            /*if (isForAnimals) {
                 setTitle(getString(R.string.species_animal_title));
             } else {
                 setTitle(getString(R.string.species_group_title));
-            }
+            }*/
         }
 
         //recyclerView setup
@@ -186,7 +186,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
 
-                        total.setText(getString(R.string.total_group_count, totalCount));
+                        //total.setText(getString(R.string.total_group_count, totalCount));
                         Log.d(TAG, "onComplete");
                     }
                 }));
@@ -225,7 +225,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                     public void onComplete() {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
-                        total.setText(getString(R.string.total_species_count, totalCount));
+                        //total.setText(getString(R.string.total_species_count, totalCount));
                         Log.d(TAG, "onComplete");
                     }
                 }));
@@ -304,7 +304,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             if (viewType == NORMAL) {
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_animal, null);
-                layoutView.setOnClickListener(onAnimalClickListener);
+                //layoutView.setOnClickListener(onAnimalClickListener);
                 return new SpeciesAnimalViewHolders(layoutView);
             } else {
                 View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_footer, null);

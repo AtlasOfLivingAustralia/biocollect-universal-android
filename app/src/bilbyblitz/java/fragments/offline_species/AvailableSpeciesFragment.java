@@ -42,7 +42,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     @BindView(R.id.total)
     TextView total;
 
-    RealmResults<SearchSpecies> speciesRealmResults;
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
     private Realm realm;

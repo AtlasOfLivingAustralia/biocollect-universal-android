@@ -38,8 +38,8 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import geocode.Constants;
-import geocode.FetchAddressIntentService;
+import au.csiro.ozatlas.geocode.Constants;
+import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 import io.realm.Realm;
 import model.OzAtlasLocation;
 

@@ -1,4 +1,4 @@
-package fragments;
+package fragments.offline_species;
 
 import android.Manifest;
 import android.content.Intent;
@@ -72,7 +72,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_explore_species, container, false);
         ButterKnife.bind(this, view);
-        setTitle(getString(R.string.explore_species_title));
+        //setTitle(getString(R.string.explore_species_title));
         hideFloatingButton();
         mResultReceiver = new AddressResultReceiver(new Handler());
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
@@ -92,7 +92,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     @OnClick(R.id.nextButton)
     void nextButton() {
         if (centerLatLng != null) {
-            Bundle bundle = new Bundle();
+            /*Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
             bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
             bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
@@ -100,7 +100,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
 
             Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
             intent.putExtras(bundle);
-            startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);
+            startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);*/
         } else {
             showSnackBarMessage(getString(R.string.location_missing));
         }
@@ -251,10 +251,10 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.
             }
-        } else if (requestCode == ADD_SIGHT_REQUEST_CODE && resultCode == RESULT_OK) {
+        } /*else if (requestCode == ADD_SIGHT_REQUEST_CODE && resultCode == RESULT_OK) {
             setDrawerMenuChecked(R.id.nav_all_sighting);
             getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
-        }
+        }*/
     }
 
 

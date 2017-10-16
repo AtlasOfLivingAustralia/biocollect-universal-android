@@ -1,4 +1,4 @@
-package model;
+package au.csiro.ozatlas.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

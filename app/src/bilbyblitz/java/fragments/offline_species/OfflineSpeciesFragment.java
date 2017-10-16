@@ -42,7 +42,7 @@ public class OfflineSpeciesFragment extends BaseMainActivityFragment{
 
     @OnClick(R.id.downloadFromMapLayout)
     void downloadFromMapLayout(){
-
+        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).addToBackStack(null).commit();
     }
 
     @OnClick(R.id.groupSpeciesLayout)

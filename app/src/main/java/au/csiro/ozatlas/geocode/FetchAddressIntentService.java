@@ -1,4 +1,4 @@
-package geocode;
+package au.csiro.ozatlas.geocode;
 
 import android.app.IntentService;
 import android.content.Intent;

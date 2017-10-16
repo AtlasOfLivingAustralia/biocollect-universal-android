@@ -1,4 +1,4 @@
-package geocode;
+package au.csiro.ozatlas.geocode;
 
 /**
  * Created by sad038 on 23/6/17.

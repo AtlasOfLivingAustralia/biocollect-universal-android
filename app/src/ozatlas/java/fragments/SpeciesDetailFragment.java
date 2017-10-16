@@ -12,7 +12,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import base.BaseMainActivityFragment;
 import butterknife.ButterKnife;
-import model.ExploreAnimal;
+import au.csiro.ozatlas.model.ExploreAnimal;
 
 /**
  * Created by sad038 on 30/6/17.

@@ -5,14 +5,12 @@
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
-    <string name="bio_cache_url">http://biocache.ala.org.au/</string>
 
     <string name="about_us_url">http://www.ala.org.au/about-the-atlas/</string>
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
     <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
     <string name="sighting_edit_url">https://biocollect.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
-    <string name="explore_image_url">http://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
 
     <string name="title_activity_main">OzAtlas</string>
     <string name="about_title">About the ALA</string>
@@ -58,19 +56,7 @@
     <string name="project_output_name">Single Sighting - Advanced</string>
     <string name="facet">projectNameFacet:ALA species sightings and OzAtlas</string>
 
-
-    <string name="location_missing">Please select a location</string>
-    <string name="no_geocoder_available">No geocoder available</string>
-    <string name="address_found">Address found</string>
-
-    <string name="no_address_found">Sorry, no address found</string>
-    <string name="map_zoom_message">Zoom out/pan to expand/move the target area.</string>
-    <string name="no_location_data_provided">No location data provided</string>
-    <string name="service_not_available">Sorry, the service is not available</string>
-    <string name="invalid_lat_long_used">Invalid latitude or longitude used</string>
-
     <string name="total_sighting">Total Sightings: %1$d</string>
-    <string name="species_count">Species Count: %1$d</string>
     <!--<string name="total_group_count">Total Groups: %1$d, Total Species: %2$d</string>-->
     <string name="total_group_count">Total Groups: %1$d</string>
     <string name="total_species_count">Total Species: %1$d</string>
