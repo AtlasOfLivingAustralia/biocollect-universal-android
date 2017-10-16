@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 
 /**
@@ -23,10 +24,10 @@ import au.csiro.ozatlas.model.SpeciesSearchResponse;
  * for adding/editing sight
  */
 public class SearchSpeciesAdapter extends ArrayAdapter {
-    private List<SpeciesSearchResponse.Species> species;
+    private List<SearchSpecies> species;
     private LayoutInflater inflater;
 
-    public SearchSpeciesAdapter(@NonNull Context context, List<SpeciesSearchResponse.Species> species) {
+    public SearchSpeciesAdapter(@NonNull Context context, List<SearchSpecies> species) {
         super(context, R.layout.item_search, species);
         this.species = species;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);

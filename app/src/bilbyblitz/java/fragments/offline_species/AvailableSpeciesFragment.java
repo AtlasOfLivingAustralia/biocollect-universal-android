@@ -2,20 +2,28 @@ package fragments.offline_species;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
-import au.csiro.ozatlas.model.Species;
+import au.csiro.ozatlas.model.SearchSpecies;
+import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.realm.OrderedCollectionChangeSet;
+import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmResults;
 
@@ -23,24 +31,91 @@ import io.realm.RealmResults;
  * Created by sad038 on 21/8/17.
  */
 
-public class AvailableSpeciesFragment extends BaseMainActivityFragment {
-    @BindView(R.id.listView)
-    ListView listView;
-    RealmResults<Species> speciesRealmResults;
+public class AvailableSpeciesFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
+    @BindView(R.id.recyclerView)
+    RecyclerView recyclerView;
+    @BindView(R.id.swipe_container)
+    SwipeRefreshLayout swipeRefreshLayout;
+    @BindView(R.id.total)
+    TextView total;
+
+    RealmResults<SearchSpecies> speciesRealmResults;
+    private List<SearchSpecies> species = new ArrayList<>();
+    private SpeciesAdapter speciesAdapter;
     private Realm realm;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_offline_list, container, false);
+        View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
-        setTitle(getString(R.string.available_species));
         setHasOptionsMenu(true);
+        //setTitle(getString(R.string.draft_sighting_title));
+
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.showFloatingButton();
 
         // Get a Realm instance for this thread
         realm = Realm.getDefaultInstance();
-        speciesRealmResults = realm.where(Species.class).findAll();
-        listView.setAdapter(new SpeciesAdapter());
+
+        //recyclerView setup
+        recyclerView.setHasFixedSize(true);
+        ItemOffsetDecoration itemDecoration = new ItemOffsetDecoration(getActivity(), R.dimen.list_item_margin);
+        recyclerView.addItemDecoration(itemDecoration);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
+        recyclerView.setLayoutManager(mLayoutManager);
+        speciesAdapter = new SpeciesAdapter();
+        recyclerView.setAdapter(speciesAdapter);
+
+        //refresh layout setup
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
+        //get the species
+        readAvailableSpecies();
+
         return view;
+    }
+
+
+    private void updateTotal() {
+        total.setText(getString(R.string.total_species, species.size()));
+    }
+
+    private void delete(final int position) {
+        AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
+                AvailableSpeciesFragment.this.species.remove(position);
+                realm.beginTransaction();
+                species.deleteFromRealm();
+                realm.commitTransaction();
+                speciesAdapter.notifyDataSetChanged();
+                updateTotal();
+            }
+        });
+    }
+
+    public void readAvailableSpecies() {
+        RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).findAllAsync();
+        results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<SearchSpecies>>() {
+            @Override
+            public void onChange(RealmResults<SearchSpecies> collection, OrderedCollectionChangeSet changeSet) {
+                species.clear();
+                species.addAll(collection);
+                updateTotal();
+                speciesAdapter.notifyDataSetChanged();
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
+            }
+        });
+
+    }
+
+
+    @Override
+    public void onRefresh() {
+        readAvailableSpecies();
     }
 
     @Override
@@ -59,53 +134,56 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
     /**
      * Adapters for Species ListView
      */
-    private class SpeciesAdapter extends ArrayAdapter<String> {
+    private class SpeciesAdapter extends RecyclerView.Adapter<SpeciesAdapter.SpeciesViewHolder> {
 
-        SpeciesAdapter() {
-            super(getActivity(), 0);
+        @Override
+        public int getItemCount() {
+            return species.size();
         }
 
         @Override
-        public int getCount(){
-            return speciesRealmResults.size();
+        public SpeciesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_species, null);
+            return new SpeciesViewHolder(layoutView);
         }
 
         @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View rowView = convertView;
-            // reuse views
-            if (rowView == null) {
-                LayoutInflater inflater = getActivity().getLayoutInflater();
-                rowView = inflater.inflate(R.layout.row_item_species, parent, false);
-                // configure view holder
-                ViewHolder viewHolder = new ViewHolder();
-                viewHolder.delete = (ImageView) rowView.findViewById(R.id.delete);
-                viewHolder.speciesName = (TextView) rowView.findViewById(R.id.species_name);
-                rowView.setTag(viewHolder);
-            }
-
-            // fill data
-            ViewHolder holder = (ViewHolder) rowView.getTag();
-            final Species species = speciesRealmResults.get(position);
+        public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
+            final SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
+            if(species.kingdom==null){
+                holder.kingdomName.setText(getString(R.string.kingdom_name, "Undefined"));
+            }else {
+                holder.kingdomName.setText(getString(R.string.kingdom_name, species.kingdom));
+            }
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.delete_species_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
+                            AvailableSpeciesFragment.this.species.remove(holder.getAdapterPosition());
+                            realm.beginTransaction();
                             species.deleteFromRealm();
+                            realm.commitTransaction();
+                            Log.d(TAG, holder.getAdapterPosition() + "   "+ AvailableSpeciesFragment.this.species.size());
+                            notifyDataSetChanged();
                         }
                     });
                 }
             });
-
-            return rowView;
         }
 
-        class ViewHolder {
+        class SpeciesViewHolder extends RecyclerView.ViewHolder {
             ImageView delete;
-            TextView speciesName;
+            TextView speciesName, kingdomName;
+
+            public SpeciesViewHolder(View itemView) {
+                super(itemView);
+                speciesName = (TextView) itemView.findViewById(R.id.species_name);
+                kingdomName = (TextView) itemView.findViewById(R.id.kingdom_name);
+                delete = (ImageView) itemView.findViewById(R.id.delete);
+            }
         }
     }
 }

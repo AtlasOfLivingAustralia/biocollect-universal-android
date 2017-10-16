@@ -78,6 +78,7 @@ import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.Data;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Outputs;
+import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.SightingPhoto;
 import au.csiro.ozatlas.model.DraftSpecies;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
@@ -200,8 +201,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
     };
     private LocationManager locationManager;
     private BieApiService bieApiService;
-    private List<SpeciesSearchResponse.Species> species = new ArrayList<>();
-    private SpeciesSearchResponse.Species selectedSpecies;
+    private List<SearchSpecies> species = new ArrayList<>();
+    private SearchSpecies selectedSpecies;
     private Double latitude;
     private Double longitude;
     // Define a listener that responds to location updates
@@ -362,7 +363,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     }
                 });
             } else {
-                selectedSpecies = new SpeciesSearchResponse.Species();
+                selectedSpecies = new SearchSpecies();
                 selectedSpecies.name = animal.name;
                 selectedSpecies.kingdom = animal.kingdom;
                 selectedSpecies.guid = animal.guid;

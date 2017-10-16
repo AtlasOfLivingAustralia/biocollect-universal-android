@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
-import au.csiro.ozatlas.model.Species;
+import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
@@ -51,7 +51,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
     @BindView(R.id.editSpeciesName)
     EditText editSpeciesName;
 
-    List<SpeciesSearchResponse.Species> species = new ArrayList<>();
+    List<SearchSpecies> species = new ArrayList<>();
     private Realm realm;
     private BieApiService bieApiService;
     private static final int DELAY_IN_MILLIS = 400;
@@ -131,6 +131,15 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
 
     }
 
+    private void saveData(final SearchSpecies species){
+        realm.executeTransactionAsync(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.copyToRealm(species);
+            }
+        });
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -170,7 +179,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
 
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
-            final SpeciesSearchResponse.Species species = SearchAndAddFragment.this.species.get(position);
+            final SearchSpecies species = SearchAndAddFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
             if(species.kingdom==null){
                 holder.kingdomName.setVisibility(View.GONE);
@@ -181,7 +190,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             holder.addButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    saveData(species);
                 }
             });
 
