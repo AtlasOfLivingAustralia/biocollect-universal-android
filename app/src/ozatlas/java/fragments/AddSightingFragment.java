@@ -79,7 +79,7 @@ import au.csiro.ozatlas.model.Data;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Outputs;
 import au.csiro.ozatlas.model.SightingPhoto;
-import au.csiro.ozatlas.model.Species;
+import au.csiro.ozatlas.model.DraftSpecies;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.model.Tag;
 import au.csiro.ozatlas.rest.BieApiService;
@@ -293,7 +293,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 selectedSpecies = species.get(position);
                 speciesDetailLayout.setVisibility(View.VISIBLE);
                 speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", selectedSpecies.guid));
-                if (AtlasManager.isTesting) {
+                if (AtlasManager.isDebug) {
                     Toast.makeText(getActivity(), selectedSpecies.highlight, Toast.LENGTH_LONG).show();
                 }
             }
@@ -650,7 +650,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString() + time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         if (outputs.data.species == null)
-            outputs.data.species = new Species();
+            outputs.data.species = new DraftSpecies();
         outputs.data.species.outputSpeciesId = outputSpeciesId;
         if (selectedSpecies != null) {
             outputs.data.species.name = selectedSpecies.name;
@@ -781,7 +781,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
 
     @OnClick(R.id.speciesDetailLayout)
     void speciesDetailLayout() {
-        startWebViewActivity(speciesURL.getText().toString(), "Species Detail", false);
+        startWebViewActivity(speciesURL.getText().toString(), "DraftSpecies Detail", false);
     }
 
     /**

@@ -123,7 +123,7 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
             @Override
             public void onClick(View v) {
                 if (moreButtonListener != null)
-                    moreButtonListener.onPopupMenuClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
+                    moreButtonListener.onMoreButtonClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
             }
         });
 

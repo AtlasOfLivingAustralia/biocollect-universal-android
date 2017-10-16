@@ -262,7 +262,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
      * @param position
      */
     @Override
-    public void onPopupMenuClick(View view, final int position) {
+    public void onMoreButtonClick(View view, final int position) {
         PopupMenu popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.draft_menu, popup.getMenu());

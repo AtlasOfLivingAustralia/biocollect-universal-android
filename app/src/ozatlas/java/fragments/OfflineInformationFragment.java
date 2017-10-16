@@ -33,7 +33,7 @@ import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
-import au.csiro.ozatlas.model.Species;
+import au.csiro.ozatlas.model.DraftSpecies;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -141,7 +141,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment {
                 realm.executeTransactionAsync(new Realm.Transaction() {
                     @Override
                     public void execute(Realm realm) {
-                        realm.delete(Species.class);
+                        realm.delete(DraftSpecies.class);
                         showSnackBarMessage(getString(R.string.successful_message));
                     }
                 });

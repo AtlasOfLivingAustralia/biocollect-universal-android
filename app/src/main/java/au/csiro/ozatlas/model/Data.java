@@ -23,7 +23,7 @@ public class Data extends RealmObject {
     public Double locationLatitude;
     @Expose
     @SerializedName("species")
-    public Species species;
+    public DraftSpecies species;
     @Expose
     @SerializedName("surveyStartTime")
     public String surveyStartTime;

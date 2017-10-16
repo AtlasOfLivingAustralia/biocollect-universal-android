@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
-import au.csiro.ozatlas.model.Species;
+import au.csiro.ozatlas.model.DraftSpecies;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -26,7 +26,7 @@ import io.realm.RealmResults;
 public class AvailableSpeciesFragment extends BaseMainActivityFragment {
     @BindView(R.id.listView)
     ListView listView;
-    RealmResults<Species> speciesRealmResults;
+    RealmResults<DraftSpecies> speciesRealmResults;
     private Realm realm;
 
     @Override
@@ -38,7 +38,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
 
         // Get a Realm instance for this thread
         realm = Realm.getDefaultInstance();
-        speciesRealmResults = realm.where(Species.class).findAll();
+        speciesRealmResults = realm.where(DraftSpecies.class).findAll();
         listView.setAdapter(new SpeciesAdapter());
         return view;
     }
@@ -46,7 +46,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
     @Override
     public void onResume() {
         super.onResume();
-        sendAnalyticsScreenName("Available Species List", TAG);
+        sendAnalyticsScreenName("Available DraftSpecies List", TAG);
     }
 
     @Override
@@ -57,7 +57,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
     }
 
     /**
-     * Adapters for Species ListView
+     * Adapters for DraftSpecies ListView
      */
     private class SpeciesAdapter extends ArrayAdapter<String> {
 
@@ -81,7 +81,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment {
 
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
-            final Species species = speciesRealmResults.get(position);
+            final DraftSpecies species = speciesRealmResults.get(position);
             holder.speciesName.setText(species.name);
             holder.delete.setOnClickListener(new View.OnClickListener() {
                 @Override

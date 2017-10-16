@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import io.realm.RealmObject;
+
 /**
  * Created by sad038 on 18/4/17.
  */
@@ -20,7 +22,7 @@ public class SpeciesSearchResponse {
     @SerializedName("results")
     public List<Species> results;
 
-    public static class Species {
+    public static class Species{
         @Expose
         @SerializedName("id")
         public String id;
