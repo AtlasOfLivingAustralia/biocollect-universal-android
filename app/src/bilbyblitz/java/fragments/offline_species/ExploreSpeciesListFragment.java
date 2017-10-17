@@ -1,5 +1,6 @@
 package fragments.offline_species;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -22,6 +23,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
+import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 import au.csiro.ozatlas.model.ExploreAnimal;
 import au.csiro.ozatlas.model.ExploreGroup;
 import au.csiro.ozatlas.rest.BioCacheApiService;
@@ -29,6 +31,7 @@ import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.offline_species.service.FetchAndSaveSpeciesService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -255,7 +258,9 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 speciesGroupViewHolders.download.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-
+                        Log.d(TAG, "Download Clicked");
+                        Intent intent = new Intent(getActivity(), FetchAndSaveSpeciesService.class);
+                        getActivity().startService(intent);
                     }
                 });
                 Integer icon = map.get(group.name);
