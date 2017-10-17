@@ -77,22 +77,6 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     };
     private List<ExploreAnimal> exploreAnimals = new ArrayList<>();
     private double latitude, longitude, radius;
-    /**
-     * onClick listener for the recyclerview animal item
-     */
-    /*View.OnClickListener onAnimalClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(getString(R.string.species_parameter), exploreAnimals.get(position));
-            bundle.putDouble(getString(R.string.latitude_parameter), latitude);
-            bundle.putDouble(getString(R.string.longitude_parameter), longitude);
-            Fragment fragment = new SpeciesDetailFragment();
-            fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
-        }
-    };*/
     private ExploreGroup group;
     private BioCacheApiService bioCacheApiService;
     private boolean isForAnimals;
@@ -130,6 +114,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
         recyclerView.setLayoutManager(mLayoutManager);
 
         if (isForAnimals) {
+            total.setText(getString(R.string.total_species_count, group.speciesCount));
             adapter = new SpeciesAnimalAdapter();
             recyclerView.addOnScrollListener(recyclerViewOnScrollListener);
         } else
@@ -186,7 +171,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                         if (swipeRefreshLayout.isRefreshing())
                             swipeRefreshLayout.setRefreshing(false);
 
-                        //total.setText(getString(R.string.total_group_count, totalCount));
+                        total.setText(getString(R.string.total_group_count, totalCount));
                         Log.d(TAG, "onComplete");
                     }
                 }));
@@ -267,7 +252,12 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 ExploreGroup group = exploreGroups.get(position);
                 speciesGroupViewHolders.name.setText(group.name);
                 speciesGroupViewHolders.count.setText(getString(R.string.species_count, group.speciesCount));
+                speciesGroupViewHolders.download.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
 
+                    }
+                });
                 Integer icon = map.get(group.name);
                 if (icon != null) {
                     speciesGroupViewHolders.icon.setImageResource(icon);
@@ -288,13 +278,14 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
      */
     class SpeciesGroupViewHolders extends RecyclerView.ViewHolder {
         TextView name, count;
-        ImageView icon;
+        ImageView icon, download;
 
         SpeciesGroupViewHolders(View itemView) {
             super(itemView);
             name = (TextView) itemView.findViewById(R.id.name);
             count = (TextView) itemView.findViewById(R.id.count);
             icon = (ImageView) itemView.findViewById(R.id.icon);
+            download = (ImageView) itemView.findViewById(R.id.download);
         }
     }
 

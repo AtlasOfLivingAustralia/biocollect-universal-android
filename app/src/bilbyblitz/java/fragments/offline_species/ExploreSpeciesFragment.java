@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -92,15 +93,14 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     @OnClick(R.id.nextButton)
     void nextButton() {
         if (centerLatLng != null) {
-            /*Bundle bundle = new Bundle();
-            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
+            Bundle bundle = new Bundle();
+            //bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
             bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
             bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
             bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("km", "")));
-
-            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-            intent.putExtras(bundle);
-            startActivityForResult(intent, ADD_SIGHT_REQUEST_CODE);*/
+            Fragment fragment = new ExploreSpeciesListFragment();
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
         } else {
             showSnackBarMessage(getString(R.string.location_missing));
         }

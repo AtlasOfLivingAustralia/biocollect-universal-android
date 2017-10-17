@@ -58,8 +58,6 @@
 
     <string name="total_sighting">Total Sightings: %1$d</string>
     <!--<string name="total_group_count">Total Groups: %1$d, Total Species: %2$d</string>-->
-    <string name="total_group_count">Total Groups: %1$d</string>
-    <string name="total_species_count">Total Species: %1$d</string>
     <string name="tag_separator">;&#160;</string>
 
 

@@ -92,6 +92,8 @@
     <string name="good_day_message">G\'Day %1$s</string>
     <string name="welcome_message">Welcome to %1$s</string>
     <string name="species_count">Species Count: %1$d</string>
+    <string name="total_group_count">Total Groups: %1$d</string>
+    <string name="total_species_count">Total Species: %1$d</string>
 
     <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
 
