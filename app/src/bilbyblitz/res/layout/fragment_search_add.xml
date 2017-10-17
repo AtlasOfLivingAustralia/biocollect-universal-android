@@ -10,13 +10,20 @@
         android:layout_height="wrap_content">
 
         <EditText
-            style="@style/Base.TextAppearance.AppCompat.Medium"
             android:id="@+id/editSpeciesName"
+            style="@style/Base.TextAppearance.AppCompat.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/species_name_hint"
             android:maxLines="1" />
     </android.support.design.widget.TextInputLayout>
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="match_parent"
+        android:layout_height="24dp"
+        android:visibility="gone"
+        android:layout_gravity="center_horizontal" />
 
     <ListView
         android:id="@+id/listView"
