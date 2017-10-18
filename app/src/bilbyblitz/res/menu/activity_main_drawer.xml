@@ -22,12 +22,12 @@
         <item
             android:id="@+id/nav_my_projects"
             android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="My Projects" />
+            android:title="My Projects" />-->
 
         <item
-            android:id="@+id/nav_my_sighting"
-            android:icon="@drawable/ic_folder_open_black_24dp"
-            android:title="My Records" />-->
+            android:id="@+id/nav_setting"
+            android:icon="@drawable/ic_settings_black_36dp"
+            android:title="@string/setting" />
 
     </group>
 

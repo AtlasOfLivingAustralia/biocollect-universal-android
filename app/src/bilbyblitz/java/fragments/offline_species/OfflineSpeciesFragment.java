@@ -1,5 +1,6 @@
 package fragments.offline_species;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
@@ -8,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -32,17 +34,29 @@ public class OfflineSpeciesFragment extends BaseMainActivityFragment{
 
     @OnClick(R.id.availableSpeciesLayout)
     void availableSpeciesLayout(){
-        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AvailableSpeciesFragment()).addToBackStack(null).commit();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_SPECIES);
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @OnClick(R.id.searchAndAddLayout)
     void searchAndAddLayout(){
-        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SearchAndAddFragment()).addToBackStack(null).commit();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SEARCH_ADD_SPECIES);
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @OnClick(R.id.downloadFromMapLayout)
     void downloadFromMapLayout(){
-        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).addToBackStack(null).commit();
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.MAP_SPECIES);
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivity(intent);
     }
 
     @OnClick(R.id.groupSpeciesLayout)

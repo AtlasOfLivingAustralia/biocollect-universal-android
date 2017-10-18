@@ -18,6 +18,9 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.offline_species.AvailableSpeciesFragment;
+import fragments.offline_species.ExploreSpeciesFragment;
+import fragments.offline_species.SearchAndAddFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -45,6 +48,15 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
             switch (fragmentType) {
                 case WEB_FRAGMENT:
                     fragment = new WebViewFragment();
+                    break;
+                case AVAILABLE_SPECIES:
+                    fragment = new AvailableSpeciesFragment();
+                    break;
+                case SEARCH_ADD_SPECIES:
+                    fragment = new SearchAndAddFragment();
+                    break;
+                case MAP_SPECIES:
+                    fragment = new ExploreSpeciesFragment();
                     break;
                 /*case RECORD_LIST:
                     fragment = new SightingListFragment();
@@ -152,7 +164,9 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
      */
     public enum FragmentType {
         WEB_FRAGMENT,
-        RECORD_LIST,
+        AVAILABLE_SPECIES,
+        SEARCH_ADD_SPECIES,
+        MAP_SPECIES,
         CONTACT_US
     }
 }

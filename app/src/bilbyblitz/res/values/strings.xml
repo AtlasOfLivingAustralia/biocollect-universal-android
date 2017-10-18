@@ -68,4 +68,5 @@
     <string name="duplicate_entry">This species is already in offline.</string>
     <string name="download_service_started">The download has been started.</string>
     <string name="download_service_complete">The species have been downloaded.</string>
+    <string name="download_interrupted">Download has been interrupted</string>
 </resources>

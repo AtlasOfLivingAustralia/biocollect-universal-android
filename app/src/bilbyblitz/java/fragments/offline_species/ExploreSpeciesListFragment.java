@@ -63,6 +63,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     @BindView(R.id.total)
     TextView total;
     private List<ExploreGroup> exploreGroups = new ArrayList<>();
+
     /**
      * onClick listener for the recyclerview group item
      */

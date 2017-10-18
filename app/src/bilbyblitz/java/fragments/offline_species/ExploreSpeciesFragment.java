@@ -94,13 +94,12 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     void nextButton() {
         if (centerLatLng != null) {
             Bundle bundle = new Bundle();
-            //bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SPECIES_GROUP_FRAGMENT);
             bundle.putDouble(getString(R.string.latitude_parameter), centerLatLng.latitude);
             bundle.putDouble(getString(R.string.longitude_parameter), centerLatLng.longitude);
             bundle.putDouble(getString(R.string.radius_parameter), Double.parseDouble(editRadius.getText().toString().replace("km", "")));
             Fragment fragment = new ExploreSpeciesListFragment();
             fragment.setArguments(bundle);
-            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
+            getFragmentManager().beginTransaction().add(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
         } else {
             showSnackBarMessage(getString(R.string.location_missing));
         }

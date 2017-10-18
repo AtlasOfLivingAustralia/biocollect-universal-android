@@ -85,6 +85,7 @@ public class FetchAndSaveSpeciesService extends BaseIntentService {
 
                     @Override
                     public void onError(Throwable e) {
+                        makeNotification(true, getString(R.string.download_interrupted));
                         Log.d(TAG, e.getMessage());
                     }
 

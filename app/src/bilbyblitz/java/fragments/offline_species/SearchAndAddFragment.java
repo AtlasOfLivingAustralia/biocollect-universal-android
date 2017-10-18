@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -98,6 +99,13 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                     @Override
                     public boolean test(String s) throws Exception {
                         Log.d(TAG, s);
+                        if(s.length()>1)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.VISIBLE);
+                            }
+                        });
                         return s.length() > 1;
                     }
                 })
@@ -117,7 +125,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                         Log.d(TAG, species.size() + "");
                         species.clear();
                         species.addAll(speciesSearchResponse.results);
-                        //progressBar.setVisibility(View.GONE);
+                        progressBar.setVisibility(View.GONE);
                         addButtonFlag = new boolean[species.size()];
                         speciesAdapter.notifyDataSetChanged();
                     }

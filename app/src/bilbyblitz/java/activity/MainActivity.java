@@ -125,9 +125,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     launchLoginActivity();
                 }
             });
-        } /*else if (id == R.id.nav_all_projects) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
-        } else if (id == R.id.nav_my_projects) {
+        } else if (id == R.id.nav_setting) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
+        } /*else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(getString(R.string.user_project_parameter), true);
             Fragment fragment = new ProjectListFragment();
