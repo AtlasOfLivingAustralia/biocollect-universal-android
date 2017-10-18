@@ -66,4 +66,6 @@
     <string name="delete_all_species_confirmation">Are you sure you want to delete all the species?</string>
     <string name="delete_species_title">Delete Species</string>
     <string name="duplicate_entry">This species is already in offline.</string>
+    <string name="download_service_started">The download has been started.</string>
+    <string name="download_service_complete">The species have been downloaded.</string>
 </resources>

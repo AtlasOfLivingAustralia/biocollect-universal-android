@@ -82,6 +82,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     private double latitude, longitude, radius;
     private ExploreGroup group;
     private BioCacheApiService bioCacheApiService;
+    private boolean[] isDownloadClicked;
     private boolean isForAnimals;
     private int totalCount;
 
@@ -158,6 +159,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                         totalCount = value.size();
                         exploreGroups.clear();
                         exploreGroups.addAll(value);
+                        isDownloadClicked = new boolean[exploreGroups.size()];
                         adapter.notifyDataSetChanged();
                     }
 
@@ -249,20 +251,35 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        public void onBindViewHolder(final RecyclerView.ViewHolder holder, final int position) {
             if (holder instanceof SpeciesGroupViewHolders) {
                 SpeciesGroupViewHolders speciesGroupViewHolders = (SpeciesGroupViewHolders) holder;
                 ExploreGroup group = exploreGroups.get(position);
                 speciesGroupViewHolders.name.setText(group.name);
                 speciesGroupViewHolders.count.setText(getString(R.string.species_count, group.speciesCount));
-                speciesGroupViewHolders.download.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Log.d(TAG, "Download Clicked");
-                        Intent intent = new Intent(getActivity(), FetchAndSaveSpeciesService.class);
-                        getActivity().startService(intent);
-                    }
-                });
+
+                if(isDownloadClicked[position]){
+                    speciesGroupViewHolders.download.setOnClickListener(null);
+                    speciesGroupViewHolders.download.setVisibility(View.INVISIBLE);
+                }else {
+                    speciesGroupViewHolders.download.setVisibility(View.VISIBLE);
+                    speciesGroupViewHolders.download.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Log.d(TAG, "Download Clicked");
+                            int pos = holder.getAdapterPosition();
+                            isDownloadClicked[pos] = true;
+                            notifyDataSetChanged();
+                            Intent intent = new Intent(getActivity(), FetchAndSaveSpeciesService.class);
+                            intent.putExtra(getString(R.string.group_parameter), exploreGroups.get(pos));
+                            intent.putExtra(getString(R.string.latitude_parameter), latitude);
+                            intent.putExtra(getString(R.string.longitude_parameter), longitude);
+                            intent.putExtra(getString(R.string.radius_parameter), radius);
+                            getActivity().startService(intent);
+                        }
+                    });
+                }
+
                 Integer icon = map.get(group.name);
                 if (icon != null) {
                     speciesGroupViewHolders.icon.setImageResource(icon);
