@@ -63,7 +63,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_search_add, container, false);
         ButterKnife.bind(this, view);
-        setTitle(getString(R.string.available_species));
+        setTitle(getString(R.string.search_and_add));
         setHasOptionsMenu(true);
 
         Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();

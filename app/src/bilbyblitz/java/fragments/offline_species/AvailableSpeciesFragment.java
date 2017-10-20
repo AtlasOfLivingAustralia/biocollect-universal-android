@@ -51,7 +51,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-        //setTitle(getString(R.string.draft_sighting_title));
+        setTitle(getString(R.string.available_species));
 
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.showFloatingButton();

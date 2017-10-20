@@ -22,6 +22,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
+import au.csiro.ozatlas.model.ExploreGroup;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
@@ -30,7 +31,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import au.csiro.ozatlas.model.ExploreAnimal;
-import model.ExploreGroup;
 import au.csiro.ozatlas.rest.BioCacheApiService;
 
 /**
