@@ -23,7 +23,6 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.FooterViewHolders;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
-import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 import au.csiro.ozatlas.model.ExploreAnimal;
 import au.csiro.ozatlas.model.ExploreGroup;
 import au.csiro.ozatlas.rest.BioCacheApiService;
@@ -259,10 +258,10 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 speciesGroupViewHolders.name.setText(group.name);
                 speciesGroupViewHolders.count.setText(getString(R.string.species_count, group.speciesCount));
 
-                if(isDownloadClicked[position]){
+                if (isDownloadClicked[position]) {
                     speciesGroupViewHolders.download.setOnClickListener(null);
                     speciesGroupViewHolders.download.setVisibility(View.INVISIBLE);
-                }else {
+                } else {
                     speciesGroupViewHolders.download.setVisibility(View.VISIBLE);
                     speciesGroupViewHolders.download.setOnClickListener(new View.OnClickListener() {
                         @Override

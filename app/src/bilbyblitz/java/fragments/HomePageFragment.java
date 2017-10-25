@@ -49,20 +49,28 @@ public class HomePageFragment extends BaseMainActivityFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 //subtracting 1 due to adding header
-                HomePageListItem item = listItems.get(position - 1);
-                /*if (item.isForWebView) {
-                    startWebViewActivity(item.url, item.text, false);
-                } else if (item.text.equals(getString(R.string.all_project_title))) {
-                    setDrawerMenuClicked(R.id.nav_all_projects);
-                } else if (item.text.equals(getString(R.string.all_record_title))) {
-                    setDrawerMenuClicked(R.id.nav_all_sighting);
-                }else if (item.text.equals(getString(R.string.my_project_title))) {
-                    setDrawerMenuClicked(R.id.nav_my_projects);
-                }else if (item.text.equals(getString(R.string.my_record_title))) {
-                    setDrawerMenuClicked(R.id.nav_my_sighting);
-                }else if (item.text.equals(getString(R.string.contact_us_title))) {
-                    setDrawerMenuClicked(R.id.nav_contact);
-                }*/
+                if (position > 0) {
+                    HomePageListItem item = listItems.get(position - 1);
+                    if (item.isForWebView) {
+                        startWebViewActivity(item.url, item.text, false);
+                    } else if (item.text.equals(getString(R.string.add_track))) {
+                        setDrawerMenuChecked(R.id.nav_add_track);
+                        setDrawerMenuClicked(R.id.nav_add_track);
+                    } else if (item.text.equals(getString(R.string.practise_track))) {
+                        setDrawerMenuChecked(R.id.nav_practise_track);
+                        setDrawerMenuClicked(R.id.nav_practise_track);
+                    } else if (item.text.equals(getString(R.string.review_track))) {
+                        setDrawerMenuChecked(R.id.nav_review_track);
+                        setDrawerMenuClicked(R.id.nav_review_track);
+                    } else if (item.text.equals(getString(R.string.setting))) {
+                        setDrawerMenuChecked(R.id.nav_setting);
+                        setDrawerMenuClicked(R.id.nav_setting);
+                    } else if (item.text.equals(getString(R.string.help))) {
+                        setDrawerMenuClicked(R.id.nav_help);
+                    } else if (item.text.equals(getString(R.string.contact_us_title))) {
+                        setDrawerMenuClicked(R.id.nav_contact);
+                    }
+                }
             }
         });
         return view;

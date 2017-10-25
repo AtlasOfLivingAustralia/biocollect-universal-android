@@ -18,7 +18,7 @@ import butterknife.OnClick;
  * Created by sad038 on 19/9/17.
  */
 
-public class SettingFragment extends BaseMainActivityFragment implements SettingFragmentView{
+public class SettingFragment extends BaseMainActivityFragment implements SettingFragmentView {
     @BindView(R.id.projectSpinner)
     Spinner projectSpinner;
     @BindView(R.id.languageSpinner)
@@ -45,7 +45,7 @@ public class SettingFragment extends BaseMainActivityFragment implements Setting
     }
 
     @OnClick(R.id.offlineSpecies)
-    void offlineSpecies(){
+    void offlineSpecies() {
 
     }
 }

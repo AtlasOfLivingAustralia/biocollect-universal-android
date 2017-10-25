@@ -24,10 +24,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
-import fragments.country.TrackCountryFragment;
-import fragments.map.TrackMapFragment;
 import fragments.offline_species.OfflineSpeciesFragment;
-import fragments.setting.SettingFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -220,7 +217,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void setDrawerMenuClicked(int menuRes) {
-        setDrawerMenuChecked(menuRes);
         onNavigationItemSelected(navigationView.getMenu().findItem(menuRes));
     }
 }

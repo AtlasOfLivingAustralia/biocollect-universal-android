@@ -9,7 +9,6 @@ import android.widget.Button;
 import android.widget.EditText;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseFragment;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;

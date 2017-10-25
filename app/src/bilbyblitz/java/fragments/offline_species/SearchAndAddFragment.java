@@ -11,7 +11,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -45,19 +44,18 @@ import io.realm.exceptions.RealmPrimaryKeyConstraintException;
  */
 
 public class SearchAndAddFragment extends BaseMainActivityFragment {
+    private static final int DELAY_IN_MILLIS = 400;
     @BindView(R.id.listView)
     ListView listView;
     @BindView(R.id.editSpeciesName)
     EditText editSpeciesName;
     @BindView(R.id.progressBar)
     ProgressBar progressBar;
-
     List<SearchSpecies> species = new ArrayList<>();
+    SpeciesAdapter speciesAdapter;
     private Realm realm;
     private BieApiService bieApiService;
     private boolean[] addButtonFlag;
-    private static final int DELAY_IN_MILLIS = 400;
-    SpeciesAdapter speciesAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -99,13 +97,13 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                     @Override
                     public boolean test(String s) throws Exception {
                         Log.d(TAG, s);
-                        if(s.length()>1)
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                progressBar.setVisibility(View.VISIBLE);
-                            }
-                        });
+                        if (s.length() > 1)
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    progressBar.setVisibility(View.VISIBLE);
+                                }
+                            });
                         return s.length() > 1;
                     }
                 })
@@ -148,8 +146,10 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             @Override
             public void execute(Realm realm) {
                 try {
+                    species.realmId = species.guid + species.id;
+                    Log.d(TAG + "ID", species.guid + "   " + species.id + "   " + species.realmId);
                     realm.copyToRealm(species);
-                }catch (RealmPrimaryKeyConstraintException exception){
+                } catch (RealmPrimaryKeyConstraintException exception) {
                     showSnackBarMessage(getString(R.string.duplicate_entry));
                 }
             }

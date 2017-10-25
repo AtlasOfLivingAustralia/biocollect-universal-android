@@ -185,6 +185,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         }
     }
 
+
     /**
      * show a toast message
      *

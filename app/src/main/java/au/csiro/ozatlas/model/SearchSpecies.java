@@ -11,16 +11,23 @@ import io.realm.annotations.PrimaryKey;
  */
 
 public class SearchSpecies extends RealmObject{
+    @PrimaryKey
+    public String realmId;
     @Expose
     @SerializedName("id")
     public String id;
     @Expose
     @SerializedName("guid")
-    @PrimaryKey
     public String guid;
     @Expose
     @SerializedName("name")
     public String name;
+    @Expose
+    @SerializedName("commonName")
+    public String commonName;
+    @Expose
+    @SerializedName("scientificName")
+    public String scientificName;
     @Expose
     @SerializedName("kingdom")
     public String kingdom;

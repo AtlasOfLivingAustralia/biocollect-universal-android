@@ -9,20 +9,20 @@
             android:icon="@drawable/ic_home_black_24dp"
             android:title="Home" />
 
-        <!--<item
-            android:id="@+id/nav_all_projects"
-            android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="All Projects" />
+        <item
+            android:id="@+id/nav_add_track"
+            android:icon="@drawable/animal_track"
+            android:title="@string/add_track" />
 
         <item
-            android:id="@+id/nav_all_sighting"
-            android:icon="@drawable/ic_folder_open_black_24dp"
-            android:title="All Records" />
+            android:id="@+id/nav_practise_track"
+            android:icon="@drawable/animal_track"
+            android:title="@string/practise_track" />
 
         <item
-            android:id="@+id/nav_my_projects"
-            android:icon="@drawable/ic_card_travel_black_24dp"
-            android:title="My Projects" />-->
+            android:id="@+id/nav_review_track"
+            android:icon="@drawable/animal_track"
+            android:title="@string/review_track" />
 
         <item
             android:id="@+id/nav_setting"
@@ -41,20 +41,28 @@
         </menu>
     </item>
 
-    <item android:title="BioCollect">
-        <menu>
-            <item
-                android:id="@+id/nav_contact"
-                android:icon="@drawable/ic_mail_outline_black_24dp"
-                android:title="Contact Us" />
-        </menu>
-    </item>
+    <group
+        android:id="@+id/contact"
+        android:checkableBehavior="none">
+        <item android:title="@string/app_name">
+            <menu>
+                <item
+                    android:id="@+id/nav_help"
+                    android:icon="@drawable/ic_info_outline_black_24dp"
+                    android:title="@string/help" />
 
+                <item
+                    android:id="@+id/nav_contact"
+                    android:icon="@drawable/ic_mail_outline_black_24dp"
+                    android:title="Contact Us" />
+            </menu>
+        </item>
+    </group>
     <group
         android:id="@+id/version"
         android:checkableBehavior="none">
         <item
-            android:icon="@mipmap/ic_launcher"
+            android:icon="@drawable/ic_stat_bilby_blitz"
             android:title="@string/app_version" />
 
     </group>

@@ -1,12 +1,10 @@
 package fragments.trackers;
 
 import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.Spinner;
 
 import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;

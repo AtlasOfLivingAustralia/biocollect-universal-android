@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
+import fragments.offline_species.SpeciesGroupFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -58,10 +59,10 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
                 case MAP_SPECIES:
                     fragment = new ExploreSpeciesFragment();
                     break;
-                /*case RECORD_LIST:
-                    fragment = new SightingListFragment();
+                case GROUP_SPECIES:
+                    fragment = new SpeciesGroupFragment();
                     break;
-                case CONTACT_US:
+                /*case CONTACT_US:
                     fragment = new ContactUsFragment();
                     break;*/
             }
@@ -167,6 +168,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
         AVAILABLE_SPECIES,
         SEARCH_ADD_SPECIES,
         MAP_SPECIES,
+        GROUP_SPECIES,
         CONTACT_US
     }
 }

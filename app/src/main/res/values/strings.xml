@@ -30,6 +30,7 @@
     <string name="radius_hint">Radius From Center</string>
     <string name="date_text">Date</string>
     <string name="delete_text">Delete</string>
+    <string name="add_all_text">Add All</string>
     <string name="time_label">Date and Time of observation</string>
     <string name="note_text">Observation Notes</string>
     <string name="image_note_text">Image Notes</string>
@@ -70,6 +71,7 @@
     <string name="species_name">Species: %1$s</string>
     <string name="tags_name">Tags: %1$s</string>
     <string name="kingdom_name">Kingdom: %1$s</string>
+    <string name="scientific_name">Scientific Name: %1$s</string>
     <string name="album_name">Atlas Camera</string>
 
     <string name="survey_dialog_title">Select survey to add records</string>
@@ -94,12 +96,14 @@
     <string name="species_count">Species Count: %1$d</string>
     <string name="total_group_count">Total Groups: %1$d</string>
     <string name="total_species_count">Total Species: %1$d</string>
+    <string name="last_update_date">Last Update: %1$s</string>
 
     <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
     <string name="bio_cache_url">http://biocache.ala.org.au/</string>
+    <string name="species_list_url">https://lists.ala.org.au/</string>
     <string name="bie_url">http://bie.ala.org.au/</string>
     <string name="survey_entry_url">https://biocollect.ala.org.au/bioActivity/mobileCreate/%1$s</string>
     <string name="sighting_edit_url">https://biocollect.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>

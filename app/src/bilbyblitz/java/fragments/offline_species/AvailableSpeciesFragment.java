@@ -93,6 +93,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         species.clear();
+                        updateTotal();
                         speciesAdapter.notifyDataSetChanged();
                         realm.executeTransactionAsync(new Realm.Transaction() {
                             @Override
@@ -168,7 +169,11 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
             final SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
             if (species.kingdom == null) {
-                holder.kingdomName.setText(getString(R.string.kingdom_name, "Undefined"));
+                if (species.scientificName != null) {
+                    holder.kingdomName.setText(getString(R.string.scientific_name, species.scientificName));
+                } else {
+                    holder.kingdomName.setText(getString(R.string.kingdom_name, "Undefined"));
+                }
             } else {
                 holder.kingdomName.setText(getString(R.string.kingdom_name, species.kingdom));
             }
