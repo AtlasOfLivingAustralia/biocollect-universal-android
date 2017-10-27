@@ -1,132 +1,235 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="@dimen/activity_horizontal_margin">
+    android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/availableSpeciesLayout"
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_view_top_margin"
-        android:layout_marginTop="@dimen/input_view_top_margin"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/minimum_height_bigger_input_views"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/input_label_horizontal_spacing">
+        android:orientation="vertical">
 
         <TextView
-            android:id="@+id/availableSpecies"
-            style="@style/TextAppearance.AppCompat.Medium"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="@string/available_species" />
+            android:background="@color/heading_background"
+            android:paddingBottom="@dimen/heading_top_margin"
+            android:paddingLeft="@dimen/heading_left_margin"
+            android:paddingRight="@dimen/heading_left_margin"
+            android:paddingTop="@dimen/heading_top_margin"
+            android:text="@string/offline_species"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:id="@+id/availableSpeciesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_bigger_input_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+
+            <TextView
+                android:id="@+id/availableSpecies"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/available_species" />
+
+            <TextView
+                android:id="@+id/availableSpeciesDescription"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:textSize="@dimen/smallest_input_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/available_species_description" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <LinearLayout
+            android:id="@+id/searchAndAddLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_bigger_input_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+
+            <TextView
+                android:id="@+id/searchAndAdd"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/search_and_add" />
+
+            <TextView
+                android:id="@+id/searchAndAddDescription"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:textSize="@dimen/smallest_input_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/search_and_add_description" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <LinearLayout
+            android:id="@+id/downloadFromMapLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_bigger_input_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+
+            <TextView
+                android:id="@+id/downloadFromMap"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/download_from_map" />
+
+            <TextView
+                android:id="@+id/downloadFromMapDescription"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:textSize="@dimen/smallest_input_font_size"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/download_from_map_description" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <LinearLayout
+            android:id="@+id/groupSpeciesLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_bigger_input_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+
+            <TextView
+                android:id="@+id/groupSpecies"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/group_species" />
+
+            <TextView
+                android:id="@+id/groupSpeciesDescription"
+                android:textSize="@dimen/smallest_input_font_size"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/group_species_description" />
+        </LinearLayout>
 
         <TextView
-            android:id="@+id/availableSpeciesDescription"
-            style="@style/TextAppearance.AppCompat.Small"
+            style="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/available_species_description" />
+            android:background="@color/heading_background"
+            android:paddingBottom="@dimen/heading_top_margin"
+            android:paddingLeft="@dimen/heading_left_margin"
+            android:paddingRight="@dimen/heading_left_margin"
+            android:paddingTop="@dimen/heading_top_margin"
+            android:text="@string/other_setting"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_input_medium_views"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_project" />
+
+            <Spinner
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:id="@+id/projectSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_input_medium_views"
+            android:orientation="vertical">
+
+            <TextView
+                style="@style/InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/choose_language" />
+
+            <Spinner
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:id="@+id/languageSpinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
     </LinearLayout>
-
-    <include layout="@layout/horizonal_line" />
-
-    <LinearLayout
-        android:id="@+id/searchAndAddLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_view_top_margin"
-        android:layout_marginTop="@dimen/input_view_top_margin"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/minimum_height_bigger_input_views"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/input_label_horizontal_spacing">
-
-        <TextView
-            android:id="@+id/searchAndAdd"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="@string/search_and_add"
-             />
-
-        <TextView
-            android:id="@+id/searchAndAddDescription"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/search_and_add_description"
-             />
-    </LinearLayout>
-
-    <include layout="@layout/horizonal_line" />
-
-    <LinearLayout
-        android:id="@+id/downloadFromMapLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_view_top_margin"
-        android:layout_marginTop="@dimen/input_view_top_margin"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/minimum_height_bigger_input_views"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/input_label_horizontal_spacing">
-
-        <TextView
-            android:id="@+id/downloadFromMap"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="@string/download_from_map"
-             />
-
-        <TextView
-            android:id="@+id/downloadFromMapDescription"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/download_from_map_description"
-             />
-    </LinearLayout>
-
-    <include layout="@layout/horizonal_line" />
-
-    <LinearLayout
-        android:id="@+id/groupSpeciesLayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/input_view_top_margin"
-        android:layout_marginTop="@dimen/input_view_top_margin"
-        android:background="?attr/selectableItemBackground"
-        android:gravity="center_vertical"
-        android:minHeight="@dimen/minimum_height_bigger_input_views"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/input_label_horizontal_spacing">
-
-        <TextView
-            android:id="@+id/groupSpecies"
-            style="@style/TextAppearance.AppCompat.Medium"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="1dp"
-            android:text="@string/group_species"
-             />
-
-        <TextView
-            android:id="@+id/groupSpeciesDescription"
-            style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/group_species_description"
-             />
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>

@@ -10,6 +10,7 @@ import retrofit2.http.Query;
  */
 
 public interface BieApiService {
+    //https://bie.ala.org.au/ws/search?q=sathon&fq=taxonomicStatus:accepted
     @GET("ws/search.json")
-    Observable<SpeciesSearchResponse> searchSpecies(@Query("q") String q);
+    Observable<SpeciesSearchResponse> searchSpecies(@Query("q") String q, @Query("fq") String fq);
 }

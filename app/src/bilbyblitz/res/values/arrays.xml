@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="bilby_language">
+        <item>Adithinngithigh</item>
+        <item>Barngarla</item>
+        <item>Burdana</item>
+    </string-array>
+
+    <string-array name="bilby_project">
+        <item>Muru - Warinyi Ankkul</item>
+        <item>North Tanami</item>
+        <item>Anmatyerr</item>
+    </string-array>
+</resources>

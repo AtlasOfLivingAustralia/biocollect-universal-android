@@ -23,6 +23,7 @@ import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
+import fragments.AddTrackFragment;
 import fragments.HomePageFragment;
 import fragments.offline_species.OfflineSpeciesFragment;
 
@@ -73,7 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isDebug) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
@@ -124,7 +125,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         } else if (id == R.id.nav_setting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
-        } /*else if (id == R.id.nav_my_projects) {
+        } else if (id == R.id.nav_add_track) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddTrackFragment()).commit();
+        }/*else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(getString(R.string.user_project_parameter), true);
             Fragment fragment = new ProjectListFragment();

@@ -3,6 +3,8 @@
     <string name="search_title">Search</string>
     <string name="sight_detail">Record Details</string>
     <string name="edit_title">Edit Record</string>
+    <string name="about">About</string>
+    <string name="biocollect">BioCollect</string>
 
 
     <string name="url_parameter">URL</string>

@@ -120,12 +120,17 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item = new HomePageListItem();
         item.icon = R.drawable.ic_help_black_36dp;
         item.text = getString(R.string.help);
-        item.isForWebView = false;
+        item.isForWebView = true;
         listItems.add(item);
         item = new HomePageListItem();
-        item.icon = R.drawable.ic_email_black_36dp;
-        item.text = getString(R.string.contact_us_title);
-        item.isForWebView = false;
+        item.icon = R.drawable.ic_help_black_36dp;
+        item.text = getString(R.string.about);
+        item.isForWebView = true;
+        listItems.add(item);
+        item = new HomePageListItem();
+        item.icon = R.drawable.ic_help_black_36dp;
+        item.text = getString(R.string.biocollect);
+        item.isForWebView = true;
         listItems.add(item);
     }
 

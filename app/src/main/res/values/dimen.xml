@@ -8,8 +8,11 @@
     <dimen name="selected_image_width">120dp</dimen>
     <dimen name="view_top_margin">24dp</dimen>
     <dimen name="input_view_top_margin">8dp</dimen>
+    <dimen name="input_view_top_small_margin">6dp</dimen>
     <dimen name="view_top_margin_double">48dp</dimen>
     <dimen name="activity_padding">20dp</dimen>
+    <dimen name="heading_top_margin">8dp</dimen>
+    <dimen name="heading_left_margin">16dp</dimen>
 
     <dimen name="row_tick_width">16dp</dimen>
     <dimen name="row_icon_width">48dp</dimen>
@@ -21,7 +24,7 @@
     <dimen name="home_page_image_height">250dp</dimen>
 
     <dimen name="minimum_height_input_views">64dp</dimen>
-    <dimen name="minimum_height_bigger_input_views">56dp</dimen>
+    <dimen name="minimum_height_bigger_input_views">52dp</dimen>
     <dimen name="minimum_height_input_medium_views">48dp</dimen>
     <dimen name="row_cross_round_tick_width">24dp</dimen>
     <dimen name="list_item_margin">8dp</dimen>

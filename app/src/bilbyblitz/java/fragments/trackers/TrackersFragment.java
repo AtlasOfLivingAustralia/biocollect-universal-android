@@ -26,7 +26,7 @@ public class TrackersFragment extends BaseMainActivityFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_trackers, container, false);
-        setTitle(getString(R.string.setting));
+        //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
         return view;

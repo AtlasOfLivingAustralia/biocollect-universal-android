@@ -5,10 +5,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
@@ -18,12 +21,23 @@ import butterknife.OnClick;
 
 public class OfflineSpeciesFragment extends BaseMainActivityFragment {
 
+    @BindView(R.id.projectSpinner)
+    Spinner projectSpinner;
+    @BindView(R.id.languageSpinner)
+    Spinner languageSpinner;
+
+
+    private String[] projects = new String[]{};
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offline_species, container, false);
-        setTitle(getString(R.string.offline_setting));
+        setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
+        languageSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.bilby_language, R.layout.item_textview));
+        projectSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.bilby_project, R.layout.item_textview));
         return view;
     }
 

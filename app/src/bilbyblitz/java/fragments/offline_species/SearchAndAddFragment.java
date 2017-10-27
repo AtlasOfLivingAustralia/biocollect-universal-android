@@ -112,7 +112,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                     @Override
                     public ObservableSource<SpeciesSearchResponse> apply(String s) throws Exception {
                         Log.d(TAG, s);
-                        return bieApiService.searchSpecies(s);
+                        return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
