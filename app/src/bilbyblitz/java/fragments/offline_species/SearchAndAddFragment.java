@@ -1,10 +1,13 @@
 package fragments.offline_species;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -213,6 +216,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                     @Override
                     public void onClick(View v) {
                         addButtonFlag[position] = true;
+                        //v.animate().alpha(0.0f).setListener(animationListener).start();
                         notifyDataSetChanged();
                         saveData(species);
                     }
@@ -220,6 +224,13 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             }
             return rowView;
         }
+
+        /*private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                notifyDataSetChanged();
+            }
+        };*/
 
         @Override
         public int getCount() {
