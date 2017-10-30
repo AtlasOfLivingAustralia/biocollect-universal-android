@@ -18,6 +18,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.animal.AddAnimalFragment;
 import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
@@ -62,7 +63,9 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
                 case GROUP_SPECIES:
                     fragment = new SpeciesGroupFragment();
                     break;
-                /*case CONTACT_US:
+                case ADD_ANIMAL:
+                    fragment = new AddAnimalFragment();
+                    break;/*case CONTACT_US:
                     fragment = new ContactUsFragment();
                     break;*/
             }
@@ -109,6 +112,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     @Override
     public void showFloatingButton() {
+
+    }
+
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
 
     }
 
@@ -169,6 +177,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
         SEARCH_ADD_SPECIES,
         MAP_SPECIES,
         GROUP_SPECIES,
+        ADD_ANIMAL,
         CONTACT_US
     }
 }

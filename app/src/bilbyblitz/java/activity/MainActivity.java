@@ -176,6 +176,15 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     }
 
     /**
+     * floating button onclick listner
+     * @param onClickListener
+     */
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+        fab.setOnClickListener(onClickListener);
+    }
+
+    /**
      * shows a message in using Snackbar
      *
      * @param string

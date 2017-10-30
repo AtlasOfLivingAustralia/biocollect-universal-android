@@ -15,10 +15,10 @@
     <string name="contact_us_title">Contact Us</string>
     <string name="add_track">Add a New Track</string>
     <string name="practise_track">Practise Tracking</string>
-    <string name="review_track">Review Tracking</string>
+    <string name="review_track">Review Tracks</string>
     <string name="help">Help</string>
-    <string name="setting">Setting</string>
-    <string name="offline_setting">Offline Setting</string>
+    <string name="setting">Settings</string>
+    <string name="offline_setting">Offline Settings</string>
 
     <string name="choose_project">Choose Project</string>
     <string name="terms_condition">Do you agree to the terms of use for this app?</string>

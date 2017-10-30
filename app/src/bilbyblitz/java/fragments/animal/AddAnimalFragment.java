@@ -34,10 +34,10 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_animal, container, false);
+        View view = inflater.inflate(R.layout.fragment_add_animal, container, false);
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
-
+        setHasOptionsMenu(true);
         return view;
     }
 
