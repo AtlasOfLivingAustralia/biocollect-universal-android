@@ -1,5 +1,7 @@
 package fragments.offline_species;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -266,6 +268,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                     speciesGroupViewHolders.download.setOnClickListener(null);
                     speciesGroupViewHolders.download.setVisibility(View.INVISIBLE);
                 } else {
+                    speciesGroupViewHolders.download.setAlpha(1.0f);
                     speciesGroupViewHolders.download.setVisibility(View.VISIBLE);
                     speciesGroupViewHolders.download.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -273,7 +276,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                             Log.d(TAG, "Download Clicked");
                             int pos = holder.getAdapterPosition();
                             isDownloadClicked[pos] = true;
-                            notifyDataSetChanged();
+                            v.animate().alpha(0.0f).setListener(animationListener).start();
                             Intent intent = new Intent(getActivity(), FetchAndSaveSpeciesService.class);
                             intent.putExtra(getString(R.string.group_parameter), exploreGroups.get(pos));
                             intent.putExtra(getString(R.string.latitude_parameter), latitude);
@@ -294,6 +297,13 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 }
             }
         }
+
+        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                notifyDataSetChanged();
+            }
+        };
 
         @Override
         public int getItemCount() {

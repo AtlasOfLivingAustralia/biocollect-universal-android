@@ -1,5 +1,7 @@
 package fragments.offline_species;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -90,7 +92,6 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
         //refresh layout setup
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-
 
         fetchSpecies();
         return view;
@@ -259,18 +260,26 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
                     speciesViewHolders.addButton.setVisibility(View.INVISIBLE);
                     speciesViewHolders.addButton.setOnClickListener(null);
                 } else {
+                    speciesViewHolders.addButton.setAlpha(1.0f);
                     speciesViewHolders.addButton.setVisibility(View.VISIBLE);
                     speciesViewHolders.addButton.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             addButtonFlag[holder.getAdapterPosition()] = true;
-                            notifyDataSetChanged();
+                            v.animate().alpha(0.0f).setListener(animationListener).start();
                             saveData(searchSpecies);
                         }
                     });
                 }
             }
         }
+
+        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                notifyDataSetChanged();
+            }
+        };
 
         @Override
         public int getItemCount() {

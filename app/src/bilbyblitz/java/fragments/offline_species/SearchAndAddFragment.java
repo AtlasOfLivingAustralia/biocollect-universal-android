@@ -211,13 +211,13 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                 holder.addButton.setVisibility(View.INVISIBLE);
                 holder.addButton.setOnClickListener(null);
             } else {
+                holder.addButton.setAlpha(1.0f);
                 holder.addButton.setVisibility(View.VISIBLE);
                 holder.addButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         addButtonFlag[position] = true;
-                        //v.animate().alpha(0.0f).setListener(animationListener).start();
-                        notifyDataSetChanged();
+                        v.animate().alpha(0.0f).setListener(animationListener).start();
                         saveData(species);
                     }
                 });
@@ -225,12 +225,12 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             return rowView;
         }
 
-        /*private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
             @Override
             public void onAnimationEnd(Animator animation) {
                 notifyDataSetChanged();
             }
-        };*/
+        };
 
         @Override
         public int getCount() {
