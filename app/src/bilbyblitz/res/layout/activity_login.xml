@@ -74,7 +74,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="@dimen/view_top_margin_double"
-                android:background="@drawable/button_background"
+                android:background="@drawable/black_button_background"
                 android:gravity="center"
                 android:maxWidth="@dimen/edit_text_maximum_width"
                 android:minWidth="@dimen/edit_text_minimum_width"

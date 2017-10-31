@@ -9,6 +9,10 @@
     <color name="primaryPressed">#d2481e</color>
     <color name="primary">#ea653b</color>
 
+    <color name="primaryDarkFocused">#1a1a1a</color>
+    <color name="primaryDarkPressed">#1a1a1a</color>
+    <color name="primaryDark">#2b2b2b</color>
+
     <color name="dark_text_color">#f4f4f4</color>
 
     <color name="heading_background">#1a1a1a</color>
