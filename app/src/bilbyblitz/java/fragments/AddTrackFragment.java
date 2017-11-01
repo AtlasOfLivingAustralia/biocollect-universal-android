@@ -41,8 +41,30 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         ButterKnife.bind(this, view);
         pager.setAdapter(new PagerAdapter());
         tabLayout.setupWithViewPager(pager);
+        tabLayout.addOnTabSelectedListener(tabSelectedListener);
         return view;
     }
+
+    private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
+        @Override
+        public void onTabSelected(TabLayout.Tab tab) {
+            if(tab.getPosition()==3){
+                showFloatingButton();
+            }else{
+                hideFloatingButton();
+            }
+        }
+
+        @Override
+        public void onTabUnselected(TabLayout.Tab tab) {
+
+        }
+
+        @Override
+        public void onTabReselected(TabLayout.Tab tab) {
+
+        }
+    };
 
     private class PagerAdapter extends FragmentPagerAdapter {
         PagerAdapter() {

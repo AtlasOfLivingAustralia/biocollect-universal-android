@@ -33,29 +33,17 @@ public class AnimalFragment extends BaseMainActivityFragment {
         View view = inflater.inflate(R.layout.fragment_animal, container, false);
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
-
+        setFloatingButtonClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.ADD_ANIMAL);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, ADD_ANIMAL_REQUEST_CODE);
+            }
+        });
         return view;
-    }
-
-    @Override
-    public void setUserVisibleHint(boolean isVisibleToUser) {
-        super.setUserVisibleHint(isVisibleToUser);
-        if (isVisibleToUser) {
-            showFloatingButton();
-            setFloatingButtonClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    /*Bundle bundle = new Bundle();
-                    bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.ADD_ANIMAL);
-                    Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                    intent.putExtras(bundle);
-                    startActivityForResult(intent, ADD_ANIMAL_REQUEST_CODE);*/
-                }
-            });
-        } else {
-            hideFloatingButton();
-            setFloatingButtonClickListener(null);
-        }
     }
 
     @Override
