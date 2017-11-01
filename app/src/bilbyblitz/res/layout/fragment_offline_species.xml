@@ -45,10 +45,10 @@
             <TextView
                 android:id="@+id/availableSpeciesDescription"
                 style="@style/TextAppearance.AppCompat.Small"
-                android:textSize="@dimen/smallest_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/available_species_description" />
+                android:text="@string/available_species_description"
+                android:textSize="@dimen/smallest_input_font_size" />
         </LinearLayout>
 
         <include
@@ -83,10 +83,10 @@
             <TextView
                 android:id="@+id/searchAndAddDescription"
                 style="@style/TextAppearance.AppCompat.Small"
-                android:textSize="@dimen/smallest_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/search_and_add_description" />
+                android:text="@string/search_and_add_description"
+                android:textSize="@dimen/smallest_input_font_size" />
         </LinearLayout>
 
         <include
@@ -121,10 +121,10 @@
             <TextView
                 android:id="@+id/downloadFromMapDescription"
                 style="@style/TextAppearance.AppCompat.Small"
-                android:textSize="@dimen/smallest_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/download_from_map_description" />
+                android:text="@string/download_from_map_description"
+                android:textSize="@dimen/smallest_input_font_size" />
         </LinearLayout>
 
         <include
@@ -158,11 +158,11 @@
 
             <TextView
                 android:id="@+id/groupSpeciesDescription"
-                android:textSize="@dimen/smallest_input_font_size"
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/group_species_description" />
+                android:text="@string/group_species_description"
+                android:textSize="@dimen/smallest_input_font_size" />
         </LinearLayout>
 
         <TextView
@@ -195,8 +195,8 @@
                 android:text="@string/choose_project" />
 
             <Spinner
-                style="@style/TextAppearance.AppCompat.Medium"
                 android:id="@+id/projectSpinner"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>
@@ -226,8 +226,8 @@
                 android:text="@string/choose_language" />
 
             <Spinner
-                style="@style/TextAppearance.AppCompat.Medium"
                 android:id="@+id/languageSpinner"
+                style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
         </LinearLayout>

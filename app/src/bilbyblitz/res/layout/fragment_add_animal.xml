@@ -140,7 +140,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/input_view_top_margin"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
             <Button
                 android:id="@+id/addPhotoButton"
@@ -158,6 +158,8 @@
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/input_view_top_margin"
+                android:layout_marginTop="@dimen/input_view_top_margin"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
         </LinearLayout>

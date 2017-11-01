@@ -86,10 +86,11 @@
                 android:textStyle="bold" />
 
             <ImageView
-                android:layout_marginTop="8dp"
                 android:id="@+id/imageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/input_view_top_margin"
+                android:layout_marginTop="8dp"
                 android:adjustViewBounds="true"
                 android:minHeight="@dimen/minimum_height_input_views"
                 android:scaleType="fitCenter" />

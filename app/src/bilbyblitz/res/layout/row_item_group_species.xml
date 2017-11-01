@@ -27,8 +27,8 @@
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:tint="@color/colorPrimary"
-            android:src="@drawable/ic_file_download_white_36dp" />
+            android:src="@drawable/ic_file_download_white_36dp"
+            android:tint="@color/colorPrimary" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -36,8 +36,8 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:layout_marginRight="4dp"
-            android:layout_toRightOf="@+id/icon"
             android:layout_toLeftOf="@+id/download"
+            android:layout_toRightOf="@+id/icon"
             android:orientation="vertical">
 
             <TextView

@@ -155,9 +155,10 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:layout_marginTop="@dimen/input_view_top_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/input_view_top_margin"
+                android:layout_marginTop="@dimen/input_view_top_margin"
                 android:adjustViewBounds="true"
                 android:scaleType="fitCenter" />
         </LinearLayout>

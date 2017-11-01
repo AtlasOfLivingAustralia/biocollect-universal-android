@@ -22,13 +22,13 @@
         android:id="@+id/progressBar"
         android:layout_width="match_parent"
         android:layout_height="24dp"
-        android:visibility="gone"
-        android:layout_gravity="center_horizontal" />
+        android:layout_gravity="center_horizontal"
+        android:visibility="gone" />
 
     <ListView
         android:id="@+id/listView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:dividerHeight="8dp"
-        android:divider="@null"/>
+        android:divider="@null"
+        android:dividerHeight="8dp" />
 </LinearLayout>
