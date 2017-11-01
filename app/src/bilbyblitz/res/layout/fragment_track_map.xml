@@ -72,9 +72,8 @@
                 android:textStyle="bold" />
         </LinearLayout>
 
-        <fragment
-            android:id="@+id/mapFragment"
-            android:name="com.google.android.gms.maps.SupportMapFragment"
+        <FrameLayout
+            android:id="@+id/mapLayout"
             android:layout_width="match_parent"
             android:layout_height="400dp"
             android:layout_marginTop="@dimen/input_view_top_margin" />
