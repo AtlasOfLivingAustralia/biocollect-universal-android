@@ -11,4 +11,12 @@
         <item>North Tanami</item>
         <item>Anmatyerr</item>
     </string-array>
+
+    <string-array name="survey_type">
+        <item>Bilby Blitz</item>
+        <item>Trackplot 100m x 200m</item>
+        <item>Walking plot</item>
+        <item>Country walking</item>
+    </string-array>
+
 </resources>

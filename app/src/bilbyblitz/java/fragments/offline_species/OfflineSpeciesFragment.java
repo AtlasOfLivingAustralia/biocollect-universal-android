@@ -26,10 +26,6 @@ public class OfflineSpeciesFragment extends BaseMainActivityFragment {
     @BindView(R.id.languageSpinner)
     Spinner languageSpinner;
 
-
-    private String[] projects = new String[]{};
-
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_offline_species, container, false);

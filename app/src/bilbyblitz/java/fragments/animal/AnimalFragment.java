@@ -23,10 +23,10 @@ import static android.app.Activity.RESULT_OK;
  */
 
 public class AnimalFragment extends BaseMainActivityFragment {
+    private final int ADD_ANIMAL_REQUEST_CODE = 1;
+
     @BindView(R.id.listView)
     ListView listView;
-
-    final int ADD_ANIMAL_REQUEST_CODE = 1;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
