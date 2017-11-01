@@ -22,11 +22,14 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.support.v4.content.FileProvider;
 import android.util.Log;
 import android.webkit.MimeTypeMap;
+import android.widget.ImageView;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -618,5 +621,29 @@ public class FileUtils {
 
         // MultipartBody.Part is used to send also the actual file name
         return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
+    }
+
+    /**
+     * get Uri from File object
+     *
+     * @param file
+     * @return
+     */
+    public static Uri getUriFromFileProvider(Context context, File file) {
+        return FileProvider.getUriForFile(context, context.getApplicationContext().getPackageName() + ".provider", file);
+    }
+
+    /**
+     * get a bitmap from Actual File path
+     * @param path
+     * @return
+     */
+    public static Bitmap getBitmapFromFilePath(String path){
+        File imgFile = new  File(path);
+        if(imgFile.exists()){
+            return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
+
+        }
+        return null;
     }
 }

@@ -1070,15 +1070,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         return f;
     }
 
-    /**
-     * get Uri from File object
-     *
-     * @param file
-     * @return
-     */
-    private Uri getUriFromFileProvider(File file) {
-        return FileProvider.getUriForFile(getActivity(), getActivity().getApplicationContext().getPackageName() + ".provider", file);
-    }
 
     /**
      * open the Gallery
