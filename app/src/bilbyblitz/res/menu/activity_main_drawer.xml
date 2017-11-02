@@ -21,7 +21,7 @@
 
         <item
             android:id="@+id/nav_review_track"
-            android:icon="@drawable/animal_track"
+            android:icon="@drawable/ic_search_white_24dp"
             android:title="@string/review_track" />
 
         <item
@@ -48,7 +48,7 @@
             <menu>
                 <item
                     android:id="@+id/nav_help"
-                    android:icon="@drawable/ic_info_outline_black_24dp"
+                    android:icon="@drawable/ic_help_outline_black_24dp"
                     android:title="@string/help" />
 
                 <item
