@@ -94,7 +94,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         updateNavigationHeader();
 
         if (AtlasManager.isDebug) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineInformationFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.nav_add).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
@@ -219,6 +219,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                     fab.setVisibility(View.VISIBLE);
                 }
             }).start();
+    }
+
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+        fab.setOnClickListener(onClickListener);
     }
 
     /**

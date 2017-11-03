@@ -702,7 +702,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 .flatMap(new Function<String, ObservableSource<SpeciesSearchResponse>>() {
                     @Override
                     public ObservableSource<SpeciesSearchResponse> apply(String s) throws Exception {
-                        return bieApiService.searchSpecies(s);
+                        return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
                     }
                 })
                 .observeOn(AndroidSchedulers.mainThread())
@@ -1039,7 +1039,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         try {
             f = setUpPhotoFile();
             mCurrentPhotoPath = f.getAbsolutePath();
-            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, getUriFromFileProvider(f));
+            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getUriFromFileProvider(getContext(), f));
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -1051,7 +1051,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             List<ResolveInfo> resInfoList = getActivity().getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
             for (ResolveInfo resolveInfo : resInfoList) {
                 String packageName = resolveInfo.activityInfo.packageName;
-                getActivity().grantUriPermission(packageName, getUriFromFileProvider(f), Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                getActivity().grantUriPermission(packageName, FileUtils.getUriFromFileProvider(getContext(), f), Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
             }
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }

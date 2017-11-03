@@ -4,4 +4,9 @@
     <color name="map_circle_background">#70acacac</color>
     <color name="header_text_color">@android:color/white</color>
     <color name="header_icon_border_color">@android:color/white</color>
+
+    <color name="primaryDarkFocused">#1a1a1a</color>
+    <color name="primaryDarkPressed">#1a1a1a</color>
+    <color name="primaryDark">#2b2b2b</color>
+
 </resources>

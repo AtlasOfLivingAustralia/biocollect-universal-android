@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="@dimen/home_page_image_height"
         android:adjustViewBounds="true"
-        android:src="@drawable/home_page_header_background"
         android:scaleType="centerCrop"/>
 
     <LinearLayout
@@ -25,7 +24,7 @@
             android:id="@+id/profile_image"
             android:layout_width="@dimen/row_bigger_icon_width"
             android:layout_height="@dimen/row_bigger_icon_width"
-            android:src="@mipmap/ic_circular_launcher"
+            android:src="@mipmap/ic_launcher_round"
             app:civ_border_width="1dp"
             app:civ_border_color="@color/header_icon_border_color"/>
 

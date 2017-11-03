@@ -113,6 +113,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     }
 
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+
+    }
+
     /**
      * shows a message in using Snackbar
      *
