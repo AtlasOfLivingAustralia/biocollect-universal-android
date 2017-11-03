@@ -98,7 +98,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (BuildConfig.DEBUG) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
-            navigationView.getMenu().findItem(R.id.nav_add).setChecked(true);
+            navigationView.getMenu().findItem(R.id.nav_home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         }
     }
