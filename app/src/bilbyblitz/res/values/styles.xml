@@ -7,6 +7,14 @@
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
         <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:editTextColor">@android:color/white</item>
+        <item name="android:textColorPrimary">@android:color/white</item>
+        <item name="android:textColorSecondary">@android:color/white</item>
+        <item name="android:textColorTertiary">@android:color/white</item>
+        <item name="android:textColorPrimaryInverse">@android:color/white</item>
+        <item name="android:textColorSecondaryInverse">@android:color/white</item>
+        <item name="android:textColorTertiaryInverse">@android:color/white</item>
     </style>
 
     <!--login theme-->
@@ -24,6 +32,19 @@
     <style name="DateTimeDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
+
+    <!--<style name="MediumTextAppearance" parent="TextAppearance.AppCompat.Medium">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+
+    <style name="SmallTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="LargeTextAppearance" parent="TextAppearance.AppCompat.Large">
+        <item name="android:textColor">@android:color/white</item>
+    </style>-->
 
     <!--input label style for floating text with spinner-->
     <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">

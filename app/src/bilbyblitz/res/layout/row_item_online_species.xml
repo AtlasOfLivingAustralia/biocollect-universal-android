@@ -36,7 +36,6 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textColor="@color/dark_text_color"
                 android:textSize="@dimen/default_input_font_size" />
 
             <TextView

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Bilby Blitz</string>
+    <string name="app_name">The Tracker App</string>
     <string name="app_version">Version 1.0</string>
 
     <string name="user_project_parameter">USER_PROJECT</string>
