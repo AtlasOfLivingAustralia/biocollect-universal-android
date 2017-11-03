@@ -67,6 +67,7 @@ import java.util.concurrent.TimeUnit;
 
 import activity.SingleFragmentActivity;
 import adapters.ImageUploadAdapter;
+import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
@@ -294,7 +295,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 selectedSpecies = species.get(position);
                 speciesDetailLayout.setVisibility(View.VISIBLE);
                 speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", selectedSpecies.guid));
-                if (AtlasManager.isDebug) {
+                if (BuildConfig.DEBUG) {
                     Toast.makeText(getActivity(), selectedSpecies.highlight, Toast.LENGTH_LONG).show();
                 }
             }

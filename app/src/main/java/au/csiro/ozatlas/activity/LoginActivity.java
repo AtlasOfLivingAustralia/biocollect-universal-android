@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import activity.MainActivity;
+import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -70,7 +71,7 @@ public class LoginActivity extends BaseActivity {
             }
         });
         //test code
-        if (AtlasManager.isDebug) {
+        if (BuildConfig.DEBUG) {
             editUsername.setText("sadat.sadat@csiro.au");
             editPassword.setText("password");
         }

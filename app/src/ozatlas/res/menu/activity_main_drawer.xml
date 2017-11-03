@@ -4,6 +4,12 @@
     <group
         android:id="@+id/operation"
         android:checkableBehavior="single">
+
+        <item
+            android:id="@+id/nav_home"
+            android:icon="@drawable/ic_home_black_24dp"
+            android:title="@string/home" />
+
         <item
             android:id="@+id/nav_add"
             android:icon="@drawable/ic_add_to_photos_black_24dp"
@@ -29,11 +35,11 @@
             android:icon="@drawable/ic_location_on_black_24dp"
             android:title="@string/map_explore_title" />
 
-        <item
+        <!--<item
             android:id="@+id/nav_offline_species"
             android:icon="@drawable/ic_offline_pin_black_24dp"
             android:title="@string/offline_information_title" />
-
+-->
     </group>
 
 

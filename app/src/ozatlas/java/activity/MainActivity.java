@@ -26,6 +26,7 @@ import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 
+import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
@@ -34,6 +35,7 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddSightingFragment;
 import fragments.DraftSightingListFragment;
 import fragments.ExploreSpeciesFragment;
+import fragments.HomePageFragment;
 import fragments.OfflineInformationFragment;
 import fragments.SightingListFragment;
 import upload.Constants;
@@ -93,11 +95,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (AtlasManager.isDebug) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
+        if (BuildConfig.DEBUG) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.nav_add).setChecked(true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddSightingFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         }
     }
 
@@ -160,9 +162,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftSightingListFragment()).commit();
         } else if (id == R.id.nav_location_species) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ExploreSpeciesFragment()).commit();
-        } else if (id == R.id.nav_offline_species) {
+        } else if (id == R.id.nav_home) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
+        }/*else if (id == R.id.nav_offline_species) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineInformationFragment()).commit();
-        }
+        }*/
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -261,7 +265,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
     @Override
     public void setDrawerMenuClicked(int menuRes) {
-        setDrawerMenuChecked(menuRes);
+        //setDrawerMenuChecked(menuRes);
         onNavigationItemSelected(navigationView.getMenu().findItem(menuRes));
     }
 

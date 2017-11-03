@@ -39,8 +39,8 @@ android {
         }
         ozatlas {
             applicationIdSuffix '.ala.mobile.ozatlas'
-            versionCode 9
-            versionName '2.0.1'
+            versionCode 10
+            versionName '2.1.0'
         }
         biocontrolhub {
             applicationIdSuffix '.ala.biocontrolhub'

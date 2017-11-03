@@ -12,7 +12,7 @@ import android.view.inputmethod.InputMethodManager;
  */
 
 public class AtlasManager {
-    public static boolean isDebug;
+    //public static boolean isDebug;
     //public static EventBus eventBus = new EventBus();
 
     /**
