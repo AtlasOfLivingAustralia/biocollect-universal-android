@@ -4,8 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 
+import com.google.gson.Gson;
+
 import java.util.HashMap;
 import java.util.Map;
+
+import model.Project;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -84,6 +88,46 @@ public class AtlasSharedPreferenceManager {
      */
     public void writeUserDisplayName(String name) {
         sharedPreferences.edit().putString("USER_DISPLAY_NAME", name).apply();
+    }
+
+    /**
+     * get the language
+     *
+     * @return
+     */
+    public String getLanguage() {
+        return sharedPreferences.getString("LANGUAGE", "");
+    }
+
+    /**
+     * write user's selected language
+     *
+     * @param language
+     */
+    public void writeSelectedLanguage(String language) {
+        sharedPreferences.edit().putString("LANGUAGE", language).apply();
+    }
+
+    /**
+     * get the project
+     *
+     * @return
+     */
+    public Project getSelectedProject() {
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("PROJECT", "");
+        return gson.fromJson(json, Project.class);
+    }
+
+    /**
+     * write user's selected project
+     *
+     * @param project
+     */
+    public void writeSelectedProject(Project project) {
+        Gson gson = new Gson();
+        String json = gson.toJson(project);
+        sharedPreferences.edit().putString("PROJECT", json).apply();
     }
 
     /**

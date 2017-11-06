@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 
+import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
@@ -25,7 +26,7 @@ import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddTrackFragment;
 import fragments.HomePageFragment;
-import fragments.offline_species.OfflineSpeciesFragment;
+import fragments.setting.SettingFragment;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -73,7 +74,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (AtlasManager.isDebug) {
+        if (BuildConfig.DEBUG) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
@@ -124,7 +125,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
                 }
             });
         } else if (id == R.id.nav_setting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new OfflineSpeciesFragment()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SettingFragment()).commit();
         } else if (id == R.id.nav_add_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddTrackFragment()).commit();
         }/*else if (id == R.id.nav_my_projects) {

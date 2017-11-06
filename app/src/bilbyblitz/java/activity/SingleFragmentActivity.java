@@ -23,6 +23,7 @@ import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
 import fragments.offline_species.SpeciesGroupFragment;
+import fragments.setting.ProjectListFragment;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -65,7 +66,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
                     break;
                 case ADD_ANIMAL:
                     fragment = new AddAnimalFragment();
-                    break;/*case CONTACT_US:
+                    break;
+                case PROJECT_SELECTION:
+                    fragment = new ProjectListFragment();
+                    break;
+                    /*case CONTACT_US:
                     fragment = new ContactUsFragment();
                     break;*/
             }
@@ -176,6 +181,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
         AVAILABLE_SPECIES,
         SEARCH_ADD_SPECIES,
         MAP_SPECIES,
+        PROJECT_SELECTION,
         GROUP_SPECIES,
         ADD_ANIMAL,
         CONTACT_US

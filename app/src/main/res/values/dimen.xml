@@ -37,7 +37,7 @@
     <dimen name="bigger_input_font_size">18sp</dimen>
     <dimen name="big_title_font_size">24sp</dimen>
 
-    <dimen name="input_label_vertical_spacing">8dp</dimen>
+    <dimen name="input_label_vertical_spacing">4dp</dimen>
     <dimen name="input_label_horizontal_spacing">4dp</dimen>
 
     <dimen name="map_circle_stroke_width">2dp</dimen>

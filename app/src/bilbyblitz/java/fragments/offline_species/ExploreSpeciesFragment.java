@@ -54,7 +54,6 @@ import static android.app.Activity.RESULT_OK;
 public class ExploreSpeciesFragment extends BaseMainActivityFragment implements OnMapReadyCallback {
     private final float INITIAL_ZOOM = 12.2f;
     private final int PLACE_AUTOCOMPLETE_REQUEST_CODE = 1;
-    private final int ADD_SIGHT_REQUEST_CODE = 2;
     @BindView(R.id.address)
     EditText address;
     @BindView(R.id.editRadius)

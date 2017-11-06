@@ -178,27 +178,34 @@
             android:textStyle="bold" />
 
         <LinearLayout
+            android:id="@+id/projectLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/input_view_top_small_margin"
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
-            android:minHeight="@dimen/minimum_height_input_medium_views"
-            android:orientation="vertical">
+            android:minHeight="@dimen/minimum_height_bigger_input_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
 
             <TextView
-                style="@style/InputLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/choose_project" />
-
-            <Spinner
-                android:id="@+id/projectSpinner"
+                android:id="@+id/projectHeading"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/select_project" />
+
+            <TextView
+                android:id="@+id/projectDescription"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/no_selected_project"
+                android:textSize="@dimen/smallest_input_font_size" />
         </LinearLayout>
 
         <include

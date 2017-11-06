@@ -5,9 +5,27 @@ package au.csiro.ozatlas.manager;
  */
 
 public class Utils {
-    public static String nullCheck(String str){
-        if(str==null)
+    public static String nullCheck(String str) {
+        if (str == null)
             return "";
         return str;
+    }
+
+    /**
+     * search a string in a string array
+     * @param strings array to search in
+     * @param searchString string to be searched
+     * @return
+     */
+    public static int stringSearchInArray(String[] strings, String searchString) {
+        int position = -1;
+
+        for (int i = 0; i < strings.length; i++) {
+            if (searchString.equals(strings[i])) {
+                position = i;
+                break;
+            }
+        }
+        return position;
     }
 }
