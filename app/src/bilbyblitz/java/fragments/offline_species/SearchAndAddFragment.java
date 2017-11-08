@@ -172,6 +172,11 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             realm.close();
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
     /**
      * Adapters for Species ListView
      */

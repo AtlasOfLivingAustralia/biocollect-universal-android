@@ -32,11 +32,16 @@ import fragments.setting.SettingFragment;
  * This activity holds most of the basic fragments or functionality that a user can do
  * Basically shows the navigation drawer nd all its fragments
  */
-public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
+public class MainActivity extends BilbyBlitzBaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
 
     private NavigationView navigationView;
     private FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
+
+    @Override
+    protected void setLanguageValues() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

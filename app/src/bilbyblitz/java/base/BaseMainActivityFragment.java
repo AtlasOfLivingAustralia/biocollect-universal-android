@@ -7,12 +7,13 @@ import activity.MainActivity;
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
+import fragments.BilbyBlitzBaseFragment;
 
 /**
  * Created by sad038 on 5/4/17.
  */
 
-public class BaseMainActivityFragment extends BaseFragment implements MainActivityFragmentListener {
+public abstract class BaseMainActivityFragment extends BilbyBlitzBaseFragment implements MainActivityFragmentListener {
     protected MainActivityFragmentListener mainActivityFragmentListener;
 
     @Override

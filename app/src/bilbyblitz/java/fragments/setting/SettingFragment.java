@@ -39,6 +39,7 @@ public class SettingFragment extends BaseMainActivityFragment {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             sharedPreferences.writeSelectedLanguage((String) languageSpinner.getItemAtPosition(position));
+            sharedPreferences.writeSelectedLanguageFileName(languageSpinner.getItemAtPosition(position) + ".json");
         }
 
         @Override
@@ -60,7 +61,9 @@ public class SettingFragment extends BaseMainActivityFragment {
         languageSpinner.setSelection(position == -1 ? 0 : position, false);
         languageSpinner.setOnItemSelectedListener(onLanguageSelectedListener);
 
+        //get the project name from sharedpreference (if available) and show the value
         setProjectName();
+
         return view;
     }
 
@@ -143,5 +146,10 @@ public class SettingFragment extends BaseMainActivityFragment {
                 setProjectName();
             }
         }
+    }
+
+    @Override
+    protected void setLanguageValues() {
+
     }
 }

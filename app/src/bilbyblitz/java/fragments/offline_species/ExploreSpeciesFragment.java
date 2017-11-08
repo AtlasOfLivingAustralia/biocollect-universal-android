@@ -275,6 +275,11 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         getActivity().startService(intent);
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
     /**
      * Receiver for data sent from FetchAddressIntentService.
      */

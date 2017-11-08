@@ -149,6 +149,11 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
             realm.close();
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
     /**
      * Adapters for Species ListView
      */

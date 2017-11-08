@@ -176,4 +176,9 @@ public class TrackersFragment extends BaseMainActivityFragment {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    @Override
+    protected void setLanguageValues() {
+
+    }
 }

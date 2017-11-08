@@ -199,5 +199,10 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
     }
+
+    @Override
+    protected void setLanguageValues() {
+
+    }
 }
 

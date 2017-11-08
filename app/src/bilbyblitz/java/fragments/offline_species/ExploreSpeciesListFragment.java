@@ -240,6 +240,11 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
             fetchGroups(/*27.76, 138.55, 532.0);//*/latitude, longitude, radius);
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
     private class SpeciesGroupAdapter extends BaseRecyclerWithFooterViewAdapter {
         Map<String, Integer> map = new HashMap<>();
 

@@ -33,9 +33,14 @@ import fragments.setting.ProjectListFragment;
  * This is a generic class where a single Fragment can be launched.
  */
 
-public class SingleFragmentActivity extends BaseActivity implements MainActivityFragmentListener {
+public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements MainActivityFragmentListener {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+
+    @Override
+    protected void setLanguageValues() {
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

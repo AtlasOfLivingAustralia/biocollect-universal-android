@@ -143,6 +143,11 @@ public class HomePageFragment extends BaseMainActivityFragment {
         sendAnalyticsScreenName("Home Page", TAG);
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
 
     /**
      * Home Page List Adapter

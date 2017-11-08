@@ -339,4 +339,8 @@ public class WebViewFragment extends BaseMainActivityFragment {
                 break;
         }
     }
+
+    protected void setLanguageValues() {
+
+    }
 }

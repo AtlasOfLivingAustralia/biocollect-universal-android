@@ -178,6 +178,11 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         fetchProjects();
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
     /**
      * View Holders for Project List
      */

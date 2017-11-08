@@ -225,6 +225,11 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
         });
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
 
     /**
      * View Holders for Explore Groups

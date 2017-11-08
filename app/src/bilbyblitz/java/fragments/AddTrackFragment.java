@@ -66,6 +66,11 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         }
     };
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
     private class PagerAdapter extends FragmentPagerAdapter {
         PagerAdapter() {
             super(getChildFragmentManager());

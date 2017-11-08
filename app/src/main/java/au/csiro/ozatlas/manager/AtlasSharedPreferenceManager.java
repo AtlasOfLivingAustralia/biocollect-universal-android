@@ -109,6 +109,24 @@ public class AtlasSharedPreferenceManager {
     }
 
     /**
+     * get the language filename
+     *
+     * @return
+     */
+    public String getLanguageFileName() {
+        return sharedPreferences.getString("LANGUAGE_FILENAME", "");
+    }
+
+    /**
+     * write user's selected language's filename
+     *
+     * @param languageFileName
+     */
+    public void writeSelectedLanguageFileName(String languageFileName) {
+        sharedPreferences.edit().putString("LANGUAGE_FILENAME", languageFileName).apply();
+    }
+
+    /**
      * get the project
      *
      * @return

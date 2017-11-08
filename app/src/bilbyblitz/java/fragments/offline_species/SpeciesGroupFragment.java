@@ -150,6 +150,11 @@ public class SpeciesGroupFragment extends BaseListWithRefreshFragment {
         fetchGroups(0);
     }
 
+    @Override
+    protected void setLanguageValues() {
+
+    }
+
 
     /**
      * View Holders for Explore Groups

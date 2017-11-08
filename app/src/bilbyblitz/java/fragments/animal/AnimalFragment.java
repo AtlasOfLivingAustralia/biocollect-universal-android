@@ -57,4 +57,9 @@ public class AnimalFragment extends BaseMainActivityFragment {
             }
         }
     }
+
+    @Override
+    protected void setLanguageValues() {
+
+    }
 }

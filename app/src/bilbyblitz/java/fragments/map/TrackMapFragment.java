@@ -62,4 +62,9 @@ public class TrackMapFragment extends BaseMainActivityFragment {
         }
         //mapFragment.getMapAsync(callback);
     }
+
+    @Override
+    protected void setLanguageValues() {
+
+    }
 }
