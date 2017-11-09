@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="bilby_language">
+        <item>English</item>
         <item>Adithinngithigh</item>
         <item>Barngarla</item>
         <item>Burdana</item>
