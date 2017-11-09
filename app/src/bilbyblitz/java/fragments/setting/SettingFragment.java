@@ -17,6 +17,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import language.LanguageManager;
 import model.Project;
 
 import static android.app.Activity.RESULT_OK;
@@ -38,8 +39,14 @@ public class SettingFragment extends BaseMainActivityFragment {
     AdapterView.OnItemSelectedListener onLanguageSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            sharedPreferences.writeSelectedLanguage((String) languageSpinner.getItemAtPosition(position));
-            sharedPreferences.writeSelectedLanguageFileName(languageSpinner.getItemAtPosition(position) + ".json");
+            if (position == 0) {
+                sharedPreferences.writeSelectedLanguage(null);
+                sharedPreferences.writeSelectedLanguageFileName(null);
+                LanguageManager.languageJSON = null;
+            } else {
+                sharedPreferences.writeSelectedLanguage((String) languageSpinner.getItemAtPosition(position));
+                sharedPreferences.writeSelectedLanguageFileName(languageSpinner.getItemAtPosition(position) + ".json");
+            }
         }
 
         @Override
@@ -131,7 +138,7 @@ public class SettingFragment extends BaseMainActivityFragment {
         startActivity(intent);
     }
 
-    private void setProjectName(){
+    private void setProjectName() {
         Project project = sharedPreferences.getSelectedProject();
         if (project != null)
             projectDescription.setText(project.name);
