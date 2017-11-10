@@ -68,7 +68,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues() {
-
+        setTitle(localisedString("add_track", R.string.add_track));
     }
 
     private class PagerAdapter extends FragmentPagerAdapter {

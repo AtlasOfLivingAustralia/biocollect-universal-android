@@ -31,33 +31,45 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
     public void onResume() {
         super.onResume();
         if (!sharedPreferences.getLanguageFileName().equals("") && LanguageManager.languageJSON == null) {
-            //reading the tags from file
-            mCompositeDisposable.add(getFileReadObservable(sharedPreferences.getLanguageFileName())
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<String>() {
-                        @Override
-                        public void onNext(String value) {
-                            Log.d(TAG, value);
-                            try {
-                                LanguageManager.languageJSON = new JSONObject(value);
-                                EventBus.getDefault().post(value);
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            }
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            Log.d(TAG, e.getMessage());
-                        }
-
-                        @Override
-                        public void onComplete() {
-
-                        }
-                    }));
+            //reading the language files
+            loadLanguageFile(sharedPreferences.getLanguageFileName());
         }
+    }
+
+
+    /**
+     * loading the language file
+     * @param fileName
+     */
+    @Override
+    public void loadLanguageFile(String fileName){
+        showProgressDialog();
+        mCompositeDisposable.add(getFileReadObservable(fileName)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<String>() {
+                    @Override
+                    public void onNext(String value) {
+                        Log.d(TAG, value);
+                        try {
+                            LanguageManager.languageJSON = new JSONObject(value);
+                            EventBus.getDefault().post(value);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, e.getMessage());
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        hideProgressDialog();
+                    }
+                }));
     }
 
     /**

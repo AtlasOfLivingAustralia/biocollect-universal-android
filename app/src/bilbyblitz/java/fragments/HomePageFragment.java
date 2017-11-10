@@ -29,7 +29,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
     ListView listView;
 
     //list of items in home page
-    private List<HomePageListItem> listItems = new ArrayList<>();
+    private List<BilbyHomePageListItem> listItems = new ArrayList<>();
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -97,39 +97,53 @@ public class HomePageFragment extends BaseMainActivityFragment {
      * preparing the items for the list at home page
      */
     private void prepareItemList() {
-        HomePageListItem item = new HomePageListItem();
+        BilbyHomePageListItem item = new BilbyHomePageListItem();
         item.icon = R.drawable.animal_track;
         item.text = getString(R.string.add_track);
+        item.textResource = R.string.add_track;
+        item.languageKey = "add_track";
         item.isForWebView = false;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new BilbyHomePageListItem();
         item.icon = R.drawable.animal_track;
         item.text = getString(R.string.practise_track);
+        item.textResource = R.string.practise_track;
+        item.languageKey = "practise_track";
         item.isForWebView = false;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_search_white_24dp;
         item.text = getString(R.string.review_track);
+        item.textResource = R.string.review_track;
+        item.languageKey = "review_track";
         item.isForWebView = false;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_setting_outline;
         item.text = getString(R.string.setting);
+        item.textResource = R.string.setting;
+        item.languageKey = "setting";
         item.isForWebView = false;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_help_outline_black_24dp;
         item.text = getString(R.string.help);
+        item.textResource = R.string.help;
+        item.languageKey = "help";
         item.isForWebView = true;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
         item.text = getString(R.string.about);
+        item.textResource = R.string.about;
+        item.languageKey = "about";
         item.isForWebView = true;
         listItems.add(item);
-        item = new HomePageListItem();
+        item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
         item.text = getString(R.string.biocollect);
+        item.textResource = R.string.biocollect;
+        item.languageKey = "biocollect";
         item.isForWebView = true;
         listItems.add(item);
     }
@@ -174,9 +188,9 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
             // fill data
             ViewHolder holder = (ViewHolder) rowView.getTag();
-            HomePageListItem item = listItems.get(position);
+            BilbyHomePageListItem item = listItems.get(position);
             holder.imageView.setImageResource(item.icon);
-            holder.textView.setText(item.text);
+            holder.textView.setText(localisedString(item.languageKey, item.textResource));
 
             return rowView;
         }
@@ -192,4 +206,8 @@ public class HomePageFragment extends BaseMainActivityFragment {
         }
     }
 
+    class BilbyHomePageListItem extends HomePageListItem{
+        int textResource;
+        String languageKey;
+    }
 }

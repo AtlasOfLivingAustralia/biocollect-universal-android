@@ -46,6 +46,7 @@ public class SettingFragment extends BaseMainActivityFragment {
             } else {
                 sharedPreferences.writeSelectedLanguage((String) languageSpinner.getItemAtPosition(position));
                 sharedPreferences.writeSelectedLanguageFileName(languageSpinner.getItemAtPosition(position) + ".json");
+                loadLanguageFile(languageSpinner.getItemAtPosition(position) + ".json");
             }
         }
 
