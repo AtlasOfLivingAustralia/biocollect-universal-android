@@ -45,8 +45,7 @@
         </activity>
         <activity
             android:name="au.csiro.ozatlas.activity.LoginActivity"
-            android:label="@string/title_activity_main"
-            android:theme="@style/LoginTheme" />
+            android:label="@string/title_activity_main" />
         <activity
             android:name="activity.SingleFragmentActivity"
             android:configChanges="orientation|screenSize"
