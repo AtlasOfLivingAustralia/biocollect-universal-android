@@ -18,11 +18,11 @@
     </style>
 
     <!--login theme-->
-    <style name="LoginTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <style name="LoginTheme" parent="Theme.AppCompat.NoActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/primaryDarkPressed</item>
-        <item name="colorPrimaryDark">@color/primaryDark</item>
-        <item name="colorAccent">#0167b7</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">#79c1f9</item>
 
         <item name="android:textColorHint">@color/primaryDark</item>
         <!--<item name="textColorError">@android:color/white</item>-->

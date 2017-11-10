@@ -72,8 +72,8 @@ public class LoginActivity extends BaseActivity {
         });
         //test code
         if (BuildConfig.DEBUG) {
-            editUsername.setText("sadat.sadat@csiro.au");
-            editPassword.setText("password");
+            //editUsername.setText("sadat.sadat@csiro.au");
+            //editPassword.setText("password");
         }
     }
 

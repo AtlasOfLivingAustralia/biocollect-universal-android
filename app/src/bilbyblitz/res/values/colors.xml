@@ -13,6 +13,5 @@
 
     <color name="heading_background">#1a1a1a</color>
     <color name="ala_dark_background">#1a1a1a</color>
-    <color name="header_text_color">@android:color/black</color>
     <color name="header_icon_border_color">@android:color/black</color>
 </resources>

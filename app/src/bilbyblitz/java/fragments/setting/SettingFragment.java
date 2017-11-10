@@ -32,6 +32,30 @@ public class SettingFragment extends BaseMainActivityFragment {
     Spinner languageSpinner;
     @BindView(R.id.projectDescription)
     TextView projectDescription;
+    @BindView(R.id.offlineHeading)
+    TextView offlineHeading;
+    @BindView(R.id.availableSpecies)
+    TextView availableSpecies;
+    @BindView(R.id.availableSpeciesDescription)
+    TextView availableSpeciesDescription;
+    @BindView(R.id.searchAndAdd)
+    TextView searchAndAdd;
+    @BindView(R.id.searchAndAddDescription)
+    TextView searchAndAddDescription;
+    @BindView(R.id.downloadFromMap)
+    TextView downloadFromMap;
+    @BindView(R.id.downloadFromMapDescription)
+    TextView downloadFromMapDescription;
+    @BindView(R.id.groupSpecies)
+    TextView groupSpecies;
+    @BindView(R.id.groupSpeciesDescription)
+    TextView groupSpeciesDescription;
+    @BindView(R.id.otherSettingHeading)
+    TextView otherSettingHeading;
+    @BindView(R.id.projectHeading)
+    TextView projectHeading;
+    @BindView(R.id.languageHeading)
+    TextView languageHeading;
 
     private final int PROJECT_LIST_REQUEST_CODE = 1;
 
@@ -158,6 +182,19 @@ public class SettingFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues() {
-
+        setTitle(localisedString("setting", R.string.setting));
+        offlineHeading.setText(localisedString("offline_species", R.string.offline_species));
+        availableSpecies.setText(localisedString("available_species", R.string.available_species));
+        availableSpeciesDescription.setText(localisedString("available_species_description", R.string.available_species_description));
+        searchAndAdd.setText(localisedString("search_and_add", R.string.search_and_add));
+        searchAndAddDescription.setText(localisedString("search_and_add_description", R.string.search_and_add_description));
+        downloadFromMap.setText(localisedString("download_from_map", R.string.download_from_map));
+        downloadFromMapDescription.setText(localisedString("download_from_map_description", R.string.download_from_map_description));
+        groupSpecies.setText(localisedString("group_species", R.string.group_species));
+        groupSpeciesDescription.setText(localisedString("group_species_description", R.string.group_species_description));
+        otherSettingHeading.setText(localisedString("other_setting", R.string.other_setting));
+        projectHeading.setText(localisedString("select_project", R.string.select_project));
+        projectDescription.setText(localisedString("no_selected_project", R.string.no_selected_project));
+        languageHeading.setText(localisedString("choose_language", R.string.choose_language));
     }
 }

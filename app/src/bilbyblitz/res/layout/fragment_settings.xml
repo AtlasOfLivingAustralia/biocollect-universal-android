@@ -9,6 +9,7 @@
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/offlineHeading"
             style="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -166,6 +167,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/otherSettingHeading"
             style="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
