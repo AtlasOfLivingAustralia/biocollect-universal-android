@@ -11,6 +11,7 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
@@ -27,6 +28,7 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddTrackFragment;
 import fragments.HomePageFragment;
 import fragments.setting.SettingFragment;
+import language.LanguageManager;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -40,7 +42,18 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
 
     @Override
     protected void setLanguageValues() {
+        // get menu from navigationView
+        Menu menu = navigationView.getMenu();
 
+        // find MenuItem to change
+        menu.findItem(R.id.home).setTitle(localisedString("home", R.string.home));
+        menu.findItem(R.id.nav_add_track).setTitle(localisedString("practise_track", R.string.practise_track));
+        menu.findItem(R.id.nav_practise_track).setTitle(localisedString("review_track", R.string.review_track));
+        menu.findItem(R.id.nav_review_track).setTitle(localisedString("review_track", R.string.review_track));
+        menu.findItem(R.id.nav_setting).setTitle(localisedString("setting", R.string.setting));
+        menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
+        menu.findItem(R.id.nav_help).setTitle(localisedString("help", R.string.help));
+        menu.findItem(R.id.nav_contact).setTitle(localisedString("about", R.string.about));
     }
 
     @Override

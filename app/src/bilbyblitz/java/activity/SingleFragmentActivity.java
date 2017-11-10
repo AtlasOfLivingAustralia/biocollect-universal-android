@@ -75,9 +75,6 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
                 case PROJECT_SELECTION:
                     fragment = new ProjectListFragment();
                     break;
-                    /*case CONTACT_US:
-                    fragment = new ContactUsFragment();
-                    break;*/
             }
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();

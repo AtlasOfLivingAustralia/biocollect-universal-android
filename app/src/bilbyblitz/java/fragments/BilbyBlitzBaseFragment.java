@@ -1,18 +1,44 @@
 package fragments;
 
+import android.content.Context;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONObject;
 
+import activity.BilbyBlitzActivityListener;
+import activity.BilbyBlitzBaseActivity;
+import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.BaseFragment;
+import language.LanguageManager;
 
 /**
  * Created by sad038 on 8/11/17.
  */
 
-public abstract class BilbyBlitzBaseFragment extends BaseFragment {
+public abstract class BilbyBlitzBaseFragment extends BaseFragment implements BilbyBlitzActivityListener{
     protected abstract void setLanguageValues();
+    BilbyBlitzActivityListener bilbyBlitzActivityListener;
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BilbyBlitzBaseActivity) {
+            bilbyBlitzActivityListener = (BilbyBlitzBaseActivity) context;
+        }
+    }
+
+    /**
+     * localised a string if a translation is being chosen
+     * @param key
+     * @param defaultRes
+     * @return
+     */
+    @Override
+    public String localisedString(String key, int defaultRes){
+        return bilbyBlitzActivityListener.localisedString(key, defaultRes);
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(String json) {

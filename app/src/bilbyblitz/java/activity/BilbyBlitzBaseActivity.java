@@ -24,7 +24,7 @@ import language.LanguageManager;
  * Created by sad038 on 8/11/17.
  */
 
-public abstract class BilbyBlitzBaseActivity extends BaseActivity {
+public abstract class BilbyBlitzBaseActivity extends BaseActivity implements BilbyBlitzActivityListener{
     protected abstract void setLanguageValues();
 
     @Override
@@ -89,5 +89,16 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity {
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * localised a string if a translation is being chosen
+     * @param key
+     * @param defaultRes
+     * @return
+     */
+    @Override
+    public String localisedString(String key, int defaultRes){
+        return LanguageManager.localizedString(this, key, defaultRes);
     }
 }
