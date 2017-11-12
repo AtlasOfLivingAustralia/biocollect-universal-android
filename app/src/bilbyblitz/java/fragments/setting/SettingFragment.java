@@ -88,7 +88,9 @@ public class SettingFragment extends BaseMainActivityFragment {
 
         //language selection spinner setup
         String[] languages = getResources().getStringArray(R.array.bilby_language);
-        languageSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.bilby_language, R.layout.item_textview));
+        ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(), R.array.bilby_language, R.layout.item_textview);
+        languageSpinner.setAdapter(adapter);
+        adapter.setDropDownViewResource(R.layout.dropdown_item_textview);
         int position = Utils.stringSearchInArray(languages, sharedPreferences.getLanguage());
         languageSpinner.setSelection(position == -1 ? 0 : position, false);
         languageSpinner.setOnItemSelectedListener(onLanguageSelectedListener);
@@ -163,6 +165,9 @@ public class SettingFragment extends BaseMainActivityFragment {
         startActivity(intent);
     }
 
+    /**
+     * Set the project name if there is already one saved in sharedpreference
+     */
     private void setProjectName() {
         Project project = sharedPreferences.getSelectedProject();
         if (project != null)
@@ -180,6 +185,9 @@ public class SettingFragment extends BaseMainActivityFragment {
         }
     }
 
+    /**
+     * set language values
+     */
     @Override
     protected void setLanguageValues() {
         setTitle(localisedString("setting", R.string.setting));
