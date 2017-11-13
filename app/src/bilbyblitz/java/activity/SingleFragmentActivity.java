@@ -79,6 +79,9 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         }
+
+        //set the localized labels
+        setLanguageValues();
     }
 
     @Override

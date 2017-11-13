@@ -44,6 +44,10 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
                 startActivityForResult(intent, ADD_ANIMAL_REQUEST_CODE);
             }
         });
+
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

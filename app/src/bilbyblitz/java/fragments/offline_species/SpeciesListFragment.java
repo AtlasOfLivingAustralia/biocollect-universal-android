@@ -94,6 +94,10 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         fetchSpecies();
+
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

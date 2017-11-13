@@ -62,6 +62,10 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
+
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

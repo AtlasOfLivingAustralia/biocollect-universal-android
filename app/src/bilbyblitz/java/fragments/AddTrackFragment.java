@@ -49,6 +49,9 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         tabLayout.setupWithViewPager(pager);
         tabLayout.addOnTabSelectedListener(tabSelectedListener);
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

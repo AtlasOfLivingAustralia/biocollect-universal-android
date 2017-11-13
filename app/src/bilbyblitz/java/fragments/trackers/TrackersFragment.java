@@ -67,6 +67,9 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

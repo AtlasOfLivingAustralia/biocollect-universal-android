@@ -77,6 +77,10 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
         speciesAdapter = new SpeciesAdapter();
         listView.setAdapter(speciesAdapter);
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
+
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

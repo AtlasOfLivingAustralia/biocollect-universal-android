@@ -80,6 +80,10 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         fetchProjects();
+
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

@@ -64,6 +64,9 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

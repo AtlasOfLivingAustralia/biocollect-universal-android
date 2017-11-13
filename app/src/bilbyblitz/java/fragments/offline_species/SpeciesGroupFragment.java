@@ -96,6 +96,9 @@ public class SpeciesGroupFragment extends BaseListWithRefreshFragment {
 
         fetchGroups(0);
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

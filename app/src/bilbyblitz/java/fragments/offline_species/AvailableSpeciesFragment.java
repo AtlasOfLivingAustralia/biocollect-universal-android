@@ -75,6 +75,9 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         //get the species
         readAvailableSpecies();
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

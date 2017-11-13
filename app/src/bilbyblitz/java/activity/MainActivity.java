@@ -98,6 +98,9 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         }
+
+        //set the localized labels
+        setLanguageValues();
     }
 
     /**

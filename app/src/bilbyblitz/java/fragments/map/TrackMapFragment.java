@@ -46,6 +46,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 

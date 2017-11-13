@@ -142,6 +142,9 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
         else
             fetchGroups(/*27.76, 138.55, 532.0);//*/latitude, longitude, radius);
 
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 
