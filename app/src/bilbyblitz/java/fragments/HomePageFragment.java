@@ -30,6 +30,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
     //list of items in home page
     private List<BilbyHomePageListItem> listItems = new ArrayList<>();
+    private ArrayAdapter itemAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -44,7 +45,8 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
         //preparign the list
         prepareItemList();
-        listView.setAdapter(new HomePageItemAdapter());
+        itemAdapter = new HomePageItemAdapter();
+        listView.setAdapter(itemAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -73,6 +75,10 @@ public class HomePageFragment extends BaseMainActivityFragment {
                 }
             }
         });
+
+        //set the localized labels
+        setLanguageValues();
+
         return view;
     }
 
@@ -159,7 +165,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues() {
-
+        itemAdapter.notifyDataSetChanged();
     }
 
 

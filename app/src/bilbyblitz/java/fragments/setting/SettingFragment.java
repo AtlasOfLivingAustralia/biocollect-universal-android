@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.Utils;
@@ -67,6 +69,7 @@ public class SettingFragment extends BaseMainActivityFragment {
                 sharedPreferences.writeSelectedLanguage(null);
                 sharedPreferences.writeSelectedLanguageFileName(null);
                 LanguageManager.languageJSON = null;
+                EventBus.getDefault().post("");
             } else {
                 sharedPreferences.writeSelectedLanguage((String) languageSpinner.getItemAtPosition(position));
                 sharedPreferences.writeSelectedLanguageFileName(languageSpinner.getItemAtPosition(position) + ".json");
@@ -97,6 +100,9 @@ public class SettingFragment extends BaseMainActivityFragment {
 
         //get the project name from sharedpreference (if available) and show the value
         setProjectName();
+
+        //set the localized labels
+        setLanguageValues();
 
         return view;
     }
