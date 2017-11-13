@@ -58,6 +58,12 @@ public abstract class BaseMainActivityFragment extends BilbyBlitzBaseFragment im
     }
 
     @Override
+    public void showMultiLineSnackBarMessage(String str) {
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.showMultiLineSnackBarMessage(str);
+    }
+
+    @Override
     public void handleError(Throwable e, int code, String message) {
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.handleError(e, code, message);

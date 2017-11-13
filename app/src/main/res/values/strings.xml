@@ -34,6 +34,7 @@
     <string name="radius_hint">Radius From Center</string>
     <string name="date_text">Date</string>
     <string name="delete_text">Delete</string>
+    <string name="submit_text">Submit</string>
     <string name="add_all_text">Add All</string>
     <string name="time_label">Date and Time of observation</string>
     <string name="note_text">Observation Notes</string>

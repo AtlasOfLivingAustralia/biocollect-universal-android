@@ -28,4 +28,6 @@ public interface MainActivityFragmentListener {
     void setDrawerMenuChecked(int menuRes);
 
     void setDrawerMenuClicked(int menuRes);
+
+    void showMultiLineSnackBarMessage(String string);
 }

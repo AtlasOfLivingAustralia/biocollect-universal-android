@@ -213,6 +213,16 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         showSnackBarMessage(coordinatorLayout, string);
     }
 
+    /**
+     * shows a message in using Snackbar
+     *
+     * @param string
+     */
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        showMultiLineSnackBarMessage(coordinatorLayout, string);
+    }
+
     @Override
     public void showSnackBarFromTop(String str) {
         TSnackbar snackbar = TSnackbar.make(coordinatorLayout, str, TSnackbar.LENGTH_LONG);

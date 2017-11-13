@@ -27,6 +27,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.ValidationCheck;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -34,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackCountryFragment extends BaseMainActivityFragment {
+public class TrackCountryFragment extends BaseMainActivityFragment implements ValidationCheck {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
 
@@ -189,5 +190,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues() {
 
+    }
+
+    @Override
+    public String getValidationMessage() {
+        return null;
     }
 }

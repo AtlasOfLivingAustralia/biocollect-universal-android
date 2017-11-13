@@ -15,6 +15,7 @@ import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.ValidationCheck;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -22,7 +23,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 9/10/17.
  */
 
-public class AnimalFragment extends BaseMainActivityFragment {
+public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck {
     private final int ADD_ANIMAL_REQUEST_CODE = 1;
 
     @BindView(R.id.listView)
@@ -61,5 +62,10 @@ public class AnimalFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues() {
 
+    }
+
+    @Override
+    public String getValidationMessage() {
+        return null;
     }
 }

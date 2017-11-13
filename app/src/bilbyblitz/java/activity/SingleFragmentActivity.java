@@ -175,6 +175,11 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
 
     }
 
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        showMultiLineSnackBarMessage(coordinatorLayout, string);
+    }
+
     /**
      * Type of Fragments
      */

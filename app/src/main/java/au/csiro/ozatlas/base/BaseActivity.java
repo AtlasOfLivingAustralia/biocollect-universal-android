@@ -9,7 +9,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
@@ -139,6 +141,18 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      */
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
         Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG).show();
+    }
+
+    /**
+     * @param coordinatorLayout
+     * @param string        multiline message to show
+     */
+    public void showMultiLineSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);
+        View snackbarView = snackbar.getView();
+        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setMaxLines(5);
+        snackbar.show();
     }
 
     /**

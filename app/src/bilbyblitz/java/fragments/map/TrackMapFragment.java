@@ -21,12 +21,13 @@ import au.csiro.ozatlas.R;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.ValidationCheck;
 
 /**
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackMapFragment extends BaseMainActivityFragment {
+public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck{
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
@@ -66,5 +67,10 @@ public class TrackMapFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues() {
 
+    }
+
+    @Override
+    public String getValidationMessage() {
+        return null;
     }
 }

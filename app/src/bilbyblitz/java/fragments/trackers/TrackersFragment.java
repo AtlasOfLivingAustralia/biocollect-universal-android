@@ -7,10 +7,14 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
+import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 
@@ -26,6 +30,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.ValidationCheck;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -33,7 +38,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 19/9/17.
  */
 
-public class TrackersFragment extends BaseMainActivityFragment {
+public class TrackersFragment extends BaseMainActivityFragment implements ValidationCheck {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
 
@@ -45,6 +50,14 @@ public class TrackersFragment extends BaseMainActivityFragment {
     EditText editOtherTracker;
     @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.inputLayoutOrganisationName)
+    TextInputLayout inputLayoutOrganisationName;
+    @BindView(R.id.inputLayoutLeadTracker)
+    TextInputLayout inputLayoutLeadTracker;
+    @BindView(R.id.inputLayoutOtherTracker)
+    TextInputLayout inputLayoutOtherTracker;
+    @BindView(R.id.addPhotoButton)
+    Button addPhotoButton;
 
     private String mCurrentPhotoPath;
 
@@ -179,6 +192,24 @@ public class TrackersFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues() {
+        inputLayoutOrganisationName.setHint(localisedString("", R.string.organisation_name));
+        inputLayoutLeadTracker.setHint(localisedString("", R.string.lead_tracker));
+        inputLayoutOtherTracker.setHint(localisedString("", R.string.other_tracker));
+        addPhotoButton.setText(localisedString("", R.string.group_selfie));
+    }
 
+    //validation
+    @Override
+    public String getValidationMessage() {
+        StringBuilder stringBuilder = new StringBuilder();
+        if(TextUtils.isEmpty(editLeadTracker.getText())){
+            stringBuilder.append(localisedString("", R.string.lead_tracker_missing_error));
+            stringBuilder.append("\n");
+        }
+
+        if(TextUtils.isEmpty(editOrganisationName.getText())){
+            stringBuilder.append(localisedString("", R.string.organisation_name_missing_error));
+        }
+        return stringBuilder.toString().trim();
     }
 }
