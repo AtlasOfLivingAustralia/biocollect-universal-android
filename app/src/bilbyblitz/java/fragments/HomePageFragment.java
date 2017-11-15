@@ -38,6 +38,8 @@ public class HomePageFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
 
+        hideFloatingButton();
+
         //preparing the header
         View header = getActivity().getLayoutInflater().inflate(R.layout.header_list, null);
         setupHeader(header);

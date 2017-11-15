@@ -155,9 +155,8 @@ public class SpeciesGroupFragment extends BaseListWithRefreshFragment {
 
     @Override
     protected void setLanguageValues() {
-
+        setTitle(localisedString("group_species", R.string.group_species));
     }
-
 
     /**
      * View Holders for Explore Groups

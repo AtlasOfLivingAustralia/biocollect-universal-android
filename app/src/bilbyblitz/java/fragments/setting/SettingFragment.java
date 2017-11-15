@@ -89,6 +89,8 @@ public class SettingFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
+        hideFloatingButton();
+
         //language selection spinner setup
         String[] languages = getResources().getStringArray(R.array.bilby_language);
         ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(), R.array.bilby_language, R.layout.item_textview);
@@ -97,9 +99,6 @@ public class SettingFragment extends BaseMainActivityFragment {
         int position = Utils.stringSearchInArray(languages, sharedPreferences.getLanguage());
         languageSpinner.setSelection(position == -1 ? 0 : position, false);
         languageSpinner.setOnItemSelectedListener(onLanguageSelectedListener);
-
-        //get the project name from sharedpreference (if available) and show the value
-        setProjectName();
 
         //set the localized labels
         setLanguageValues();
@@ -210,5 +209,6 @@ public class SettingFragment extends BaseMainActivityFragment {
         projectHeading.setText(localisedString("select_project", R.string.select_project));
         projectDescription.setText(localisedString("no_selected_project", R.string.no_selected_project));
         languageHeading.setText(localisedString("choose_language", R.string.choose_language));
+        setProjectName();
     }
 }

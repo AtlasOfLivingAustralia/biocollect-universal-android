@@ -198,6 +198,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                             realm.commitTransaction();
                             Log.d(TAG, holder.getAdapterPosition() + "   " + AvailableSpeciesFragment.this.species.size());
                             notifyDataSetChanged();
+                            updateTotal();
                         }
                     });
                 }
