@@ -11,7 +11,7 @@
         <Button
             android:id="@+id/addButton"
             style="@style/TextAppearance.AppCompat.Small"
-            android:layout_width="64dp"
+            android:layout_width="@dimen/small_button_minimum_width"
             android:layout_height="32dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
@@ -42,7 +42,7 @@
                 android:id="@+id/kingdom_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="@dimen/row_view_in_between_top_gap"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="@dimen/smaller_input_font_size" />

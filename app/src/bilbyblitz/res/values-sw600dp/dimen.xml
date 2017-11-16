@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="bottom_sheet_minimum_height">400dp</dimen>
+
+    <dimen name="default_input_font_size">22sp</dimen>
+    <dimen name="smaller_input_font_size">16sp</dimen>
+    <dimen name="smallest_input_font_size">13sp</dimen>
+    <dimen name="bigger_input_font_size">26sp</dimen>
+    <dimen name="big_title_font_size">30sp</dimen>
+    <dimen name="caption_font_size">14sp</dimen>
+
+    <dimen name="minimum_height_bigger_input_views">64dp</dimen>
+</resources>

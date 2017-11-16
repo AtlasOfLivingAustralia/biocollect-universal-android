@@ -19,6 +19,7 @@
             android:paddingRight="@dimen/heading_left_margin"
             android:paddingTop="@dimen/heading_top_margin"
             android:text="@string/offline_species"
+            android:textSize="@dimen/default_input_font_size"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -41,7 +42,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/available_species" />
+                android:text="@string/available_species"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/availableSpeciesDescription"
@@ -79,7 +81,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/search_and_add" />
+                android:text="@string/search_and_add"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/searchAndAddDescription"
@@ -117,7 +120,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/download_from_map" />
+                android:text="@string/download_from_map"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/downloadFromMapDescription"
@@ -155,7 +159,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/group_species" />
+                android:text="@string/group_species"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/groupSpeciesDescription"
@@ -177,6 +182,7 @@
             android:paddingRight="@dimen/heading_left_margin"
             android:paddingTop="@dimen/heading_top_margin"
             android:text="@string/other_setting"
+            android:textSize="@dimen/default_input_font_size"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -199,7 +205,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/select_project" />
+                android:text="@string/select_project"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/projectDescription"
@@ -224,6 +231,7 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing"
             android:gravity="center_vertical"
             android:minHeight="@dimen/minimum_height_input_medium_views"
             android:orientation="vertical">
@@ -234,13 +242,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/choose_language" />
+                android:text="@string/choose_language"
+                android:textSize="@dimen/default_input_font_size" />
 
             <Spinner
                 android:id="@+id/languageSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/smaller_input_font_size" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

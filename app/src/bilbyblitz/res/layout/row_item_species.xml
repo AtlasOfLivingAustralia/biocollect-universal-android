@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginRight="12dp"
+            android:layout_marginRight="@dimen/input_label_horizontal_spacing"
             android:layout_toLeftOf="@+id/delete"
             android:orientation="vertical">
 
@@ -41,7 +41,7 @@
                 android:id="@+id/kingdom_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="@dimen/row_view_in_between_top_gap"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="@dimen/smaller_input_font_size" />

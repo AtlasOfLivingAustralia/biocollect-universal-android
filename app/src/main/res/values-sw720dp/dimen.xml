@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="activity_horizontal_margin">28dp</dimen>
+    <dimen name="activity_vertical_margin">28dp</dimen>
+    <dimen name="nav_header_vertical_spacing">28dp</dimen>
+    <dimen name="nav_header_height">280dp</dimen>
+    <dimen name="nav_drawer_width">380dp</dimen>
+    <dimen name="fab_margin">28dp</dimen>
+
+    <dimen name="edit_text_minimum_width">450dp</dimen>
+    <dimen name="button_minimum_width">164dp</dimen>
+    <dimen name="button_maximum_width">184dp</dimen>
+    <dimen name="small_button_height">64dp</dimen>
+    <dimen name="small_button_minimum_width">108dp</dimen>
+    <dimen name="view_top_margin">36dp</dimen>
+    <dimen name="input_view_top_margin">16dp</dimen>
+    <dimen name="input_view_top_small_margin">12dp</dimen>
+    <dimen name="view_top_margin_double">72dp</dimen>
+    <dimen name="activity_padding">28dp</dimen>
+    <dimen name="heading_top_margin">12dp</dimen>
+    <dimen name="heading_left_margin">24dp</dimen>
+
+    <dimen name="row_tick_width">24dp</dimen>
+    <dimen name="row_icon_width">64dp</dimen>
+    <dimen name="row_icon_medium_width">48dp</dimen>
+    <dimen name="row_big_icon_width">88dp</dimen>
+    <dimen name="row_bigger_icon_width">108dp</dimen>
+    <dimen name="row_padding">24dp</dimen>
+    <dimen name="row_padding_smaller">20dp</dimen>
+    <dimen name="home_page_image_height">450dp</dimen>
+
+    <dimen name="minimum_height_input_views">84dp</dimen>
+    <dimen name="minimum_height_bigger_input_views">72dp</dimen>
+    <dimen name="minimum_height_input_medium_views">64dp</dimen>
+    <dimen name="row_cross_round_tick_width">40dp</dimen>
+    <dimen name="list_item_margin">14dp</dimen>
+    <dimen name="list_item_image_width">92dp</dimen>
+
+    <dimen name="input_label_vertical_spacing">8dp</dimen>
+    <dimen name="input_label_horizontal_spacing">8dp</dimen>
+    <dimen name="row_view_in_between_gap">8dp</dimen>
+    <dimen name="row_view_in_between_top_gap">3dp</dimen>
+
+    <dimen name="navigation_drawer_item_height">72dp</dimen>
+
+</resources>

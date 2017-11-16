@@ -22,6 +22,7 @@
             <EditText
                 android:id="@+id/editCountryName"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
@@ -45,6 +46,7 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/countryTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
@@ -66,6 +68,7 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/groundTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
@@ -87,6 +90,7 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/fireSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
@@ -108,6 +112,7 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/disturbanceSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
@@ -129,6 +134,7 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/detailHabitatSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"

@@ -22,6 +22,7 @@
             <EditText
                 android:id="@+id/editOrganisationName"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
@@ -40,6 +41,7 @@
             <EditText
                 android:id="@+id/editLeadTracker"
                 style="@style/TextAppearance.AppCompat.Medium"
+                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
@@ -59,6 +61,7 @@
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:textSize="@dimen/default_input_font_size"
                 android:gravity="top|left"
                 android:hint="@string/other_tracker"
                 android:inputType="textMultiLine"
@@ -75,6 +78,7 @@
                 android:id="@+id/addPhotoButton"
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
+                android:minWidth="@dimen/button_minimum_width"
                 android:layout_height="36dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/button_background"

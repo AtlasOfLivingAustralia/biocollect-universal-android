@@ -32,8 +32,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
     Button startGPSButton;
-    @BindView(R.id.stopGPSButton)
-    Button stopGPSButton;
     @BindView(R.id.editCentroidLatitude)
     EditText editCentroidLatitude;
     @BindView(R.id.editCentroidLongitude)
