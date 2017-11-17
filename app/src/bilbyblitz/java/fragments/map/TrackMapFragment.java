@@ -1,9 +1,15 @@
 package fragments.map;
 
 import android.Manifest;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
@@ -15,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -29,12 +36,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import fragments.ValidationCheck;
-import fragments.offline_species.ExploreSpeciesFragment;
 
 /**
  * Created by sad038 on 9/10/17.
@@ -53,8 +61,29 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     EditText editCentroidLongitude;
 
     private FusedLocationProviderClient mFusedLocationClient;
-    private List<LatLng> latLngs = new ArrayList<>();
+    private List<Location> locations = new ArrayList<>();
     private GoogleMap googleMap;
+    private LocationManager locationManager;
+
+    // Define a listener that responds to location updates
+    LocationListener locationListener = new LocationListener() {
+        public void onLocationChanged(Location location) {
+            hideProgressDialog();
+            // Remove the listener you previously added
+            locations.add(location);
+            Toast.makeText(getContext(), location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
+            //locationManager.removeUpdates(locationListener);
+        }
+
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+        }
+
+        public void onProviderEnabled(String provider) {
+        }
+
+        public void onProviderDisabled(String provider) {
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -64,11 +93,41 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         //set the localized labels
         setLanguageValues();
 
         return view;
+    }
+
+
+    /**
+     * look for hardware GPS location
+     */
+    @OnClick(R.id.startGPSButton)
+    public void lookForGPSLocation() {
+        MarshMallowPermission marshMallowPermission = new MarshMallowPermission(TrackMapFragment.this);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            marshMallowPermission.requestPermissionForLocation();
+            return;
+        }
+
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            showProgressDialog();
+            if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+            if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        } else {
+            AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                    dialog.cancel();
+                }
+            });
+        }
     }
 
 
@@ -129,4 +188,26 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         this.googleMap = googleMap;
         getLastLocation();
     }
+
+    /**
+     * Marshmellow permission
+     *
+     * @param requestCode
+     * @param permissions
+     * @param grantResults
+     */
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MarshMallowPermission.LOCATION_PERMISSION_REQUEST_CODE:
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    lookForGPSLocation();
+                } else {
+                    //todo permission denied, boo! Disable the functionality that depends on this permission.
+                }
+                break;
+        }
+    }
+
 }
