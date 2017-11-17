@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
 import android.util.SparseArray;
@@ -110,7 +111,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         setTitle(localisedString("add_track", R.string.add_track));
     }
 
-    private class TrackerPagerAdapter extends FragmentPagerAdapter {
+    private class TrackerPagerAdapter extends FragmentStatePagerAdapter {
         SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
         TrackerPagerAdapter() {

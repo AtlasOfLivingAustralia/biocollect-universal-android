@@ -7,8 +7,8 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v4.text.TextUtilsCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -25,7 +25,6 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
-import au.csiro.ozatlas.model.SightingPhoto;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -73,6 +72,22 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("CurrentPhotoPath", mCurrentPhotoPath);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mCurrentPhotoPath = savedInstanceState.getString("CurrentPhotoPath");
+            if (mCurrentPhotoPath != null)
+                imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
+        }
+    }
+
     /**
      * Called after the autocomplete activity has finished to return its result.
      */
@@ -86,12 +101,14 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
                     if (mCurrentPhotoPath != null) {
                         FileUtils.galleryAddPic(getActivity(), mCurrentPhotoPath);
                         imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
-                        mCurrentPhotoPath = null;
                     }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
-                    imageView.setImageURI(selectedImageUri);
+                    if (selectedImageUri != null) {
+                        mCurrentPhotoPath = selectedImageUri.getPath();
+                        imageView.setImageURI(selectedImageUri);
+                    }
                     break;
             }
         }
@@ -149,9 +166,9 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
      * @throws IOException
      */
     private File setUpPhotoFile() throws IOException {
+        mCurrentPhotoPath = null;
         File f = FileUtils.createImageFile(getActivity());
         mCurrentPhotoPath = f.getAbsolutePath();
-
         return f;
     }
 
@@ -170,6 +187,7 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
      */
     private void dispatchTakePictureIntent() {
         File f = null;
+        mCurrentPhotoPath = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try {
@@ -205,12 +223,12 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     @Override
     public String getValidationMessage() {
         StringBuilder stringBuilder = new StringBuilder();
-        if(TextUtils.isEmpty(editLeadTracker.getText())){
+        if (TextUtils.isEmpty(editLeadTracker.getText())) {
             stringBuilder.append(localisedString("", R.string.lead_tracker_missing_error));
             stringBuilder.append("\n");
         }
 
-        if(TextUtils.isEmpty(editOrganisationName.getText())){
+        if (TextUtils.isEmpty(editOrganisationName.getText())) {
             stringBuilder.append(localisedString("", R.string.organisation_name_missing_error));
         }
         return stringBuilder.toString().trim();
