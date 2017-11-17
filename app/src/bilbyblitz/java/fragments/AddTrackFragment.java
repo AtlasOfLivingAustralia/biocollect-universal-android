@@ -3,7 +3,6 @@ package fragments;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -30,32 +29,12 @@ import fragments.trackers.TrackersFragment;
 
 public class AddTrackFragment extends BaseMainActivityFragment {
 
+    private final int NUMBER_OF_FRAGMENTS = 4;
     @BindView(R.id.pager)
     ViewPager pager;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-
-    private final int NUMBER_OF_FRAGMENTS = 4;
     private TrackerPagerAdapter pagerAdapter;
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_add_track, container, false);
-        setTitle(getString(R.string.add_track));
-        setHasOptionsMenu(true);
-        ButterKnife.bind(this, view);
-
-        pagerAdapter = new TrackerPagerAdapter();
-        pager.setAdapter(pagerAdapter);
-        tabLayout.setupWithViewPager(pager);
-        tabLayout.addOnTabSelectedListener(tabSelectedListener);
-
-        //set the localized labels
-        setLanguageValues();
-
-        return view;
-    }
-
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
@@ -76,6 +55,24 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
         }
     };
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.fragment_add_track, container, false);
+        setTitle(getString(R.string.add_track));
+        setHasOptionsMenu(true);
+        ButterKnife.bind(this, view);
+
+        pagerAdapter = new TrackerPagerAdapter();
+        pager.setAdapter(pagerAdapter);
+        tabLayout.setupWithViewPager(pager);
+        tabLayout.addOnTabSelectedListener(tabSelectedListener);
+
+        //set the localized labels
+        setLanguageValues();
+
+        return view;
+    }
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {

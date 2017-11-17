@@ -27,32 +27,32 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/surveySpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
         <TextView
             style="@style/TextAppearance.AppCompat.Medium"
-            android:textSize="@dimen/default_input_font_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/input_view_top_margin"
-            android:text="@string/gps_start_message" />
+            android:text="@string/gps_start_message"
+            android:textSize="@dimen/default_input_font_size" />
 
-            <Button
-                android:id="@+id/startGPSButton"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:minWidth="@dimen/button_minimum_width"
-                android:background="@drawable/button_background"
-                android:gravity="center"
-                android:text="@string/start_gps"
-                android:textColor="@android:color/white"
-                android:textStyle="bold" />
+        <Button
+            android:id="@+id/startGPSButton"
+            style="@style/TextAppearance.AppCompat.Small"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_background"
+            android:gravity="center"
+            android:minWidth="@dimen/button_minimum_width"
+            android:text="@string/start_gps"
+            android:textColor="@android:color/white"
+            android:textStyle="bold" />
 
 
         <FrameLayout
@@ -71,13 +71,13 @@
             <EditText
                 android:id="@+id/editCentroidLatitude"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/centroid_latitude"
                 android:inputType="textMultiLine"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -90,13 +90,13 @@
             <EditText
                 android:id="@+id/editCentroidLongitude"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/centroid_longitude"
                 android:inputType="textMultiLine"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
     </LinearLayout>
 </ScrollView>

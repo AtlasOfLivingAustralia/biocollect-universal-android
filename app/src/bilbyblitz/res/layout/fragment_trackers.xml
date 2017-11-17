@@ -22,13 +22,13 @@
             <EditText
                 android:id="@+id/editOrganisationName"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/organisation_name"
                 android:inputType="textMultiLine"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
 
 
@@ -41,13 +41,13 @@
             <EditText
                 android:id="@+id/editLeadTracker"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/lead_tracker"
                 android:inputType="textMultiLine"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
 
         <android.support.design.widget.TextInputLayout
@@ -61,11 +61,11 @@
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/default_input_font_size"
                 android:gravity="top|left"
                 android:hint="@string/other_tracker"
                 android:inputType="textMultiLine"
-                android:maxLines="3" />
+                android:maxLines="3"
+                android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
@@ -78,11 +78,11 @@
                 android:id="@+id/addPhotoButton"
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="wrap_content"
-                android:minWidth="@dimen/button_minimum_width"
                 android:layout_height="36dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/button_background"
                 android:gravity="center"
+                android:minWidth="@dimen/button_minimum_width"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:text="@string/group_selfie"

@@ -250,6 +250,12 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
 
     private class SpeciesGroupAdapter extends BaseRecyclerWithFooterViewAdapter {
         Map<String, Integer> map = new HashMap<>();
+        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                notifyDataSetChanged();
+            }
+        };
 
         SpeciesGroupAdapter() {
             for (int i = 0; i < groups.length; i++) {
@@ -305,13 +311,6 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 }
             }
         }
-
-        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                notifyDataSetChanged();
-            }
-        };
 
         @Override
         public int getItemCount() {

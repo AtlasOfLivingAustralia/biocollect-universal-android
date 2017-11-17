@@ -21,14 +21,12 @@ import com.androidadvance.topsnackbar.TSnackbar;
 
 import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddTrackFragment;
 import fragments.HomePageFragment;
 import fragments.setting.SettingFragment;
-import language.LanguageManager;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -199,6 +197,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
 
     /**
      * floating button onclick listner
+     *
      * @param onClickListener
      */
     @Override

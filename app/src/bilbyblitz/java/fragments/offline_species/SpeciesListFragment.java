@@ -251,6 +251,13 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
     }
 
     private class SpeciesAdapter extends BaseRecyclerWithFooterViewAdapter {
+        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                notifyDataSetChanged();
+            }
+        };
+
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_online_species, null);
@@ -282,13 +289,6 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
                 }
             }
         }
-
-        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                notifyDataSetChanged();
-            }
-        };
 
         @Override
         public int getItemCount() {

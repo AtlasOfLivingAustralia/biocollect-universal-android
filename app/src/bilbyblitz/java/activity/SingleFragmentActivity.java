@@ -13,7 +13,6 @@ import android.widget.TextView;
 import com.androidadvance.topsnackbar.TSnackbar;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;

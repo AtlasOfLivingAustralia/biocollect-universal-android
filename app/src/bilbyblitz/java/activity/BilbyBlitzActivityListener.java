@@ -6,5 +6,6 @@ package activity;
 
 public interface BilbyBlitzActivityListener {
     String localisedString(String key, int defaultRes);
+
     void loadLanguageFile(String fileName);
 }

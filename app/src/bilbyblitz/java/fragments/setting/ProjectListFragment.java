@@ -54,6 +54,18 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
 
     private List<Project> projects = new ArrayList<>();
     private int selectedPosition = -1;
+    /**
+     * onClick listener for the recyclerview group item
+     */
+    View.OnClickListener onProjectClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            int oldPosition = selectedPosition;
+            selectedPosition = recyclerView.getChildAdapterPosition(v);
+            adapter.notifyItemChanged(oldPosition);
+            adapter.notifyItemChanged(selectedPosition);
+        }
+    };
     private int totalCount;
 
     @Override
@@ -114,19 +126,6 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     }
 
     /**
-     * onClick listener for the recyclerview group item
-     */
-    View.OnClickListener onProjectClickListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            int oldPosition = selectedPosition;
-            selectedPosition = recyclerView.getChildAdapterPosition(v);
-            adapter.notifyItemChanged(oldPosition);
-            adapter.notifyItemChanged(selectedPosition);
-        }
-    };
-
-    /**
      * getting the projects
      */
     protected void fetchProjects() {
@@ -143,8 +142,8 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                             ProjectListFragment.this.projects.addAll(value.projects);
                             Project previousSelectedProject = sharedPreferences.getSelectedProject();
                             if (previousSelectedProject != null) {
-                                for(int i=0;i<projects.size();i++){
-                                    if(projects.get(i).projectId.equals(previousSelectedProject.projectId)){
+                                for (int i = 0; i < projects.size(); i++) {
+                                    if (projects.get(i).projectId.equals(previousSelectedProject.projectId)) {
                                         selectedPosition = i;
                                         break;
                                     }

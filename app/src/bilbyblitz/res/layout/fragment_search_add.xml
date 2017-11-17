@@ -12,11 +12,11 @@
         <EditText
             android:id="@+id/editSpeciesName"
             style="@style/Base.TextAppearance.AppCompat.Medium"
-            android:textSize="@dimen/default_input_font_size"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/species_name_hint"
-            android:maxLines="1" />
+            android:maxLines="1"
+            android:textSize="@dimen/default_input_font_size" />
     </android.support.design.widget.TextInputLayout>
 
     <ProgressBar

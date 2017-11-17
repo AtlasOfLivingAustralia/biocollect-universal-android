@@ -30,6 +30,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class SettingFragment extends BaseMainActivityFragment {
 
+    private final int PROJECT_LIST_REQUEST_CODE = 1;
     @BindView(R.id.languageSpinner)
     Spinner languageSpinner;
     @BindView(R.id.projectDescription)
@@ -58,9 +59,6 @@ public class SettingFragment extends BaseMainActivityFragment {
     TextView projectHeading;
     @BindView(R.id.languageHeading)
     TextView languageHeading;
-
-    private final int PROJECT_LIST_REQUEST_CODE = 1;
-
     //Language Selection Listener from language spinner
     AdapterView.OnItemSelectedListener onLanguageSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override

@@ -75,14 +75,14 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putString("CurrentPhotoPath", mCurrentPhotoPath);
+        outState.putString("TrackersFragmentCurrentPhotoPath", mCurrentPhotoPath);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            mCurrentPhotoPath = savedInstanceState.getString("CurrentPhotoPath");
+            mCurrentPhotoPath = savedInstanceState.getString("TrackersFragmentCurrentPhotoPath");
             if (mCurrentPhotoPath != null)
                 imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
         }
@@ -106,7 +106,7 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
                     if (selectedImageUri != null) {
-                        mCurrentPhotoPath = selectedImageUri.getPath();
+                        mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
                         imageView.setImageURI(selectedImageUri);
                     }
                     break;

@@ -1,6 +1,5 @@
 package activity;
 
-import android.os.Bundle;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -24,7 +23,7 @@ import language.LanguageManager;
  * Created by sad038 on 8/11/17.
  */
 
-public abstract class BilbyBlitzBaseActivity extends BaseActivity implements BilbyBlitzActivityListener{
+public abstract class BilbyBlitzBaseActivity extends BaseActivity implements BilbyBlitzActivityListener {
     protected abstract void setLanguageValues();
 
     @Override
@@ -39,10 +38,11 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
 
     /**
      * loading the language file
+     *
      * @param fileName
      */
     @Override
-    public void loadLanguageFile(String fileName){
+    public void loadLanguageFile(String fileName) {
         showProgressDialog();
         mCompositeDisposable.add(getFileReadObservable(fileName)
                 .subscribeOn(Schedulers.newThread())
@@ -105,12 +105,13 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
 
     /**
      * localised a string if a translation is being chosen
+     *
      * @param key
      * @param defaultRes
      * @return
      */
     @Override
-    public String localisedString(String key, int defaultRes){
+    public String localisedString(String key, int defaultRes) {
         return LanguageManager.localizedString(this, key, defaultRes);
     }
 }

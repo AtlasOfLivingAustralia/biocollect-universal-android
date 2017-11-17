@@ -45,10 +45,10 @@
                     android:hint="@string/username_hint"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
-                    android:textStyle="bold"
                     android:maxWidth="@dimen/edit_text_minimum_width"
                     android:minWidth="@dimen/edit_text_minimum_width"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
             </android.support.design.widget.TextInputLayout>
 
             <android.support.design.widget.TextInputLayout
@@ -63,11 +63,11 @@
                     android:layout_height="wrap_content"
                     android:hint="@string/password_hint"
                     android:inputType="textPassword"
-                    android:textStyle="bold"
                     android:maxLines="1"
                     android:maxWidth="@dimen/edit_text_minimum_width"
                     android:minWidth="@dimen/edit_text_minimum_width"
-                    android:textSize="22sp" />
+                    android:textSize="22sp"
+                    android:textStyle="bold" />
             </android.support.design.widget.TextInputLayout>
 
             <Button

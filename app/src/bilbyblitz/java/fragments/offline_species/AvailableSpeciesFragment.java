@@ -121,7 +121,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<SearchSpecies>>() {
             @Override
             public void onChange(RealmResults<SearchSpecies> collection, OrderedCollectionChangeSet changeSet) {
-                if(isAdded()) {
+                if (isAdded()) {
                     species.clear();
                     species.addAll(collection);
                     updateTotal();

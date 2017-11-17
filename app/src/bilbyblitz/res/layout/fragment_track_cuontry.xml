@@ -22,13 +22,13 @@
             <EditText
                 android:id="@+id/editCountryName"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/country_name"
                 android:inputType="textMultiLine"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
@@ -46,11 +46,11 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/countryTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -68,11 +68,11 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/groundTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -90,11 +90,11 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/fireSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -112,11 +112,11 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/disturbanceSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
         <LinearLayout
@@ -134,11 +134,11 @@
             <android.support.v7.widget.AppCompatSpinner
                 android:id="@+id/detailHabitatSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="0dp"
-                android:paddingStart="0dp" />
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
         </LinearLayout>
 
         <LinearLayout

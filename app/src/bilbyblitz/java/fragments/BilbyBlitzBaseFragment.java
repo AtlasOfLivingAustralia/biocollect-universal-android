@@ -15,9 +15,9 @@ import au.csiro.ozatlas.base.BaseFragment;
  */
 
 public abstract class BilbyBlitzBaseFragment extends BaseFragment implements BilbyBlitzActivityListener {
-    protected abstract void setLanguageValues();
-
     BilbyBlitzActivityListener bilbyBlitzActivityListener;
+
+    protected abstract void setLanguageValues();
 
     @Override
     public void onAttach(Context context) {

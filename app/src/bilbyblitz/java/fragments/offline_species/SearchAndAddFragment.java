@@ -7,7 +7,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -186,6 +185,13 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
      */
     private class SpeciesAdapter extends ArrayAdapter<String> {
 
+        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                notifyDataSetChanged();
+            }
+        };
+
         SpeciesAdapter() {
             super(getActivity(), 0);
         }
@@ -233,13 +239,6 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
             }
             return rowView;
         }
-
-        private AnimatorListenerAdapter animationListener = new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator animation) {
-                notifyDataSetChanged();
-            }
-        };
 
         @Override
         public int getCount() {

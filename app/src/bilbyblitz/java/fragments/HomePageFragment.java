@@ -214,7 +214,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         }
     }
 
-    class BilbyHomePageListItem extends HomePageListItem{
+    class BilbyHomePageListItem extends HomePageListItem {
         int textResource;
         String languageKey;
     }

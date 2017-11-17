@@ -24,15 +24,15 @@
             android:id="@+id/infoIcon"
             android:layout_width="@dimen/row_icon_medium_width"
             android:layout_height="@dimen/row_icon_medium_width"
-            android:padding="3dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="@dimen/row_view_in_between_gap"
-            android:tint="@android:color/white"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
             android:background="@drawable/filled_circle"
-            android:src="@drawable/ic_done_white_24dp" />
+            android:padding="3dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_done_white_24dp"
+            android:tint="@android:color/white" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -44,48 +44,48 @@
             <TextView
                 android:id="@+id/name"
                 style="@android:style/TextAppearance.Medium"
-                android:textSize="@dimen/default_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="@dimen/row_view_in_between_top_gap"
-                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/type"
                 style="@android:style/TextAppearance.Holo.Small"
-                android:textSize="@dimen/smaller_input_font_size"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/name"
                 android:layout_marginBottom="@dimen/row_view_in_between_top_gap"
-                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
 
             <TextView
                 android:id="@+id/user"
                 style="@android:style/TextAppearance.Small"
                 android:layout_width="match_parent"
-                android:textSize="@dimen/smaller_input_font_size"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/type"
                 android:layout_marginRight="@dimen/row_view_in_between_gap"
                 android:layout_toLeftOf="@+id/time"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
 
             <TextView
                 android:id="@+id/time"
                 style="@android:style/TextAppearance.Small"
-                android:textSize="@dimen/smaller_input_font_size"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_below="@id/type"
-                android:layout_alignParentRight="true"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
         </RelativeLayout>
     </RelativeLayout>
 </android.support.v7.widget.CardView>

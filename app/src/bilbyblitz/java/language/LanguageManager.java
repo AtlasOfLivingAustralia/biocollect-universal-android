@@ -1,14 +1,10 @@
 package language;
 
 import android.content.Context;
-import android.content.res.AssetManager;
 import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import au.csiro.ozatlas.manager.AtlasCallback;
-import au.csiro.ozatlas.manager.Utils;
 
 /**
  * Created by sad038 on 8/11/17.

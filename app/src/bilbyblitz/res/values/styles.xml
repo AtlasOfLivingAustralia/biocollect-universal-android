@@ -33,18 +33,18 @@
         <item name="colorAccent">@color/colorPrimary</item>
     </style>
 
-<!--    <style name="MediumTextAppearance" parent="TextAppearance.AppCompat.Medium">
+    <!--    <style name="MediumTextAppearance" parent="TextAppearance.AppCompat.Medium">
 
-    </style>
+        </style>
 
 
-    <style name="SmallTextAppearance" parent="TextAppearance.AppCompat.Small">
+        <style name="SmallTextAppearance" parent="TextAppearance.AppCompat.Small">
 
-    </style>
+        </style>
 
-    <style name="LargeTextAppearance" parent="TextAppearance.AppCompat.Large">
+        <style name="LargeTextAppearance" parent="TextAppearance.AppCompat.Large">
 
-    </style>-->
+        </style>-->
 
     <!--input label style for floating text with spinner-->
     <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">

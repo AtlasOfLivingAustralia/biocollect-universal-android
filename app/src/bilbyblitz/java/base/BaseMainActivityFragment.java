@@ -5,7 +5,6 @@ import android.view.View;
 
 import activity.MainActivity;
 import activity.SingleFragmentActivity;
-import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import fragments.BilbyBlitzBaseFragment;
 

@@ -7,6 +7,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -70,6 +71,23 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         return view;
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("TrackCountryFragmentCurrentPhotoPath", mCurrentPhotoPath);
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            mCurrentPhotoPath = savedInstanceState.getString("TrackCountryFragmentCurrentPhotoPath");
+            if (mCurrentPhotoPath != null)
+                imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
+        }
+    }
+
     /**
      * Called after the autocomplete activity has finished to return its result.
      */
@@ -83,12 +101,14 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
                     if (mCurrentPhotoPath != null) {
                         FileUtils.galleryAddPic(getActivity(), mCurrentPhotoPath);
                         imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
-                        mCurrentPhotoPath = null;
                     }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
-                    imageView.setImageURI(selectedImageUri);
+                    if (selectedImageUri != null) {
+                        mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
+                        imageView.setImageURI(selectedImageUri);
+                    }
                     break;
             }
         }
@@ -146,6 +166,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
      * @throws IOException
      */
     private File setUpPhotoFile() throws IOException {
+        mCurrentPhotoPath = null;
         File f = FileUtils.createImageFile(getActivity());
         mCurrentPhotoPath = f.getAbsolutePath();
 
@@ -167,6 +188,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
      */
     private void dispatchTakePictureIntent() {
         File f = null;
+        mCurrentPhotoPath = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try {

@@ -2,11 +2,9 @@ package fragments.map;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatSpinner;
-import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.SupportMapFragment;
 
 import au.csiro.ozatlas.R;
@@ -27,7 +24,7 @@ import fragments.ValidationCheck;
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck{
+public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck {
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
