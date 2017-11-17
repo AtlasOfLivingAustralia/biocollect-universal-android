@@ -1,7 +1,11 @@
 package fragments.map;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.AppCompatSpinner;
@@ -12,19 +16,33 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnSuccessListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.MarshMallowPermission;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.ValidationCheck;
+import fragments.offline_species.ExploreSpeciesFragment;
 
 /**
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck {
+public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback {
+    private final float INITIAL_ZOOM = 10.2f;
+
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
@@ -34,6 +52,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @BindView(R.id.editCentroidLongitude)
     EditText editCentroidLongitude;
 
+    private FusedLocationProviderClient mFusedLocationClient;
+    private List<LatLng> latLngs = new ArrayList<>();
+    private GoogleMap googleMap;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_track_map, container, false);
@@ -41,10 +63,40 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
 
+        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
+
         //set the localized labels
         setLanguageValues();
 
         return view;
+    }
+
+
+    /**
+     * getting last location from fused location service
+     */
+    private void getLastLocation() {
+        MarshMallowPermission marshMallowPermission = new MarshMallowPermission(TrackMapFragment.this);
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            marshMallowPermission.requestPermissionForLocation();
+            return;
+        }
+
+        this.googleMap.setMyLocationEnabled(true);
+        mFusedLocationClient.getLastLocation()
+                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            setGoogleMapMarker(new LatLng(location.getLatitude(), location.getLongitude()));
+                        }
+                    }
+                });
+    }
+
+    private void setGoogleMapMarker(LatLng latLng) {
+        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
     @Override
@@ -58,8 +110,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             ft.add(R.id.mapLayout, mapFragment, "mapFragment");
             ft.commit();
             fm.executePendingTransactions();
+            mapFragment.getMapAsync(this);
         }
-        //mapFragment.getMapAsync(callback);
     }
 
     @Override
@@ -70,5 +122,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @Override
     public String getValidationMessage() {
         return null;
+    }
+
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        this.googleMap = googleMap;
+        getLastLocation();
     }
 }
