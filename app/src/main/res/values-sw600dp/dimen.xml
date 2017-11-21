@@ -8,7 +8,7 @@
     <dimen name="fab_margin">20dp</dimen>
 
     <dimen name="edit_text_minimum_width">400dp</dimen>
-    <dimen name="button_minimum_width">124dp</dimen>
+    <dimen name="button_minimum_width">132dp</dimen>
     <dimen name="small_button_minimum_width">84dp</dimen>
     <dimen name="small_button_height">48dp</dimen>
     <dimen name="button_maximum_width">164dp</dimen>
