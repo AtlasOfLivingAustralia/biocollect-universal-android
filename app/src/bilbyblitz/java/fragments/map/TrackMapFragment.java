@@ -4,13 +4,16 @@ import android.Manifest;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
@@ -37,6 +40,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -48,8 +52,9 @@ import fragments.ValidationCheck;
  */
 
 public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback {
+    // Used in checking for runtime permissions.
+    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private final float INITIAL_ZOOM = 10.2f;
-
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
@@ -58,22 +63,14 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     EditText editCentroidLatitude;
     @BindView(R.id.editCentroidLongitude)
     EditText editCentroidLongitude;
-
     private List<Location> locations = new ArrayList<>();
     private GoogleMap googleMap;
-
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
-
     // A reference to the service used to get location updates.
     private LocationUpdatesService mService = null;
-
     // Tracks the bound state of the service.
     private boolean mBound = false;
-
-    // Used in checking for runtime permissions.
-    private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-
     // Monitors the state of the connection to the service.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -93,12 +90,14 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             setButtonsState(false);
         }
     };
+    private LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_track_map, container, false);
         ButterKnife.bind(this, view);
 
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
         // Check that the user hasn't revoked permissions by going to Settings.
         if (!checkPermissions()) {
@@ -169,10 +168,20 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @OnClick(R.id.startGPSButton)
     public void lookForGPSLocation() {
         if (startGPSButton.getText().equals(getString(R.string.start_gps))) {
-            if (!checkPermissions()) {
-                requestPermissions();
+            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+                if (!checkPermissions()) {
+                    requestPermissions();
+                } else {
+                    getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+                }
             } else {
-                getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+                AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                        startActivity(myIntent);
+                        dialog.cancel();
+                    }
+                });
             }
         } else {
             mService.removeLocationUpdates();
@@ -238,6 +247,14 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
     }
 
+    private void setButtonsState(boolean requestingLocationUpdates) {
+        if (requestingLocationUpdates) {
+            startGPSButton.setText(getString(R.string.stop_gps));
+        } else {
+            startGPSButton.setText(getString(R.string.start_gps));
+        }
+    }
+
     /**
      * Receiver for broadcasts sent by {@link LocationUpdatesService}.
      */
@@ -249,14 +266,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 Toast.makeText(getContext(), location.toString(),
                         Toast.LENGTH_SHORT).show();
             }
-        }
-    }
-
-    private void setButtonsState(boolean requestingLocationUpdates) {
-        if (requestingLocationUpdates) {
-            startGPSButton.setText(getString(R.string.stop_gps));
-        } else {
-            startGPSButton.setText(getString(R.string.start_gps));
         }
     }
 

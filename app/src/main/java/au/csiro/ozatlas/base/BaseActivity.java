@@ -145,7 +145,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
 
     /**
      * @param coordinatorLayout
-     * @param string        multiline message to show
+     * @param string            multiline message to show
      */
     public void showMultiLineSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);

@@ -36,13 +36,13 @@ import java.util.Locale;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.geocode.Constants;
+import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import au.csiro.ozatlas.geocode.Constants;
-import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;

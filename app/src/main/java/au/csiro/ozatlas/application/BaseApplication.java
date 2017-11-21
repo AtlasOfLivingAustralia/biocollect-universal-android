@@ -9,7 +9,6 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.di.AnalyticsModule;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
-import au.csiro.ozatlas.manager.AtlasManager;
 import di.AppComponent;
 import di.DaggerAppComponent;
 

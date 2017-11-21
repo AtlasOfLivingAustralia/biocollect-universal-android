@@ -13,19 +13,18 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
-            android:src="@drawable/biocontrolhub_login_bk"
-            android:scaleType="centerCrop" />
+            android:scaleType="centerCrop"
+            android:src="@drawable/biocontrolhub_login_bk" />
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            xmlns:app="http://schemas.android.com/apk/res-auto"
-            android:layout_marginTop="@dimen/activity_padding"
+        <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="110dp"
             android:layout_height="110dp"
             android:layout_above="@+id/filedLayout"
             android:layout_centerHorizontal="true"
+            android:layout_marginTop="@dimen/activity_padding"
             android:src="@drawable/biocontrolhub_logo"
-            app:civ_border_width="1dp"
-            app:civ_border_color="#FF999999" />
+            app:civ_border_color="#FF999999"
+            app:civ_border_width="1dp" />
 
         <LinearLayout
             android:id="@+id/filedLayout"
@@ -92,9 +91,9 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="@dimen/view_top_margin"
-                android:textColor="@android:color/white"
                 android:background="?attr/selectableItemBackground"
                 android:text="@string/register"
+                android:textColor="@android:color/white"
                 android:textStyle="bold" />
         </LinearLayout>
     </RelativeLayout>

@@ -31,6 +31,8 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.geocode.Constants;
+import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.model.DraftSpecies;
@@ -38,8 +40,6 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import au.csiro.ozatlas.geocode.Constants;
-import au.csiro.ozatlas.geocode.FetchAddressIntentService;
 import io.realm.Realm;
 import model.OzAtlasLocation;
 

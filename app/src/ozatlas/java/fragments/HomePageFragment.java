@@ -54,22 +54,22 @@ public class HomePageFragment extends BaseMainActivityFragment {
                     if (item.text.equals(getString(R.string.add_title))) {
                         setDrawerMenuChecked(R.id.nav_add);
                         setDrawerMenuClicked(R.id.nav_add);
-                    }else if (item.text.equals(getString(R.string.my_sighting_title))) {
+                    } else if (item.text.equals(getString(R.string.my_sighting_title))) {
                         setDrawerMenuChecked(R.id.nav_my_sighting);
                         setDrawerMenuClicked(R.id.nav_my_sighting);
-                    }else if (item.text.equals(getString(R.string.draft_sighting_title))) {
+                    } else if (item.text.equals(getString(R.string.draft_sighting_title))) {
                         setDrawerMenuChecked(R.id.nav_draft_sighting);
                         setDrawerMenuClicked(R.id.nav_draft_sighting);
-                    }else if (item.text.equals(getString(R.string.all_sighting_title))) {
+                    } else if (item.text.equals(getString(R.string.all_sighting_title))) {
                         setDrawerMenuChecked(R.id.nav_all_sighting);
                         setDrawerMenuClicked(R.id.nav_all_sighting);
-                    }else if (item.text.equals(getString(R.string.map_explore_title))) {
+                    } else if (item.text.equals(getString(R.string.map_explore_title))) {
                         setDrawerMenuChecked(R.id.nav_location_species);
                         setDrawerMenuClicked(R.id.nav_location_species);
-                    }else if (item.text.equals(getString(R.string.about_title))) {
+                    } else if (item.text.equals(getString(R.string.about_title))) {
                         //setDrawerMenuChecked(R.id.);
                         setDrawerMenuClicked(R.id.nav_about);
-                    }else if (item.text.equals(getString(R.string.contact_us_title))) {
+                    } else if (item.text.equals(getString(R.string.contact_us_title))) {
                         //setDrawerMenuChecked(R.id.);
                         setDrawerMenuClicked(R.id.nav_contact);
                     }

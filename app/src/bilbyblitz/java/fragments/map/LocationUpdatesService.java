@@ -1,12 +1,12 @@
 /**
  * Copyright 2017 Google Inc. All Rights Reserved.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
+ * <p>
  * http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,7 +28,6 @@ import android.os.HandlerThread;
 import android.os.IBinder;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -49,26 +48,19 @@ public class LocationUpdatesService extends Service {
 
     private static final String PACKAGE_NAME =
             "au.org.ala.bilbyblitz";
-
-    private static final String TAG = LocationUpdatesService.class.getSimpleName();
-
     static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
-
     static final String EXTRA_LOCATION = PACKAGE_NAME + ".location";
-
-    private final IBinder mBinder = new LocalBinder();
-
+    private static final String TAG = LocationUpdatesService.class.getSimpleName();
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
     private static final long UPDATE_INTERVAL_IN_MILLISECONDS = 10000;
-
     /**
      * The fastest rate for active location updates. Updates will never be more frequent
      * than this value.
      */
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
-
+    private final IBinder mBinder = new LocalBinder();
     /**
      * Used to check whether the bound activity has really gone away and not unbound as part of an
      * orientation change. We create a foreground service notification only if the former takes
@@ -164,7 +156,7 @@ public class LocationUpdatesService extends Service {
         // service. If this method is called due to a configuration change, we
         // do nothing. Otherwise, we make this service a foreground service.
         //if (!mChangingConfiguration && LocationUtils.requestingLocationUpdates(this)) {
-          //  Log.i(TAG, "Starting service");
+        //  Log.i(TAG, "Starting service");
             /*
             // TODO(developer). If targeting O, use the following code.
             if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
@@ -174,7 +166,7 @@ public class LocationUpdatesService extends Service {
                 startForeground(NOTIFICATION_ID, getNotification());
             }
              */
-            //startForeground(NOTIFICATION_ID, getNotification());
+        //startForeground(NOTIFICATION_ID, getNotification());
         //}
         return true; // Ensures onRebind() is called when a client re-binds.
     }
@@ -262,16 +254,6 @@ public class LocationUpdatesService extends Service {
     }
 
     /**
-     * Class used for the client Binder.  Since this service runs in the same process as its
-     * clients, we don't need to deal with IPC.
-     */
-    public class LocalBinder extends Binder {
-        LocationUpdatesService getService() {
-            return LocationUpdatesService.this;
-        }
-    }
-
-    /**
      * Returns true if this is a foreground service.
      *
      * @param context The {@link Context}.
@@ -287,5 +269,15 @@ public class LocationUpdatesService extends Service {
             }
         }
         return false;
+    }
+
+    /**
+     * Class used for the client Binder.  Since this service runs in the same process as its
+     * clients, we don't need to deal with IPC.
+     */
+    public class LocalBinder extends Binder {
+        LocationUpdatesService getService() {
+            return LocationUpdatesService.this;
+        }
     }
 }

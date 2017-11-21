@@ -12,14 +12,13 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:theme="@style/ThemeOverlay.AppCompat.Light">
 
-    <de.hdodenhof.circleimageview.CircleImageView
-        xmlns:app="http://schemas.android.com/apk/res-auto"
+    <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
         android:layout_width="@dimen/row_icon_width"
         android:layout_height="@dimen/row_icon_width"
-        android:src="@mipmap/ic_launcher"
-        app:civ_border_width="1dp"
         android:layout_marginTop="@dimen/nav_header_vertical_spacing"
-        app:civ_border_color="#FF999999"/>
+        android:src="@mipmap/ic_launcher"
+        app:civ_border_color="#FF999999"
+        app:civ_border_width="1dp" />
 
     <TextView
         android:id="@+id/name"

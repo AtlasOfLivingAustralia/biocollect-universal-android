@@ -19,8 +19,8 @@
         android:name="application.CsiroApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:roundIcon="@mipmap/ic_launcher_circular"
         android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_circular"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
@@ -35,8 +35,8 @@
 
         <activity
             android:name="activity.MainActivity"
-            android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait"
+            android:theme="@style/AppTheme.NoActionBar"
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -46,13 +46,13 @@
         </activity>
         <activity
             android:name="au.csiro.ozatlas.activity.LoginActivity"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" />
         <activity
             android:name="activity.SingleFragmentActivity"
             android:configChanges="orientation|screenSize"
-            android:screenOrientation="portrait"
-            android:label="@string/title_activity_main" />
+            android:label="@string/title_activity_main"
+            android:screenOrientation="portrait" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -75,9 +75,11 @@
 
         <service
             android:name="fragments.offline_species.service.FetchAndSaveSpeciesService"
-            android:exported="false"/>
+            android:exported="false" />
 
-        <service android:name="fragments.map.LocationUpdatesService" android:exported="false"/>
+        <service
+            android:name="fragments.map.LocationUpdatesService"
+            android:exported="false" />
     </application>
 
 </manifest>

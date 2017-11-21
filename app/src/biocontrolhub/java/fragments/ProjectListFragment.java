@@ -41,8 +41,6 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
 
     private List<Projects> projects = new ArrayList<>();
     private Boolean myProjects = false;
-    private int totalProjects;
-
     /**
      * onClick listener for the recyclerview item
      */
@@ -65,6 +63,7 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
             }
         }
     };
+    private int totalProjects;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

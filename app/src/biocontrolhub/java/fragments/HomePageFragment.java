@@ -67,6 +67,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
 
     /**
      * setting up the header information of the option list
+     *
      * @param header
      */
     private void setupHeader(View header) {
@@ -147,16 +148,6 @@ public class HomePageFragment extends BaseMainActivityFragment {
     }
 
     /**
-     * Model for List item
-     */
-    private class ListItem {
-        String text;
-        int icon;
-        String url;
-        boolean isForWebView;
-    }
-
-    /**
      * URL Constants for the static pages
      */
     public interface UrlConstants {
@@ -166,6 +157,16 @@ public class HomePageFragment extends BaseMainActivityFragment {
         String SHARING_AND_USING = BASE_URL + "/biocontrolhub/staticPage/index?page=get_involved&mobile=true";
         String ABOUT_URL = BASE_URL + "/biocontrolhub/staticPage/index?page=identify_biocontrol_agents&mobile=true";
         String BIO_COLLECT = "https://www.ala.org.au/biocollect/";
+    }
+
+    /**
+     * Model for List item
+     */
+    private class ListItem {
+        String text;
+        int icon;
+        String url;
+        boolean isForWebView;
     }
 
     /**

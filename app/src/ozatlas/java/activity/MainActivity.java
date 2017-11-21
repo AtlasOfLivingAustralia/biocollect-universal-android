@@ -36,7 +36,6 @@ import fragments.AddSightingFragment;
 import fragments.DraftSightingListFragment;
 import fragments.ExploreSpeciesFragment;
 import fragments.HomePageFragment;
-import fragments.OfflineInformationFragment;
 import fragments.SightingListFragment;
 import upload.Constants;
 

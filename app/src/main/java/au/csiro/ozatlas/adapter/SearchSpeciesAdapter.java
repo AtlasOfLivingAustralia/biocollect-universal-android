@@ -13,7 +13,6 @@ import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.model.SearchSpecies;
-import au.csiro.ozatlas.model.SpeciesSearchResponse;
 
 /**
  * Created by sad038 on 18/4/17.

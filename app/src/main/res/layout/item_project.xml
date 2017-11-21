@@ -29,10 +29,10 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="4dp"
-            android:tint="@color/colorPrimary"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_info_outline_black_24dp" />
+            android:src="@drawable/ic_info_outline_black_24dp"
+            android:tint="@color/colorPrimary" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -46,9 +46,9 @@
                 style="@android:style/TextAppearance.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginBottom="1dp"
-                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
                 android:maxLines="1" />
 
@@ -57,9 +57,9 @@
                 style="@android:style/TextAppearance.Holo.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
                 android:layout_below="@+id/name"
                 android:layout_marginBottom="1dp"
-                android:layout_alignParentLeft="true"
                 android:ellipsize="end"
                 android:maxLines="1" />
 
@@ -78,9 +78,9 @@
                 style="@android:style/TextAppearance.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_alignWithParentIfMissing="true"
                 android:layout_below="@id/type"
-                android:layout_alignParentRight="true"
                 android:maxLines="1" />
         </RelativeLayout>
     </RelativeLayout>

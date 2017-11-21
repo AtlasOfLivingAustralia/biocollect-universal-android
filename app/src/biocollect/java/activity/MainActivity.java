@@ -1,7 +1,6 @@
 package activity;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -39,10 +38,10 @@ import static au.csiro.ozatlas.R.id.coordinatorLayout;
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
 
+    boolean doubleBackToExitPressedOnce = false;
     private NavigationView navigationView;
     private FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,7 +117,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
@@ -138,7 +137,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        }else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -163,9 +162,9 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_contact) {
             startWebViewActivity("https://www.ala.org.au/who-we-are/contact-us/", getString(R.string.contact_us_title), false);
-        }else if (id == R.id.nav_about_biocollect) {
+        } else if (id == R.id.nav_about_biocollect) {
             startWebViewActivity("https://www.ala.org.au/biocollect/", getString(R.string.about_title), false);
-        }else if (id == R.id.nav_about_ala) {
+        } else if (id == R.id.nav_about_ala) {
             startWebViewActivity("https://www.ala.org.au/who-we-are/", getString(R.string.about_ala_title), false);
         }
 

@@ -21,15 +21,15 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="12dp"
-        android:textStyle="bold"
         android:layout_toRightOf="@+id/imageView"
-        android:textSize="@dimen/default_input_font_size" />
+        android:textSize="@dimen/default_input_font_size"
+        android:textStyle="bold" />
 
     <ImageView
         android:layout_width="@dimen/row_cross_round_tick_width"
         android:layout_height="@dimen/row_cross_round_tick_width"
         android:layout_alignParentRight="true"
-        android:src="@drawable/ic_keyboard_arrow_down_black_18dp"
         android:rotation="-90"
-        android:tint="@color/colorPrimary"/>
+        android:src="@drawable/ic_keyboard_arrow_down_black_18dp"
+        android:tint="@color/colorPrimary" />
 </RelativeLayout>

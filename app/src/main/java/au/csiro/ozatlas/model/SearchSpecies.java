@@ -10,7 +10,7 @@ import io.realm.annotations.PrimaryKey;
  * Created by sad038 on 16/10/17.
  */
 
-public class SearchSpecies extends RealmObject{
+public class SearchSpecies extends RealmObject {
     @PrimaryKey
     public String realmId;
     @Expose

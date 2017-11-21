@@ -72,7 +72,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
                             moreButtonListener.onMoreButtonClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
                     }
                 });
-            }else{
+            } else {
                 sightViewHolders.moreButton.setVisibility(View.INVISIBLE);
             }
             sightViewHolders.name.setText(sight.projectName);

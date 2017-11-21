@@ -36,10 +36,10 @@ import fragments.SightingListFragment;
  */
 public class MainActivity extends BaseActivity implements NavigationView.OnNavigationItemSelectedListener, MainActivityFragmentListener {
 
+    boolean doubleBackToExitPressedOnce = false;
     private NavigationView navigationView;
     private FloatingActionButton fab;
     private CoordinatorLayout coordinatorLayout;
-    boolean doubleBackToExitPressedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -108,7 +108,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
                 @Override
                 public void run() {
-                    doubleBackToExitPressedOnce=false;
+                    doubleBackToExitPressedOnce = false;
                 }
             }, 2000);
         }
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        }else if (id == R.id.nav_logout) {
+        } else if (id == R.id.nav_logout) {
             AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -144,7 +144,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             });
         } else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
-        }else if (id == R.id.nav_my_sighting) {
+        } else if (id == R.id.nav_my_sighting) {
             Bundle bundle = new Bundle();
             bundle.putString(getString(R.string.myview_parameter), "myrecords");
             Fragment fragment = new SightingListFragment();
@@ -160,7 +160,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             startWebViewActivity(HomePageFragment.UrlConstants.ADDITIONAL_RESOURCES_URL, getString(R.string.additional_resources_title), false);
         } else if (id == R.id.nav_get_involved) {
             startWebViewActivity(HomePageFragment.UrlConstants.SHARING_AND_USING, getString(R.string.sharing_and_using), false);
-        }else if (id == R.id.nav_biocollect) {
+        } else if (id == R.id.nav_biocollect) {
             startWebViewActivity(HomePageFragment.UrlConstants.BIO_COLLECT, getString(R.string.biocollect_title), false);
         }
 

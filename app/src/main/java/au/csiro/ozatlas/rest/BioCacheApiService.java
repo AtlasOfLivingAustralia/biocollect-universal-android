@@ -2,10 +2,10 @@ package au.csiro.ozatlas.rest;
 
 import java.util.List;
 
+import au.csiro.ozatlas.model.ExploreAnimal;
 import au.csiro.ozatlas.model.ExploreGroup;
 import au.csiro.ozatlas.model.SearchSpecies;
 import io.reactivex.Observable;
-import au.csiro.ozatlas.model.ExploreAnimal;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
 import retrofit2.http.Query;

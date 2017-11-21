@@ -11,6 +11,7 @@ import io.reactivex.disposables.CompositeDisposable;
 public abstract class BaseIntentService extends IntentService {
     protected final String TAG = getClass().getSimpleName();
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *
