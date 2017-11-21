@@ -60,30 +60,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @BindView(R.id.editCentroidLongitude)
     EditText editCentroidLongitude;
 
-    private FusedLocationProviderClient mFusedLocationClient;
     private List<Location> locations = new ArrayList<>();
     private GoogleMap googleMap;
-    private LocationManager locationManager;
 
-    // Define a listener that responds to location updates
-    LocationListener locationListener = new LocationListener() {
-        public void onLocationChanged(Location location) {
-            hideProgressDialog();
-            // Remove the listener you previously added
-            locations.add(location);
-            Toast.makeText(getContext(), location.getLatitude() + "" + location.getLongitude(), Toast.LENGTH_LONG).show();
-            //locationManager.removeUpdates(locationListener);
-        }
-
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-        }
-
-        public void onProviderEnabled(String provider) {
-        }
-
-        public void onProviderDisabled(String provider) {
-        }
-    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -91,9 +70,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         ButterKnife.bind(this, view);
 
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
-
-        mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getActivity());
-        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
 
         //set the localized labels
         setLanguageValues();
@@ -113,46 +89,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             return;
         }
 
-        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-            showProgressDialog();
-            if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
-                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
-            if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
-                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
-        } else {
-            AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int id) {
-                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivity(myIntent);
-                    dialog.cancel();
-                }
-            });
-        }
+
     }
 
-
-    /**
-     * getting last location from fused location service
-     */
-    private void getLastLocation() {
-        MarshMallowPermission marshMallowPermission = new MarshMallowPermission(TrackMapFragment.this);
-        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            marshMallowPermission.requestPermissionForLocation();
-            return;
-        }
-
-        this.googleMap.setMyLocationEnabled(true);
-        mFusedLocationClient.getLastLocation()
-                .addOnSuccessListener(getActivity(), new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            setGoogleMapMarker(new LatLng(location.getLatitude(), location.getLongitude()));
-                        }
-                    }
-                });
-    }
 
     private void setGoogleMapMarker(LatLng latLng) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
@@ -186,7 +125,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
-        getLastLocation();
     }
 
     /**
