@@ -90,6 +90,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         public void onServiceDisconnected(ComponentName name) {
             mService = null;
             mBound = false;
+            setButtonsState(false);
         }
     };
 
@@ -117,12 +118,12 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     public void onStart() {
         super.onStart();
         // Restore the state of the buttons when the activity (re)launches.
-        setButtonsState(false);
+        //setButtonsState(false);
 
         // Bind to the service. If the service is in foreground mode, this signals to the service
         // that since this activity is in the foreground, the service can exit foreground mode.
-        if (checkPermissions())
-            getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        //if (checkPermissions())
+        //    getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
     }
 
     @Override
@@ -171,11 +172,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             if (!checkPermissions()) {
                 requestPermissions();
             } else {
-                setButtonsState(true);
-                mService.requestLocationUpdates();
+                getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
             }
         } else {
             mService.removeLocationUpdates();
+            setButtonsState(false);
         }
     }
 
