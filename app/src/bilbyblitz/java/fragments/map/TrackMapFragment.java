@@ -19,6 +19,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.AppCompatSpinner;
 import android.util.Log;
@@ -35,6 +36,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -72,6 +75,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     // Tracks the bound state of the service.
     private boolean mBound = false;
     // Monitors the state of the connection to the service.
+    Polyline line;
+    PolylineOptions polylineOptions;
+
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
         @Override
@@ -217,6 +223,13 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         setGoogleMapMarker(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
+    private void addPolyLine(Location location) {
+        if (polylineOptions != null) {
+            polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            googleMap.addPolyline(polylineOptions);
+        }
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -245,6 +258,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        polylineOptions = new PolylineOptions()
+                .color(ContextCompat.getColor(getContext(), R.color.colorPrimary))
+                .width(getResources().getDimension(R.dimen.map_line_width));
     }
 
     /**
@@ -299,6 +315,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
                 if (location != null) {
                     locations.add(location);
+                    setGoogleMapMarker(location);
+                    addPolyLine(location);
                     Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
                 }
             }

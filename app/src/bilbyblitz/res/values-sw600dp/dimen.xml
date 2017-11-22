@@ -10,4 +10,5 @@
     <dimen name="caption_font_size">14sp</dimen>
 
     <dimen name="minimum_height_bigger_input_views">64dp</dimen>
+    <dimen name="map_line_width">6dp</dimen>
 </resources>

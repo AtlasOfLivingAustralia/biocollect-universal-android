@@ -10,5 +10,6 @@
     <dimen name="big_title_font_size">26sp</dimen>
 
     <dimen name="minimum_height_bigger_input_views">58dp</dimen>
+    <dimen name="map_line_width">4dp</dimen>
 
 </resources>
