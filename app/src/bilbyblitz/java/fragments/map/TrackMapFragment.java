@@ -79,7 +79,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
             mService = binder.getService();
             mService.requestLocationUpdates();
-            setButtonsState(true);
             mBound = true;
         }
 
@@ -99,10 +98,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
-        // Check that the user hasn't revoked permissions by going to Settings.
-        if (!checkPermissions()) {
-            requestPermissions();
-        }
 
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
 
@@ -112,17 +107,36 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString("TrackMapFragmentGPSButton", startGPSButton.getText().toString());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            String string = savedInstanceState.getString("TrackMapFragmentGPSButton");
+            if (string != null)
+                startGPSButton.setText(string);
+        }
+    }
+
+    private boolean isGPSStarted() {
+        return startGPSButton.getText().equals(getString(R.string.stop_gps));
+    }
 
     @Override
     public void onStart() {
         super.onStart();
-        // Restore the state of the buttons when the activity (re)launches.
-        //setButtonsState(false);
-
         // Bind to the service. If the service is in foreground mode, this signals to the service
         // that since this activity is in the foreground, the service can exit foreground mode.
-        //if (checkPermissions())
-        //    getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        if (!checkPermissions()) {
+            requestPermissions();
+        } else {
+            getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        }
     }
 
     @Override
@@ -172,7 +186,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 if (!checkPermissions()) {
                     requestPermissions();
                 } else {
-                    getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+                    setButtonsState(true);
+                    LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
                 }
             } else {
                 AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
@@ -184,7 +199,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 });
             }
         } else {
+            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
             mService.removeLocationUpdates();
+            getActivity().unbindService(mServiceConnection);
+            mService = null;
+            mBound = false;
             setButtonsState(false);
         }
     }
@@ -192,6 +211,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     private void setGoogleMapMarker(LatLng latLng) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+    }
+
+    private void setGoogleMapMarker(Location location) {
+        setGoogleMapMarker(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
     @Override
@@ -238,7 +261,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission was granted.
+                //setButtonsState(true);
                 getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+                //LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
                 //mService.requestLocationUpdates();
             } else {
                 // Permission denied.
@@ -261,10 +286,21 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Location location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+            Location location;
+
+            location = intent.getParcelableExtra(LocationUpdatesService.LAST_KNOWN_LOCATION);
             if (location != null) {
-                Toast.makeText(getContext(), location.toString(),
-                        Toast.LENGTH_SHORT).show();
+                setGoogleMapMarker(location);
+                Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+                return;
+            }
+
+            if (isGPSStarted()) {
+                location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+                if (location != null) {
+                    locations.add(location);
+                    Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+                }
             }
         }
     }

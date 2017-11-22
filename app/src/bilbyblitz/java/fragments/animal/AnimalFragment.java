@@ -2,6 +2,7 @@ package fragments.animal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,6 +47,21 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         setLanguageValues();
 
         return view;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //outState.putString("TrackMapFragmentGPSButton", startGPSButton.getText().toString());
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            //String string = savedInstanceState.getString("TrackMapFragmentGPSButton");
+        }
     }
 
     @Override

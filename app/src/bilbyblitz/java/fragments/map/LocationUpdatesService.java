@@ -50,7 +50,9 @@ public class LocationUpdatesService extends Service {
             "au.org.ala.bilbyblitz";
     static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
     static final String EXTRA_LOCATION = PACKAGE_NAME + ".location";
+    static final String LAST_KNOWN_LOCATION = PACKAGE_NAME + ".last_known_location";
     private static final String TAG = LocationUpdatesService.class.getSimpleName();
+    private static final int TOLERATE_MINIMUM_DISTANCE = 10; //meter
     /**
      * The desired interval for location updates. Inexact. Updates may be more or less frequent.
      */
@@ -61,12 +63,6 @@ public class LocationUpdatesService extends Service {
      */
     private static final long FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS = UPDATE_INTERVAL_IN_MILLISECONDS / 2;
     private final IBinder mBinder = new LocalBinder();
-    /**
-     * Used to check whether the bound activity has really gone away and not unbound as part of an
-     * orientation change. We create a foreground service notification only if the former takes
-     * place.
-     */
-    private boolean mChangingConfiguration = false;
 
     /**
      * Contains parameters used by {@link com.google.android.gms.location.FusedLocationProviderApi}.
@@ -123,7 +119,6 @@ public class LocationUpdatesService extends Service {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        mChangingConfiguration = true;
     }
 
     @Override
@@ -132,43 +127,7 @@ public class LocationUpdatesService extends Service {
         // and binds with this service. The service should cease to be a foreground service
         // when that happens.
         Log.i(TAG, "in onBind()");
-        stopForeground(true);
-        mChangingConfiguration = false;
         return mBinder;
-    }
-
-    @Override
-    public void onRebind(Intent intent) {
-        // Called when a client returns to the foreground
-        // and binds once again with this service. The service should cease to be a foreground
-        // service when that happens.
-        Log.i(TAG, "in onRebind()");
-        stopForeground(true);
-        mChangingConfiguration = false;
-        super.onRebind(intent);
-    }
-
-    @Override
-    public boolean onUnbind(Intent intent) {
-        Log.i(TAG, "Last client unbound from service");
-
-        // Called when the last client unbinds from this
-        // service. If this method is called due to a configuration change, we
-        // do nothing. Otherwise, we make this service a foreground service.
-        //if (!mChangingConfiguration && LocationUtils.requestingLocationUpdates(this)) {
-        //  Log.i(TAG, "Starting service");
-            /*
-            // TODO(developer). If targeting O, use the following code.
-            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.O) {
-                mNotificationManager.startServiceInForeground(new Intent(this,
-                        LocationUpdatesService.class), NOTIFICATION_ID, getNotification());
-            } else {
-                startForeground(NOTIFICATION_ID, getNotification());
-            }
-             */
-        //startForeground(NOTIFICATION_ID, getNotification());
-        //}
-        return true; // Ensures onRebind() is called when a client re-binds.
     }
 
     @Override
@@ -217,6 +176,9 @@ public class LocationUpdatesService extends Service {
                         public void onComplete(@NonNull Task<Location> task) {
                             if (task.isSuccessful() && task.getResult() != null) {
                                 mLocation = task.getResult();
+                                Intent intent = new Intent(ACTION_BROADCAST);
+                                intent.putExtra(LAST_KNOWN_LOCATION, mLocation);
+                                LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
                             } else {
                                 Log.w(TAG, "Failed to get location.");
                             }
@@ -236,11 +198,6 @@ public class LocationUpdatesService extends Service {
         Intent intent = new Intent(ACTION_BROADCAST);
         intent.putExtra(EXTRA_LOCATION, location);
         LocalBroadcastManager.getInstance(getApplicationContext()).sendBroadcast(intent);
-
-        // Update notification content if running as a foreground service.
-        if (serviceIsRunningInForeground(this)) {
-            //mNotificationManager.notify(NOTIFICATION_ID, getNotification());
-        }
     }
 
     /**
@@ -248,27 +205,10 @@ public class LocationUpdatesService extends Service {
      */
     private void createLocationRequest() {
         mLocationRequest = new LocationRequest();
+        mLocationRequest.setSmallestDisplacement(TOLERATE_MINIMUM_DISTANCE);
         mLocationRequest.setInterval(UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setFastestInterval(FASTEST_UPDATE_INTERVAL_IN_MILLISECONDS);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-    }
-
-    /**
-     * Returns true if this is a foreground service.
-     *
-     * @param context The {@link Context}.
-     */
-    public boolean serviceIsRunningInForeground(Context context) {
-        ActivityManager manager = (ActivityManager) context.getSystemService(
-                Context.ACTIVITY_SERVICE);
-        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-            if (getClass().getName().equals(service.service.getClassName())) {
-                if (service.foreground) {
-                    return true;
-                }
-            }
-        }
-        return false;
     }
 
     /**

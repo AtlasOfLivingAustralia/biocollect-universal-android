@@ -71,7 +71,6 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         return view;
     }
 
-
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
