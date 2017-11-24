@@ -16,10 +16,14 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.SimpleAdapter;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.FileUtils;
@@ -67,6 +71,29 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
 
         //set the localized labels
         setLanguageValues();
+
+        int[] icons = new int[]{R.drawable.breakawayhill, R.drawable.countrytype, R.drawable.drainageline, R.drawable.laterite, R.drawable.rockyrange};
+        String[] types = getResources().getStringArray(R.array.dummy_type);
+        List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < icons.length; i++) {
+            Map<String, Object> datum = new HashMap<String, Object>(2);
+            datum.put("imageView", icons[i]);
+            datum.put("name", types[i]);
+            data.add(datum);
+        }
+        countryTypeSpinner.setAdapter(new SimpleAdapter(getContext(), data, R.layout.row_icon_string, new String[] {"imageView","name"}, new int[] {R.id.imageView, R.id.name}));
+
+        icons = new int[]{R.drawable.little, R.drawable.clear, R.drawable.some_clear};
+        types = getResources().getStringArray(R.array.dummy_type);
+        data = new ArrayList<Map<String, Object>>();
+        for (int i = 0; i < icons.length; i++) {
+            Map<String, Object> datum = new HashMap<String, Object>(2);
+            datum.put("imageView", icons[i]);
+            datum.put("name", types[i]);
+            data.add(datum);
+        }
+        groundTypeSpinner.setAdapter(new SimpleAdapter(getContext(), data, R.layout.row_icon_string, new String[] {"imageView","name"}, new int[] {R.id.imageView, R.id.name}));
+
 
         return view;
     }
