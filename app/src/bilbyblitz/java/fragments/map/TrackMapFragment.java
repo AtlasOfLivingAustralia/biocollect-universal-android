@@ -1,6 +1,8 @@
 package fragments.map;
 
 import android.Manifest;
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
 import android.content.Context;
@@ -28,7 +30,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -40,15 +44,20 @@ import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDateTimeDialogManager;
+import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.ValidationCheck;
+
+import static android.provider.Settings.System.DATE_FORMAT;
 
 /**
  * Created by sad038 on 9/10/17.
@@ -58,6 +67,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private final float INITIAL_ZOOM = 10.2f;
+    private static final String DATE_FORMAT = "dd MMMM, yyyy";
+    private static final String TIME_FORMAT = "hh:mm a";
+
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
@@ -66,6 +78,13 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     EditText editCentroidLatitude;
     @BindView(R.id.editCentroidLongitude)
     EditText editCentroidLongitude;
+    @BindView(R.id.editDate)
+    EditText editDate;
+    @BindView(R.id.editStartTime)
+    EditText editStartTime;
+    @BindView(R.id.editEndTime)
+    EditText editEndTime;
+
     private List<Location> locations = new ArrayList<>();
     private GoogleMap googleMap;
     // The BroadcastReceiver used to listen from broadcasts from the service.
@@ -261,6 +280,60 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         polylineOptions = new PolylineOptions()
                 .color(ContextCompat.getColor(getContext(), R.color.colorPrimary))
                 .width(getResources().getDimension(R.dimen.map_line_width));
+    }
+
+    /**
+     * Time picker Listener
+     */
+    TimePickerDialog.OnTimeSetListener startTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            Calendar now = Calendar.getInstance();
+            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            now.set(Calendar.MINUTE, minute);
+            editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
+    };
+
+    /**
+     * Time picker Listener
+     */
+    TimePickerDialog.OnTimeSetListener endTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            Calendar now = Calendar.getInstance();
+            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            now.set(Calendar.MINUTE, minute);
+            editEndTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
+    };
+    /**
+     * Date Picker Listener
+     */
+    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            Calendar now = Calendar.getInstance();
+            now.set(Calendar.YEAR, year);
+            now.set(Calendar.MONTH, month);
+            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            editDate.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+        }
+    };
+
+    @OnClick(R.id.editDate)
+    void editDate(){
+        AtlasDateTimeDialogManager.showDatePicker(getActivity(), onDateSetListener);
+    }
+
+    @OnClick(R.id.editStartTime)
+    void editStartTime(){
+        AtlasDateTimeDialogManager.showTimePicker(getContext(), startTimeSetListener);
+    }
+
+    @OnClick(R.id.editEndTime)
+    void editEndTime(){
+        AtlasDateTimeDialogManager.showTimePicker(getContext(), endTimeSetListener);
     }
 
     /**

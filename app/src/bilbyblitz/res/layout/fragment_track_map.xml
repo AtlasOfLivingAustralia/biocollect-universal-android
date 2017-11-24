@@ -20,9 +20,9 @@
 
             <TextView
                 style="@style/InputLabel"
-                android:paddingLeft="0dp"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:paddingLeft="0dp"
                 android:text="@string/survey_type" />
 
             <android.support.v7.widget.AppCompatSpinner
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/centroid_latitude"
-                android:inputType="textMultiLine"
+                android:inputType="numberDecimal"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>
@@ -96,7 +96,73 @@
                 android:layout_height="wrap_content"
                 android:gravity="top|left"
                 android:hint="@string/centroid_longitude"
-                android:inputType="textMultiLine"
+                android:inputType="numberDecimal"
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputLayoutDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_view_top_margin"
+            android:minHeight="@dimen/minimum_height_input_views">
+
+            <EditText
+                android:id="@+id/editDate"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/event_date_hint"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputLayoutstartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_view_top_margin"
+            android:minHeight="@dimen/minimum_height_input_views">
+
+            <EditText
+                android:id="@+id/editStartTime"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/event_start_time_hint"
+                android:inputType="date"
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/inputLayoutEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_view_top_margin"
+            android:minHeight="@dimen/minimum_height_input_views">
+
+            <EditText
+                android:id="@+id/editEndTime"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:cursorVisible="false"
+                android:focusable="false"
+                android:focusableInTouchMode="false"
+                android:hint="@string/event_end_time_hint"
+                android:inputType="date"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
         </android.support.design.widget.TextInputLayout>

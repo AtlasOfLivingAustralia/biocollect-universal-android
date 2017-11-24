@@ -41,6 +41,9 @@
     <string name="fire">Fire</string>
     <string name="disturbance">Disturbance</string>
     <string name="country_name">Country Name</string>
+    <string name="event_date_hint">Tracking event date</string>
+    <string name="event_start_time_hint">Tracking event start time</string>
+    <string name="event_end_time_hint">Tracking event finish time</string>
     <string name="centroid_longitude">Centroid Longitude</string>
     <string name="centroid_latitude">Centroid Latitude</string>
     <string name="organisation_name">Organisation Name</string>
