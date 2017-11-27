@@ -15,7 +15,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import java.io.File;
 import java.io.IOException;
@@ -39,32 +42,30 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
 
-    @BindView(R.id.animalKindSpinner)
-    AppCompatSpinner animalKindSpinner;
-    @BindView(R.id.sizeSpinner)
-    AppCompatSpinner sizeSpinner;
-    @BindView(R.id.coveringSpinner)
-    AppCompatSpinner coveringSpinner;
-    @BindView(R.id.animalNameSpinner)
-    AppCompatSpinner whatSeenSpinner;
+    @BindView(R.id.editSpeciesName)
+    AutoCompleteTextView editSpeciesName;
     @BindView(R.id.whatSeenSpinner)
-    AppCompatSpinner animalNameSpinner;
+    AppCompatSpinner whatSeenSpinner;
     @BindView(R.id.howRecentSpinner)
     AppCompatSpinner howRecentSpinner;
     @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.speciesDetailLayout)
+    LinearLayout speciesDetailLayout;
 
     private String mCurrentPhotoPath;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_animal, container, false);
-        //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
         //set the localized labels
         setLanguageValues();
+
+        whatSeenSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.what_see_values, R.layout.item_textview));
+        howRecentSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.how_recent_values, R.layout.item_textview));
 
         return view;
     }
@@ -79,6 +80,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
+                getActivity().finish();
                 break;
         }
         return super.onOptionsItemSelected(item);

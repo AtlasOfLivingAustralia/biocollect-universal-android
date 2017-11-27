@@ -83,6 +83,23 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="what_see_values">
+        <item>Live animal</item>
+        <item>Track</item>
+        <item>Scat</item>
+        <item>Burrow</item>
+        <item>Nest</item>
+        <item>Resting place</item>
+        <item>Digging / scratching</item>
+    </string-array>
+
+    <string-array name="how_recent_values">
+        <item>New</item>
+        <item>Fresh (1 – 2 days)</item>
+        <item>Old (3 days - 1 week)</item>
+        <item>Really old (in hard ground > 1 week)</item>
+    </string-array>
+
     <string-array name="dummy_type">
         <item>Type 1</item>
         <item>Type 2</item>
