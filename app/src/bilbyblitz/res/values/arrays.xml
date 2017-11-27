@@ -20,6 +20,69 @@
         <item>Country walking</item>
     </string-array>
 
+    <string-array name="habitat_values">
+        <item>Sand dune</item>
+        <item>Sand plain</item>
+        <item>Creek line</item>
+        <item>Salt lake</item>
+        <item>Wetland</item>
+        <item>Stony rise</item>
+        <item>Rocky range</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="plot_type">
+        <item>Random</item>
+        <item>Target habitat</item>
+        <item>Target species</item>
+    </string-array>
+
+    <string-array name="tracking_event_values">
+        <item>First time</item>
+        <item>Repeat sample</item>
+        <item>Unknown</item>
+    </string-array>
+
+    <string-array name="disturbance_values">
+        <item>Wind</item>
+        <item>Rain</item>
+        <item>Wet ground</item>
+        <item>Car</item>
+        <item>No recent disturbance</item>
+    </string-array>
+
+    <string-array name="ground_values">
+        <item>0 – 25% bare ground</item>
+        <item>25 – 50% bare ground</item>
+        <item>50 – 75% bare ground</item>
+        <item>> 75% bare ground</item>
+    </string-array>
+
+    <string-array name="fire_type">
+        <item>Recent fire</item>
+        <item>Regenerating</item>
+        <item>A few years since fire</item>
+        <item>Long unburnt</item>
+    </string-array>
+
+    <string-array name="visibility_type">
+        <item>Distinct shadow</item>
+        <item>Slight shadow</item>
+        <item>No shadow</item>
+    </string-array>
+
+    <string-array name="tracking_surface_value"></string-array>
+
+    <string-array name="detailed_habitat_values">
+        <item>Spinifex</item>
+        <item>Open grassland</item>
+        <item>Buffel grassland</item>
+        <item>Shrubland</item>
+        <item>Open woodland</item>
+        <item>Dense woodland</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="dummy_type">
         <item>Type 1</item>
         <item>Type 2</item>

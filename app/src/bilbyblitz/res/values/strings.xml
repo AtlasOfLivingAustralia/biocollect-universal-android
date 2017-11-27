@@ -36,9 +36,15 @@
     <string name="survey_type">Survey Type</string>
     <string name="country_type">Country Type</string>
     <string name="add_photo">Add Photo</string>
-    <string name="ground_type">Ground Type</string>
+    <string name="ground_type">Bare Ground</string>
     <string name="detailed_habitat">Detailed habitat</string>
-    <string name="fire">Fire</string>
+    <string name="type_of_plot">Type of plot</string>
+    <string name="habitat">Habitat</string>
+    <string name="tracking_event_type">Tracking event type</string>
+    <string name="trackability">Trackability</string>
+    <string name="fire">How long since fire?</string>
+    <string name="visibility">Visibility</string>
+    <string name="surface_tracking">How good is the tracking surface?</string>
     <string name="disturbance">Disturbance</string>
     <string name="country_name">Country Name</string>
     <string name="event_date_hint">Tracking event date</string>

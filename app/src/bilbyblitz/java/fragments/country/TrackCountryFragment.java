@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -46,14 +47,22 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
 
     @BindView(R.id.detailHabitatSpinner)
     AppCompatSpinner detailHabitatSpinner;
+    @BindView(R.id.habitatSpinner)
+    AppCompatSpinner habitatSpinner;
+    @BindView(R.id.plotTypeSpinner)
+    AppCompatSpinner plotTypeSpinner;
+    @BindView(R.id.trackingEventSpinner)
+    AppCompatSpinner trackingEventSpinner;
     @BindView(R.id.disturbanceSpinner)
     AppCompatSpinner disturbanceSpinner;
     @BindView(R.id.fireSpinner)
     AppCompatSpinner fireSpinner;
+    @BindView(R.id.surfaceTrackingSpinner)
+    AppCompatSpinner surfaceTrackingSpinner;
+    @BindView(R.id.visibilitySpinner)
+    AppCompatSpinner visibilitySpinner;
     @BindView(R.id.groundTypeSpinner)
     AppCompatSpinner groundTypeSpinner;
-    @BindView(R.id.countryTypeSpinner)
-    AppCompatSpinner countryTypeSpinner;
     @BindView(R.id.addPhotoButton)
     Button addPhotoButton;
     @BindView(R.id.editCountryName)
@@ -72,7 +81,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         //set the localized labels
         setLanguageValues();
 
-        int[] icons = new int[]{R.drawable.breakawayhill, R.drawable.countrytype, R.drawable.drainageline, R.drawable.laterite, R.drawable.rockyrange};
+        /*int[] icons = new int[]{R.drawable.breakawayhill, R.drawable.countrytype, R.drawable.drainageline, R.drawable.laterite, R.drawable.rockyrange};
         String[] types = getResources().getStringArray(R.array.dummy_type);
         List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
         for (int i = 0; i < icons.length; i++) {
@@ -93,7 +102,17 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             data.add(datum);
         }
         groundTypeSpinner.setAdapter(new SimpleAdapter(getContext(), data, R.layout.row_icon_string, new String[] {"imageView","name"}, new int[] {R.id.imageView, R.id.name}));
+        */
 
+        detailHabitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.detailed_habitat_values, R.layout.item_textview));
+        habitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.habitat_values, R.layout.item_textview));
+        plotTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.plot_type, R.layout.item_textview));
+        trackingEventSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_event_values, R.layout.item_textview));
+        disturbanceSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.disturbance_values, R.layout.item_textview));
+        groundTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.ground_values, R.layout.item_textview));
+        fireSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.fire_type, R.layout.item_textview));
+        visibilitySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.visibility_type, R.layout.item_textview));
+        surfaceTrackingSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_surface_value, R.layout.item_textview));
 
         return view;
     }
