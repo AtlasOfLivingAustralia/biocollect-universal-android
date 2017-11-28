@@ -5,31 +5,31 @@ package model.track;
  */
 
 public class ImageOfSign {
-    private String licence;
+    public String licence;
 
-    private String status;
+    public String status;
 
-    private String contentType;
+    public String contentType;
 
-    private String url;
+    public String url;
 
-    private String formattedSize;
+    public String formattedSize;
 
-    private String dateTaken;
+    public String dateTaken;
 
-    private String filesize;
+    public String filesize;
 
-    private String thumbnailUrl;
+    public String thumbnailUrl;
 
-    private String name;
+    public String name;
 
-    private String filename;
+    public String filename;
 
-    private String notes;
+    public String notes;
 
-    private String staged;
+    public String staged;
 
-    private String documentId;
+    public String documentId;
 
-    private String attribution;
+    public String attribution;
 }

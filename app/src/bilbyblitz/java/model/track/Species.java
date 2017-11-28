@@ -5,13 +5,13 @@ package model.track;
  */
 
 public class Species {
-    private String guid;
+    public String guid;
 
-    private String commonName;
+    public String commonName;
 
-    private String outputSpeciesId;
+    public String outputSpeciesId;
 
-    private String scientificName;
+    public String scientificName;
 
-    private String name;
+    public String name;
 }

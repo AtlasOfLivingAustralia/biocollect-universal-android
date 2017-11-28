@@ -5,13 +5,13 @@ package model.track;
  */
 
 public class Outputs {
-    private String name;
+    public String name;
 
-    private Data data;
+    public Data data;
 
-    private String appendTableRows;
+    public String appendTableRows;
 
-    private String outputId;
+    public String outputId;
 
-    private String outputNotCompleted;
+    public String outputNotCompleted;
 }

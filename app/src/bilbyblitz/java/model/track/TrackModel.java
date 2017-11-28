@@ -5,17 +5,17 @@ package model.track;
  */
 
 public class TrackModel {
-    private String mainTheme;
+    public String mainTheme;
 
-    private String activityId;
+    public String activityId;
 
-    private String siteId;
+    public String siteId;
 
-    private String projectId;
+    public String projectId;
 
-    private Outputs[] outputs;
+    public Outputs[] outputs;
 
-    private String type;
+    public String type;
 
-    private String projectStage;
+    public String projectStage;
 }

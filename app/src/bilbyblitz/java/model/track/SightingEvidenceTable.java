@@ -5,15 +5,15 @@ package model.track;
  */
 
 public class SightingEvidenceTable {
-    private String typeOfSign;
+    public String typeOfSign;
 
-    private String observationLongitude;
+    public String observationLongitude;
 
-    private ImageOfSign[] imageOfSign;
+    public ImageOfSign[] imageOfSign;
 
-    private Species species;
+    public Species species;
 
-    private String observationLatitude;
+    public String observationLatitude;
 
-    private String evidenceAgeClass;
+    public String evidenceAgeClass;
 }

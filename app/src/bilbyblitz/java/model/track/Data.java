@@ -5,43 +5,43 @@ package model.track;
  */
 
 public class Data {
-    private String locationCentroidLatitude;
+    public String locationCentroidLatitude;
 
-    private String visibility;
+    public String visibility;
 
-    private String location;
+    public String location;
 
-    private String locationAccuracy;
+    public String locationAccuracy;
 
-    private String surveyStartTime;
+    public String surveyStartTime;
 
-    private Double locationLongitude;
+    public Double locationLongitude;
 
-    private String organisationName;
+    public String organisationName;
 
-    private String fireSigns;
+    public String fireSigns;
 
-    private SightingEvidenceTable[] sightingEvidenceTable;
+    public SightingEvidenceTable[] sightingEvidenceTable;
 
-    private String surfaceTrackability;
+    public String surfaceTrackability;
 
-    private Double locationLatitude;
+    public Double locationLatitude;
 
-    private String trackingSurfaceContinuity;
+    public String trackingSurfaceContinuity;
 
-    private String plotSequence;
+    public String plotSequence;
 
-    private String recordedBy;
+    public String recordedBy;
 
-    private String plotType;
+    public String plotType;
 
-    private String habitatType;
+    public String habitatType;
 
-    private TrackerGroupImage[] trackerGroupImage;
+    public TrackerGroupImage[] trackerGroupImage;
 
-    private String locationCentroidLongitude;
+    public String locationCentroidLongitude;
 
-    private String surveyDate;
+    public String surveyDate;
 
-    private String[] locationImage;
+    public String[] locationImage;
 }
