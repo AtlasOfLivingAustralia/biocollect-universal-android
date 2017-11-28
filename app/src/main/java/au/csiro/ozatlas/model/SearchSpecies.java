@@ -20,6 +20,9 @@ public class SearchSpecies extends RealmObject {
     @SerializedName("guid")
     public String guid;
     @Expose
+    @SerializedName("outputSpeciesId")
+    public String outputSpeciesId;
+    @Expose
     @SerializedName("name")
     public String name;
     @Expose

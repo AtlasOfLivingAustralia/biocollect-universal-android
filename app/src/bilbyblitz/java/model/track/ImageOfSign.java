@@ -1,10 +1,12 @@
 package model.track;
 
+import java.io.Serializable;
+
 /**
  * Created by sad038 on 28/11/17.
  */
 
-public class ImageOfSign {
+public class ImageOfSign implements Serializable{
     public String licence;
 
     public String status;

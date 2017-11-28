@@ -11,6 +11,12 @@ public class Utils {
         return str;
     }
 
+    public static boolean isNullOrEmpty(String str) {
+        if (str == null || str.equals(""))
+            return true;
+        return false;
+    }
+
     /**
      * search a string in a string array
      *

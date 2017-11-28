@@ -5,6 +5,7 @@
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="project_id_parameter">PROJECT_ID</string>
     <string name="project_name_parameter">PROJECT_NAME</string>
+    <string name="add_animal_parameter">ADD_ANIMAL</string>
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>

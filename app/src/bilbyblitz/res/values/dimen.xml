@@ -11,5 +11,6 @@
 
     <dimen name="minimum_height_bigger_input_views">58dp</dimen>
     <dimen name="map_line_width">4dp</dimen>
+    <dimen name="species_loading_indicator_right_margin">10dp</dimen>
 
 </resources>
