@@ -16,6 +16,7 @@ import java.util.List;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -35,6 +36,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
 
     private List<SightingEvidenceTable> sightingEvidenceTables = new ArrayList<>();
     private SightingEvidenceTableAdapter sightingEvidenceTableAdapter;
+    private int editRequestPosition = -1;
 
     @BindView(R.id.listView)
     ListView listView;
@@ -49,12 +51,21 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         });
 
         listView.setOnItemClickListener((parent, view1, position, id) -> {
+            editRequestPosition = position;
             Bundle bundle = new Bundle();
             bundle.putSerializable(getString(R.string.add_animal_parameter), sightingEvidenceTables.get(position));
-            startAddAnimalActivity(new Bundle(), EDIT_ANIMAL_REQUEST_CODE);
+            startAddAnimalActivity(bundle, EDIT_ANIMAL_REQUEST_CODE);
         });
 
-         sightingEvidenceTableAdapter = new SightingEvidenceTableAdapter();
+        listView.setOnItemLongClickListener((parent, view12, position, id) -> {
+            AtlasDialogManager.alertBox(getActivity(), getString(R.string.animal_delete), getString(R.string.animal_delete_title), getString(R.string.delete), (dialog, which) -> {
+                sightingEvidenceTables.remove(position);
+                sightingEvidenceTableAdapter.notifyDataSetChanged();
+            });
+            return false;
+        });
+
+        sightingEvidenceTableAdapter = new SightingEvidenceTableAdapter();
         listView.setAdapter(sightingEvidenceTableAdapter);
 
         //set the localized labels
@@ -104,6 +115,9 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
                     if (data != null) {
                         SightingEvidenceTable sightingEvidenceTable = (SightingEvidenceTable) data.getSerializableExtra(getString(R.string.add_animal_parameter));
                         if (sightingEvidenceTable != null) {
+                            sightingEvidenceTables.remove(editRequestPosition);
+                            sightingEvidenceTables.add(editRequestPosition, sightingEvidenceTable);
+                            sightingEvidenceTableAdapter.notifyDataSetChanged();
                         }
                     }
                     break;

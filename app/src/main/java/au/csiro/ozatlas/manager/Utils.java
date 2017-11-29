@@ -17,6 +17,20 @@ public class Utils {
         return false;
     }
 
+
+    /**
+     * Parse String to Double type
+     * @param s
+     * @return
+     */
+    public static Double parseDouble(String s){
+        try{
+            return Double.parseDouble(s);
+        }catch (NumberFormatException ex){
+            return null;
+        }
+    }
+
     /**
      * search a string in a string array
      *
@@ -27,12 +41,13 @@ public class Utils {
     public static int stringSearchInArray(String[] strings, String searchString) {
         int position = -1;
 
-        for (int i = 0; i < strings.length; i++) {
-            if (searchString.equals(strings[i])) {
-                position = i;
-                break;
+        if (strings != null && searchString != null)
+            for (int i = 0; i < strings.length; i++) {
+                if (searchString.equals(strings[i])) {
+                    position = i;
+                    break;
+                }
             }
-        }
         return position;
     }
 }

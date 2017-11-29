@@ -90,7 +90,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     private String mCurrentPhotoPath;
     private List<SearchSpecies> species = new ArrayList<>();
-    private SightingEvidenceTable sightingEvidenceTable = new SightingEvidenceTable();
+    private SightingEvidenceTable sightingEvidenceTable;
     private BieApiService bieApiService;
 
     @Override
@@ -143,9 +143,38 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 }
             }
         });
+
+        Bundle bundle = getArguments();
+        if (bundle == null) {
+            sightingEvidenceTable = new SightingEvidenceTable();
+        } else {
+            sightingEvidenceTable = (SightingEvidenceTable) bundle.getSerializable(getString(R.string.add_animal_parameter));
+            if (sightingEvidenceTable == null)
+                sightingEvidenceTable = new SightingEvidenceTable();
+            else
+                setValues();
+        }
+        
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
 
         return view;
+    }
+
+    private void setValues() {
+        if (sightingEvidenceTable.species != null) {
+            editSpeciesName.setText(sightingEvidenceTable.species.name);
+            speciesDetailLayout.setVisibility(View.VISIBLE);
+            speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", sightingEvidenceTable.species.guid));
+        }
+        whatSeenSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.what_see_values), sightingEvidenceTable.typeOfSign));
+        howRecentSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.how_recent_values), sightingEvidenceTable.evidenceAgeClass));
+        if (sightingEvidenceTable.mPhotoPath != null) {
+            imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+        }
+        if (sightingEvidenceTable.observationLatitude != null)
+            editLatitude.setText(String.valueOf(sightingEvidenceTable.observationLatitude));
+        if (sightingEvidenceTable.observationLongitude != null)
+            editLongitude.setText(String.valueOf(sightingEvidenceTable.observationLongitude));
     }
 
     /**
@@ -203,9 +232,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     private void prepareSightingEvidenceTableModel() {
         if (!Utils.isNullOrEmpty(editLatitude.getText().toString()))
-            sightingEvidenceTable.observationLatitude = Double.parseDouble(editLatitude.getText().toString());
+            sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
         if (!Utils.isNullOrEmpty(editLongitude.getText().toString()))
-            sightingEvidenceTable.observationLongitude = Double.parseDouble(editLongitude.getText().toString());
+            sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
     }
 
     private boolean isSightingEvidenceTableModelValid() {

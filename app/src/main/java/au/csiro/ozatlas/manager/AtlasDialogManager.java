@@ -21,7 +21,7 @@ public class AtlasDialogManager {
      * @param positiveClickListener listener when the user click "OK" or positive button
      * @param negativeClickListener listener when the user click "CANCEL" or negative button
      */
-    public static void alertBoxForSetting(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener, DialogInterface.OnClickListener negativeClickListener) {
+    public static void alertBox(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener, DialogInterface.OnClickListener negativeClickListener) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(message)
                 .setCancelable(false)
@@ -39,8 +39,8 @@ public class AtlasDialogManager {
      * @param positiveButtonText    The text for the positive button such as "OK"
      * @param positiveClickListener listener when the user click "OK" or positive button
      */
-    public static void alertBoxForSetting(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener) {
-        alertBoxForSetting(context, message, title, positiveButtonText, positiveClickListener, new DialogInterface.OnClickListener() {
+    public static void alertBox(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener) {
+        alertBox(context, message, title, positiveButtonText, positiveClickListener, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // cancel the dialog box
                 dialog.cancel();
@@ -54,8 +54,8 @@ public class AtlasDialogManager {
      * @param title                 Dialog Title
      * @param positiveClickListener listener when the user click "OK" or positive button
      */
-    public static void alertBoxForSetting(Context context, String message, String title, DialogInterface.OnClickListener positiveClickListener) {
-        alertBoxForSetting(context, message, title, "OK", positiveClickListener, new DialogInterface.OnClickListener() {
+    public static void alertBox(Context context, String message, String title, DialogInterface.OnClickListener positiveClickListener) {
+        alertBox(context, message, title, "OK", positiveClickListener, new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
                 // cancel the dialog box
                 dialog.cancel();

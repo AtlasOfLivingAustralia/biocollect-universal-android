@@ -113,7 +113,7 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
         switch (item.getItemId()) {
             //when the user will press the upload menu item
             case R.id.add_all:
-                AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.add_all_species_confirmation), getString(R.string.add_all_species_title), new DialogInterface.OnClickListener() {
+                AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_all_species_confirmation), getString(R.string.add_all_species_title), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Arrays.fill(addButtonFlag, true);

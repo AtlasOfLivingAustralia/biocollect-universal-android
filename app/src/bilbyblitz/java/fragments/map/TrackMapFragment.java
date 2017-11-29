@@ -57,8 +57,6 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.ValidationCheck;
 
-import static android.provider.Settings.System.DATE_FORMAT;
-
 /**
  * Created by sad038 on 9/10/17.
  */
@@ -215,7 +213,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                     LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
                 }
             } else {
-                AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                         startActivity(myIntent);

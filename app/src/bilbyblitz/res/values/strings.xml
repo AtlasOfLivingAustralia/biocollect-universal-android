@@ -88,6 +88,8 @@
     <string name="download_service_started">The download has been started.</string>
     <string name="download_service_complete">The species have been saved offline.</string>
     <string name="download_interrupted">Download has been interrupted</string>
+    <string name="animal_delete">Would you like to delete this animal from this list?</string>
+    <string name="animal_delete_title">Delete Animal</string>
 
     <string name="lead_tracker_missing_error">Lead Tracker is missing</string>
     <string name="organisation_name_missing_error">Organisation name is missing</string>
