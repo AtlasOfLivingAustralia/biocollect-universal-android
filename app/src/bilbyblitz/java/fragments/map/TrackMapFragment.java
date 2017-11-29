@@ -18,12 +18,14 @@ import android.os.IBinder;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -40,7 +42,6 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.Polyline;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.ArrayList;
@@ -82,6 +83,15 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     EditText editStartTime;
     @BindView(R.id.editEndTime)
     EditText editEndTime;
+    @BindView(R.id.inputLayoutCentroidLatitude)
+    TextInputLayout inputLayoutCentroidLatitude;
+    @BindView(R.id.inputLayoutCentroidLongitude)
+    TextInputLayout inputLayoutCentroidLongitude;
+    @BindView(R.id.inputLayoutDate)
+    TextInputLayout inputLayoutDate;
+    @BindView(R.id.inputLayoutstartTime)
+    TextInputLayout inputLayoutstartTime;
+
 
     private List<Location> locations = new ArrayList<>();
     private GoogleMap googleMap;
@@ -92,7 +102,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     // Tracks the bound state of the service.
     private boolean mBound = false;
     // Monitors the state of the connection to the service.
-    Polyline line;
     PolylineOptions polylineOptions;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -267,9 +276,48 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     }
 
+    private void setError(TextInputLayout inputLayout, String error) {
+        if (isAdded()) {
+            inputLayout.setError(error);
+        }
+    }
+
     @Override
     public String getValidationMessage() {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (TextUtils.isEmpty(editCentroidLatitude.getText()) || TextUtils.isEmpty(editCentroidLongitude.getText())) {
+            stringBuilder.append(localisedString("", R.string.map_location_missing_error));
+            stringBuilder.append("\n");
+        }
+
+        if (TextUtils.isEmpty(editCentroidLatitude.getText())) {
+            setError(inputLayoutCentroidLatitude, localisedString("", R.string.map_location_missing_error));
+        } else {
+            setError(inputLayoutCentroidLatitude, "");
+        }
+
+        if (TextUtils.isEmpty(editCentroidLongitude.getText())) {
+            setError(inputLayoutCentroidLongitude, localisedString("", R.string.map_location_missing_error));
+        } else {
+            setError(inputLayoutCentroidLongitude, "");
+        }
+
+        if (TextUtils.isEmpty(editDate.getText())) {
+            stringBuilder.append(localisedString("", R.string.event_date_missing_error));
+            stringBuilder.append("\n");
+            setError(inputLayoutDate, localisedString("", R.string.event_date_missing_error));
+        } else {
+            setError(inputLayoutDate, "");
+        }
+
+        if (TextUtils.isEmpty(editStartTime.getText())) {
+            stringBuilder.append(localisedString("", R.string.event_time_missing_error));
+            setError(inputLayoutstartTime, localisedString("", R.string.event_time_missing_error));
+        } else {
+            setError(inputLayoutstartTime, "");
+        }
+
+        return stringBuilder.toString().trim();
     }
 
     @Override
@@ -320,17 +368,17 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     };
 
     @OnClick(R.id.editDate)
-    void editDate(){
+    void editDate() {
         AtlasDateTimeDialogManager.showDatePicker(getActivity(), onDateSetListener);
     }
 
     @OnClick(R.id.editStartTime)
-    void editStartTime(){
+    void editStartTime() {
         AtlasDateTimeDialogManager.showTimePicker(getContext(), startTimeSetListener);
     }
 
     @OnClick(R.id.editEndTime)
-    void editEndTime(){
+    void editEndTime() {
         AtlasDateTimeDialogManager.showTimePicker(getContext(), endTimeSetListener);
     }
 

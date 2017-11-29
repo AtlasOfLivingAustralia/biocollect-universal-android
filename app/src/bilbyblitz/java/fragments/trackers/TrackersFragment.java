@@ -219,6 +219,12 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         addPhotoButton.setText(localisedString("", R.string.group_selfie));
     }
 
+    private void setError(TextInputLayout inputLayout, String error) {
+        if (isAdded()) {
+            inputLayout.setError(error);
+        }
+    }
+
     //validation
     @Override
     public String getValidationMessage() {
@@ -226,10 +232,16 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         if (TextUtils.isEmpty(editLeadTracker.getText())) {
             stringBuilder.append(localisedString("", R.string.lead_tracker_missing_error));
             stringBuilder.append("\n");
+            setError(inputLayoutLeadTracker, localisedString("", R.string.lead_tracker_missing_error));
+        } else {
+            setError(inputLayoutLeadTracker, "");
         }
 
         if (TextUtils.isEmpty(editOrganisationName.getText())) {
             stringBuilder.append(localisedString("", R.string.organisation_name_missing_error));
+            setError(inputLayoutOrganisationName, localisedString("", R.string.organisation_name_missing_error));
+        } else {
+            setError(inputLayoutOrganisationName, "");
         }
         return stringBuilder.toString().trim();
     }

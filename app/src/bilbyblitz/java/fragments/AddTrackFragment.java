@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Utils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -38,6 +39,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
         public void onTabSelected(TabLayout.Tab tab) {
+            Utils.closeKeyboard(getActivity(), getView().getWindowToken());
             if (tab.getPosition() == 3) {
                 showFloatingButton();
             } else {

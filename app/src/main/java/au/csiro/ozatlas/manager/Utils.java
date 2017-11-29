@@ -1,5 +1,9 @@
 package au.csiro.ozatlas.manager;
 
+import android.content.Context;
+import android.os.IBinder;
+import android.view.inputmethod.InputMethodManager;
+
 /**
  * Created by sad038 on 28/9/17.
  */
@@ -17,6 +21,16 @@ public class Utils {
         return false;
     }
 
+
+    /**
+     * Hide the soft keyboard
+     * @param c
+     * @param windowToken
+     */
+    public static void closeKeyboard(Context c, IBinder windowToken) {
+        InputMethodManager mgr = (InputMethodManager) c.getSystemService(Context.INPUT_METHOD_SERVICE);
+        mgr.hideSoftInputFromWindow(windowToken, 0);
+    }
 
     /**
      * Parse String to Double type

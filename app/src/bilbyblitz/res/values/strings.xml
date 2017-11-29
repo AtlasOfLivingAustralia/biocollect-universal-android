@@ -92,5 +92,8 @@
     <string name="animal_delete_title">Delete Animal</string>
 
     <string name="lead_tracker_missing_error">Lead Tracker is missing</string>
+    <string name="map_location_missing_error">Location is missing</string>
+    <string name="event_date_missing_error">Tracking Event is missing</string>
+    <string name="event_time_missing_error">Tracking Start Time is missing</string>
     <string name="organisation_name_missing_error">Organisation name is missing</string>
 </resources>
