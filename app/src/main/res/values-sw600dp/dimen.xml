@@ -37,6 +37,7 @@
     <dimen name="list_item_image_width">72dp</dimen>
 
     <dimen name="input_label_vertical_spacing">6dp</dimen>
+    <dimen name="row_view_in_between_gap_more">12dp</dimen>
     <dimen name="input_label_horizontal_spacing">6dp</dimen>
     <dimen name="row_view_in_between_gap">6dp</dimen>
     <dimen name="row_view_in_between_top_gap">2dp</dimen>

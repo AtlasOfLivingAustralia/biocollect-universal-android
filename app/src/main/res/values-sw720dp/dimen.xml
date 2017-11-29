@@ -38,6 +38,7 @@
 
     <dimen name="input_label_vertical_spacing">8dp</dimen>
     <dimen name="input_label_horizontal_spacing">8dp</dimen>
+    <dimen name="row_view_in_between_gap_more">16dp</dimen>
     <dimen name="row_view_in_between_gap">8dp</dimen>
     <dimen name="row_view_in_between_top_gap">3dp</dimen>
 

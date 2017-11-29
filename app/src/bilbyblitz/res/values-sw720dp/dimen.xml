@@ -12,4 +12,6 @@
     <dimen name="minimum_height_bigger_input_views">72dp</dimen>
     <dimen name="map_line_width">8dp</dimen>
     <dimen name="species_loading_indicator_right_margin">14dp</dimen>
+
+    <dimen name="animal_image_size">124dp</dimen>
 </resources>

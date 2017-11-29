@@ -48,6 +48,7 @@
 
     <dimen name="input_label_vertical_spacing">4dp</dimen>
     <dimen name="input_label_horizontal_spacing">4dp</dimen>
+    <dimen name="row_view_in_between_gap_more">8dp</dimen>
     <dimen name="row_view_in_between_gap">4dp</dimen>
     <dimen name="row_view_in_between_top_gap">1dp</dimen>
     <dimen name="navigation_drawer_item_height">42dp</dimen>

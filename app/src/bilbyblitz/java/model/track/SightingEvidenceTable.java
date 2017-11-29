@@ -20,4 +20,7 @@ public class SightingEvidenceTable implements Serializable{
     public Double observationLatitude;
 
     public String evidenceAgeClass;
+
+    //view
+    public String mPhotoPath;
 }

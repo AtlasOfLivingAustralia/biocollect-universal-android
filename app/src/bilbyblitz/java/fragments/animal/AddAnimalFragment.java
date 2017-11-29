@@ -29,7 +29,6 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import java.io.File;
 import java.io.IOException;
@@ -53,10 +52,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import model.track.SightingEvidenceTable;
@@ -243,13 +239,15 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
             switch (requestCode) {
                 case REQUEST_IMAGE_CAPTURE:
                     if (mCurrentPhotoPath != null) {
+                        sightingEvidenceTable.mPhotoPath = mCurrentPhotoPath;
                         FileUtils.galleryAddPic(getActivity(), mCurrentPhotoPath);
                         imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
-                        mCurrentPhotoPath = null;
                     }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
+                    mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
+                    sightingEvidenceTable.mPhotoPath = mCurrentPhotoPath;
                     imageView.setImageURI(selectedImageUri);
                     break;
             }
@@ -308,6 +306,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
      * @throws IOException
      */
     private File setUpPhotoFile() throws IOException {
+        mCurrentPhotoPath = null;
         File f = FileUtils.createImageFile(getActivity());
         mCurrentPhotoPath = f.getAbsolutePath();
 
@@ -329,6 +328,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
      */
     private void dispatchTakePictureIntent() {
         File f = null;
+        mCurrentPhotoPath = null;
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
         try {
