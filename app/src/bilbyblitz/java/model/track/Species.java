@@ -1,14 +1,21 @@
 package model.track;
 
+import org.parceler.Parcel;
+
 import java.io.Serializable;
 
 import au.csiro.ozatlas.model.SearchSpecies;
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by sad038 on 28/11/17.
  */
 
-public class Species implements Serializable{
+@Parcel
+@RealmClass
+public class Species extends RealmObject {
     public String guid;
 
     public String commonName;

@@ -11,6 +11,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +55,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         listView.setOnItemClickListener((parent, view1, position, id) -> {
             editRequestPosition = position;
             Bundle bundle = new Bundle();
-            bundle.putSerializable(getString(R.string.add_animal_parameter), sightingEvidenceTables.get(position));
+            bundle.putParcelable(getString(R.string.add_animal_parameter), Parcels.wrap(sightingEvidenceTables.get(position)));
             startAddAnimalActivity(bundle, EDIT_ANIMAL_REQUEST_CODE);
         });
 
@@ -104,7 +106,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
             switch (requestCode) {
                 case ADD_ANIMAL_REQUEST_CODE:
                     if (data != null) {
-                        SightingEvidenceTable sightingEvidenceTable = (SightingEvidenceTable) data.getSerializableExtra(getString(R.string.add_animal_parameter));
+                        SightingEvidenceTable sightingEvidenceTable = Parcels.unwrap(data.getParcelableExtra(getString(R.string.add_animal_parameter)));
                         if (sightingEvidenceTable != null) {
                             sightingEvidenceTables.add(sightingEvidenceTable);
                             sightingEvidenceTableAdapter.notifyDataSetChanged();
@@ -113,7 +115,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
                     break;
                 case EDIT_ANIMAL_REQUEST_CODE:
                     if (data != null) {
-                        SightingEvidenceTable sightingEvidenceTable = (SightingEvidenceTable) data.getSerializableExtra(getString(R.string.add_animal_parameter));
+                        SightingEvidenceTable sightingEvidenceTable = Parcels.unwrap(data.getParcelableExtra(getString(R.string.add_animal_parameter)));
                         if (sightingEvidenceTable != null) {
                             sightingEvidenceTables.remove(editRequestPosition);
                             sightingEvidenceTables.add(editRequestPosition, sightingEvidenceTable);

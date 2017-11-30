@@ -1,12 +1,20 @@
 package model.track;
 
+import org.parceler.Parcel;
+
 import java.io.Serializable;
+
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
 
 /**
  * Created by sad038 on 28/11/17.
  */
 
-public class ImageOfSign implements Serializable{
+@Parcel
+@RealmClass
+public class ImageOfSign extends RealmObject {
     public String licence;
 
     public String status;

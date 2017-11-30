@@ -30,6 +30,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
+import org.parceler.Parcels;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -148,7 +150,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         if (bundle == null) {
             sightingEvidenceTable = new SightingEvidenceTable();
         } else {
-            sightingEvidenceTable = (SightingEvidenceTable) bundle.getSerializable(getString(R.string.add_animal_parameter));
+            sightingEvidenceTable =  Parcels.unwrap(bundle.getParcelable(getString(R.string.add_animal_parameter)));
             if (sightingEvidenceTable == null)
                 sightingEvidenceTable = new SightingEvidenceTable();
             else
@@ -248,7 +250,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 prepareSightingEvidenceTableModel();
                 if (isSightingEvidenceTableModelValid()) {
                     Intent intent = new Intent();
-                    intent.putExtra(getString(R.string.add_animal_parameter), sightingEvidenceTable);
+                    intent.putExtra(getString(R.string.add_animal_parameter), Parcels.wrap(sightingEvidenceTable));
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
                 }

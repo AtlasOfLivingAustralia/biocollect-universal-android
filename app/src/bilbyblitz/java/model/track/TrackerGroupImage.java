@@ -1,10 +1,18 @@
 package model.track;
 
+import org.parceler.Parcel;
+
+import io.realm.RealmModel;
+import io.realm.RealmObject;
+import io.realm.annotations.RealmClass;
+
 /**
  * Created by sad038 on 28/11/17.
  */
 
-public class TrackerGroupImage {
+@Parcel
+@RealmClass
+public class TrackerGroupImage extends RealmObject {
     public String licence;
 
     public String status;
