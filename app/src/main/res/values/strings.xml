@@ -70,6 +70,7 @@
     <string name="login_error">Invalid Login Information</string>
     <string name="logout_title">Logout</string>
     <string name="permission_denied">Those Permissions are needed. </string>
+    <string name="nothing_to_upload">There is no draft record to upload</string>
 
     <string name="total_sighting">Total Records: %1$d</string>
     <string name="total_species">Total Species: %1$d</string>

@@ -2,10 +2,14 @@
     <string name="app_name">The Tracks App</string>
     <string name="app_version">Version 1.0</string>
 
+    <string name="project_activity_id">e61eb018-02a9-4e3b-a4b3-9d6be33d9cbb</string>
+
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="project_id_parameter">PROJECT_ID</string>
     <string name="project_name_parameter">PROJECT_NAME</string>
     <string name="add_animal_parameter">ADD_ANIMAL</string>
+    <string name="primary_key_parameter">PRIMARY_KEY</string>
+    <string name="primary_keys_parameter">PRIMARY_KEYS</string>
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>
@@ -90,6 +94,9 @@
     <string name="download_interrupted">Download has been interrupted</string>
     <string name="animal_delete">Would you like to delete this animal from this list?</string>
     <string name="animal_delete_title">Delete Animal</string>
+
+    <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
+    <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>
 
     <string name="lead_tracker_missing_error">Lead Tracker is missing</string>
     <string name="map_location_missing_error">Location is missing</string>

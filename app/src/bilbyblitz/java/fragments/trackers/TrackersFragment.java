@@ -47,8 +47,6 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     EditText editLeadTracker;
     @BindView(R.id.editOtherTracker)
     EditText editOtherTracker;
-    @BindView(R.id.imageView)
-    ImageView imageView;
     @BindView(R.id.inputLayoutOrganisationName)
     TextInputLayout inputLayoutOrganisationName;
     @BindView(R.id.inputLayoutLeadTracker)

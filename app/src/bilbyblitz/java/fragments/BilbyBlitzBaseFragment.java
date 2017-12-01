@@ -1,6 +1,7 @@
 package fragments;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -9,15 +10,24 @@ import org.greenrobot.eventbus.ThreadMode;
 import activity.BilbyBlitzActivityListener;
 import activity.BilbyBlitzBaseActivity;
 import au.csiro.ozatlas.base.BaseFragment;
+import io.realm.Realm;
 
 /**
  * Created by sad038 on 8/11/17.
  */
 
 public abstract class BilbyBlitzBaseFragment extends BaseFragment implements BilbyBlitzActivityListener {
-    BilbyBlitzActivityListener bilbyBlitzActivityListener;
+    protected BilbyBlitzActivityListener bilbyBlitzActivityListener;
+    protected Realm realm;
 
     protected abstract void setLanguageValues();
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        realm = Realm.getDefaultInstance();
+    }
 
     @Override
     public void onAttach(Context context) {
@@ -67,5 +77,12 @@ public abstract class BilbyBlitzBaseFragment extends BaseFragment implements Bil
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (realm != null)
+            realm.close();
     }
 }

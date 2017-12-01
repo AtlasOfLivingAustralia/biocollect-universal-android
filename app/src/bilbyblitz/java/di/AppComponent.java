@@ -9,6 +9,7 @@ import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
 import au.csiro.ozatlas.rest.CustomRequestInterceptor;
 import dagger.Component;
+import upload.UploadService;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -23,4 +24,5 @@ public interface AppComponent {
 
     void inject(CustomRequestInterceptor customRequestInterceptor);
 
+    void inject(UploadService uploadService);
 }

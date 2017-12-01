@@ -6,6 +6,7 @@ import org.parceler.ParcelPropertyConverter;
 import au.csiro.ozatlas.manager.RealmListParcelConverter;
 import io.realm.RealmList;
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
 
 /**
@@ -15,6 +16,10 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class TrackModel extends RealmObject {
+    @PrimaryKey
+    public Long realmId;
+    public boolean upLoading;
+
     public String mainTheme;
 
     public String activityId;

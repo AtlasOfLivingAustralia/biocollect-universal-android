@@ -26,6 +26,7 @@ import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.AddTrackFragment;
 import fragments.HomePageFragment;
+import fragments.draft.DraftTrackListFragment;
 import fragments.setting.SettingFragment;
 
 /**
@@ -45,8 +46,8 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
 
         // find MenuItem to change
         menu.findItem(R.id.home).setTitle(localisedString("home", R.string.home));
-        menu.findItem(R.id.nav_add_track).setTitle(localisedString("practise_track", R.string.practise_track));
-        menu.findItem(R.id.nav_practise_track).setTitle(localisedString("review_track", R.string.review_track));
+        menu.findItem(R.id.nav_add_track).setTitle(localisedString("add_track", R.string.add_track));
+        menu.findItem(R.id.nav_practise_track).setTitle(localisedString("practise_track", R.string.practise_track));
         menu.findItem(R.id.nav_review_track).setTitle(localisedString("review_track", R.string.review_track));
         menu.findItem(R.id.nav_setting).setTitle(localisedString("setting", R.string.setting));
         menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
@@ -147,6 +148,8 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SettingFragment()).commit();
         } else if (id == R.id.nav_add_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddTrackFragment()).commit();
+        } else if (id == R.id.nav_review_track) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
         }/*else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();
             bundle.putBoolean(getString(R.string.user_project_parameter), true);

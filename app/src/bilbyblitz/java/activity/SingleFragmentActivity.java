@@ -17,6 +17,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.WebViewFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.AddTrackFragment;
 import fragments.animal.AddAnimalFragment;
 import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
@@ -73,6 +74,9 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
                     break;
                 case PROJECT_SELECTION:
                     fragment = new ProjectListFragment();
+                    break;
+                case EDIT_TRACK_FRAGMENT:
+                    fragment = new AddTrackFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -193,6 +197,7 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
         PROJECT_SELECTION,
         GROUP_SPECIES,
         ADD_ANIMAL,
-        CONTACT_US
+        CONTACT_US,
+        EDIT_TRACK_FRAGMENT
     }
 }
