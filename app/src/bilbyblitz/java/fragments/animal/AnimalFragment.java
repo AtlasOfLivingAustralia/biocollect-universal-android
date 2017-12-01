@@ -23,7 +23,9 @@ import au.csiro.ozatlas.manager.FileUtils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.AddTrackFragment;
 import fragments.ValidationCheck;
+import model.track.BilbyBlitzData;
 import model.track.SightingEvidenceTable;
 
 import static android.app.Activity.RESULT_OK;
@@ -39,6 +41,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
     private List<SightingEvidenceTable> sightingEvidenceTables = new ArrayList<>();
     private SightingEvidenceTableAdapter sightingEvidenceTableAdapter;
     private int editRequestPosition = -1;
+    private BilbyBlitzData bilbyBlitzData;
 
     @BindView(R.id.listView)
     ListView listView;
@@ -48,6 +51,11 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         View view = inflater.inflate(R.layout.fragment_animal, container, false);
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
+
+        if(getParentFragment() instanceof AddTrackFragment){
+            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+        }
+
         setFloatingButtonClickListener(v -> {
             startAddAnimalActivity(new Bundle(), ADD_ANIMAL_REQUEST_CODE);
         });

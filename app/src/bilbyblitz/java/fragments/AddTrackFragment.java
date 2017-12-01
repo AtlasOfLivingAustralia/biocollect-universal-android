@@ -23,6 +23,10 @@ import fragments.animal.AnimalFragment;
 import fragments.country.TrackCountryFragment;
 import fragments.map.TrackMapFragment;
 import fragments.trackers.TrackersFragment;
+import io.realm.RealmList;
+import model.track.BilbyBlitzData;
+import model.track.BilbyBlitzOutput;
+import model.track.TrackModel;
 
 /**
  * Created by sad038 on 25/10/17.
@@ -35,6 +39,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     ViewPager pager;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
+
+    private TrackModel trackModel= new TrackModel();
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
@@ -58,12 +64,21 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         }
     };
 
+    public BilbyBlitzData getBilbyBlitzData(){
+        return trackModel.outputs.get(0).data;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_track, container, false);
         setTitle(getString(R.string.add_track));
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
+
+        trackModel.outputs = new RealmList<>();
+        BilbyBlitzOutput output = new BilbyBlitzOutput();
+        output.data = new BilbyBlitzData();
+        trackModel.outputs.add(output);
 
         pagerAdapter = new TrackerPagerAdapter();
         pager.setAdapter(pagerAdapter);

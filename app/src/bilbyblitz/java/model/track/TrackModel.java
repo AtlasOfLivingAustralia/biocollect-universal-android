@@ -5,7 +5,6 @@ import org.parceler.ParcelPropertyConverter;
 
 import au.csiro.ozatlas.manager.RealmListParcelConverter;
 import io.realm.RealmList;
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
@@ -25,7 +24,7 @@ public class TrackModel extends RealmObject {
     public String projectId;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
-    public RealmList<BilbyBlitzOutputs> outputs;
+    public RealmList<BilbyBlitzOutput> outputs;
 
     public String type;
 

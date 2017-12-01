@@ -13,18 +13,15 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.SimpleAdapter;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.FileUtils;
@@ -33,7 +30,9 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.AddTrackFragment;
 import fragments.ValidationCheck;
+import model.track.BilbyBlitzData;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -71,6 +70,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     ImageView imageView;
 
     private String mCurrentPhotoPath;
+    private BilbyBlitzData bilbyBlitzData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,15 +104,128 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         groundTypeSpinner.setAdapter(new SimpleAdapter(getContext(), data, R.layout.row_icon_string, new String[] {"imageView","name"}, new int[] {R.id.imageView, R.id.name}));
         */
 
+        if(getParentFragment() instanceof AddTrackFragment){
+            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+        }
+
         detailHabitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.detailed_habitat_values, R.layout.item_textview));
+        detailHabitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //TODO which member
+                //bilbyBlitzData.habitatType = (String) detailHabitatSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         habitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.habitat_values, R.layout.item_textview));
+        habitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bilbyBlitzData.habitatType = (String) habitatSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         plotTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.plot_type, R.layout.item_textview));
+        plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                bilbyBlitzData.plotType = (String) plotTypeSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         trackingEventSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_event_values, R.layout.item_textview));
+        trackingEventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //todo chaeck
+                bilbyBlitzData.surfaceTrackability = (String) trackingEventSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         disturbanceSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.disturbance_values, R.layout.item_textview));
+        disturbanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //sightingEvidenceTable.evidenceAgeClass = (String) disturbanceSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         groundTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.ground_values, R.layout.item_textview));
+        groundTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //sightingEvidenceTable.evidenceAgeClass = (String) groundTypeSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         fireSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.fire_type, R.layout.item_textview));
+        fireSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //sightingEvidenceTable.evidenceAgeClass = (String) fireSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         visibilitySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.visibility_type, R.layout.item_textview));
+        visibilitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //sightingEvidenceTable.evidenceAgeClass = (String) visibilitySpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
         surfaceTrackingSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_surface_value, R.layout.item_textview));
+        surfaceTrackingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //sightingEvidenceTable.evidenceAgeClass = (String) surfaceTrackingSpinner.getItemAtPosition(position);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         return view;
     }

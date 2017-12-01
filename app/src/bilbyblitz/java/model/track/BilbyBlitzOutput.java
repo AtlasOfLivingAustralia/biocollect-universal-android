@@ -12,7 +12,7 @@ import io.realm.annotations.RealmClass;
 
 @Parcel
 @RealmClass
-public class BilbyBlitzOutputs extends RealmObject {
+public class BilbyBlitzOutput extends RealmObject {
     public String name;
 
     public BilbyBlitzData data;

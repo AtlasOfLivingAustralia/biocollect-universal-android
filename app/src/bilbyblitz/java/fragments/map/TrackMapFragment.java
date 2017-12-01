@@ -56,7 +56,9 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.AddTrackFragment;
 import fragments.ValidationCheck;
+import model.track.BilbyBlitzData;
 
 /**
  * Created by sad038 on 9/10/17.
@@ -101,8 +103,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private LocationUpdatesService mService = null;
     // Tracks the bound state of the service.
     private boolean mBound = false;
-    // Monitors the state of the connection to the service.
-    PolylineOptions polylineOptions;
+
+    private PolylineOptions polylineOptions;
+    private BilbyBlitzData bilbyBlitzData;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -127,6 +130,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_track_map, container, false);
         ButterKnife.bind(this, view);
+
+        if(getParentFragment() instanceof AddTrackFragment){
+            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+        }
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
