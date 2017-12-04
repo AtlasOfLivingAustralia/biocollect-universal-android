@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.parceler.Parcels;
@@ -133,7 +134,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         });
 
         //species search service
-        Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<List<SearchSpecies>>() {
+        }.getType(), new SearchSpeciesSerializer()).create();
         bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
 
         editSpeciesName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -186,7 +188,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
      *
      * @return
      */
-    private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
+    private DisposableObserver<List<SearchSpecies>> getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)
                 .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
                 .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())
@@ -206,12 +208,12 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
-                .subscribeWith(new DisposableObserver<SpeciesSearchResponse>() {
+                .subscribeWith(new DisposableObserver<List<SearchSpecies>>() {
                     @Override
-                    public void onNext(SpeciesSearchResponse speciesSearchResponse) {
+                    public void onNext(List<SearchSpecies> searchSpecies) {
                         speciesLoadingIndicator.setVisibility(View.INVISIBLE);
                         species.clear();
-                        species.addAll(speciesSearchResponse.results);
+                        species.addAll(searchSpecies);
 
                         editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
                         if (species.size() == 0 || (sightingEvidenceTable.species != null && sightingEvidenceTable.species.name.equals(editSpeciesName.getText().toString()))) {

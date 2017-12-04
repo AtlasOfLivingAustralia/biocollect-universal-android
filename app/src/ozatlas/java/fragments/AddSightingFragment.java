@@ -285,7 +285,8 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         getSightForEdit();
 
         //species search service
-        Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<List<SearchSpecies>>() {
+        }.getType(), new SearchSpeciesSerializer()).create();
         bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
 
         editSpeciesName.setOnItemClickListener(new AdapterView.OnItemClickListener() {

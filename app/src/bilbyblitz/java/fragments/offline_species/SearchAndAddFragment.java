@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
@@ -25,17 +26,14 @@ import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.model.SearchSpecies;
-import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
-import io.reactivex.functions.Predicate;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
@@ -66,7 +64,8 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
         setTitle(getString(R.string.search_and_add));
         setHasOptionsMenu(true);
 
-        Gson gson = new GsonBuilder().registerTypeAdapter(SpeciesSearchResponse.class, new SearchSpeciesSerializer()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<List<SearchSpecies>>() {
+        }.getType(), new SearchSpeciesSerializer()).create();
         bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
 
         //progressBar.setVisibility(View.VISIBLE);
@@ -89,7 +88,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
      *
      * @return
      */
-    private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
+    private DisposableObserver<List<SearchSpecies>> getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)
                 .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
                 .map(new Function<TextViewTextChangeEvent, String>() {
@@ -99,36 +98,30 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
                         return textViewTextChangeEvent.text().toString();
                     }
                 })
-                .filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) throws Exception {
-                        Log.d(TAG, s);
-                        if (s.length() > 1)
-                            getActivity().runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    progressBar.setVisibility(View.VISIBLE);
-                                }
-                            });
-                        return s.length() > 1;
-                    }
+                .filter(s -> {
+                    Log.d(TAG, s);
+                    if (s.length() > 1)
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                progressBar.setVisibility(View.VISIBLE);
+                            }
+                        });
+                    return s.length() > 1;
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(new Function<String, ObservableSource<SpeciesSearchResponse>>() {
-                    @Override
-                    public ObservableSource<SpeciesSearchResponse> apply(String s) throws Exception {
-                        Log.d(TAG, s);
-                        return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
-                    }
+                .flatMap(s -> {
+                    Log.d(TAG, s);
+                    return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
                 })
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
-                .subscribeWith(new DisposableObserver<SpeciesSearchResponse>() {
+                .subscribeWith(new DisposableObserver<List<SearchSpecies>>() {
                     @Override
-                    public void onNext(SpeciesSearchResponse speciesSearchResponse) {
+                    public void onNext(List<SearchSpecies> searchSpecies) {
                         Log.d(TAG, species.size() + "");
                         species.clear();
-                        species.addAll(speciesSearchResponse.results);
+                        species.addAll(searchSpecies);
                         progressBar.setVisibility(View.GONE);
                         addButtonFlag = new boolean[species.size()];
                         speciesAdapter.notifyDataSetChanged();

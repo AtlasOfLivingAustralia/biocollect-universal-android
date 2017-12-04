@@ -1,5 +1,8 @@
 package au.csiro.ozatlas.rest;
 
+import java.util.List;
+
+import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
@@ -12,5 +15,5 @@ import retrofit2.http.Query;
 public interface BieApiService {
     //https://bie.ala.org.au/ws/search?q=sathon&fq=taxonomicStatus:accepted
     @GET("ws/search.json")
-    Observable<SpeciesSearchResponse> searchSpecies(@Query("q") String q, @Query("fq") String fq);
+    Observable<List<SearchSpecies>> searchSpecies(@Query("q") String q, @Query("fq") String fq);
 }
