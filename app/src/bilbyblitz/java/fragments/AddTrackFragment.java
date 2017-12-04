@@ -136,13 +136,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                             message = validationCheck.getValidationMessage();
                             if (!TextUtils.isEmpty(message)) {
                                 stringBuilder.append("\n").append(message);
-                            } else {
-                                for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                                    PrepareData prepareData = (PrepareData) pagerAdapter.getRegisteredFragment(j);
-                                    if (prepareData != null) {
-                                        prepareData.prepareData();
-                                    }
-                                }
                             }
                         }
                     }
@@ -150,7 +143,13 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     if (!TextUtils.isEmpty(message))
                         showMultiLineSnackBarMessage(message);
                     else {
-
+                        for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                            PrepareData prepareData = (PrepareData) pagerAdapter.getRegisteredFragment(j);
+                            if (prepareData != null) {
+                                prepareData.prepareData();
+                            }
+                        }
+                        //TODO network call
                     }
                 } else {
                     AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {

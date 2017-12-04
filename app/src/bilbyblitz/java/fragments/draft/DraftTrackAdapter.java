@@ -93,61 +93,61 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
     }
 
     @Override
-    public void onBindViewHolder(final DraftTrackViewHolders sightViewHolders, int position) {
-        TrackModel sight = trackModels.get(position);
-        //if the sight is being uploaded then show the upload image or show the checkbox
-        if (sight.upLoading) {
-            sightViewHolders.uploadImage.setVisibility(View.VISIBLE);
-            sightViewHolders.checkBox.setVisibility(View.INVISIBLE);
-            sightViewHolders.moreButton.setOnClickListener(null);
+    public void onBindViewHolder(final DraftTrackViewHolders trackViewHolders, int position) {
+        TrackModel trackModel = trackModels.get(position);
+        //if the trackModel is being uploaded then show the upload image or show the checkbox
+        if (trackModel.upLoading) {
+            trackViewHolders.uploadImage.setVisibility(View.VISIBLE);
+            trackViewHolders.checkBox.setVisibility(View.INVISIBLE);
+            trackViewHolders.moreButton.setOnClickListener(null);
         } else {
-            sightViewHolders.uploadImage.setVisibility(View.INVISIBLE);
-            sightViewHolders.checkBox.setVisibility(View.VISIBLE);
+            trackViewHolders.uploadImage.setVisibility(View.INVISIBLE);
+            trackViewHolders.checkBox.setVisibility(View.VISIBLE);
             if (selection[position])
-                sightViewHolders.checkBox.setChecked(true);
+                trackViewHolders.checkBox.setChecked(true);
             else
-                sightViewHolders.checkBox.setChecked(false);
+                trackViewHolders.checkBox.setChecked(false);
 
-            sightViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
+            trackViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    selection[sightViewHolders.getAdapterPosition()] = !selection[sightViewHolders.getAdapterPosition()];
-                    sightViewHolders.checkBox.setChecked(selection[sightViewHolders.getAdapterPosition()]);
+                    selection[trackViewHolders.getAdapterPosition()] = !selection[trackViewHolders.getAdapterPosition()];
+                    trackViewHolders.checkBox.setChecked(selection[trackViewHolders.getAdapterPosition()]);
                 }
             });
         }
 
-        sightViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
+        trackViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (moreButtonListener != null)
-                    moreButtonListener.onMoreButtonClick(sightViewHolders.moreButton, sightViewHolders.getAdapterPosition());
+                    moreButtonListener.onMoreButtonClick(trackViewHolders.moreButton, trackViewHolders.getAdapterPosition());
             }
         });
 
-        if (sight.isValid() && sight.outputs != null && sight.outputs.size() > 0) {
-            sightViewHolders.name.setText(sight.outputs.get(0).name);
-            if (sight.outputs.get(0).data != null) {
-                sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.outputs.get(0).data.surveyDate, "dd MMM, yyyy"));
-                //sightViewHolders.user.setText(context.getString(R.string.tags_name, tagJoin(context.getString(R.string.tag_separator), sight.outputs.get(0).data.tags)));
-                /*if (sight.outputs.get(0).data.species != null) {
-                    sightViewHolders.type.setText(context.getString(R.string.species_name, sight.outputs.get(0).data.species.name == null ? "" : sight.outputs.get(0).data.species.name));
+        if (trackModel.isValid() && trackModel.outputs != null && trackModel.outputs.size() > 0) {
+            trackViewHolders.name.setText(trackModel.outputs.get(0).name);
+            if (trackModel.outputs.get(0).data != null) {
+                trackViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(trackModel.outputs.get(0).data.surveyDate, "dd MMM, yyyy"));
+                trackViewHolders.user.setText(trackModel.outputs.get(0).data.recordedBy);
+                /*if (trackModel.outputs.get(0).data.species != null) {
+                    trackViewHolders.type.setText(context.getString(R.string.species_name, trackModel.outputs.get(0).data.species.name == null ? "" : trackModel.outputs.get(0).data.species.name));
                 }
-                if (sight.outputs.get(0).data.sightingPhoto != null && sight.outputs.get(0).data.sightingPhoto.size() > 0) {
-                    sightViewHolders.image.clearColorFilter();
+                if (trackModel.outputs.get(0).data.sightingPhoto != null && trackModel.outputs.get(0).data.sightingPhoto.size() > 0) {
+                    trackViewHolders.image.clearColorFilter();
                     Glide.with(context)
-                            .load(sight.outputs.get(0).data.sightingPhoto.get(0).filePath)
+                            .load(trackModel.outputs.get(0).data.sightingPhoto.get(0).filePath)
                             .placeholder(R.drawable.ala_transparent)
                             .crossFade()
-                            .into(sightViewHolders.image);
+                            .into(trackViewHolders.image);
                 } else {
-                    sightViewHolders.image.setColorFilter(Color.GRAY);
+                    trackViewHolders.image.setColorFilter(Color.GRAY);
                 }*/
             } else {
-                sightViewHolders.image.setColorFilter(Color.GRAY);
+                trackViewHolders.image.setColorFilter(Color.GRAY);
             }
         } else {
-            sightViewHolders.image.setColorFilter(Color.GRAY);
+            trackViewHolders.image.setColorFilter(Color.GRAY);
         }
     }
 

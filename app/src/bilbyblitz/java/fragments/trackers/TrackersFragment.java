@@ -76,6 +76,8 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
 
     private void setBilbyBlitzData(){
         editOrganisationName.setText(bilbyBlitzData.organisationName);
+        //TODO
+        editLeadTracker.setText(sharedPreferences.getUserDisplayName());
         //editLeadTracker.setText(bilbyBlitzData.);
     }
 

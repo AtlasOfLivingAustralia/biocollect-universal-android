@@ -42,6 +42,7 @@ import java.util.concurrent.TimeUnit;
 import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
+import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
@@ -54,6 +55,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -195,7 +197,13 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     return call;
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(s -> bieApiService.searchSpecies(s, "taxonomicStatus:accepted"))
+                .flatMap(s -> {
+                    if(AtlasManager.isNetworkAvailable(getActivity())) {
+                        return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
+                    }else{
+                        return null;
+                    }
+                })
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
                 .subscribeWith(new DisposableObserver<SpeciesSearchResponse>() {

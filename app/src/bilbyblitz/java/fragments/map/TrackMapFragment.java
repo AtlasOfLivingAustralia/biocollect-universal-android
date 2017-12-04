@@ -107,6 +107,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     private PolylineOptions polylineOptions;
     private BilbyBlitzData bilbyBlitzData;
+    Calendar now = Calendar.getInstance();
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -134,6 +135,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         if(getParentFragment() instanceof AddTrackFragment){
             bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+            setBilbyBlitzData();
         }
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -145,6 +147,20 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         setLanguageValues();
 
         return view;
+    }
+
+    private void setBilbyBlitzData() {
+        if (bilbyBlitzData.surveyDate != null) {
+            editDate.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyStartTime, DATE_FORMAT).toUpperCase());
+        }else{
+            editDate.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+        }
+
+        if (bilbyBlitzData.surveyStartTime != null) {
+            editStartTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyStartTime, TIME_FORMAT).toUpperCase());
+        }else{
+            editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
     }
 
     @Override
@@ -342,7 +358,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TimePickerDialog.OnTimeSetListener startTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            Calendar now = Calendar.getInstance();
             now.set(Calendar.HOUR_OF_DAY, hourOfDay);
             now.set(Calendar.MINUTE, minute);
             editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
@@ -355,7 +370,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TimePickerDialog.OnTimeSetListener endTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            Calendar now = Calendar.getInstance();
             now.set(Calendar.HOUR_OF_DAY, hourOfDay);
             now.set(Calendar.MINUTE, minute);
             editEndTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
@@ -425,7 +439,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     @Override
     public void prepareData() {
-
+        bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
+        bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
     }
 
     /**
