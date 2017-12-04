@@ -64,12 +64,13 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         @Override
         public void onClick(View v) {
             int position = recyclerView.getChildAdapterPosition(v);
+            TrackModel trackModel = realm.copyFromRealm(trackModels.get(position));
             Bundle bundle = new Bundle();
             //checking whether the item is being uploaded by the UploadService
-            if (trackModels.get(position).upLoading) {
+            if (trackModel.upLoading) {
                 AtlasDialogManager.alertBoxForMessage(getActivity(), getString(R.string.currently_uploading_message), "OK");
             } else {
-                bundle.putLong(getString(R.string.sight_parameter), trackModels.get(position).realmId);
+                bundle.putLong(getString(R.string.primary_key_parameter), trackModel.realmId);
                 bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.EDIT_TRACK_FRAGMENT);
                 Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
                 intent.putExtras(bundle);
@@ -77,6 +78,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
             }
         }
     };
+
     /**
      * Long click listener for recyclerview items
      * for deleting a draft item

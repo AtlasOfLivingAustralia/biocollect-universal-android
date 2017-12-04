@@ -57,6 +57,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.AddTrackFragment;
+import fragments.PrepareData;
 import fragments.ValidationCheck;
 import model.track.BilbyBlitzData;
 
@@ -64,7 +65,7 @@ import model.track.BilbyBlitzData;
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback {
+public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback, PrepareData {
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private final float INITIAL_ZOOM = 10.2f;
@@ -420,6 +421,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         } else {
             startGPSButton.setText(getString(R.string.start_gps));
         }
+    }
+
+    @Override
+    public void prepareData() {
+
     }
 
     /**

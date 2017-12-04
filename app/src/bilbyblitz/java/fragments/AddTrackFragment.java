@@ -25,8 +25,6 @@ import fragments.animal.AnimalFragment;
 import fragments.country.TrackCountryFragment;
 import fragments.map.TrackMapFragment;
 import fragments.trackers.TrackersFragment;
-import io.realm.OrderedRealmCollectionChangeListener;
-import io.realm.RealmChangeListener;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -93,24 +91,25 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private void getDataForEdit() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            int primaryKey = bundle.getInt(getString(R.string.primary_key_parameter));
+            long primaryKey = bundle.getLong(getString(R.string.primary_key_parameter));
             RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
             RealmResults<TrackModel> results = query.findAllAsync();
             results.addChangeListener(element -> {
-                trackModel = element.first();
+                trackModel = realm.copyFromRealm(element.first());
                 tabSetup();
             });
             return;
         }
 
         trackModel.outputs = new RealmList<>();
+        trackModel.activityId = getString(R.string.project_activity_id);
         BilbyBlitzOutput output = new BilbyBlitzOutput();
         output.data = new BilbyBlitzData();
         trackModel.outputs.add(output);
         tabSetup();
     }
 
-    private void tabSetup(){
+    private void tabSetup() {
         pagerAdapter = new TrackerPagerAdapter();
         pager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(pager);
@@ -135,8 +134,16 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                         ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
                         if (validationCheck != null) {
                             message = validationCheck.getValidationMessage();
-                            if (!TextUtils.isEmpty(message))
+                            if (!TextUtils.isEmpty(message)) {
                                 stringBuilder.append("\n").append(message);
+                            } else {
+                                for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                                    PrepareData prepareData = (PrepareData) pagerAdapter.getRegisteredFragment(j);
+                                    if (prepareData != null) {
+                                        prepareData.prepareData();
+                                    }
+                                }
+                            }
                         }
                     }
                     message = stringBuilder.toString();
@@ -148,6 +155,12 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 } else {
                     AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
                         if (trackModel != null && !trackModel.isManaged()) {
+                            for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                                PrepareData prepareData = (PrepareData) pagerAdapter.getRegisteredFragment(j);
+                                if (prepareData != null) {
+                                    prepareData.prepareData();
+                                }
+                            }
                             trackModel.realmId = getPrimaryKeyValue();
                             realm.executeTransactionAsync(realm -> {
                                 realm.copyToRealm(trackModel);
@@ -155,6 +168,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override
                                         public void run() {
+                                            AtlasManager.hideKeyboard(getActivity());
                                             showSnackBarMessage("Your track information has been saved as Draft");
                                             setDrawerMenuChecked(R.id.nav_review_track);
                                             setDrawerMenuClicked(R.id.nav_review_track);
@@ -172,7 +186,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
     private long getPrimaryKeyValue() {
         Number number = realm.where(TrackModel.class).max("realmId");
-        if(number==null)
+        if (number == null)
             return 1L;
         return number.longValue() + 1;
     }

@@ -24,6 +24,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.AddTrackFragment;
+import fragments.PrepareData;
 import fragments.ValidationCheck;
 import model.track.BilbyBlitzData;
 import model.track.SightingEvidenceTable;
@@ -34,7 +35,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 9/10/17.
  */
 
-public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck {
+public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck, PrepareData {
     private final int ADD_ANIMAL_REQUEST_CODE = 1;
     private final int EDIT_ANIMAL_REQUEST_CODE = 2;
 
@@ -143,6 +144,11 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
     @Override
     public String getValidationMessage() {
         return null;
+    }
+
+    @Override
+    public void prepareData() {
+
     }
 
     private class SightingEvidenceTableAdapter extends ArrayAdapter<SightingEvidenceTable> {

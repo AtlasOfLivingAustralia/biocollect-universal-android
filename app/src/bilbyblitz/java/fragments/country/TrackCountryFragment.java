@@ -31,6 +31,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.AddTrackFragment;
+import fragments.PrepareData;
 import fragments.ValidationCheck;
 import model.track.BilbyBlitzData;
 
@@ -40,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackCountryFragment extends BaseMainActivityFragment implements ValidationCheck {
+public class TrackCountryFragment extends BaseMainActivityFragment implements ValidationCheck, PrepareData {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
 
@@ -378,5 +379,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     public String getValidationMessage() {
         return null;
+    }
+
+    @Override
+    public void prepareData() {
+
     }
 }

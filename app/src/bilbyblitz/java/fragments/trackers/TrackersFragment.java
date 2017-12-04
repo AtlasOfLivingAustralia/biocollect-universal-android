@@ -30,6 +30,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.AddTrackFragment;
+import fragments.PrepareData;
 import fragments.ValidationCheck;
 import model.track.BilbyBlitzData;
 
@@ -39,7 +40,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 19/9/17.
  */
 
-public class TrackersFragment extends BaseMainActivityFragment implements ValidationCheck {
+public class TrackersFragment extends BaseMainActivityFragment implements ValidationCheck, PrepareData {
 
     @BindView(R.id.editOrganisationName)
     EditText editOrganisationName;
@@ -67,9 +68,15 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
 
         if(getParentFragment() instanceof AddTrackFragment){
             bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+            setBilbyBlitzData();
         }
 
         return view;
+    }
+
+    private void setBilbyBlitzData(){
+        editOrganisationName.setText(bilbyBlitzData.organisationName);
+        //editLeadTracker.setText(bilbyBlitzData.);
     }
 
     @Override
@@ -104,7 +111,6 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
             stringBuilder.append("\n");
             setError(inputLayoutLeadTracker, localisedString("", R.string.lead_tracker_missing_error));
         } else {
-            bilbyBlitzData.recordedBy = editLeadTracker.getText().toString();
             setError(inputLayoutLeadTracker, "");
         }
 
@@ -112,9 +118,14 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
             stringBuilder.append(localisedString("", R.string.organisation_name_missing_error));
             setError(inputLayoutOrganisationName, localisedString("", R.string.organisation_name_missing_error));
         } else {
-            bilbyBlitzData.organisationName = editOrganisationName.getText().toString();
             setError(inputLayoutOrganisationName, "");
         }
         return stringBuilder.toString().trim();
+    }
+
+    @Override
+    public void prepareData() {
+        bilbyBlitzData.recordedBy = editLeadTracker.getText().toString();
+        bilbyBlitzData.organisationName = editOrganisationName.getText().toString();
     }
 }
