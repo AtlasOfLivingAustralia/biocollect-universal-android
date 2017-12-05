@@ -30,8 +30,10 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import org.parceler.Parcels;
+import org.reactivestreams.Publisher;
 
 import java.io.File;
 import java.io.IOException;
@@ -48,7 +50,6 @@ import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.SearchSpecies;
-import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
@@ -56,10 +57,15 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.Observable;
+import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Case;
+import io.realm.RealmResults;
 import model.track.SightingEvidenceTable;
 import model.track.Species;
 
@@ -138,15 +144,12 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         }.getType(), new SearchSpeciesSerializer()).create();
         bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
 
-        editSpeciesName.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                sightingEvidenceTable.species = new Species(species.get(position));
-                speciesDetailLayout.setVisibility(View.VISIBLE);
-                speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", sightingEvidenceTable.species.guid));
-                if (BuildConfig.DEBUG) {
-                    Toast.makeText(getActivity(), sightingEvidenceTable.species.commonName, Toast.LENGTH_LONG).show();
-                }
+        editSpeciesName.setOnItemClickListener((parent, view1, position, id) -> {
+            sightingEvidenceTable.species = new Species(species.get(position));
+            speciesDetailLayout.setVisibility(View.VISIBLE);
+            speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", sightingEvidenceTable.species.guid));
+            if (BuildConfig.DEBUG) {
+                Toast.makeText(getActivity(), sightingEvidenceTable.species.commonName, Toast.LENGTH_LONG).show();
             }
         });
 
@@ -154,14 +157,17 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         if (bundle == null) {
             sightingEvidenceTable = new SightingEvidenceTable();
         } else {
-            sightingEvidenceTable =  Parcels.unwrap(bundle.getParcelable(getString(R.string.add_animal_parameter)));
+            sightingEvidenceTable = Parcels.unwrap(bundle.getParcelable(getString(R.string.add_animal_parameter)));
             if (sightingEvidenceTable == null)
                 sightingEvidenceTable = new SightingEvidenceTable();
             else
                 setValues();
         }
-        
-        mCompositeDisposable.add(getSearchSpeciesResponseObserver());
+
+        if(AtlasManager.isNetworkAvailable(getActivity()))
+            mCompositeDisposable.add(getSearchSpeciesResponseObserver());
+        else
+            mCompositeDisposable.add(searchInRealm());
 
         return view;
     }
@@ -188,7 +194,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
      *
      * @return
      */
-    private DisposableObserver<List<SearchSpecies>> getSearchSpeciesResponseObserver() {
+    private Disposable getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)
                 .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
                 .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())
@@ -199,42 +205,54 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     return call;
                 })
                 .observeOn(Schedulers.io())
-                .flatMap(s -> {
-                    if(AtlasManager.isNetworkAvailable(getActivity())) {
-                        return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
-                    }else{
-                        return null;
-                    }
-                })
+                .flatMap(s -> bieApiService.searchSpecies(s, "taxonomicStatus:accepted"))
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
-                .subscribeWith(new DisposableObserver<List<SearchSpecies>>() {
-                    @Override
-                    public void onNext(List<SearchSpecies> searchSpecies) {
-                        speciesLoadingIndicator.setVisibility(View.INVISIBLE);
-                        species.clear();
-                        species.addAll(searchSpecies);
-
-                        editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
-                        if (species.size() == 0 || (sightingEvidenceTable.species != null && sightingEvidenceTable.species.name.equals(editSpeciesName.getText().toString()))) {
-                            editSpeciesName.dismissDropDown();
-                        } else {
-                            editSpeciesName.showDropDown();
-                            speciesDetailLayout.setVisibility(View.GONE);
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        handleError(e, 0, "");
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
+                .subscribe(this::setSpeciesAdapter);
     }
+
+    private void setSpeciesAdapter(List<SearchSpecies> searchSpecies) {
+        speciesLoadingIndicator.setVisibility(View.INVISIBLE);
+        species.clear();
+        species.addAll(searchSpecies);
+
+        editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
+        if (species.size() == 0 || (sightingEvidenceTable.species != null && sightingEvidenceTable.species.name.equals(editSpeciesName.getText().toString()))) {
+            editSpeciesName.dismissDropDown();
+        } else {
+            editSpeciesName.showDropDown();
+            speciesDetailLayout.setVisibility(View.GONE);
+        }
+    }
+
+    private Disposable searchInRealm() {
+        return RxTextView.textChangeEvents(editSpeciesName)
+                .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS) // default Scheduler is Schedulers.computation()
+                .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())
+                .filter(s -> {
+                    boolean call = s.length() > 1;
+                    if (call)
+                        getActivity().runOnUiThread(() -> speciesLoadingIndicator.setVisibility(View.VISIBLE));
+                    return call;
+                })
+                .observeOn(AndroidSchedulers.mainThread()) // Needed to access Realm data
+                .toFlowable(BackpressureStrategy.BUFFER)
+                .switchMap(string -> {
+                    // Use Async API to move Realm queries off the main thread.
+                    // Realm currently doesn't support the standard Schedulers.
+                    return realm.where(SearchSpecies.class)
+                            .contains("commonName", string, Case.INSENSITIVE)
+                            .or()
+                            .contains("name", string, Case.INSENSITIVE)
+                            .findAllAsync()
+                            .asFlowable();
+                })
+                // Only continue once data is actually loaded
+                // RealmObservables will emit the unloaded (empty) list as its first item
+                .filter(RealmResults::isLoaded)
+                .subscribe(searchSpecies -> setSpeciesAdapter(realm.copyFromRealm(searchSpecies)), throwable -> throwable.printStackTrace());
+    }
+
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
