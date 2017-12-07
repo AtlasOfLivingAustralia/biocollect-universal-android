@@ -1,46 +1,28 @@
-package fragments.trackers;
+package fragments.addtrack.trackers;
 
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.content.pm.ResolveInfo;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
-
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.manager.FileUtils;
-import au.csiro.ozatlas.manager.MarshMallowPermission;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
-import fragments.AddTrackFragment;
-import fragments.PrepareData;
-import fragments.ValidationCheck;
+import fragments.addtrack.AddTrackFragment;
+import fragments.addtrack.BilbyDataManager;
+import fragments.addtrack.ValidationCheck;
 import model.track.BilbyBlitzData;
-
-import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by sad038 on 19/9/17.
  */
 
-public class TrackersFragment extends BaseMainActivityFragment implements ValidationCheck, PrepareData {
+public class TrackersFragment extends BaseMainActivityFragment implements ValidationCheck, BilbyDataManager {
 
     @BindView(R.id.editOrganisationName)
     EditText editOrganisationName;
@@ -66,19 +48,21 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         //set the localized labels
         setLanguageValues();
 
-        if(getParentFragment() instanceof AddTrackFragment){
-            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+        if (getParentFragment() instanceof AddTrackFragment) {
+            bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
             setBilbyBlitzData();
         }
 
         return view;
     }
 
-    private void setBilbyBlitzData(){
+    public void setBilbyBlitzData() {
         editOrganisationName.setText(bilbyBlitzData.organisationName);
-        //TODO
-        editLeadTracker.setText(sharedPreferences.getUserDisplayName());
-        //editLeadTracker.setText(bilbyBlitzData.);
+        if (bilbyBlitzData.recordedBy == null)
+            editLeadTracker.setText(sharedPreferences.getUserDisplayName());
+        else
+            editLeadTracker.setText(bilbyBlitzData.recordedBy);
+        editOtherTracker.setText(bilbyBlitzData.additionalTrackers);
     }
 
     @Override
@@ -129,5 +113,6 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     public void prepareData() {
         bilbyBlitzData.recordedBy = editLeadTracker.getText().toString();
         bilbyBlitzData.organisationName = editOrganisationName.getText().toString();
+        bilbyBlitzData.additionalTrackers = editOtherTracker.getText().toString();
     }
 }

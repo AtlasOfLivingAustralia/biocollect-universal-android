@@ -82,7 +82,7 @@
             android:exported="false" />
 
         <service
-            android:name="fragments.map.LocationUpdatesService"
+            android:name="fragments.addtrack.map.LocationUpdatesService"
             android:exported="false" />
 
         <service

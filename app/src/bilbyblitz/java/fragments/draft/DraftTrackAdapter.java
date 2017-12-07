@@ -17,7 +17,10 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SightViewHolders;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.model.Tag;
+import model.track.BilbyBlitzOutput;
+import model.track.SightingEvidenceTable;
 import model.track.TrackModel;
 
 /**
@@ -39,7 +42,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
     /**
      * constructor
      *
-     * @param trackModels              trackModels to show
+     * @param trackModels         trackModels to show
      * @param context
      * @param onClickListener     a click listener for the checkbox
      * @param onLongClickListener a long click listener to delete the draft sight
@@ -108,41 +111,35 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
             else
                 trackViewHolders.checkBox.setChecked(false);
 
-            trackViewHolders.checkBox.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    selection[trackViewHolders.getAdapterPosition()] = !selection[trackViewHolders.getAdapterPosition()];
-                    trackViewHolders.checkBox.setChecked(selection[trackViewHolders.getAdapterPosition()]);
-                }
+            trackViewHolders.checkBox.setOnClickListener(v -> {
+                selection[trackViewHolders.getAdapterPosition()] = !selection[trackViewHolders.getAdapterPosition()];
+                trackViewHolders.checkBox.setChecked(selection[trackViewHolders.getAdapterPosition()]);
             });
         }
 
-        trackViewHolders.moreButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (moreButtonListener != null)
-                    moreButtonListener.onMoreButtonClick(trackViewHolders.moreButton, trackViewHolders.getAdapterPosition());
-            }
+        trackViewHolders.moreButton.setOnClickListener(v -> {
+            if (moreButtonListener != null)
+                moreButtonListener.onMoreButtonClick(trackViewHolders.moreButton, trackViewHolders.getAdapterPosition());
         });
 
         if (trackModel.isValid() && trackModel.outputs != null && trackModel.outputs.size() > 0) {
-            trackViewHolders.name.setText(trackModel.outputs.get(0).name);
-            if (trackModel.outputs.get(0).data != null) {
-                trackViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(trackModel.outputs.get(0).data.surveyDate, "dd MMM, yyyy"));
-                trackViewHolders.user.setText(trackModel.outputs.get(0).data.recordedBy);
-                /*if (trackModel.outputs.get(0).data.species != null) {
-                    trackViewHolders.type.setText(context.getString(R.string.species_name, trackModel.outputs.get(0).data.species.name == null ? "" : trackModel.outputs.get(0).data.species.name));
+            BilbyBlitzOutput output = trackModel.outputs.first();
+            if (output != null && output.data != null) {
+                trackViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(output.data.surveyDate, "dd MMM, yyyy"));
+                trackViewHolders.user.setText(output.data.recordedBy);
+                trackViewHolders.name.setText(output.data.surveyType);
+                if (output.data.sightingEvidenceTable != null) {
+                    for (SightingEvidenceTable sightingEvidenceTable : output.data.sightingEvidenceTable)
+                        if (sightingEvidenceTable.species != null)
+                            trackViewHolders.type.append(sightingEvidenceTable.species.commonName + ", ");
+
+                    if (output.data.sightingEvidenceTable.size() > 0) {
+                        SightingEvidenceTable sightingEvidenceTable = output.data.sightingEvidenceTable.first();
+                        if ((sightingEvidenceTable != null ? sightingEvidenceTable.mPhotoPath : null) != null) {
+                            trackViewHolders.image.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+                        }
+                    }
                 }
-                if (trackModel.outputs.get(0).data.sightingPhoto != null && trackModel.outputs.get(0).data.sightingPhoto.size() > 0) {
-                    trackViewHolders.image.clearColorFilter();
-                    Glide.with(context)
-                            .load(trackModel.outputs.get(0).data.sightingPhoto.get(0).filePath)
-                            .placeholder(R.drawable.ala_transparent)
-                            .crossFade()
-                            .into(trackViewHolders.image);
-                } else {
-                    trackViewHolders.image.setColorFilter(Color.GRAY);
-                }*/
             } else {
                 trackViewHolders.image.setColorFilter(Color.GRAY);
             }

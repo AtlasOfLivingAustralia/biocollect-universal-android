@@ -1,4 +1,4 @@
-package fragments.country;
+package fragments.addtrack.country;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,7 +13,6 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,13 +25,14 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
+import au.csiro.ozatlas.manager.Utils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fragments.AddTrackFragment;
-import fragments.PrepareData;
-import fragments.ValidationCheck;
+import fragments.addtrack.AddTrackFragment;
+import fragments.addtrack.BilbyDataManager;
+import fragments.addtrack.ValidationCheck;
 import model.track.BilbyBlitzData;
 
 import static android.app.Activity.RESULT_OK;
@@ -41,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackCountryFragment extends BaseMainActivityFragment implements ValidationCheck, PrepareData {
+public class TrackCountryFragment extends BaseMainActivityFragment implements ValidationCheck, BilbyDataManager {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
 
@@ -105,12 +105,8 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         groundTypeSpinner.setAdapter(new SimpleAdapter(getContext(), data, R.layout.row_icon_string, new String[] {"imageView","name"}, new int[] {R.id.imageView, R.id.name}));
         */
 
-        if(getParentFragment() instanceof AddTrackFragment){
-            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
-        }
-
         detailHabitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.detailed_habitat_values, R.layout.item_textview));
-        detailHabitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*detailHabitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //TODO which member
@@ -121,10 +117,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         habitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.habitat_values, R.layout.item_textview));
-        habitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*habitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 bilbyBlitzData.habitatType = (String) habitatSpinner.getItemAtPosition(position);
@@ -134,10 +130,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         plotTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.plot_type, R.layout.item_textview));
-        plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 bilbyBlitzData.plotType = (String) plotTypeSpinner.getItemAtPosition(position);
@@ -147,10 +143,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         trackingEventSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_event_values, R.layout.item_textview));
-        trackingEventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*trackingEventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //todo chaeck
@@ -161,10 +157,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         disturbanceSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.disturbance_values, R.layout.item_textview));
-        disturbanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*disturbanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //sightingEvidenceTable.evidenceAgeClass = (String) disturbanceSpinner.getItemAtPosition(position);
@@ -174,10 +170,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         groundTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.ground_values, R.layout.item_textview));
-        groundTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*groundTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //sightingEvidenceTable.evidenceAgeClass = (String) groundTypeSpinner.getItemAtPosition(position);
@@ -187,10 +183,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         fireSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.fire_type, R.layout.item_textview));
-        fireSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*fireSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //sightingEvidenceTable.evidenceAgeClass = (String) fireSpinner.getItemAtPosition(position);
@@ -200,10 +196,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         visibilitySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.visibility_type, R.layout.item_textview));
-        visibilitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*visibilitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //sightingEvidenceTable.evidenceAgeClass = (String) visibilitySpinner.getItemAtPosition(position);
@@ -213,10 +209,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
 
         surfaceTrackingSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_surface_value, R.layout.item_textview));
-        surfaceTrackingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        /*surfaceTrackingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 //sightingEvidenceTable.evidenceAgeClass = (String) surfaceTrackingSpinner.getItemAtPosition(position);
@@ -226,7 +222,12 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             public void onNothingSelected(AdapterView<?> parent) {
 
             }
-        });
+        });*/
+
+        if (getParentFragment() instanceof AddTrackFragment) {
+            bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
+            setBilbyBlitzData();
+        }
 
         return view;
     }
@@ -383,6 +384,29 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
 
     @Override
     public void prepareData() {
+        bilbyBlitzData.countryName = editCountryName.getText().toString();
+        bilbyBlitzData.habitatType = (String) habitatSpinner.getSelectedItem();
+        bilbyBlitzData.plotType = (String) plotTypeSpinner.getSelectedItem();
+        bilbyBlitzData.plotSequence = (String) trackingEventSpinner.getSelectedItem();
+        bilbyBlitzData.disturbance = (String) disturbanceSpinner.getSelectedItem();
+        bilbyBlitzData.fireSigns = (String) fireSpinner.getSelectedItem();
+        bilbyBlitzData.trackingSurfaceContinuity = (String) groundTypeSpinner.getSelectedItem();
+        bilbyBlitzData.visibility = (String) visibilitySpinner.getSelectedItem();
+        bilbyBlitzData.vegetationType = (String) detailHabitatSpinner.getSelectedItem();
+        bilbyBlitzData.surfaceTrackability = (String) surfaceTrackingSpinner.getSelectedItem();
+    }
 
+    @Override
+    public void setBilbyBlitzData() {
+        editCountryName.setText(bilbyBlitzData.countryName);
+        habitatSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.habitat_values), bilbyBlitzData.habitatType), false);
+        plotTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.plot_type), bilbyBlitzData.plotType), false);
+        trackingEventSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.tracking_event_values), bilbyBlitzData.plotSequence), false);
+        disturbanceSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.disturbance_values), bilbyBlitzData.disturbance), false);
+        fireSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.fire_type), bilbyBlitzData.fireSigns), false);
+        groundTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.ground_values), bilbyBlitzData.trackingSurfaceContinuity), false);
+        visibilitySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.visibility_type), bilbyBlitzData.visibility), false);
+        detailHabitatSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.detailed_habitat_values), bilbyBlitzData.vegetationType), false);
+        surfaceTrackingSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.tracking_surface_value), bilbyBlitzData.surfaceTrackability), false);
     }
 }

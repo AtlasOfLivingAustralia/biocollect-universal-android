@@ -1,4 +1,4 @@
-package fragments.map;
+package fragments.addtrack.map;
 
 import android.Manifest;
 import android.app.DatePickerDialog;
@@ -44,28 +44,29 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.PolylineOptions;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDateTimeDialogManager;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
+import au.csiro.ozatlas.manager.Utils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fragments.AddTrackFragment;
-import fragments.PrepareData;
-import fragments.ValidationCheck;
+import fragments.addtrack.AddTrackFragment;
+import fragments.addtrack.BilbyDataManager;
+import fragments.addtrack.ValidationCheck;
+import io.realm.RealmList;
 import model.track.BilbyBlitzData;
+import model.track.BilbyLocation;
 
 /**
  * Created by sad038 on 9/10/17.
  */
 
-public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback, PrepareData {
+public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback, BilbyDataManager {
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private final float INITIAL_ZOOM = 10.2f;
@@ -96,7 +97,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextInputLayout inputLayoutstartTime;
 
 
-    private List<Location> locations = new ArrayList<>();
+    private RealmList<BilbyLocation> locations = new RealmList<>();
     private GoogleMap googleMap;
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
@@ -133,11 +134,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         View view = inflater.inflate(R.layout.fragment_track_map, container, false);
         ButterKnife.bind(this, view);
 
-        if(getParentFragment() instanceof AddTrackFragment){
-            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
-            setBilbyBlitzData();
-        }
-
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
 
@@ -146,21 +142,33 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         //set the localized labels
         setLanguageValues();
 
+        if (getParentFragment() instanceof AddTrackFragment) {
+            bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
+            setBilbyBlitzData();
+        }
         return view;
     }
 
-    private void setBilbyBlitzData() {
+    public void setBilbyBlitzData() {
         if (bilbyBlitzData.surveyDate != null) {
             editDate.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyStartTime, DATE_FORMAT).toUpperCase());
-        }else{
+        } else {
             editDate.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
         }
 
         if (bilbyBlitzData.surveyStartTime != null) {
             editStartTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyStartTime, TIME_FORMAT).toUpperCase());
-        }else{
+        } else {
             editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
         }
+
+        if(bilbyBlitzData.tempLocations!=null)
+            locations = bilbyBlitzData.tempLocations;
+
+        editCentroidLatitude.setText(String.valueOf(bilbyBlitzData.locationCentroidLatitude));
+        editCentroidLongitude.setText(String.valueOf(bilbyBlitzData.locationCentroidLongitude));
+        editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
+        surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
     }
 
     @Override
@@ -439,8 +447,13 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     @Override
     public void prepareData() {
+        bilbyBlitzData.surveyType = (String) surveySpinner.getSelectedItem();
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
+        bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
+        bilbyBlitzData.locationCentroidLatitude = Utils.parseDouble(editCentroidLatitude.getText().toString());
+        bilbyBlitzData.locationCentroidLongitude = Utils.parseDouble(editCentroidLongitude.getText().toString());
+        bilbyBlitzData.tempLocations = locations;
     }
 
     /**
@@ -461,7 +474,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             if (isGPSStarted()) {
                 location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
                 if (location != null) {
-                    locations.add(location);
+                    locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
                     setGoogleMapMarker(location);
                     addPolyLine(location);
                     Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();

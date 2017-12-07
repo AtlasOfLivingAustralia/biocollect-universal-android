@@ -1,4 +1,4 @@
-package fragments;
+package fragments.addtrack;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -21,10 +21,10 @@ import au.csiro.ozatlas.manager.Utils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fragments.animal.AnimalFragment;
-import fragments.country.TrackCountryFragment;
-import fragments.map.TrackMapFragment;
-import fragments.trackers.TrackersFragment;
+import fragments.addtrack.animal.AnimalFragment;
+import fragments.addtrack.country.TrackCountryFragment;
+import fragments.addtrack.map.TrackMapFragment;
+import fragments.addtrack.trackers.TrackersFragment;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -79,6 +79,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
+        pager.setOffscreenPageLimit(3);
         getDataForEdit();
 
         //set the localized labels
@@ -144,9 +145,9 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                         showMultiLineSnackBarMessage(message);
                     else {
                         for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                            PrepareData prepareData = (PrepareData) pagerAdapter.getRegisteredFragment(j);
-                            if (prepareData != null) {
-                                prepareData.prepareData();
+                            BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
+                            if (bilbyDataManager != null) {
+                                bilbyDataManager.prepareData();
                             }
                         }
                         //TODO network call
@@ -155,14 +156,15 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
                         if (trackModel != null && !trackModel.isManaged()) {
                             for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                                PrepareData prepareData = (PrepareData) pagerAdapter.getRegisteredFragment(j);
-                                if (prepareData != null) {
-                                    prepareData.prepareData();
+                                BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
+                                if (bilbyDataManager != null) {
+                                    bilbyDataManager.prepareData();
                                 }
                             }
-                            trackModel.realmId = getPrimaryKeyValue();
+                            if (trackModel.realmId == null)
+                                trackModel.realmId = getPrimaryKeyValue();
                             realm.executeTransactionAsync(realm -> {
-                                realm.copyToRealm(trackModel);
+                                realm.insertOrUpdate(trackModel);
                                 if (isAdded()) {
                                     getActivity().runOnUiThread(new Runnable() {
                                         @Override

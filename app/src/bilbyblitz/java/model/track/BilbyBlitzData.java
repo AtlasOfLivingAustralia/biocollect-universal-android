@@ -15,9 +15,11 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class BilbyBlitzData extends RealmObject{
-    public String locationCentroidLatitude;
+    public Double locationCentroidLatitude;
 
     public String visibility;
+
+    public String countryName;
 
     public String location;
 
@@ -25,9 +27,13 @@ public class BilbyBlitzData extends RealmObject{
 
     public String surveyStartTime;
 
+    public String surveyFinishTime;
+
     public Double locationLongitude;
 
     public String organisationName;
+
+    public String additionalTrackers;
 
     public String fireSigns;
 
@@ -36,11 +42,15 @@ public class BilbyBlitzData extends RealmObject{
 
     public String surfaceTrackability;
 
+    public String vegetationType;
+
     public Double locationLatitude;
 
     public String trackingSurfaceContinuity;
 
     public String plotSequence;
+
+    public String disturbance;
 
     public String recordedBy;
 
@@ -51,9 +61,14 @@ public class BilbyBlitzData extends RealmObject{
     @ParcelPropertyConverter(RealmListParcelConverter.class)
     public RealmList<TrackerGroupImage> trackerGroupImage;
 
-    public String locationCentroidLongitude;
+    public Double locationCentroidLongitude;
 
     public String surveyDate;
 
+    public String surveyType;
+
+    //temporary saving
+    @ParcelPropertyConverter(RealmListParcelConverter.class)
+    public RealmList<BilbyLocation> tempLocations;
     //public RealmList<String> locationImage;
 }

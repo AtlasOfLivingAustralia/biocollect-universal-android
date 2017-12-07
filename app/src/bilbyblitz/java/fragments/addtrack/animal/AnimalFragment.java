@@ -1,4 +1,4 @@
-package fragments.animal;
+package fragments.addtrack.animal;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,9 +23,10 @@ import au.csiro.ozatlas.manager.FileUtils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fragments.AddTrackFragment;
-import fragments.PrepareData;
-import fragments.ValidationCheck;
+import fragments.addtrack.AddTrackFragment;
+import fragments.addtrack.BilbyDataManager;
+import fragments.addtrack.ValidationCheck;
+import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.SightingEvidenceTable;
 
@@ -35,11 +36,11 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 9/10/17.
  */
 
-public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck, PrepareData {
+public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck, BilbyDataManager {
     private final int ADD_ANIMAL_REQUEST_CODE = 1;
     private final int EDIT_ANIMAL_REQUEST_CODE = 2;
 
-    private List<SightingEvidenceTable> sightingEvidenceTables = new ArrayList<>();
+    private RealmList<SightingEvidenceTable> sightingEvidenceTables = new RealmList<>();
     private SightingEvidenceTableAdapter sightingEvidenceTableAdapter;
     private int editRequestPosition = -1;
     private BilbyBlitzData bilbyBlitzData;
@@ -53,8 +54,12 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
-        if(getParentFragment() instanceof AddTrackFragment){
-            bilbyBlitzData = ((AddTrackFragment)getParentFragment()).getBilbyBlitzData();
+        if (getParentFragment() instanceof AddTrackFragment) {
+            bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
+            if (bilbyBlitzData.sightingEvidenceTable != null)
+                sightingEvidenceTables = bilbyBlitzData.sightingEvidenceTable ;
+            else
+                bilbyBlitzData.sightingEvidenceTable = sightingEvidenceTables;
         }
 
         setFloatingButtonClickListener(v -> {
@@ -148,6 +153,11 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
 
     @Override
     public void prepareData() {
+
+    }
+
+    @Override
+    public void setBilbyBlitzData() {
 
     }
 

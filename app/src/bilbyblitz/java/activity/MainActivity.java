@@ -24,8 +24,8 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
-import fragments.AddTrackFragment;
-import fragments.HomePageFragment;
+import fragments.addtrack.AddTrackFragment;
+import fragments.home.HomePageFragment;
 import fragments.draft.DraftTrackListFragment;
 import fragments.setting.SettingFragment;
 

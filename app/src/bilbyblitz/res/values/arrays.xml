@@ -71,7 +71,11 @@
         <item>No shadow</item>
     </string-array>
 
-    <string-array name="tracking_surface_value"></string-array>
+    <string-array name="tracking_surface_value">
+        <item>Good</item>
+        <item>OK</item>
+        <item>Bad</item>
+    </string-array>
 
     <string-array name="detailed_habitat_values">
         <item>Spinifex</item>

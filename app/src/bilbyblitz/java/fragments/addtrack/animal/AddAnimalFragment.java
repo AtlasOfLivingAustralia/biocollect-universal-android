@@ -1,4 +1,4 @@
-package fragments.animal;
+package fragments.addtrack.animal;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -30,10 +30,8 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import org.parceler.Parcels;
-import org.reactivestreams.Publisher;
 
 import java.io.File;
 import java.io.IOException;
@@ -60,9 +58,6 @@ import butterknife.OnClick;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Consumer;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 import io.realm.Case;
 import io.realm.RealmResults;
@@ -271,12 +266,20 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         return sightingEvidenceTable.species != null;
     }
 
+    private void prepareData(){
+        sightingEvidenceTable.typeOfSign = (String)whatSeenSpinner.getSelectedItem();
+        sightingEvidenceTable.evidenceAgeClass = (String)howRecentSpinner.getSelectedItem();
+        sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
+        sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.save:
                 prepareSightingEvidenceTableModel();
                 if (isSightingEvidenceTableModelValid()) {
+                    prepareData();
                     Intent intent = new Intent();
                     intent.putExtra(getString(R.string.add_animal_parameter), Parcels.wrap(sightingEvidenceTable));
                     getActivity().setResult(Activity.RESULT_OK, intent);

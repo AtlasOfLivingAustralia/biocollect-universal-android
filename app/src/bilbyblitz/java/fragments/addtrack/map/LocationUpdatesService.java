@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-package fragments.map;
+package fragments.addtrack.map;
 
-import android.app.ActivityManager;
 import android.app.Service;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.location.Location;
