@@ -5,7 +5,7 @@ package model.map;
  */
 
 public class Extent {
-    private String source;
+    public String source;
 
-    private Geometry geometry;
+    public Geometry geometry;
 }

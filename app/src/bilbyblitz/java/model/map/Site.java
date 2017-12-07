@@ -5,9 +5,9 @@ package model.map;
  */
 
 public class Site {
-    private String[] projects;
+    public String[] projects;
 
-    private Extent extent;
+    public Extent extent;
 
-    private String name;
+    public String name;
 }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,10 +15,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Utils;
+import au.csiro.ozatlas.model.ImageUploadResponse;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -25,12 +29,24 @@ import fragments.addtrack.animal.AnimalFragment;
 import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import model.map.Extent;
+import model.map.Geometry;
+import model.map.MapModel;
+import model.map.MapResponse;
+import model.map.Site;
 import model.track.BilbyBlitzData;
 import model.track.BilbyBlitzOutput;
+import model.track.BilbyLocation;
 import model.track.TrackModel;
+import retrofit2.Response;
+
+import static android.app.Activity.RESULT_OK;
 
 /**
  * Created by sad038 on 25/10/17.
@@ -44,6 +60,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
+    private int imageUploadCount = 0;
     private TrackModel trackModel = new TrackModel();
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
@@ -150,7 +167,13 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                 bilbyDataManager.prepareData();
                             }
                         }
-                        //TODO network call
+                        imageUploadCount=0;
+                        MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
+                        if (mapModel != null) {
+                            uploadMap(mapModel);
+                        } else {
+                            uploadPhotos();
+                        }
                     }
                 } else {
                     AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
@@ -195,6 +218,125 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues() {
         setTitle(localisedString("add_track", R.string.add_track));
+    }
+
+    private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
+        if (tempLocations != null && tempLocations.size() > 0) {
+            MapModel mapModel = new MapModel();
+            mapModel.pActivityId = getString(R.string.project_activity_id);
+            mapModel.site = new Site();
+            mapModel.site.name = "line 3";
+            mapModel.site.projects = new String[]{getString(R.string.project_id)};
+            mapModel.site.extent = new Extent();
+            mapModel.site.extent.source = "drawn";
+            mapModel.site.extent.geometry = new Geometry();
+            mapModel.site.extent.geometry.areaKmSq = 0.0;
+            mapModel.site.extent.geometry.type = "LineString";
+            mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
+            for (int i = 0; i < tempLocations.size(); i++) {
+                BilbyLocation bilbyLocation = tempLocations.get(i);
+                mapModel.site.extent.geometry.coordinates[i][0] = bilbyLocation.latitude;
+                mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.longitude;
+            }
+            return mapModel;
+        }
+        return null;
+    }
+
+    private void uploadMap(MapModel mapModel) {
+        mCompositeDisposable.add(restClient.getService().postMap(mapModel, null)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<MapResponse>() {
+                    @Override
+                    public void onNext(MapResponse mapResponse) {
+                        trackModel.siteId = mapResponse.id;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        handleError(e, 0, "");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        uploadPhotos();
+                    }
+                }));
+    }
+
+    /**
+     * upload photos
+     */
+    private void uploadPhotos() {
+        if (trackModel.outputs.get(0).data.sightingEvidenceTable != null && imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size()) {
+            mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath))
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
+                        @Override
+                        public void onNext(ImageUploadResponse value) {
+                            Log.d("", value.files[0].thumbnail_url);
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            hideProgressDialog();
+                            handleError(e, 0, "");
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            imageUploadCount++;
+                            if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
+                                uploadPhotos();
+                            else {
+                                saveData();
+                            }
+
+                        }
+                    }));
+        }else{
+            saveData();
+        }
+    }
+
+    private void saveData() {
+        mCompositeDisposable.add(restClient.getService().postTracks(getString(R.string.project_activity_id), trackModel)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<Response<Void>>() {
+                    @Override
+                    public void onNext(Response<Void> value) {
+                        showSnackBarMessage("Sighting has been saved");
+                        Log.d("", "onNext");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgressDialog();
+                        handleError(e, 0, "");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        hideProgressDialog();
+
+                        if (trackModel.isManaged()) {
+                            realm.beginTransaction();
+                            trackModel.deleteFromRealm();
+                            realm.commitTransaction();
+                        }
+
+                        if (getActivity() instanceof SingleFragmentActivity) {
+                            getActivity().setResult(RESULT_OK);
+                            getActivity().finish();
+                        } else {
+                            setDrawerMenuChecked(R.id.home);
+                            setDrawerMenuClicked(R.id.home);
+                        }
+                    }
+                }));
     }
 
     private class TrackerPagerAdapter extends FragmentStatePagerAdapter {

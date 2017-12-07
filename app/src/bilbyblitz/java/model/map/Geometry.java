@@ -5,9 +5,9 @@ package model.map;
  */
 
 public class Geometry {
-    private Double areaKmSq;
+    public Double areaKmSq;
 
-    private String type;
+    public String type;
 
-    private Double[][] coordinates;
+    public Double[][] coordinates;
 }

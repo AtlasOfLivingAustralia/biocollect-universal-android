@@ -5,7 +5,7 @@ package model.map;
  */
 
 public class MapModel {
-    private Site site;
+    public Site site;
 
-    private String pActivityId;
+    public String pActivityId;
 }
