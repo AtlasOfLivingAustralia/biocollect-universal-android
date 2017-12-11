@@ -4,10 +4,12 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
@@ -36,10 +38,11 @@ import fragments.setting.ProjectListFragment;
 public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements MainActivityFragmentListener {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
+    @BindView(R.id.fab)
+    FloatingActionButton fab;
 
     @Override
     protected void setLanguageValues() {
-
     }
 
     @Override
@@ -118,19 +121,32 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
         super.onConfigurationChanged(newConfig);
     }
 
+    /**
+     * hides the floating button if its not hidden
+     */
     @Override
     public void hideFloatingButton() {
-
+        if (fab.getScaleX() != 0.0f)
+            fab.animate().scaleX(0.0f).scaleY(0.0f).setDuration(100).setInterpolator(new AccelerateInterpolator()).start();
     }
 
+    /**
+     * shows the floating button if its not shown
+     */
     @Override
     public void showFloatingButton() {
-
+        if (fab.getScaleX() != 1.0f)
+            fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).start();
     }
 
+    /**
+     * floating button onclick listner
+     *
+     * @param onClickListener
+     */
     @Override
     public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
-
+        fab.setOnClickListener(onClickListener);
     }
 
     /**
