@@ -3,9 +3,8 @@ package upload;
 import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.util.Log;
-
-import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -15,17 +14,23 @@ import javax.inject.Inject;
 import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import model.map.Extent;
+import model.map.Geometry;
+import model.map.MapModel;
+import model.map.MapResponse;
+import model.map.Site;
+import model.track.BilbyLocation;
 import model.track.TrackModel;
 import retrofit2.Response;
-
-import static au.csiro.ozatlas.manager.FileUtils.getMultipart;
 
 /**
  * Created by sad038 on 8/5/17.
@@ -90,20 +95,19 @@ public class UploadService extends IntentService {
             //upload the sights
             Iterator<TrackModel> sightIterator = result.iterator();
             while (sightIterator.hasNext()) {
-                TrackModel addSight = sightIterator.next();
+                TrackModel trackModel = sightIterator.next();
                 //only those which are not being uploaded right now
-                if (addSight.isValid() && !addSight.upLoading && getValidated(addSight)) {
+                if (trackModel.isValid() && !trackModel.upLoading && getValidated(trackModel)) {
                     realm.beginTransaction();
-                    addSight.upLoading = true;
+                    trackModel.upLoading = true;
                     realm.commitTransaction();
                     mBroadcaster.notifyDataChange();
-                    /*if (addSight.outputs.get(0).data.sightingPhoto.size() > 0) {
-                        imageUploadCount = 0;
-                        //sightingPhotos = addSight.outputs.get(0).data.sightingPhoto;
-                        uploadPhotos(addSight);
+                    MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
+                    if (mapModel != null) {
+                        uploadMap(trackModel, mapModel);
                     } else {
-                        saveData(addSight);
-                    }*/
+                        uploadPhotos(trackModel);
+                    }
                 }
             }
 
@@ -113,21 +117,56 @@ public class UploadService extends IntentService {
         }
     }
 
+    private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
+        if (tempLocations != null && tempLocations.size() > 0) {
+            MapModel mapModel = new MapModel();
+            mapModel.pActivityId = getString(R.string.project_activity_id);
+            mapModel.site = new Site();
+            mapModel.site.name = "line 3";
+            mapModel.site.projects = new String[]{getString(R.string.project_id)};
+            mapModel.site.extent = new Extent();
+            mapModel.site.extent.source = "drawn";
+            mapModel.site.extent.geometry = new Geometry();
+            mapModel.site.extent.geometry.areaKmSq = 0.0;
+            mapModel.site.extent.geometry.type = "LineString";
+            mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
+            for (int i = 0; i < tempLocations.size(); i++) {
+                BilbyLocation bilbyLocation = tempLocations.get(i);
+                mapModel.site.extent.geometry.coordinates[i][0] = bilbyLocation.latitude;
+                mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.longitude;
+            }
+            return mapModel;
+        }
+        return null;
+    }
+
+    private void uploadMap(TrackModel trackModel, MapModel mapModel) {
+        mCompositeDisposable.add(restClient.getService().postMap(mapModel, null)
+                .subscribeWith(new DisposableObserver<MapResponse>() {
+                    @Override
+                    public void onNext(MapResponse mapResponse) {
+                        trackModel.siteId = mapResponse.id;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        uploadPhotos(trackModel);
+                    }
+                }));
+    }
 
     /**
      * data validation for uploading an Sight
      *
      * @return
      */
-    private boolean getValidated(TrackModel addSight) {
-        boolean value = true;
-        /*if (addSight.outputs.get(0).data.species.name == null || addSight.outputs.get(0).data.species.name.length() < 1) {
-            value = false;
-        }
-        if (addSight.outputs.get(0).data.locationLatitude == null || addSight.outputs.get(0).data.locationLongitude == null) {
-            value = false;
-        }*/
-        return value;
+    private boolean getValidated(TrackModel trackModel) {
+        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) && trackModel.outputs.get(0).data.locationCentroidLatitude != null && trackModel.outputs.get(0).data.locationCentroidLongitude != null;
     }
 
     /**
@@ -136,36 +175,32 @@ public class UploadService extends IntentService {
      * @param trackModel
      */
     private void uploadPhotos(final TrackModel trackModel) {
-        /*if (imageUploadCount < trackModel.outputs.get(0).data.sightingPhoto.size()) {
-            mCompositeDisposable.add(restClient.getService().uploadPhoto(getMultipart(trackModel.outputs.get(0).data.sightingPhoto.get(imageUploadCount).filePath))
+        if (trackModel.outputs.get(0).data.sightingEvidenceTable != null && imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size()) {
+            mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath))
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
                         @Override
                         public void onNext(ImageUploadResponse value) {
-                            realm.beginTransaction();
-                            trackModel.outputs.get(0).data.sightingPhoto.get(imageUploadCount).thumbnailUrl = value.files[0].thumbnail_url;
-                            trackModel.outputs.get(0).data.sightingPhoto.get(imageUploadCount).url = value.files[0].url;
-                            trackModel.outputs.get(0).data.sightingPhoto.get(imageUploadCount).contentType = value.files[0].contentType;
-                            trackModel.outputs.get(0).data.sightingPhoto.get(imageUploadCount).staged = true;
-                            realm.commitTransaction();
                             Log.d("", value.files[0].thumbnail_url);
                         }
 
                         @Override
                         public void onError(Throwable e) {
-                            makeUploadingFalse(trackModel);
-                            Log.d("", e.getMessage());
                         }
 
                         @Override
                         public void onComplete() {
                             imageUploadCount++;
-                            if (imageUploadCount < trackModel.outputs.get(0).data.sightingPhoto.size())
+                            if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
                                 uploadPhotos(trackModel);
-                            else
+                            else {
                                 saveData(trackModel);
+                            }
+
                         }
                     }));
-        }*/
+        } else {
+            saveData(trackModel);
+        }
     }
 
 
