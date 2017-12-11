@@ -108,10 +108,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     private PolylineOptions polylineOptions;
     private BilbyBlitzData bilbyBlitzData;
-    Calendar now = Calendar.getInstance();
+    private Calendar now = Calendar.getInstance();
+    private LocationManager locationManager;
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
-
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
@@ -127,7 +127,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             setButtonsState(false);
         }
     };
-    private LocationManager locationManager;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -227,6 +226,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         super.onStop();
     }
 
+    /**
+     * requesting Location access permission
+     */
     private void requestPermissions() {
         ActivityCompat.requestPermissions(getActivity(),
                 new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_REQUEST_CODE);
@@ -251,7 +253,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                     requestPermissions();
                 } else {
                     setButtonsState(true);
-                    LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
+                    //LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
                 }
             } else {
                 AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
@@ -263,7 +265,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 });
             }
         } else {
-            LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+            Toast.makeText(getContext(), locations.size()+" locations:  "+locations.toString(), Toast.LENGTH_SHORT).show();
+            //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
             mService.removeLocationUpdates();
             getActivity().unbindService(mServiceConnection);
             mService = null;
@@ -272,15 +275,26 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
     }
 
-
-    private void setGoogleMapMarker(LatLng latLng) {
+    /**
+     * Add Google Map Market on Google Map
+     * @param latLng
+     */
+    private void setGoogleMapView(LatLng latLng) {
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
     }
 
-    private void setGoogleMapMarker(Location location) {
-        setGoogleMapMarker(new LatLng(location.getLatitude(), location.getLongitude()));
+    /**
+     * Add Google Map View on Google Map
+     * @param location
+     */
+    private void setGoogleMapView(Location location) {
+        setGoogleMapView(new LatLng(location.getLatitude(), location.getLongitude()));
     }
 
+    /**
+     * Drawing the polyline on Google Map
+     * @param location
+     */
     private void addPolyLine(Location location) {
         if (polylineOptions != null) {
             polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
@@ -383,6 +397,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             editEndTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
         }
     };
+
     /**
      * Date Picker Listener
      */
@@ -437,6 +452,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
     }
 
+    /**
+     * update the status of GPS Button
+     * @param requestingLocationUpdates
+     */
     private void setButtonsState(boolean requestingLocationUpdates) {
         if (requestingLocationUpdates) {
             startGPSButton.setText(getString(R.string.stop_gps));
@@ -445,6 +464,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
     }
 
+    /**
+     * preparing the Track Model
+     */
     @Override
     public void prepareData() {
         bilbyBlitzData.surveyType = (String) surveySpinner.getSelectedItem();
@@ -466,7 +488,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
             location = intent.getParcelableExtra(LocationUpdatesService.LAST_KNOWN_LOCATION);
             if (location != null) {
-                setGoogleMapMarker(location);
+                setGoogleMapView(location);
                 Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -475,7 +497,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
                 if (location != null) {
                     locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
-                    setGoogleMapMarker(location);
+                    setGoogleMapView(location);
                     addPolyLine(location);
                     Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
                 }
