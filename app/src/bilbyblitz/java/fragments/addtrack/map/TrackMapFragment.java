@@ -302,6 +302,17 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
     }
 
+    /**
+     * Drawing the polyline on Google Map
+     * @param location
+     */
+    private void addPolyLine(BilbyLocation location) {
+        if (polylineOptions != null) {
+            polylineOptions.add(new LatLng(location.latitude, location.longitude));
+            googleMap.addPolyline(polylineOptions);
+        }
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -372,6 +383,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         polylineOptions = new PolylineOptions()
                 .color(ContextCompat.getColor(getContext(), R.color.colorPrimary))
                 .width(getResources().getDimension(R.dimen.map_line_width));
+        for(BilbyLocation location:locations){
+            addPolyLine(location);
+        }
     }
 
     /**
