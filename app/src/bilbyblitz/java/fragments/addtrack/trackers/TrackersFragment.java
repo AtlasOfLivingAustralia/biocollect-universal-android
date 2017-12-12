@@ -77,9 +77,9 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
 
     @Override
     protected void setLanguageValues() {
-        inputLayoutOrganisationName.setHint(localisedString("", R.string.organisation_name));
-        inputLayoutLeadTracker.setHint(localisedString("", R.string.lead_tracker));
-        inputLayoutOtherTracker.setHint(localisedString("", R.string.other_tracker));
+        inputLayoutOrganisationName.setHint(localisedString("organisation_name", R.string.organisation_name));
+        inputLayoutLeadTracker.setHint(localisedString("lead_tracker", R.string.lead_tracker));
+        inputLayoutOtherTracker.setHint(localisedString("other_tracker", R.string.other_tracker));
     }
 
     private void setError(TextInputLayout inputLayout, String error) {

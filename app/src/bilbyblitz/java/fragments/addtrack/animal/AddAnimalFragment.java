@@ -93,11 +93,24 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     EditText editLatitude;
     @BindView(R.id.editLongitude)
     EditText editLongitude;
+    @BindView(R.id.whatSeenTextView)
+    TextView whatSeenTextView;
+    @BindView(R.id.recentTextView)
+    TextView recentTextView;
 
     private String mCurrentPhotoPath;
     private List<SearchSpecies> species = new ArrayList<>();
     private SightingEvidenceTable sightingEvidenceTable;
     private BieApiService bieApiService;
+
+    @Override
+    protected void setLanguageValues() {
+        editSpeciesName.setHint(localisedString("animal", R.string.animal));
+        editLatitude.setHint(localisedString("sign_latitude", R.string.sign_latitude));
+        editLongitude.setHint(localisedString("sign_longitude", R.string.sign_longitude));
+        recentTextView.setText(localisedString("how_recent", R.string.how_recent));
+        whatSeenTextView.setText(localisedString("what_you_see", R.string.what_you_see));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -414,9 +427,6 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         }
     }
 
-    @Override
-    protected void setLanguageValues() {
 
-    }
 }
 

@@ -54,7 +54,6 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
     @BindView(R.id.total)
     TextView total;
 
-
     private DraftTrackAdapter sightAdapter;
     private List<TrackModel> trackModels = new ArrayList<>();
     /**

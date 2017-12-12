@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.io.IOException;
@@ -69,9 +70,41 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     EditText editCountryName;
     @BindView(R.id.imageView)
     ImageView imageView;
+    @BindView(R.id.detailHabitatTextView)
+    TextView detailHabitatTextView;
+    @BindView(R.id.habitatTextView)
+    TextView habitatTextView;
+    @BindView(R.id.plotTextView)
+    TextView plotTextView;
+    @BindView(R.id.trackEventTextView)
+    TextView trackEventTextView;
+    @BindView(R.id.disturbanceTextView)
+    TextView disturbanceTextView;
+    @BindView(R.id.groundTextView)
+    TextView groundTextView;
+    @BindView(R.id.fireTextView)
+    TextView fireTextView;
+    @BindView(R.id.visibilityTextView)
+    TextView visibilityTextView;
+    @BindView(R.id.surfaceTextView)
+    TextView surfaceTextView;
 
     private String mCurrentPhotoPath;
     private BilbyBlitzData bilbyBlitzData;
+
+    @Override
+    protected void setLanguageValues() {
+        editCountryName.setHint(localisedString("country_name", R.string.country_name));
+        detailHabitatTextView.setText(localisedString("detailed_habitat", R.string.detailed_habitat));
+        habitatTextView.setText(localisedString("habitat", R.string.habitat));
+        plotTextView.setText(localisedString("type_of_plot", R.string.type_of_plot));
+        trackEventTextView.setText(localisedString("tracking_event_type", R.string.tracking_event_type));
+        disturbanceTextView.setText(localisedString("disturbance", R.string.disturbance));
+        groundTextView.setText(localisedString("ground_type", R.string.ground_type));
+        fireTextView.setText(localisedString("fire", R.string.fire));
+        visibilityTextView.setText(localisedString("visibility", R.string.visibility));
+        surfaceTextView.setText(localisedString("surface_tracking", R.string.surface_tracking));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -370,11 +403,6 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             }
             startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
         }
-    }
-
-    @Override
-    protected void setLanguageValues() {
-
     }
 
     @Override

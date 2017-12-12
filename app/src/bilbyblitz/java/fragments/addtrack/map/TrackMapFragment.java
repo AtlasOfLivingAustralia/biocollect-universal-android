@@ -34,6 +34,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
@@ -95,7 +96,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextInputLayout inputLayoutDate;
     @BindView(R.id.inputLayoutstartTime)
     TextInputLayout inputLayoutstartTime;
-
+    @BindView(R.id.surveyTextView)
+    TextView surveyTextView;
+    @BindView(R.id.gpsMessageTextView)
+    TextView gpsMessageTextView;
 
     private RealmList<BilbyLocation> locations = new RealmList<>();
     private GoogleMap googleMap;
@@ -110,6 +114,18 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private BilbyBlitzData bilbyBlitzData;
     private Calendar now = Calendar.getInstance();
     private LocationManager locationManager;
+
+    @Override
+    protected void setLanguageValues() {
+        editCentroidLatitude.setHint(localisedString("centroid_latitude", R.string.centroid_latitude));
+        editCentroidLongitude.setHint(localisedString("centroid_longitude", R.string.centroid_longitude));
+        editDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
+        editStartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
+        editEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
+        gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
+        surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
+
+    }
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
@@ -326,11 +342,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             fm.executePendingTransactions();
             mapFragment.getMapAsync(this);
         }
-    }
-
-    @Override
-    protected void setLanguageValues() {
-
     }
 
     private void setError(TextInputLayout inputLayout, String error) {

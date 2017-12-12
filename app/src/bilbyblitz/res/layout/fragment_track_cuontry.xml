@@ -40,6 +40,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/detailHabitatTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -64,6 +65,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/habitatTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -88,6 +90,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/plotTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -112,6 +115,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/trackEventTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -150,6 +154,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/disturbanceTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -174,6 +179,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/groundTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -198,6 +204,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/fireTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -222,6 +229,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/visibilityTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -246,6 +254,7 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
+                android:id="@+id/surfaceTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
