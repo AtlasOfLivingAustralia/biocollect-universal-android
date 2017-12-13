@@ -88,7 +88,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
 
     @Override
     public DraftTrackViewHolders onCreateViewHolder(ViewGroup parent, int viewType) {
-        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_sight, null);
+        View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_track, null);
         layoutView.setOnClickListener(onClickListener);
         layoutView.setOnLongClickListener(onLongClickListener);
         layoutView.setLayoutParams(new RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));

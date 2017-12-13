@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:foreground="?attr/selectableItemBackground">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:padding="8dp">
+
+        <ImageView
+            android:id="@+id/image"
+            android:layout_width="@dimen/list_item_image_width"
+            android:layout_height="@dimen/list_item_image_width"
+            android:layout_marginRight="4dp"
+            android:adjustViewBounds="true"
+            android:scaleType="fitCenter"
+            android:src="@drawable/ic_camera_alt_black_48dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/uploadImage"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/name"
+                android:layout_marginLeft="4dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/ic_file_upload_black_24dp"
+                android:tint="@color/colorPrimary"
+                android:visibility="gone" />
+
+            <CheckBox
+                android:id="@+id/checkBox"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/name"
+                android:layout_marginLeft="4dp"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@android:style/TextAppearance.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginBottom="1dp"
+                android:layout_toLeftOf="@+id/checkBox"
+                android:ellipsize="end"
+                android:textSize="@dimen/default_input_font_size"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/type"
+                style="@android:style/TextAppearance.Holo.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/name"
+                android:layout_marginBottom="1dp"
+                android:layout_toLeftOf="@+id/more_button"
+                android:textSize="@dimen/smaller_input_font_size"
+                android:ellipsize="end"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/user"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/type"
+                android:textSize="@dimen/smaller_input_font_size"
+                android:layout_marginRight="4dp"
+                android:layout_toLeftOf="@+id/time"
+                android:maxLines="1" />
+
+            <TextView
+                android:id="@+id/time"
+                style="@android:style/TextAppearance.Small"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignWithParentIfMissing="true"
+                android:textSize="@dimen/smaller_input_font_size"
+                android:layout_below="@id/type"
+                android:layout_toLeftOf="@+id/more_button"
+                android:maxLines="1" />
+
+            <ImageView
+                android:id="@+id/more_button"
+                android:layout_width="24dp"
+                android:layout_height="28dp"
+                android:layout_alignBottom="@+id/time"
+                android:layout_alignParentRight="true"
+                android:scaleType="fitEnd"
+                android:src="@drawable/ic_more_vert_black_36dp"
+                android:tint="@color/colorPrimary"
+                android:visibility="gone" />
+        </RelativeLayout>
+    </LinearLayout>
+</android.support.v7.widget.CardView>
