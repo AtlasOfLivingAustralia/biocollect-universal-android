@@ -100,6 +100,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextView surveyTextView;
     @BindView(R.id.gpsMessageTextView)
     TextView gpsMessageTextView;
+    @BindView(R.id.inputLayoutEndTime)
+    TextInputLayout inputLayoutEndTime;
 
     private RealmList<BilbyLocation> locations = new RealmList<>();
     private GoogleMap googleMap;
@@ -117,11 +119,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     @Override
     protected void setLanguageValues() {
-        editCentroidLatitude.setHint(localisedString("centroid_latitude", R.string.centroid_latitude));
-        editCentroidLongitude.setHint(localisedString("centroid_longitude", R.string.centroid_longitude));
-        editDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
-        editStartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
-        editEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
+        inputLayoutCentroidLatitude.setHint(localisedString("centroid_latitude", R.string.centroid_latitude));
+        inputLayoutCentroidLongitude.setHint(localisedString("centroid_longitude", R.string.centroid_longitude));
+        inputLayoutDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
+        inputLayoutstartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
+        inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
         gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
         surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
 
@@ -177,11 +179,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
         }
 
-        if(bilbyBlitzData.tempLocations!=null)
+        if (bilbyBlitzData.tempLocations != null)
             locations = bilbyBlitzData.tempLocations;
 
-        editCentroidLatitude.setText(String.valueOf(bilbyBlitzData.locationCentroidLatitude));
-        editCentroidLongitude.setText(String.valueOf(bilbyBlitzData.locationCentroidLongitude));
+        editCentroidLatitude.setText(bilbyBlitzData.locationCentroidLatitude == null ? "" : String.valueOf(bilbyBlitzData.locationCentroidLatitude));
+        editCentroidLongitude.setText(bilbyBlitzData.locationCentroidLongitude == null ? "" : String.valueOf(bilbyBlitzData.locationCentroidLongitude));
         editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
     }
@@ -281,7 +283,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 });
             }
         } else {
-            Toast.makeText(getContext(), locations.size()+" locations:  "+locations.toString(), Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), locations.size() + " locations:  " + locations.toString(), Toast.LENGTH_SHORT).show();
             //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
             mService.removeLocationUpdates();
             getActivity().unbindService(mServiceConnection);
@@ -293,6 +295,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     /**
      * Add Google Map Market on Google Map
+     *
      * @param latLng
      */
     private void setGoogleMapView(LatLng latLng) {
@@ -301,6 +304,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     /**
      * Add Google Map View on Google Map
+     *
      * @param location
      */
     private void setGoogleMapView(Location location) {
@@ -309,6 +313,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     /**
      * Drawing the polyline on Google Map
+     *
      * @param location
      */
     private void addPolyLine(Location location) {
@@ -320,6 +325,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     /**
      * Drawing the polyline on Google Map
+     *
      * @param location
      */
     private void addPolyLine(BilbyLocation location) {
@@ -394,7 +400,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         polylineOptions = new PolylineOptions()
                 .color(ContextCompat.getColor(getContext(), R.color.colorPrimary))
                 .width(getResources().getDimension(R.dimen.map_line_width));
-        for(BilbyLocation location:locations){
+        for (BilbyLocation location : locations) {
             addPolyLine(location);
         }
     }
@@ -479,6 +485,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     /**
      * update the status of GPS Button
+     *
      * @param requestingLocationUpdates
      */
     private void setButtonsState(boolean requestingLocationUpdates) {
