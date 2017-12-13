@@ -4,6 +4,7 @@ import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
 import au.csiro.ozatlas.manager.RealmListParcelConverter;
+import au.csiro.ozatlas.model.ImageUploadResponse;
 import io.realm.RealmList;
 import io.realm.RealmModel;
 import io.realm.RealmObject;
@@ -70,5 +71,7 @@ public class BilbyBlitzData extends RealmObject{
     //temporary saving
     @ParcelPropertyConverter(RealmListParcelConverter.class)
     public RealmList<BilbyLocation> tempLocations;
-    //public RealmList<String> locationImage;
+
+    @ParcelPropertyConverter(RealmListParcelConverter.class)
+    public RealmList<ImageModel> locationImage;
 }

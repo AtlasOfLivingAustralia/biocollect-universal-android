@@ -3,12 +3,8 @@ package model.track;
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
-import java.io.Serializable;
-
 import au.csiro.ozatlas.manager.RealmListParcelConverter;
-import au.csiro.ozatlas.model.SearchSpecies;
 import io.realm.RealmList;
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
@@ -24,7 +20,7 @@ public class SightingEvidenceTable extends RealmObject {
     public Double observationLongitude;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
-    public RealmList<ImageOfSign> imageOfSign;
+    public RealmList<ImageModel> imageOfSign;
 
     public Species species;
 

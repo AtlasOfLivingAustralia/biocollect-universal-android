@@ -2,7 +2,8 @@
     <string name="app_name">The Tracks App</string>
     <string name="app_version">Version 1.0</string>
 
-    <string name="project_activity_id">e61eb018-02a9-4e3b-a4b3-9d6be33d9cbb</string>
+    <string name="project_activity_id">6fe3fbad-e417-4866-a755-52696d9c44c7</string>
+    <string name="project_id">2f4eed05-5be1-417d-a4ab-174f5b24d22a</string>
 
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="project_id_parameter">PROJECT_ID</string>

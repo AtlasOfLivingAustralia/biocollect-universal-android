@@ -14,7 +14,7 @@ import io.realm.annotations.RealmClass;
 
 @Parcel
 @RealmClass
-public class ImageOfSign extends RealmObject {
+public class ImageModel extends RealmObject {
     public String licence;
 
     public String status;
@@ -27,7 +27,7 @@ public class ImageOfSign extends RealmObject {
 
     public String dateTaken;
 
-    public String filesize;
+    public Long filesize;
 
     public String thumbnailUrl;
 
@@ -37,9 +37,12 @@ public class ImageOfSign extends RealmObject {
 
     public String notes;
 
-    public String staged;
+    public Boolean staged;
 
     public String documentId;
 
     public String attribution;
+
+    //view
+    public String mPhotoPath;
 }

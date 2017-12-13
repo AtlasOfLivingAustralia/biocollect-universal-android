@@ -41,7 +41,7 @@ import static android.app.Activity.RESULT_OK;
  */
 
 /**
- * This class is to show the list of Sights saved locally
+ * This class is to show the list of Tracks saved locally
  * From Navigation Drawer -> Draft Shift
  */
 public class DraftTrackListFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener, MoreButtonListener {

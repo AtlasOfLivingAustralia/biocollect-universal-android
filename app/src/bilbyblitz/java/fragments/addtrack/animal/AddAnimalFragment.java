@@ -8,6 +8,7 @@ import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -97,6 +98,11 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     TextView whatSeenTextView;
     @BindView(R.id.recentTextView)
     TextView recentTextView;
+    @BindView(R.id.inputLayoutLatitude)
+    TextInputLayout inputLayoutLatitude;
+    @BindView(R.id.inputLayoutLongitude)
+    TextInputLayout inputLayoutLongitude;
+
 
     private String mCurrentPhotoPath;
     private List<SearchSpecies> species = new ArrayList<>();
@@ -106,8 +112,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues() {
         editSpeciesName.setHint(localisedString("animal", R.string.animal));
-        editLatitude.setHint(localisedString("sign_latitude", R.string.sign_latitude));
-        editLongitude.setHint(localisedString("sign_longitude", R.string.sign_longitude));
+        inputLayoutLatitude.setHint(localisedString("sign_latitude", R.string.sign_latitude));
+        inputLayoutLongitude.setHint(localisedString("sign_longitude", R.string.sign_longitude));
         recentTextView.setText(localisedString("how_recent", R.string.how_recent));
         whatSeenTextView.setText(localisedString("what_you_see", R.string.what_you_see));
     }

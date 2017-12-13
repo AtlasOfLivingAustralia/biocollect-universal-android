@@ -53,6 +53,9 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
         menu.findItem(R.id.nav_help).setTitle(localisedString("help", R.string.help));
         menu.findItem(R.id.nav_contact).setTitle(localisedString("about", R.string.about));
+
+        //TODO
+        menu.findItem(R.id.nav_practise_track).setVisible(false);
     }
 
     @Override

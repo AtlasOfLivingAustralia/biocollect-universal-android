@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -34,7 +35,9 @@ import butterknife.OnClick;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
+import io.realm.RealmList;
 import model.track.BilbyBlitzData;
+import model.track.ImageModel;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -88,13 +91,15 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     TextView visibilityTextView;
     @BindView(R.id.surfaceTextView)
     TextView surfaceTextView;
+    @BindView(R.id.inputLayoutCountryName)
+    TextInputLayout inputLayoutCountryName;
 
     private String mCurrentPhotoPath;
     private BilbyBlitzData bilbyBlitzData;
 
     @Override
     protected void setLanguageValues() {
-        editCountryName.setHint(localisedString("country_name", R.string.country_name));
+        inputLayoutCountryName.setHint(localisedString("country_name", R.string.country_name));
         detailHabitatTextView.setText(localisedString("detailed_habitat", R.string.detailed_habitat));
         habitatTextView.setText(localisedString("habitat", R.string.habitat));
         plotTextView.setText(localisedString("type_of_plot", R.string.type_of_plot));
@@ -307,7 +312,6 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         }
     }
 
-
     /**
      * Marshmellow permission
      *
@@ -422,6 +426,12 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         bilbyBlitzData.visibility = (String) visibilitySpinner.getSelectedItem();
         bilbyBlitzData.vegetationType = (String) detailHabitatSpinner.getSelectedItem();
         bilbyBlitzData.surfaceTrackability = (String) surfaceTrackingSpinner.getSelectedItem();
+        if (mCurrentPhotoPath != null) {
+            bilbyBlitzData.locationImage = new RealmList<>();
+            ImageModel imageModel = new ImageModel();
+            imageModel.mPhotoPath = mCurrentPhotoPath;
+            bilbyBlitzData.locationImage.add(imageModel);
+        }
     }
 
     @Override

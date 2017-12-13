@@ -29,6 +29,7 @@ import model.map.MapModel;
 import model.map.MapResponse;
 import model.map.Site;
 import model.track.BilbyLocation;
+import model.track.ImageModel;
 import model.track.TrackModel;
 import retrofit2.Response;
 
@@ -181,6 +182,14 @@ public class UploadService extends IntentService {
                         @Override
                         public void onNext(ImageUploadResponse value) {
                             Log.d("", value.files[0].thumbnail_url);
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign = new RealmList<>();
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(new ImageModel());
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).thumbnailUrl = value.files[0].thumbnail_url;
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).url = value.files[0].url;
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).contentType = value.files[0].contentType;
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).staged = true;
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).dateTaken = value.files[0].date;
+                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).filesize = value.files[0].size;
                         }
 
                         @Override
@@ -193,16 +202,44 @@ public class UploadService extends IntentService {
                             if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
                                 uploadPhotos(trackModel);
                             else {
-                                saveData(trackModel);
+                                uploadLocationImages(trackModel);
                             }
 
+                        }
+                    }));
+        } else {
+            uploadLocationImages(trackModel);
+        }
+    }
+
+    private void uploadLocationImages(final TrackModel trackModel) {
+        if (trackModel.outputs.get(0).data.locationImage != null && trackModel.outputs.get(0).data.locationImage.size() > 0) {
+            mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.locationImage.get(0).mPhotoPath))
+                    .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
+                        @Override
+                        public void onNext(ImageUploadResponse value) {
+                            Log.d("", value.files[0].thumbnail_url);
+                            trackModel.outputs.get(0).data.locationImage.get(0).thumbnailUrl = value.files[0].thumbnail_url;
+                            trackModel.outputs.get(0).data.locationImage.get(0).url = value.files[0].url;
+                            trackModel.outputs.get(0).data.locationImage.get(0).contentType = value.files[0].contentType;
+                            trackModel.outputs.get(0).data.locationImage.get(0).staged = true;
+                            trackModel.outputs.get(0).data.locationImage.get(0).dateTaken = value.files[0].date;
+                            trackModel.outputs.get(0).data.locationImage.get(0).filesize = value.files[0].size;
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                        }
+
+                        @Override
+                        public void onComplete() {
+                            saveData(trackModel);
                         }
                     }));
         } else {
             saveData(trackModel);
         }
     }
-
 
     /**
      * finally upload the sight
