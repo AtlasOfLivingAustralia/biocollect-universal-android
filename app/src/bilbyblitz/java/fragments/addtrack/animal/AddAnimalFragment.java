@@ -286,8 +286,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     }
 
     private void prepareData(){
-        sightingEvidenceTable.typeOfSign = (String)whatSeenSpinner.getSelectedItem();
-        sightingEvidenceTable.evidenceAgeClass = (String)howRecentSpinner.getSelectedItem();
+        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null :(String)whatSeenSpinner.getSelectedItem();
+        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null :(String)howRecentSpinner.getSelectedItem();
         sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
         sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
     }

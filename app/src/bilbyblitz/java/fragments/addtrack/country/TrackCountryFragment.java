@@ -417,15 +417,15 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     public void prepareData() {
         bilbyBlitzData.countryName = editCountryName.getText().toString();
-        bilbyBlitzData.habitatType = (String) habitatSpinner.getSelectedItem();
-        bilbyBlitzData.plotType = (String) plotTypeSpinner.getSelectedItem();
-        bilbyBlitzData.plotSequence = (String) trackingEventSpinner.getSelectedItem();
-        bilbyBlitzData.disturbance = (String) disturbanceSpinner.getSelectedItem();
-        bilbyBlitzData.fireSigns = (String) fireSpinner.getSelectedItem();
-        bilbyBlitzData.trackingSurfaceContinuity = (String) groundTypeSpinner.getSelectedItem();
-        bilbyBlitzData.visibility = (String) visibilitySpinner.getSelectedItem();
-        bilbyBlitzData.vegetationType = (String) detailHabitatSpinner.getSelectedItem();
-        bilbyBlitzData.surfaceTrackability = (String) surfaceTrackingSpinner.getSelectedItem();
+        bilbyBlitzData.habitatType = habitatSpinner.getSelectedItemPosition() == 0 ? null :(String) habitatSpinner.getSelectedItem();
+        bilbyBlitzData.plotType = plotTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) plotTypeSpinner.getSelectedItem();
+        bilbyBlitzData.plotSequence = trackingEventSpinner.getSelectedItemPosition() == 0 ? null :(String) trackingEventSpinner.getSelectedItem();
+        bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null :(String) disturbanceSpinner.getSelectedItem();
+        bilbyBlitzData.fireSigns = fireSpinner.getSelectedItemPosition() == 0 ? null :(String) fireSpinner.getSelectedItem();
+        bilbyBlitzData.trackingSurfaceContinuity = groundTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) groundTypeSpinner.getSelectedItem();
+        bilbyBlitzData.visibility = visibilitySpinner.getSelectedItemPosition() == 0 ? null :(String) visibilitySpinner.getSelectedItem();
+        bilbyBlitzData.vegetationType = detailHabitatSpinner.getSelectedItemPosition() == 0 ? null :(String) detailHabitatSpinner.getSelectedItem();
+        bilbyBlitzData.surfaceTrackability = surfaceTrackingSpinner.getSelectedItemPosition() == 0 ? null :(String) surfaceTrackingSpinner.getSelectedItem();
         if (mCurrentPhotoPath != null) {
             bilbyBlitzData.locationImage = new RealmList<>();
             ImageModel imageModel = new ImageModel();

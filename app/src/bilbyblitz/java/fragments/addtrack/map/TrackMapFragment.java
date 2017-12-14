@@ -501,7 +501,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
      */
     @Override
     public void prepareData() {
-        bilbyBlitzData.surveyType = (String) surveySpinner.getSelectedItem();
+        bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : (String) surveySpinner.getSelectedItem();
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
