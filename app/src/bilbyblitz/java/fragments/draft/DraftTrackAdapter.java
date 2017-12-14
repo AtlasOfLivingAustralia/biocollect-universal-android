@@ -19,6 +19,7 @@ import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.model.Tag;
+import io.realm.Realm;
 import model.track.BilbyBlitzOutput;
 import model.track.SightingEvidenceTable;
 import model.track.TrackModel;
@@ -38,6 +39,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
     private View.OnClickListener onClickListener;
     private View.OnLongClickListener onLongClickListener;
     private MoreButtonListener moreButtonListener;
+    Realm realm;
 
     /**
      * constructor
@@ -55,6 +57,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
         this.onClickListener = onClickListener;
         this.onLongClickListener = onLongClickListener;
         this.moreButtonListener = moreButtonListener;
+        realm = Realm.getDefaultInstance();
     }
 
     /**
@@ -97,7 +100,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
 
     @Override
     public void onBindViewHolder(final DraftTrackViewHolders trackViewHolders, int position) {
-        TrackModel trackModel = trackModels.get(position);
+        TrackModel trackModel = realm.copyFromRealm(trackModels.get(position));
         //if the trackModel is being uploaded then show the upload image or show the checkbox
         if (trackModel.upLoading) {
             trackViewHolders.uploadImage.setVisibility(View.VISIBLE);
@@ -131,7 +134,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                 if (output.data.sightingEvidenceTable != null) {
                     for (SightingEvidenceTable sightingEvidenceTable : output.data.sightingEvidenceTable)
                         if (sightingEvidenceTable.species != null)
-                            trackViewHolders.type.append(sightingEvidenceTable.species.commonName + ", ");
+                            trackViewHolders.type.append(sightingEvidenceTable.species.name + ", ");
 
                     if (output.data.sightingEvidenceTable.size() > 0) {
                         SightingEvidenceTable sightingEvidenceTable = output.data.sightingEvidenceTable.first();

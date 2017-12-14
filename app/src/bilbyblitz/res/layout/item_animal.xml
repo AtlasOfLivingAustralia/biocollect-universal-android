@@ -1,65 +1,70 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:foreground="?attr/selectableItemBackground">
+    android:padding="@dimen/row_padding_smaller">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/row_padding_smaller">
+        android:foreground="?attr/selectableItemBackground">
 
-        <ImageView
-            android:id="@+id/image"
-            android:layout_width="@dimen/animal_image_size"
-            android:layout_height="@dimen/animal_image_size"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="@dimen/row_view_in_between_gap_more"
-            android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_camera_alt_black_48dp" />
-
-        <RelativeLayout
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_toRightOf="@+id/image">
+            android:layout_height="wrap_content">
 
-            <TextView
-                android:id="@+id/name"
-                style="@android:style/TextAppearance.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/image"
+                android:layout_width="@dimen/animal_image_size"
+                android:layout_height="@dimen/animal_image_size"
                 android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginBottom="@dimen/row_view_in_between_top_gap"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="@dimen/default_input_font_size" />
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/row_view_in_between_gap_more"
+                android:adjustViewBounds="true"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_camera_alt_black_48dp" />
 
-            <TextView
-                android:id="@+id/whatSeen"
-                style="@android:style/TextAppearance.Holo.Small"
+            <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/name"
-                android:layout_marginBottom="@dimen/row_view_in_between_top_gap"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="@dimen/smaller_input_font_size" />
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/image">
 
-            <TextView
-                android:id="@+id/recent"
-                style="@android:style/TextAppearance.Small"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/whatSeen"
-                android:layout_marginRight="@dimen/row_view_in_between_gap"
-                android:maxLines="1"
-                android:textSize="@dimen/smaller_input_font_size" />
+                <TextView
+                    android:id="@+id/name"
+                    style="@android:style/TextAppearance.Medium"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentTop="true"
+                    android:layout_marginBottom="@dimen/row_view_in_between_top_gap"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/default_input_font_size" />
 
+                <TextView
+                    android:id="@+id/whatSeen"
+                    style="@android:style/TextAppearance.Holo.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentLeft="true"
+                    android:layout_below="@+id/name"
+                    android:layout_marginBottom="@dimen/row_view_in_between_top_gap"
+                    android:ellipsize="end"
+                    android:maxLines="1"
+                    android:textSize="@dimen/smaller_input_font_size" />
+
+                <TextView
+                    android:id="@+id/recent"
+                    style="@android:style/TextAppearance.Small"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/whatSeen"
+                    android:layout_marginRight="@dimen/row_view_in_between_gap"
+                    android:maxLines="1"
+                    android:textSize="@dimen/smaller_input_font_size" />
+
+            </RelativeLayout>
         </RelativeLayout>
-    </RelativeLayout>
-</android.support.v7.widget.CardView>
+    </android.support.v7.widget.CardView>
+</LinearLayout>
