@@ -25,8 +25,10 @@
 #-renamesourcefileattribute SourceFile
 
 -keep class au.csiro.ozatlas.model.** { <fields>; }
+-keep class au.csiro.ala.bilbyblitz.model.** { <fields>; }
 -keepclassmembers class au.csiro.ozatlas.model.** { <fields>; }
 -keepclassmembers class au.csiro.biocollect.model.** { <fields>; }
+-keepclassmembers class au.csiro.ala.bilbyblitz.model.** { <fields>; }
 
 -keepclassmembers,allowobfuscation class * {
     @javax.inject.* *;

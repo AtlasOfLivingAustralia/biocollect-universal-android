@@ -84,4 +84,5 @@ public class Project {
 
     @Expose
     public Boolean isSciStarter;
+
 }

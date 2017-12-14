@@ -53,8 +53,9 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         setHasOptionsMenu(true);
         setTitle(getString(R.string.available_species));
 
-        if (mainActivityFragmentListener != null)
-            mainActivityFragmentListener.showFloatingButton();
+        if (mainActivityFragmentListener != null) {
+            mainActivityFragmentListener.hideFloatingButton();
+        }
 
         // Get a Realm instance for this thread
         realm = Realm.getDefaultInstance();
