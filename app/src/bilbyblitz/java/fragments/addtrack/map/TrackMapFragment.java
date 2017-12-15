@@ -38,11 +38,13 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
@@ -179,6 +181,19 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
     }
 
+    private void putCoordinatesInVisibleArea(){
+        if(googleMap!=null) {
+            LatLngBounds.Builder builder = new LatLngBounds.Builder();
+            for (BilbyLocation location : locations) {
+                builder.include(new LatLng(location.latitude, location.longitude));
+            }
+            LatLngBounds bounds = builder.build();
+            int padding = 100; // offset from edges of the map in pixels
+            CameraUpdate cu = CameraUpdateFactory.newLatLngBounds(bounds, padding);
+            googleMap.animateCamera(cu);
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -274,13 +289,14 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 });
             }
         } else {
-            Toast.makeText(getContext(), locations.size() + " locations:  " + locations.toString(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(), locations.size() + " locations:  " + locations.toString(), Toast.LENGTH_SHORT).show();
             //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
             mService.removeLocationUpdates();
             getActivity().unbindService(mServiceConnection);
             mService = null;
             mBound = false;
             setButtonsState(false);
+            putCoordinatesInVisibleArea();
         }
     }
 
