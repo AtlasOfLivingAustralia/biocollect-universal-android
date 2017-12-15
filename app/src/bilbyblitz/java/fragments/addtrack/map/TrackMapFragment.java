@@ -81,20 +81,12 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     AppCompatSpinner surveySpinner;
     @BindView(R.id.startGPSButton)
     Button startGPSButton;
-    @BindView(R.id.editCentroidLatitude)
-    EditText editCentroidLatitude;
-    @BindView(R.id.editCentroidLongitude)
-    EditText editCentroidLongitude;
     @BindView(R.id.editDate)
     EditText editDate;
     @BindView(R.id.editStartTime)
     EditText editStartTime;
     @BindView(R.id.editEndTime)
     EditText editEndTime;
-    @BindView(R.id.inputLayoutCentroidLatitude)
-    TextInputLayout inputLayoutCentroidLatitude;
-    @BindView(R.id.inputLayoutCentroidLongitude)
-    TextInputLayout inputLayoutCentroidLongitude;
     @BindView(R.id.inputLayoutDate)
     TextInputLayout inputLayoutDate;
     @BindView(R.id.inputLayoutstartTime)
@@ -122,8 +114,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     @Override
     protected void setLanguageValues() {
-        inputLayoutCentroidLatitude.setHint(localisedString("centroid_latitude", R.string.centroid_latitude));
-        inputLayoutCentroidLongitude.setHint(localisedString("centroid_longitude", R.string.centroid_longitude));
         inputLayoutDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
         inputLayoutstartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
         inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
@@ -185,8 +175,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         if (bilbyBlitzData.tempLocations != null)
             locations = bilbyBlitzData.tempLocations;
 
-        editCentroidLatitude.setText(bilbyBlitzData.locationCentroidLatitude == null ? "" : String.valueOf(bilbyBlitzData.locationCentroidLatitude));
-        editCentroidLongitude.setText(bilbyBlitzData.locationCentroidLongitude == null ? "" : String.valueOf(bilbyBlitzData.locationCentroidLongitude));
         editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
     }
@@ -366,22 +354,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @Override
     public String getValidationMessage() {
         StringBuilder stringBuilder = new StringBuilder();
-        if (TextUtils.isEmpty(editCentroidLatitude.getText()) || TextUtils.isEmpty(editCentroidLongitude.getText())) {
-            stringBuilder.append(localisedString("", R.string.map_location_missing_error));
-            stringBuilder.append("\n");
-        }
-
-        if (TextUtils.isEmpty(editCentroidLatitude.getText())) {
-            setError(inputLayoutCentroidLatitude, localisedString("", R.string.map_location_missing_error));
-        } else {
-            setError(inputLayoutCentroidLatitude, "");
-        }
-
-        if (TextUtils.isEmpty(editCentroidLongitude.getText())) {
-            setError(inputLayoutCentroidLongitude, localisedString("", R.string.map_location_missing_error));
-        } else {
-            setError(inputLayoutCentroidLongitude, "");
-        }
 
         if (TextUtils.isEmpty(editDate.getText())) {
             stringBuilder.append(localisedString("", R.string.event_date_missing_error));
@@ -513,8 +485,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
-        bilbyBlitzData.locationCentroidLatitude = Utils.parseDouble(editCentroidLatitude.getText().toString());
-        bilbyBlitzData.locationCentroidLongitude = Utils.parseDouble(editCentroidLongitude.getText().toString());
         bilbyBlitzData.tempLocations = locations;
     }
 
