@@ -155,7 +155,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Override
     protected void setLanguageValues() {
-
     }
 
     /**

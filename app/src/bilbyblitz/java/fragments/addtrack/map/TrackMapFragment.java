@@ -43,6 +43,8 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
 
 import java.util.Calendar;
@@ -70,9 +72,10 @@ import model.track.BilbyLocation;
 public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback, BilbyDataManager {
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    private final float INITIAL_ZOOM = 10.2f;
+    private final float INITIAL_ZOOM = 13.2f;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
+    private Marker lastMarker;
 
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
@@ -299,7 +302,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
      * @param latLng
      */
     private void setGoogleMapView(LatLng latLng) {
+        if(lastMarker!=null){
+            lastMarker.remove();
+        }
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+        lastMarker = googleMap.addMarker(new MarkerOptions().position(latLng));
     }
 
     /**
@@ -397,6 +404,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @Override
     public void onMapReady(GoogleMap googleMap) {
         this.googleMap = googleMap;
+        googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         polylineOptions = new PolylineOptions()
                 .color(ContextCompat.getColor(getContext(), R.color.colorPrimary))
                 .width(getResources().getDimension(R.dimen.map_line_width));

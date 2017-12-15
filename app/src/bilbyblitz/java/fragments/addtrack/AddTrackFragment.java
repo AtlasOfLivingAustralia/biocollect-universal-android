@@ -1,5 +1,6 @@
 package fragments.addtrack;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -61,6 +62,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
 
+    private boolean practiseView;
+
     private int imageUploadCount = 0;
     private TrackModel trackModel = new TrackModel();
     private TrackerPagerAdapter pagerAdapter;
@@ -97,6 +100,11 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
+        Bundle bundle = getArguments();
+        if(bundle!=null) {
+            practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
+        }
+
         pager.setOffscreenPageLimit(3);
         getDataForEdit();
 
@@ -110,16 +118,24 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private void getDataForEdit() {
         Bundle bundle = getArguments();
         if (bundle != null) {
-            long primaryKey = bundle.getLong(getString(R.string.primary_key_parameter));
-            RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
-            RealmResults<TrackModel> results = query.findAllAsync();
-            results.addChangeListener(element -> {
-                trackModel = realm.copyFromRealm(element.first());
-                tabSetup();
-            });
+            long primaryKey = bundle.getLong(getString(R.string.primary_key_parameter), -1);
+            if(primaryKey!=-1) {
+                RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
+                RealmResults<TrackModel> results = query.findAllAsync();
+                results.addChangeListener(element -> {
+                    trackModel = realm.copyFromRealm(element.first());
+                    tabSetup();
+                });
+            }else{
+                defaultSetup();
+            }
             return;
         }
 
+        defaultSetup();
+    }
+
+    private void defaultSetup(){
         trackModel.outputs = new RealmList<>();
         trackModel.activityId = getString(R.string.project_activity_id);
         BilbyBlitzOutput output = new BilbyBlitzOutput();
@@ -138,6 +154,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.submit, menu);
+        if(practiseView)
+            menu.findItem(R.id.submit).setTitle("CLOSE");
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -146,64 +164,75 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         switch (item.getItemId()) {
             //when the user will press the submit menu item
             case R.id.submit:
-                if (AtlasManager.isNetworkAvailable(getActivity())) {
-                    String message;
-                    StringBuilder stringBuilder = new StringBuilder();
-                    for (int i = 0; i < NUMBER_OF_FRAGMENTS; i++) {
-                        ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
-                        if (validationCheck != null) {
-                            message = validationCheck.getValidationMessage();
-                            if (!TextUtils.isEmpty(message)) {
-                                stringBuilder.append("\n").append(message);
+                if(practiseView){
+                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            AtlasManager.hideKeyboard(getActivity());
+                            setDrawerMenuChecked(R.id.home);
+                            setDrawerMenuClicked(R.id.home);
+                        }
+                    });
+                }else {
+                    if (AtlasManager.isNetworkAvailable(getActivity())) {
+                        String message;
+                        StringBuilder stringBuilder = new StringBuilder();
+                        for (int i = 0; i < NUMBER_OF_FRAGMENTS; i++) {
+                            ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
+                            if (validationCheck != null) {
+                                message = validationCheck.getValidationMessage();
+                                if (!TextUtils.isEmpty(message)) {
+                                    stringBuilder.append("\n").append(message);
+                                }
                             }
                         }
-                    }
-                    message = stringBuilder.toString();
-                    if (!TextUtils.isEmpty(message))
-                        showMultiLineSnackBarMessage(message);
-                    else {
-                        for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                            BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
-                            if (bilbyDataManager != null) {
-                                bilbyDataManager.prepareData();
-                            }
-                        }
-                        imageUploadCount = 0;
-                        showProgressDialog();
-                        MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
-                        if (mapModel != null) {
-                            uploadMap(mapModel);
-                        } else {
-                            uploadPhotos();
-                        }
-                    }
-                } else {
-                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
-                        if (trackModel != null && !trackModel.isManaged()) {
+                        message = stringBuilder.toString();
+                        if (!TextUtils.isEmpty(message))
+                            showMultiLineSnackBarMessage(message);
+                        else {
                             for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
                                 BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
                                 if (bilbyDataManager != null) {
                                     bilbyDataManager.prepareData();
                                 }
                             }
-                            if (trackModel.realmId == null)
-                                trackModel.realmId = getPrimaryKeyValue();
-                            realm.executeTransactionAsync(realm -> {
-                                realm.insertOrUpdate(trackModel);
-                                if (isAdded()) {
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            AtlasManager.hideKeyboard(getActivity());
-                                            showSnackBarMessage("Your track information has been saved as Draft");
-                                            setDrawerMenuChecked(R.id.nav_review_track);
-                                            setDrawerMenuClicked(R.id.nav_review_track);
-                                        }
-                                    });
-                                }
-                            });
+                            imageUploadCount = 0;
+                            showProgressDialog();
+                            MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
+                            if (mapModel != null) {
+                                uploadMap(mapModel);
+                            } else {
+                                uploadPhotos();
+                            }
                         }
-                    });
+                    } else {
+                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
+                            if (trackModel != null && !trackModel.isManaged()) {
+                                for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                                    BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
+                                    if (bilbyDataManager != null) {
+                                        bilbyDataManager.prepareData();
+                                    }
+                                }
+                                if (trackModel.realmId == null)
+                                    trackModel.realmId = getPrimaryKeyValue();
+                                realm.executeTransactionAsync(realm -> {
+                                    realm.insertOrUpdate(trackModel);
+                                    if (isAdded()) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AtlasManager.hideKeyboard(getActivity());
+                                                showSnackBarMessage("Your track information has been saved as Draft");
+                                                setDrawerMenuChecked(R.id.nav_review_track);
+                                                setDrawerMenuClicked(R.id.nav_review_track);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
                 }
                 break;
         }

@@ -53,8 +53,6 @@ public class SettingFragment extends BaseMainActivityFragment {
     TextView groupSpecies;
     @BindView(R.id.groupSpeciesDescription)
     TextView groupSpeciesDescription;
-    @BindView(R.id.otherSettingHeading)
-    TextView otherSettingHeading;
     @BindView(R.id.projectHeading)
     TextView projectHeading;
     @BindView(R.id.languageHeading)
@@ -203,7 +201,6 @@ public class SettingFragment extends BaseMainActivityFragment {
         downloadFromMapDescription.setText(localisedString("download_from_map_description", R.string.download_from_map_description));
         groupSpecies.setText(localisedString("group_species", R.string.group_species));
         groupSpeciesDescription.setText(localisedString("group_species_description", R.string.group_species_description));
-        otherSettingHeading.setText(localisedString("other_setting", R.string.other_setting));
         projectHeading.setText(localisedString("select_project", R.string.select_project));
         projectDescription.setText(localisedString("no_selected_project", R.string.no_selected_project));
         languageHeading.setText(localisedString("choose_language", R.string.choose_language));

@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import org.parceler.Parcels;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -47,6 +44,8 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
 
     @BindView(R.id.listView)
     ListView listView;
+    @BindView(R.id.total)
+    TextView total;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -57,7 +56,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
             if (bilbyBlitzData.sightingEvidenceTable != null)
-                sightingEvidenceTables = bilbyBlitzData.sightingEvidenceTable ;
+                sightingEvidenceTables = bilbyBlitzData.sightingEvidenceTable;
             else
                 bilbyBlitzData.sightingEvidenceTable = sightingEvidenceTables;
         }
@@ -77,6 +76,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
             AtlasDialogManager.alertBox(getActivity(), getString(R.string.animal_delete), getString(R.string.animal_delete_title), getString(R.string.delete), (dialog, which) -> {
                 sightingEvidenceTables.remove(position);
                 sightingEvidenceTableAdapter.notifyDataSetChanged();
+                showHeaderMessage();
             });
             return false;
         });
@@ -138,12 +138,21 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
                     }
                     break;
             }
+            showHeaderMessage();
+        }
+    }
+
+    private void showHeaderMessage(){
+        if (sightingEvidenceTables.size() > 0) {
+            total.setVisibility(View.GONE);
+        } else {
+            total.setVisibility(View.VISIBLE);
         }
     }
 
     @Override
     protected void setLanguageValues() {
-
+        total.setText(localisedString("no_animal_record", R.string.no_animal_record));
     }
 
     @Override

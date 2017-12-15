@@ -1,5 +1,6 @@
 package activity;
 
+import android.app.Fragment;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -53,9 +54,6 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
         menu.findItem(R.id.nav_help).setTitle(localisedString("help", R.string.help));
         menu.findItem(R.id.nav_contact).setTitle(localisedString("about", R.string.about));
-
-        //TODO
-        menu.findItem(R.id.nav_practise_track).setVisible(false);
     }
 
     @Override
@@ -151,7 +149,13 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SettingFragment()).commit();
         } else if (id == R.id.nav_add_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new AddTrackFragment()).commit();
-        } else if (id == R.id.nav_review_track) {
+        } else if (id == R.id.nav_practise_track) {
+            AddTrackFragment fragment = new AddTrackFragment();
+            Bundle bundle = new Bundle();
+            bundle.putBoolean(getString(R.string.practise_parameter), true);
+            fragment.setArguments(bundle);
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
+        }else if (id == R.id.nav_review_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
         }/*else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();

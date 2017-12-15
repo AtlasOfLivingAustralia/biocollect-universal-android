@@ -11,13 +11,14 @@
     <string name="add_animal_parameter">ADD_ANIMAL</string>
     <string name="primary_key_parameter">PRIMARY_KEY</string>
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
+    <string name="practise_parameter">PRACTISE_KEYS</string>
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>
 
-    <string name="title_activity_main">Bilby Blitz</string>
+    <string name="title_activity_main">The Tracks App</string>
 
-    <string name="about_title">About Bilby Blitz</string>
+    <string name="about_title">About Tracks Ap</string>
     <string name="contact_us_title">Contact Us</string>
     <string name="add_track">Add a New Track</string>
     <string name="practise_track">Practice Tracking</string>
@@ -25,6 +26,7 @@
     <string name="help">Help</string>
     <string name="setting">Settings</string>
     <string name="offline_setting">Offline Settings</string>
+    <string name="no_animal_record">No sightings have been recorded yet</string>
 
     <string name="choose_project">Choose Project</string>
     <string name="terms_condition">Do you agree to the terms of use for this app?</string>
@@ -73,7 +75,7 @@
     <string name="animal_name">Animal Name</string>
     <string name="what_you_see">What did you see?</string>
     <string name="how_recent">How recent</string>
-    <string name="offline_species">Offline Species</string>
+    <string name="offline_species">Offline Settings</string>
     <string name="search_and_add">Search and Add</string>
     <string name="search_and_add_description">You can search species by name and download them one by one</string>
     <string name="download_from_map">Download by Location</string>
