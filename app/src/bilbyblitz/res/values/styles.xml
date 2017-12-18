@@ -49,7 +49,8 @@
 
     <!--input label style for floating text with spinner-->
     <style name="InputLabel" parent="TextAppearance.AppCompat.Caption">
-        <item name="android:textSize">@dimen/caption_font_size</item>
+        <item name="android:textSize">@dimen/default_input_font_size</item>
+        <item name="android:textStyle">bold</item>
         <item name="android:paddingBottom">@dimen/input_label_vertical_spacing</item>
         <item name="android:paddingLeft">@dimen/input_label_horizontal_spacing</item>
         <item name="android:paddingRight">@dimen/input_label_horizontal_spacing</item>
