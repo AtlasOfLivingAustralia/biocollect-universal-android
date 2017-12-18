@@ -24,6 +24,7 @@
     <string name="practise_track">Practice Tracking</string>
     <string name="review_track">Review Tracks</string>
     <string name="help">Help</string>
+    <string name="update_location">Update Location</string>
     <string name="setting">Settings</string>
     <string name="offline_setting">Offline Settings</string>
     <string name="no_animal_record">No sightings have been recorded yet</string>

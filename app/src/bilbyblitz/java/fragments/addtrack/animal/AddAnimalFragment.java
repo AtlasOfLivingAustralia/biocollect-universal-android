@@ -1,14 +1,26 @@
 package fragments.addtrack.animal;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.location.Location;
+import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.provider.MediaStore;
+import android.provider.Settings;
 import android.support.design.widget.TextInputLayout;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
 import android.view.LayoutInflater;
@@ -20,6 +32,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -44,6 +57,7 @@ import java.util.concurrent.TimeUnit;
 import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
@@ -56,6 +70,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.addtrack.map.LocationUpdatesService;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -102,12 +117,20 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     TextInputLayout inputLayoutLatitude;
     @BindView(R.id.inputLayoutLongitude)
     TextInputLayout inputLayoutLongitude;
+    @BindView(R.id.addLocation)
+    Button addLocation;
 
-
+    private boolean needLocationUpdate = true;
     private String mCurrentPhotoPath;
     private List<SearchSpecies> species = new ArrayList<>();
     private SightingEvidenceTable sightingEvidenceTable;
     private BieApiService bieApiService;
+    private LocationManager locationManager;
+    private MyReceiver myReceiver;
+    // A reference to the service used to get location updates.
+    private LocationUpdatesService mService = null;
+    // Tracks the bound state of the service.
+    private boolean mBound = false;
 
     @Override
     protected void setLanguageValues() {
@@ -178,10 +201,13 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 setValues();
         }
 
-        if(AtlasManager.isNetworkAvailable(getActivity()))
+        if (AtlasManager.isNetworkAvailable(getActivity()))
             mCompositeDisposable.add(getSearchSpeciesResponseObserver());
         else
             mCompositeDisposable.add(searchInRealm());
+
+        locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
+        myReceiver = new MyReceiver();
 
         return view;
     }
@@ -201,6 +227,82 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
             editLatitude.setText(String.valueOf(sightingEvidenceTable.observationLatitude));
         if (sightingEvidenceTable.observationLongitude != null)
             editLongitude.setText(String.valueOf(sightingEvidenceTable.observationLongitude));
+    }
+
+    private boolean checkPermissions() {
+        return PackageManager.PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(getContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION);
+    }
+
+    @OnClick(R.id.addLocation)
+    void addLocation() {
+        if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            if (checkPermissions()) {
+                needLocationUpdate = true;
+            }
+        } else {
+            AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                    dialog.cancel();
+                }
+            });
+        }
+    }
+
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
+            mService = binder.getService();
+            mService.requestLocationUpdates();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+            mBound = false;
+        }
+    };
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        // Bind to the service. If the service is in foreground mode, this signals to the service
+        // that since this activity is in the foreground, the service can exit foreground mode.
+        if (checkPermissions()) {
+            getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+        }
+    }
+
+    @Override
+    public void onStop() {
+        if (mBound) {
+            // Unbind from the service. This signals to the service that this activity is no longer
+            // in the foreground, and the service can respond by promoting itself to a foreground
+            // service.
+            getActivity().unbindService(mServiceConnection);
+            mBound = false;
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
+    }
+
+    @Override
+    public void onPause() {
+        LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
+        mService.removeLocationUpdates();
+        getActivity().unbindService(mServiceConnection);
+        mService = null;
+        mBound = false;
+        super.onPause();
     }
 
     /**
@@ -285,9 +387,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         return sightingEvidenceTable.species != null;
     }
 
-    private void prepareData(){
-        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null :(String)whatSeenSpinner.getSelectedItem();
-        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null :(String)howRecentSpinner.getSelectedItem();
+    private void prepareData() {
+        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null : (String) whatSeenSpinner.getSelectedItem();
+        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null : (String) howRecentSpinner.getSelectedItem();
         sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
         sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
     }
@@ -433,6 +535,28 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         }
     }
 
+    private void setLatitudeLongitude(Double latitude, Double longitude) {
+        if(needLocationUpdate) {
+            needLocationUpdate = false;
+            addLocation.setText(getString(R.string.update_location));
+            editLatitude.setText(String.format(Locale.getDefault(), "%.4f", latitude));
+            editLongitude.setText(String.format(Locale.getDefault(), "%.4f", longitude));
+        }
+    }
 
+    class MyReceiver extends BroadcastReceiver {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Location location;
+
+            location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+            if (location != null) {
+                if (BuildConfig.DEBUG)
+                    Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+
+                setLatitudeLongitude(location.getLatitude(), location.getLongitude());
+            }
+        }
+    }
 }
 

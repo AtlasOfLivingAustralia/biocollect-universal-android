@@ -121,7 +121,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
         gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
         surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
-
     }
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {

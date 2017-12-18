@@ -44,11 +44,10 @@ import com.google.android.gms.tasks.Task;
  */
 public class LocationUpdatesService extends Service {
 
-    private static final String PACKAGE_NAME =
-            "au.org.ala.bilbyblitz";
-    static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
-    static final String EXTRA_LOCATION = PACKAGE_NAME + ".location";
-    static final String LAST_KNOWN_LOCATION = PACKAGE_NAME + ".last_known_location";
+    private static final String PACKAGE_NAME = "au.org.ala.bilbyblitz";
+    public static final String ACTION_BROADCAST = PACKAGE_NAME + ".broadcast";
+    public static final String EXTRA_LOCATION = PACKAGE_NAME + ".location";
+    public static final String LAST_KNOWN_LOCATION = PACKAGE_NAME + ".last_known_location";
     private static final String TAG = LocationUpdatesService.class.getSimpleName();
     private static final int TOLERATE_MINIMUM_DISTANCE = 10; //meter
     /**
@@ -213,7 +212,7 @@ public class LocationUpdatesService extends Service {
      * clients, we don't need to deal with IPC.
      */
     public class LocalBinder extends Binder {
-        LocationUpdatesService getService() {
+        public LocationUpdatesService getService() {
             return LocationUpdatesService.this;
         }
     }
