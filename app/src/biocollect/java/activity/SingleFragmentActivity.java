@@ -4,6 +4,7 @@ import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.MenuItem;
@@ -22,6 +23,7 @@ import fragments.ContactUsFragment;
 import fragments.SightingListFragment;
 
 import static au.csiro.ozatlas.R.id.coordinatorLayout;
+import static au.csiro.ozatlas.R.id.fab;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -103,6 +105,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     }
 
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+
+    }
+
     /**
      * shows a message in using Snackbar
      *
@@ -149,6 +156,15 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     @Override
     public void setDrawerMenuClicked(int menuRes) {
 
+    }
+
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);
+        View snackbarView = snackbar.getView();
+        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setMaxLines(5);
+        snackbar.show();
     }
 
     /**

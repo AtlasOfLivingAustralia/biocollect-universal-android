@@ -84,7 +84,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         logoutTV.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
+                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         launchLoginActivity();

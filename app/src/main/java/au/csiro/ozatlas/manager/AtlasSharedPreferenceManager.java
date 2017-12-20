@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 import java.util.HashMap;
 import java.util.Map;
 
-import model.Project;
+import au.csiro.ozatlas.model.Project;
 
 /**
  * Created by sad038 on 5/4/17.

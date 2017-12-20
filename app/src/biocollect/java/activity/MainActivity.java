@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 
+import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
@@ -79,7 +81,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (AtlasManager.isTesting) {
+        if (BuildConfig.DEBUG) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
@@ -138,7 +140,7 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else if (id == R.id.nav_logout) {
-            AtlasDialogManager.alertBoxForSetting(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
+            AtlasDialogManager.alertBox(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     launchLoginActivity();
@@ -191,6 +193,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).start();
     }
 
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+        fab.setOnClickListener(onClickListener);
+    }
+
     /**
      * shows a message in using Snackbar
      *
@@ -238,5 +245,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
     public void setDrawerMenuClicked(int menuRes) {
         setDrawerMenuChecked(menuRes);
         onNavigationItemSelected(navigationView.getMenu().findItem(menuRes));
+    }
+
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);
+        View snackbarView = snackbar.getView();
+        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        textView.setMaxLines(5);
+        snackbar.show();
     }
 }

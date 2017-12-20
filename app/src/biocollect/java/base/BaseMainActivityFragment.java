@@ -1,6 +1,7 @@
 package base;
 
 import android.content.Context;
+import android.view.View;
 
 import activity.MainActivity;
 import activity.SingleFragmentActivity;
@@ -34,6 +35,12 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
     public void showFloatingButton() {
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.showFloatingButton();
+    }
+
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.setFloatingButtonClickListener(onClickListener);
     }
 
     @Override
@@ -71,5 +78,11 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
     public void setDrawerMenuClicked(int menuRes) {
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.setDrawerMenuClicked(menuRes);
+    }
+
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.showMultiLineSnackBarMessage(string);
     }
 }
