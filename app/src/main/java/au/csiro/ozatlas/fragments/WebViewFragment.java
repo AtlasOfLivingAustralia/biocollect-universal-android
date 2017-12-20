@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -30,6 +31,7 @@ import android.webkit.WebViewClient;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -177,9 +179,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
                 }
 
                 //For Android 5.0+
-                public boolean onShowFileChooser(
-                        WebView webView, ValueCallback<Uri[]> filePathCallback,
-                        WebChromeClient.FileChooserParams fileChooserParams) {
+                public boolean onShowFileChooser(WebView webView, ValueCallback<Uri[]> filePathCallback, WebChromeClient.FileChooserParams fileChooserParams) {
                     if (mUMA != null) {
                         mUMA.onReceiveValue(null);
                     }
@@ -190,12 +190,22 @@ public class WebViewFragment extends BaseMainActivityFragment {
                         try {
                             photoFile = FileUtils.createImageFile(getActivity());
                             takePictureIntent.putExtra("PhotoPath", mCM);
+
                         } catch (IOException ex) {
                             Log.e("Error", "Image file creation failed", ex);
                         }
+
                         if (photoFile != null) {
                             mCM = "file:" + photoFile.getAbsolutePath();
-                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                            //takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(photoFile));
+                            takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getUriFromFileProvider(getActivity(), photoFile));
+                            if (takePictureIntent.resolveActivity(getActivity().getPackageManager()) != null) {
+                                List<ResolveInfo> resInfoList = getActivity().getPackageManager().queryIntentActivities(takePictureIntent, PackageManager.MATCH_DEFAULT_ONLY);
+                                for (ResolveInfo resolveInfo : resInfoList) {
+                                    String packageName = resolveInfo.activityInfo.packageName;
+                                    getActivity().grantUriPermission(packageName, FileUtils.getUriFromFileProvider(getActivity(), photoFile), Intent.FLAG_GRANT_WRITE_URI_PERMISSION | Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                                }
+                            }
                         } else {
                             takePictureIntent = null;
                         }
@@ -292,15 +302,21 @@ public class WebViewFragment extends BaseMainActivityFragment {
                     if (null == mUMA) {
                         return;
                     }
+                    Log.d("WEBVIEW", "mUMA not null");
                     if (intent == null) {
                         //Capture Photo if no image available
+                        Log.d("WEBVIEW", "intent null");
                         if (mCM != null) {
                             results = new Uri[]{Uri.parse(mCM)};
+                            Log.d("WEBVIEW", results[0].getPath());
                         }
                     } else {
                         String dataString = intent.getDataString();
+                        Log.d("WEBVIEW", "intent not null    " + dataString);
                         if (dataString != null) {
                             results = new Uri[]{Uri.parse(dataString)};
+                        }else if (mCM != null) {
+                            results = new Uri[]{Uri.parse(mCM)};
                         }
                     }
                 }
