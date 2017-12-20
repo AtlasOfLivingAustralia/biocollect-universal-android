@@ -41,6 +41,7 @@ public class Project {
     public String projectId;
 
     @Expose
+    @SerializedName("description")
     public String description;
 
     @Expose
@@ -51,6 +52,7 @@ public class Project {
     public String plannedEndDate;
 
     @Expose
+    @SerializedName("tags")
     public String[] tags;
 
     @Expose

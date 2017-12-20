@@ -24,6 +24,7 @@
             android:id="@+id/profile_image"
             android:layout_width="@dimen/row_bigger_icon_width"
             android:layout_height="@dimen/row_bigger_icon_width"
+            android:src="@mipmap/ic_launcher"
             app:civ_border_color="@color/header_icon_border_color"
             app:civ_border_width="1dp" />
 
