@@ -1,11 +1,11 @@
 package fragments.offline_species;
 
-import android.content.DialogInterface;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,11 +15,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.parceler.Parcels;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
@@ -45,6 +46,20 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
     private Realm realm;
+    private boolean[] selections;
+    private int selectedPosition = -1;
+
+    /**
+     * onClick listener for the recyclerview group item
+     */
+    View.OnClickListener onAnimalClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            selectedPosition = recyclerView.getChildAdapterPosition(v);
+            selections[selectedPosition] = !selections[selectedPosition];
+            speciesAdapter.notifyItemChanged(selectedPosition);
+        }
+    };
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,30 +99,20 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.delete, menu);
+        inflater.inflate(R.menu.select, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            //when the user will press the upload menu item
-            case R.id.delete:
-                AtlasDialogManager.alertBox(getActivity(), getString(R.string.delete_all_species_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        species.clear();
-                        updateTotal();
-                        speciesAdapter.notifyDataSetChanged();
-                        realm.executeTransactionAsync(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                realm.delete(SearchSpecies.class);
-                            }
-                        });
-                    }
-                });
-
+            case R.id.select:
+                if (selectedPosition != -1) {
+                    Intent intent = new Intent();
+                    intent.putExtra(getString(R.string.species_parameter), Parcels.wrap(species.get(selectedPosition)));
+                    getActivity().setResult(Activity.RESULT_OK, intent);
+                    getActivity().onBackPressed();
+                }
                 break;
         }
         return true;
@@ -125,6 +130,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 if (isAdded()) {
                     species.clear();
                     species.addAll(collection);
+                    selections = new boolean[species.size()];
                     updateTotal();
                     speciesAdapter.notifyDataSetChanged();
                     if (swipeRefreshLayout.isRefreshing())
@@ -170,6 +176,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         @Override
         public SpeciesViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View layoutView = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_item_species, null);
+            layoutView.setOnClickListener(onAnimalClickListener);
             return new SpeciesViewHolder(layoutView);
         }
 
@@ -186,23 +193,15 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
             } else {
                 holder.kingdomName.setText(getString(R.string.kingdom_name, species.kingdom));
             }
-            holder.delete.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AtlasDialogManager.alertBox(getContext(), getString(R.string.delete_species_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AvailableSpeciesFragment.this.species.remove(holder.getAdapterPosition());
-                            realm.beginTransaction();
-                            species.deleteFromRealm();
-                            realm.commitTransaction();
-                            Log.d(TAG, holder.getAdapterPosition() + "   " + AvailableSpeciesFragment.this.species.size());
-                            notifyDataSetChanged();
-                            updateTotal();
-                        }
-                    });
+            if (selections != null) {
+                if (selections[position]) {
+                    holder.delete.setBackgroundResource(R.drawable.filled_circle);
+                    holder.delete.setImageResource(R.drawable.ic_done_white_24dp);
+                } else {
+                    holder.delete.setBackgroundResource(R.drawable.ring);
+                    holder.delete.setImageResource(0);
                 }
-            });
+            }
         }
 
         class SpeciesViewHolder extends RecyclerView.ViewHolder {
