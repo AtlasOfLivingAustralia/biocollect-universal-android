@@ -29,54 +29,32 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
-import com.jakewharton.rxbinding2.widget.RxTextView;
 
 import org.parceler.Parcels;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.adapter.SearchSpeciesAdapter;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
-import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
-import au.csiro.ozatlas.model.SearchSpecies;
-import au.csiro.ozatlas.rest.BieApiService;
-import au.csiro.ozatlas.rest.NetworkClient;
-import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.addtrack.map.LocationUpdatesService;
-import io.reactivex.BackpressureStrategy;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
-import io.realm.Case;
-import io.realm.RealmResults;
 import model.track.SightingEvidenceTable;
 import model.track.Species;
 
@@ -89,22 +67,16 @@ import static android.app.Activity.RESULT_OK;
 public class AddAnimalFragment extends BaseMainActivityFragment {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
-    private static final int DELAY_IN_MILLIS = 400;
+    private static final int REQUEST_AVAILABLE_SPECIES = 5;
 
     @BindView(R.id.editSpeciesName)
-    AutoCompleteTextView editSpeciesName;
+    EditText editSpeciesName;
     @BindView(R.id.whatSeenSpinner)
     AppCompatSpinner whatSeenSpinner;
     @BindView(R.id.howRecentSpinner)
     AppCompatSpinner howRecentSpinner;
     @BindView(R.id.imageView)
     ImageView imageView;
-    @BindView(R.id.speciesDetailLayout)
-    LinearLayout speciesDetailLayout;
-    @BindView(R.id.speciesURL)
-    TextView speciesURL;
-    @BindView(R.id.species_loading_indicator)
-    ProgressBar speciesLoadingIndicator;
     @BindView(R.id.editLatitude)
     EditText editLatitude;
     @BindView(R.id.editLongitude)
@@ -122,9 +94,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     private boolean needLocationUpdate = true;
     private String mCurrentPhotoPath;
-    private List<SearchSpecies> species = new ArrayList<>();
     private SightingEvidenceTable sightingEvidenceTable;
-    private BieApiService bieApiService;
     private LocationManager locationManager;
     private MyReceiver myReceiver;
     // A reference to the service used to get location updates.
@@ -151,22 +121,16 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         setLanguageValues();
 
         whatSeenSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.what_see_values, R.layout.item_textview));
-
         howRecentSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.how_recent_values, R.layout.item_textview));
 
-        //species search service
-        Gson gson = new GsonBuilder().registerTypeAdapter(new TypeToken<List<SearchSpecies>>() {
-        }.getType(), new SearchSpeciesSerializer()).create();
-        bieApiService = new NetworkClient(getString(R.string.bie_url), gson).getRetrofit().create(BieApiService.class);
-
-        editSpeciesName.setOnItemClickListener((parent, view1, position, id) -> {
+        /*editSpeciesName.setOnItemClickListener((parent, view1, position, id) -> {
             sightingEvidenceTable.species = new Species(species.get(position));
             speciesDetailLayout.setVisibility(View.VISIBLE);
             speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", sightingEvidenceTable.species.guid));
             if (BuildConfig.DEBUG) {
                 Toast.makeText(getActivity(), sightingEvidenceTable.species.commonName, Toast.LENGTH_LONG).show();
             }
-        });
+        });*/
 
         Bundle bundle = getArguments();
         if (bundle == null) {
@@ -179,23 +143,26 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 setValues();
         }
 
-        if (AtlasManager.isNetworkAvailable(getActivity()))
-            mCompositeDisposable.add(getSearchSpeciesResponseObserver());
-        else
-            mCompositeDisposable.add(searchInRealm());
-
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
 
         return view;
     }
 
+    @OnClick(R.id.editSpeciesName)
+    void editSpeciesName() {
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_SPECIES);
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, REQUEST_AVAILABLE_SPECIES);
+    }
+
     private void setValues() {
         if (sightingEvidenceTable.species != null) {
             editSpeciesName.setText(sightingEvidenceTable.species.name);
-            speciesDetailLayout.setVisibility(View.VISIBLE);
-            speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", sightingEvidenceTable.species.guid));
         }
+
         whatSeenSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.what_see_values), sightingEvidenceTable.typeOfSign));
         howRecentSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.how_recent_values), sightingEvidenceTable.evidenceAgeClass));
         if (sightingEvidenceTable.mPhotoPath != null) {
@@ -283,71 +250,6 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         super.onPause();
     }
 
-    /**
-     * network call for species suggestion
-     *
-     * @return
-     */
-    private Disposable getSearchSpeciesResponseObserver() {
-        return RxTextView.textChangeEvents(editSpeciesName)
-                .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
-                .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())
-                .filter(s -> {
-                    boolean call = s.length() > 1;
-                    if (call)
-                        getActivity().runOnUiThread(() -> speciesLoadingIndicator.setVisibility(View.VISIBLE));
-                    return call;
-                })
-                .observeOn(Schedulers.io())
-                .flatMap(s -> bieApiService.searchSpecies(s, "taxonomicStatus:accepted"))
-                .observeOn(AndroidSchedulers.mainThread())
-                .retry()
-                .subscribe(this::setSpeciesAdapter);
-    }
-
-    private void setSpeciesAdapter(List<SearchSpecies> searchSpecies) {
-        speciesLoadingIndicator.setVisibility(View.INVISIBLE);
-        species.clear();
-        species.addAll(searchSpecies);
-
-        editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
-        if (species.size() == 0 || (sightingEvidenceTable.species != null && sightingEvidenceTable.species.name.equals(editSpeciesName.getText().toString()))) {
-            editSpeciesName.dismissDropDown();
-        } else {
-            editSpeciesName.showDropDown();
-            speciesDetailLayout.setVisibility(View.GONE);
-        }
-    }
-
-    private Disposable searchInRealm() {
-        return RxTextView.textChangeEvents(editSpeciesName)
-                .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS) // default Scheduler is Schedulers.computation()
-                .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())
-                .filter(s -> {
-                    boolean call = s.length() > 1;
-                    if (call)
-                        getActivity().runOnUiThread(() -> speciesLoadingIndicator.setVisibility(View.VISIBLE));
-                    return call;
-                })
-                .observeOn(AndroidSchedulers.mainThread()) // Needed to access Realm data
-                .toFlowable(BackpressureStrategy.BUFFER)
-                .switchMap(string -> {
-                    // Use Async API to move Realm queries off the main thread.
-                    // Realm currently doesn't support the standard Schedulers.
-                    return realm.where(SearchSpecies.class)
-                            .contains("commonName", string, Case.INSENSITIVE)
-                            .or()
-                            .contains("name", string, Case.INSENSITIVE)
-                            .findAllAsync()
-                            .asFlowable();
-                })
-                // Only continue once data is actually loaded
-                // RealmObservables will emit the unloaded (empty) list as its first item
-                .filter(RealmResults::isLoaded)
-                .subscribe(searchSpecies -> setSpeciesAdapter(realm.copyFromRealm(searchSpecies)), throwable -> throwable.printStackTrace());
-    }
-
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.save, menu);
@@ -410,6 +312,11 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
                     sightingEvidenceTable.mPhotoPath = mCurrentPhotoPath;
                     imageView.setImageURI(selectedImageUri);
+                    break;
+                case REQUEST_AVAILABLE_SPECIES:
+                    Species species = data.getParcelableExtra(getString(R.string.species_parameter));
+                    sightingEvidenceTable.species = species;
+                    editSpeciesName.setText(species.name);
                     break;
             }
         }
@@ -514,7 +421,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     }
 
     private void setLatitudeLongitude(Double latitude, Double longitude) {
-        if(needLocationUpdate) {
+        if (needLocationUpdate) {
             needLocationUpdate = false;
             addLocation.setText(getString(R.string.update_location));
             editLatitude.setText(String.format(Locale.getDefault(), "%.4f", latitude));
