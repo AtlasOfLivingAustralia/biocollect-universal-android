@@ -15,12 +15,12 @@ import org.greenrobot.eventbus.EventBus;
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.Utils;
+import au.csiro.ozatlas.model.Project;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import language.LanguageManager;
-import model.Project;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -35,7 +35,12 @@ public class SettingFragment extends BaseMainActivityFragment {
     Spinner languageSpinner;
     @BindView(R.id.projectDescription)
     TextView projectDescription;
-    @BindView(R.id.offlineHeading)
+    @BindView(R.id.projectHeading)
+    TextView projectHeading;
+    @BindView(R.id.languageHeading)
+    TextView languageHeading;
+
+    /*@BindView(R.id.offlineHeading)
     TextView offlineHeading;
     @BindView(R.id.availableSpecies)
     TextView availableSpecies;
@@ -52,11 +57,8 @@ public class SettingFragment extends BaseMainActivityFragment {
     @BindView(R.id.groupSpecies)
     TextView groupSpecies;
     @BindView(R.id.groupSpeciesDescription)
-    TextView groupSpeciesDescription;
-    @BindView(R.id.projectHeading)
-    TextView projectHeading;
-    @BindView(R.id.languageHeading)
-    TextView languageHeading;
+    TextView groupSpeciesDescription;*/
+
     //Language Selection Listener from language spinner
     AdapterView.OnItemSelectedListener onLanguageSelectedListener = new AdapterView.OnItemSelectedListener() {
         @Override
@@ -105,39 +107,39 @@ public class SettingFragment extends BaseMainActivityFragment {
     /**
      * To show the available offline species
      */
-    @OnClick(R.id.availableSpeciesLayout)
+    /*@OnClick(R.id.availableSpeciesLayout)
     void availableSpeciesLayout() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.AVAILABLE_SPECIES);
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-    }
+    }*/
 
     /**
      * the user will be able to search the species and add one by one
      * using a button with each item
      */
-    @OnClick(R.id.searchAndAddLayout)
+    /*@OnClick(R.id.searchAndAddLayout)
     void searchAndAddLayout() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.SEARCH_ADD_SPECIES);
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-    }
+    }*/
 
     /**
      * User can download species from map
      */
-    @OnClick(R.id.downloadFromMapLayout)
+    /*@OnClick(R.id.downloadFromMapLayout)
     void downloadFromMapLayout() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.MAP_SPECIES);
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-    }
+    }*/
 
     /**
      * User will select a project from available projects from server
@@ -157,14 +159,14 @@ public class SettingFragment extends BaseMainActivityFragment {
      * of species in each group. The user will be able to see all the species and they will be able to download a group
      * of species
      */
-    @OnClick(R.id.groupSpeciesLayout)
+    /*@OnClick(R.id.groupSpeciesLayout)
     void groupSpeciesLayout() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.GROUP_SPECIES);
         Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
         intent.putExtras(bundle);
         startActivity(intent);
-    }
+    }*/
 
     /**
      * Set the project name if there is already one saved in sharedpreference
@@ -192,7 +194,12 @@ public class SettingFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues() {
         setTitle(localisedString("setting", R.string.setting));
-        offlineHeading.setText(localisedString("offline_species", R.string.offline_species));
+        projectHeading.setText(localisedString("select_project", R.string.select_project));
+        projectDescription.setText(localisedString("no_selected_project", R.string.no_selected_project));
+        languageHeading.setText(localisedString("choose_language", R.string.choose_language));
+        setProjectName();
+
+        /*offlineHeading.setText(localisedString("offline_species", R.string.offline_species));
         availableSpecies.setText(localisedString("available_species", R.string.available_species));
         availableSpeciesDescription.setText(localisedString("available_species_description", R.string.available_species_description));
         searchAndAdd.setText(localisedString("search_and_add", R.string.search_and_add));
@@ -201,9 +208,6 @@ public class SettingFragment extends BaseMainActivityFragment {
         downloadFromMapDescription.setText(localisedString("download_from_map_description", R.string.download_from_map_description));
         groupSpecies.setText(localisedString("group_species", R.string.group_species));
         groupSpeciesDescription.setText(localisedString("group_species_description", R.string.group_species_description));
-        projectHeading.setText(localisedString("select_project", R.string.select_project));
-        projectDescription.setText(localisedString("no_selected_project", R.string.no_selected_project));
-        languageHeading.setText(localisedString("choose_language", R.string.choose_language));
-        setProjectName();
+        */
     }
 }

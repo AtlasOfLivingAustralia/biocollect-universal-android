@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
+import au.csiro.ozatlas.model.Project;
+
 /**
  * Created by sad038 on 25/5/17.
  */
