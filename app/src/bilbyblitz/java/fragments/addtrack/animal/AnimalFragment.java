@@ -23,6 +23,7 @@ import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
+import fragments.setting.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.SightingEvidenceTable;
@@ -85,7 +86,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         listView.setAdapter(sightingEvidenceTableAdapter);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -151,7 +152,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         total.setText(localisedString("no_animal_record", R.string.no_animal_record));
     }
 

@@ -10,6 +10,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import activity.BilbyBlitzActivityListener;
 import activity.BilbyBlitzBaseActivity;
 import au.csiro.ozatlas.base.BaseFragment;
+import fragments.setting.Language;
 import io.realm.Realm;
 
 /**
@@ -20,7 +21,7 @@ public abstract class BilbyBlitzBaseFragment extends BaseFragment implements Bil
     protected BilbyBlitzActivityListener bilbyBlitzActivityListener;
     protected Realm realm;
 
-    protected abstract void setLanguageValues();
+    protected abstract void setLanguageValues(Language language);
 
 
     @Override
@@ -57,14 +58,14 @@ public abstract class BilbyBlitzBaseFragment extends BaseFragment implements Bil
      * @param fileName
      */
     @Override
-    public void loadLanguageFile(String fileName) {
+    public void loadLanguageFile(String fileName, Language language) {
         if (bilbyBlitzActivityListener != null)
-            bilbyBlitzActivityListener.loadLanguageFile(fileName);
+            bilbyBlitzActivityListener.loadLanguageFile(fileName, language);
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String json) {
-        setLanguageValues();
+    public void onMessageEvent(Language language) {
+        setLanguageValues(language);
     }
 
     @Override

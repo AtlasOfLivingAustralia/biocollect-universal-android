@@ -55,6 +55,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.addtrack.map.LocationUpdatesService;
+import fragments.setting.Language;
 import model.track.SightingEvidenceTable;
 import model.track.Species;
 
@@ -103,7 +104,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     private boolean mBound = false;
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         editSpeciesName.setHint(localisedString("animal", R.string.animal));
         inputLayoutLatitude.setHint(localisedString("sign_latitude", R.string.sign_latitude));
         inputLayoutLongitude.setHint(localisedString("sign_longitude", R.string.sign_longitude));
@@ -118,7 +119,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         whatSeenSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.what_see_values, R.layout.item_textview));
         howRecentSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.how_recent_values, R.layout.item_textview));

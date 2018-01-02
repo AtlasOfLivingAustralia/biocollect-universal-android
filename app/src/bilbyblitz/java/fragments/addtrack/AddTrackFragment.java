@@ -30,6 +30,7 @@ import fragments.addtrack.animal.AnimalFragment;
 import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
+import fragments.setting.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -109,7 +110,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         getDataForEdit();
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -247,7 +248,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         setTitle(localisedString("add_track", R.string.add_track));
     }
 

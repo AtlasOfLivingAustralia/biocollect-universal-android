@@ -65,13 +65,15 @@ public class SettingFragment extends BaseMainActivityFragment {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (position == 0) {
                 sharedPreferences.writeSelectedLanguage(null);
+                sharedPreferences.writeSelectedEnumLanguage(Language.ENGLISH);
                 sharedPreferences.writeSelectedLanguageFileName(null);
                 LanguageManager.languageJSON = null;
-                EventBus.getDefault().post("");
+                EventBus.getDefault().post(Language.values()[position]);
             } else {
                 sharedPreferences.writeSelectedLanguage((String) languageSpinner.getItemAtPosition(position));
                 sharedPreferences.writeSelectedLanguageFileName(languageSpinner.getItemAtPosition(position) + ".json");
-                loadLanguageFile(languageSpinner.getItemAtPosition(position) + ".json");
+                sharedPreferences.writeSelectedEnumLanguage(Language.values()[position]);
+                loadLanguageFile(languageSpinner.getItemAtPosition(position) + ".json", Language.values()[position]);
             }
         }
 
@@ -99,7 +101,7 @@ public class SettingFragment extends BaseMainActivityFragment {
         languageSpinner.setOnItemSelectedListener(onLanguageSelectedListener);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -192,7 +194,7 @@ public class SettingFragment extends BaseMainActivityFragment {
      * set language values
      */
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         setTitle(localisedString("setting", R.string.setting));
         projectHeading.setText(localisedString("select_project", R.string.select_project));
         projectDescription.setText(localisedString("no_selected_project", R.string.no_selected_project));

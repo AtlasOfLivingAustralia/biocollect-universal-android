@@ -35,6 +35,7 @@ import butterknife.OnClick;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
+import fragments.setting.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.ImageModel;
@@ -98,7 +99,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     private BilbyBlitzData bilbyBlitzData;
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         inputLayoutCountryName.setHint(localisedString("country_name", R.string.country_name));
         detailHabitatTextView.setText(localisedString("detailed_habitat", R.string.detailed_habitat));
         habitatTextView.setText(localisedString("habitat", R.string.habitat));
@@ -118,7 +119,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         ButterKnife.bind(this, view);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         /*int[] icons = new int[]{R.drawable.breakawayhill, R.drawable.countrytype, R.drawable.drainageline, R.drawable.laterite, R.drawable.rockyrange};
         String[] types = getResources().getStringArray(R.array.dummy_type);

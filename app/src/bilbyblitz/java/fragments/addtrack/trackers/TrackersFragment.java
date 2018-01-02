@@ -16,6 +16,7 @@ import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
+import fragments.setting.Language;
 import model.track.BilbyBlitzData;
 
 /**
@@ -46,7 +47,7 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         ButterKnife.bind(this, view);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
@@ -76,7 +77,7 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         inputLayoutOrganisationName.setHint(localisedString("organisation_name", R.string.organisation_name));
         inputLayoutLeadTracker.setHint(localisedString("lead_tracker", R.string.lead_tracker));
         inputLayoutOtherTracker.setHint(localisedString("other_tracker", R.string.other_tracker));

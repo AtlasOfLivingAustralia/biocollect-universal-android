@@ -28,6 +28,7 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.addtrack.AddTrackFragment;
 import fragments.home.HomePageFragment;
 import fragments.draft.DraftTrackListFragment;
+import fragments.setting.Language;
 import fragments.setting.SettingFragment;
 
 /**
@@ -41,7 +42,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
     private CoordinatorLayout coordinatorLayout;
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         // get menu from navigationView
         Menu menu = navigationView.getMenu();
 
@@ -100,7 +101,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         }
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
     }
 
     /**

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import au.csiro.ozatlas.model.Project;
+import fragments.setting.Language;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -109,12 +110,30 @@ public class AtlasSharedPreferenceManager {
     }
 
     /**
+     * write user's selected language
+     *
+     * @param language
+     */
+    public void writeSelectedEnumLanguage(Language language) {
+        sharedPreferences.edit().putString("LANGUAGE_ENUM", language.toString()).apply();
+    }
+
+    /**
      * get the language filename
      *
      * @return
      */
     public String getLanguageFileName() {
         return sharedPreferences.getString("LANGUAGE_FILENAME", "");
+    }
+
+    /**
+     * get the language filename
+     *
+     * @return
+     */
+    public Language getLanguageEnumLanguage() {
+        return Language.valueOf(sharedPreferences.getString("LANGUAGE_ENUM", Language.ENGLISH.toString()));
     }
 
     /**

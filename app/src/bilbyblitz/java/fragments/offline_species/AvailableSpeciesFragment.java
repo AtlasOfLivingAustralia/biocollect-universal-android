@@ -26,6 +26,7 @@ import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.setting.Language;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
@@ -92,7 +93,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         readAvailableSpecies();
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -160,7 +161,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
     }
 
     /**

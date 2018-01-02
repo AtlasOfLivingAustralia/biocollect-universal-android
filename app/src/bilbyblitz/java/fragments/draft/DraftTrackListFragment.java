@@ -27,6 +27,7 @@ import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.setting.Language;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
@@ -285,7 +286,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
 
     }
 

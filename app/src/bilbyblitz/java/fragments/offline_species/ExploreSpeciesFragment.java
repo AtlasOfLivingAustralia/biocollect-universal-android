@@ -43,6 +43,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.setting.Language;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
@@ -80,7 +81,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
         mapFragment.getMapAsync(this);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -279,7 +280,7 @@ public class ExploreSpeciesFragment extends BaseMainActivityFragment implements 
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
 
     }
 

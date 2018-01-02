@@ -37,6 +37,7 @@ import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.offline_species.service.FetchAndSaveSpeciesService;
+import fragments.setting.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -143,7 +144,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
             fetchGroups(/*27.76, 138.55, 532.0);//*/latitude, longitude, radius);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -244,7 +245,7 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
 
     }
 

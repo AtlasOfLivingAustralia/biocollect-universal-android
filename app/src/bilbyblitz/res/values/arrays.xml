@@ -14,11 +14,17 @@
     </string-array>
 
     <string-array name="survey_type">
-        <item>Select Survey</item>
-        <item>Bilby Blitz</item>
-        <item>Trackplot 100m x 200m</item>
-        <item>Walking plot</item>
-        <item>Country walking</item>
+        <item>Trackplot 2ha 100m x 200m</item>
+        <item>Incidental</item>
+        <item>Road</item>
+        <item>Mankarr Survey</item>
+    </string-array>
+
+    <string-array name="survey_type_adithinngithigh">
+        <item>Trackplot 2ha 100m x 200m</item>
+        <item>pardany-para-mi</item>
+        <item>Yirdiyi</item>
+        <item>Mankarr Survey</item>
     </string-array>
 
     <string-array name="habitat_values">

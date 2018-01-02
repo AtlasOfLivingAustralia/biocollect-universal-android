@@ -63,6 +63,7 @@ import butterknife.OnClick;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
+import fragments.setting.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.BilbyLocation;
@@ -115,7 +116,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private LocationManager locationManager;
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         inputLayoutDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
         inputLayoutstartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
         inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
@@ -151,7 +152,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();

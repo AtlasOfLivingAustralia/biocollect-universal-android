@@ -12,6 +12,7 @@ import java.util.concurrent.Callable;
 
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.FileUtils;
+import fragments.setting.Language;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -24,14 +25,14 @@ import language.LanguageManager;
  */
 
 public abstract class BilbyBlitzBaseActivity extends BaseActivity implements BilbyBlitzActivityListener {
-    protected abstract void setLanguageValues();
+    protected abstract void setLanguageValues(Language language);
 
     @Override
     public void onResume() {
         super.onResume();
         if (!sharedPreferences.getLanguageFileName().equals("") && LanguageManager.languageJSON == null) {
             //reading the language files
-            loadLanguageFile(sharedPreferences.getLanguageFileName());
+            loadLanguageFile(sharedPreferences.getLanguageFileName(), sharedPreferences.getLanguageEnumLanguage());
         }
     }
 
@@ -42,7 +43,7 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
      * @param fileName
      */
     @Override
-    public void loadLanguageFile(String fileName) {
+    public void loadLanguageFile(String fileName, Language language) {
         showProgressDialog();
         mCompositeDisposable.add(getFileReadObservable(fileName)
                 .subscribeOn(Schedulers.newThread())
@@ -53,7 +54,8 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
                         Log.d(TAG, value);
                         try {
                             LanguageManager.languageJSON = new JSONObject(value);
-                            EventBus.getDefault().post(value);
+                            //EventBus.getDefault().post(value);
+                            EventBus.getDefault().post(language);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
@@ -87,8 +89,8 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(String json) {
-        setLanguageValues();
+    public void onMessageEvent(Language language) {
+        setLanguageValues(language);
     }
 
     @Override

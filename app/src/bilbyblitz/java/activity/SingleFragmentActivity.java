@@ -25,6 +25,7 @@ import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
 import fragments.offline_species.SpeciesGroupFragment;
+import fragments.setting.Language;
 import fragments.setting.ProjectListFragment;
 
 /**
@@ -42,7 +43,7 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
     FloatingActionButton fab;
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
     }
 
     @Override
@@ -87,7 +88,7 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
         }
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
     }
 
     @Override

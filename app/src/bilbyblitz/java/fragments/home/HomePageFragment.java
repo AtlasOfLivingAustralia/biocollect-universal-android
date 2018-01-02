@@ -18,6 +18,7 @@ import au.csiro.ozatlas.model.HomePageListItem;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.setting.Language;
 
 /**
  * Created by sad038 on 1/9/17.
@@ -79,7 +80,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         });
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -166,7 +167,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         itemAdapter.notifyDataSetChanged();
     }
 

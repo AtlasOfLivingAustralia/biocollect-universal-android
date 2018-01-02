@@ -22,6 +22,7 @@ import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.setting.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -97,7 +98,7 @@ public class SpeciesGroupFragment extends BaseListWithRefreshFragment {
         fetchGroups(0);
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -154,7 +155,7 @@ public class SpeciesGroupFragment extends BaseListWithRefreshFragment {
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
         setTitle(localisedString("group_species", R.string.group_species));
     }
 

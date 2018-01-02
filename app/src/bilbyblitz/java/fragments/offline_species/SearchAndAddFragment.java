@@ -32,6 +32,7 @@ import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import fragments.setting.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;
@@ -77,7 +78,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -169,7 +170,7 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
 
     }
 

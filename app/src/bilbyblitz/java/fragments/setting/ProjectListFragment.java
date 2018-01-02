@@ -94,7 +94,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         fetchProjects();
 
         //set the localized labels
-        setLanguageValues();
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
     }
@@ -182,7 +182,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     }
 
     @Override
-    protected void setLanguageValues() {
+    protected void setLanguageValues(Language language) {
 
     }
 
