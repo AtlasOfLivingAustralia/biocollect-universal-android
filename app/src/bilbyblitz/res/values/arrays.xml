@@ -105,21 +105,28 @@
 
     <string-array name="what_see_values">
         <item>Select Option</item>
-        <item>Live animal</item>
+        <item>Animal</item>
         <item>Track</item>
         <item>Scat</item>
-        <item>Burrow</item>
-        <item>Nest</item>
-        <item>Resting place</item>
-        <item>Digging / scratching</item>
+        <item>Burrow/Nest/Cave/Resting place</item>
+        <item>Body part</item>
+        <item>Digging</item>
+        <item>Digging into roots for grubs</item>
+        <item>Digging for ants/termites</item>
     </string-array>
 
     <string-array name="how_recent_values">
         <item>Select Option</item>
-        <item>New</item>
         <item>Fresh (1 – 2 days)</item>
         <item>Old (3 days - 1 week)</item>
-        <item>Really old (in hard ground > 1 week)</item>
+        <item>Really old (> 1 week)</item>
+    </string-array>
+
+    <string-array name="animal_age_values">
+        <item>Select Option</item>
+        <item>Big adult</item>
+        <item>Small adult</item>
+        <item>Young</item>
     </string-array>
 
     <string-array name="dummy_type">

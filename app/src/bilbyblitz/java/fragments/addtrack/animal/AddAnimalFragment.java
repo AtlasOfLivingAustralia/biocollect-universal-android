@@ -76,12 +76,16 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     AppCompatSpinner whatSeenSpinner;
     @BindView(R.id.howRecentSpinner)
     AppCompatSpinner howRecentSpinner;
+    @BindView(R.id.animalAgeSpinner)
+    AppCompatSpinner animalAgeSpinner;
     @BindView(R.id.imageView)
     ImageView imageView;
     @BindView(R.id.editLatitude)
     EditText editLatitude;
     @BindView(R.id.editLongitude)
     EditText editLongitude;
+    @BindView(R.id.animalAgeTextView)
+    TextView animalAgeTextView;
     @BindView(R.id.whatSeenTextView)
     TextView whatSeenTextView;
     @BindView(R.id.recentTextView)
@@ -90,6 +94,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     TextInputLayout inputLayoutLatitude;
     @BindView(R.id.inputLayoutLongitude)
     TextInputLayout inputLayoutLongitude;
+    @BindView(R.id.inputLayoutSpeciesName)
+    TextInputLayout inputLayoutSpeciesName;
     @BindView(R.id.addLocation)
     Button addLocation;
 
@@ -105,11 +111,12 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues(Language language) {
-        editSpeciesName.setHint(localisedString("animal", R.string.animal));
+        inputLayoutSpeciesName.setHint(localisedString("animal", R.string.animal));
         inputLayoutLatitude.setHint(localisedString("sign_latitude", R.string.sign_latitude));
         inputLayoutLongitude.setHint(localisedString("sign_longitude", R.string.sign_longitude));
         recentTextView.setText(localisedString("how_recent", R.string.how_recent));
         whatSeenTextView.setText(localisedString("what_you_see", R.string.what_you_see));
+        animalAgeTextView.setText(localisedString("how_old_animal", R.string.how_old_animal));
     }
 
     @Override
@@ -123,15 +130,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
         whatSeenSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.what_see_values, R.layout.item_textview));
         howRecentSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.how_recent_values, R.layout.item_textview));
-
-        /*editSpeciesName.setOnItemClickListener((parent, view1, position, id) -> {
-            sightingEvidenceTable.species = new Species(species.get(position));
-            speciesDetailLayout.setVisibility(View.VISIBLE);
-            speciesURL.setText(String.format(Locale.getDefault(), "http://bie.ala.org.au/species/%s", sightingEvidenceTable.species.guid));
-            if (BuildConfig.DEBUG) {
-                Toast.makeText(getActivity(), sightingEvidenceTable.species.commonName, Toast.LENGTH_LONG).show();
-            }
-        });*/
+        animalAgeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.animal_age_values, R.layout.item_textview));
 
         Bundle bundle = getArguments();
         if (bundle == null) {

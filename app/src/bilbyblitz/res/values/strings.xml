@@ -75,7 +75,8 @@
     <string name="animal">Animal</string>
     <string name="animal_name">Animal Name</string>
     <string name="what_you_see">What did you see?</string>
-    <string name="how_recent">How recent</string>
+    <string name="how_recent">How old is the sign?</string>
+    <string name="how_old_animal">How old is the animal?</string>
     <string name="offline_species">Offline Settings</string>
     <string name="search_and_add">Search and Add</string>
     <string name="search_and_add_description">You can search species by name and download them one by one</string>
