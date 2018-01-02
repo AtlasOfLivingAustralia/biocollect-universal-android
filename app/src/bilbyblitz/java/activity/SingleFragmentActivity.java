@@ -21,6 +21,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.animal.AddAnimalFragment;
+import fragments.addtrack.country.FoodPlantSelectionFragment;
 import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
@@ -81,6 +82,9 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
                     break;
                 case EDIT_TRACK_FRAGMENT:
                     fragment = new AddTrackFragment();
+                    break;
+                case FOOD_PLANT:
+                    fragment = new FoodPlantSelectionFragment();
                     break;
             }
             fragment.setArguments(bundle);
@@ -215,6 +219,7 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
         GROUP_SPECIES,
         ADD_ANIMAL,
         CONTACT_US,
-        EDIT_TRACK_FRAGMENT
+        EDIT_TRACK_FRAGMENT,
+        FOOD_PLANT
     }
 }

@@ -27,23 +27,19 @@
         <item>Mankarr Survey</item>
     </string-array>
 
-    <string-array name="habitat_values">
+    <string-array name="country_type_values">
         <item>Select Option</item>
         <item>Sand dune</item>
         <item>Sand plain</item>
-        <item>Creek line</item>
-        <item>Salt lake</item>
-        <item>Wetland</item>
-        <item>Stony rise</item>
+        <item>Laterite (red rocks)</item>
+        <item>Calcrete/Limestone rise</item>
         <item>Rocky range</item>
+        <item>Creek line</item>
+        <item>Drainage line</item>
+        <item>Salt lake</item>
+        <item>Waterhole</item>
+        <item>Claypan</item>
         <item>Other</item>
-    </string-array>
-
-    <string-array name="plot_type">
-        <item>Select Option</item>
-        <item>Random</item>
-        <item>Target habitat</item>
-        <item>Target species</item>
     </string-array>
 
     <string-array name="tracking_event_values">
@@ -75,19 +71,42 @@
         <item>Little or no clear ground</item>
     </string-array>
 
-    <string-array name="visibility_type">
+    <string-array name="vegetation_type">
         <item>Select Option</item>
-        <item>Distinct shadow</item>
-        <item>Slight shadow</item>
-        <item>No shadow</item>
+        <item>Spinifex grassland</item>
+        <item>Open grassland</item>
+        <item>Buffel grassland</item>
+        <item>Shrubland</item>
+        <item>Open woodland</item>
+        <item>Dense woodland</item>
+        <item>Other</item>
     </string-array>
 
-    <string-array name="weather_value">
+    <string-array name="food_plant_type">
+        <item>Grass seeds</item>
+        <item>Yakirra grass</item>
+        <item>Witchetty grub shrubs</item>
+        <item>Bush fruits</item>
+        <item>Bush onions</item>
+        <item>Yams and potatoes</item>
+
+    </string-array>
+
+    <string-array name="fire_type">
         <item>Select Option</item>
         <item>Cloudy</item>
         <item>Bright sun</item>
         <item>Windy</item>
         <item>Calm</item>
+    </string-array>
+
+    <string-array name="weather_value">
+        <item>Select Option</item>
+        <item>Recent fire</item>
+        <item>Fresh shoots and plants growing</item>
+        <item>Mature herbs with small grasses</item>
+        <item>Old enough to burn</item>
+        <item>Long unburnt</item>
     </string-array>
 
     <string-array name="detailed_habitat_values">

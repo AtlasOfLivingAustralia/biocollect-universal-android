@@ -24,6 +24,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
+import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
@@ -49,15 +50,12 @@ import static android.app.Activity.RESULT_OK;
 public class TrackCountryFragment extends BaseMainActivityFragment implements ValidationCheck, BilbyDataManager {
     private static final int REQUEST_IMAGE_GALLERY = 3;
     private static final int REQUEST_IMAGE_CAPTURE = 4;
+    private static final int REQUEST_FOOD_PLANT = 1;
 
-    @BindView(R.id.detailHabitatSpinner)
-    AppCompatSpinner detailHabitatSpinner;
-    @BindView(R.id.habitatSpinner)
-    AppCompatSpinner habitatSpinner;
-    @BindView(R.id.plotTypeSpinner)
-    AppCompatSpinner plotTypeSpinner;
-    @BindView(R.id.trackingEventSpinner)
-    AppCompatSpinner trackingEventSpinner;
+    @BindView(R.id.countryTypeSpinner)
+    AppCompatSpinner countryTypeSpinner;
+    @BindView(R.id.vegetationSpinner)
+    AppCompatSpinner vegetationSpinner;
     @BindView(R.id.disturbanceSpinner)
     AppCompatSpinner disturbanceSpinner;
     @BindView(R.id.clearGroundSpinner)
@@ -72,14 +70,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     EditText editCountryName;
     @BindView(R.id.imageView)
     ImageView imageView;
-    @BindView(R.id.detailHabitatTextView)
-    TextView detailHabitatTextView;
-    @BindView(R.id.habitatTextView)
-    TextView habitatTextView;
-    @BindView(R.id.plotTextView)
-    TextView plotTextView;
-    @BindView(R.id.trackEventTextView)
-    TextView trackEventTextView;
+    @BindView(R.id.countryTypeTextView)
+    TextView countryTypeTextView;
+    @BindView(R.id.vegetationTextView)
+    TextView vegetationTextView;
     @BindView(R.id.disturbanceTextView)
     TextView disturbanceTextView;
     @BindView(R.id.groundTextView)
@@ -90,6 +84,12 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     TextView weatherTextView;
     @BindView(R.id.inputLayoutCountryName)
     TextInputLayout inputLayoutCountryName;
+    @BindView(R.id.fireSpinner)
+    AppCompatSpinner fireSpinner;
+    @BindView(R.id.fireTextView)
+    TextView fireTextView;
+    @BindView(R.id.foodPlantSelection)
+    TextView foodPlantSelection;
 
     private String mCurrentPhotoPath;
     private BilbyBlitzData bilbyBlitzData;
@@ -97,14 +97,13 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     protected void setLanguageValues(Language language) {
         inputLayoutCountryName.setHint(localisedString("country_name", R.string.country_name));
-        detailHabitatTextView.setText(localisedString("detailed_habitat", R.string.detailed_habitat));
-        habitatTextView.setText(localisedString("habitat", R.string.habitat));
-        plotTextView.setText(localisedString("type_of_plot", R.string.type_of_plot));
-        trackEventTextView.setText(localisedString("tracking_event_type", R.string.tracking_event_type));
+        countryTypeTextView.setText(localisedString("country_type", R.string.country_type));
+        vegetationTextView.setText(localisedString("vegetation", R.string.vegetation));
         disturbanceTextView.setText(localisedString("disturbance", R.string.disturbance));
         groundTextView.setText(localisedString("ground_type", R.string.ground_type));
         clearGroundTextView.setText(localisedString("how_clear_ground", R.string.how_clear_ground));
         weatherTextView.setText(localisedString("weather_tracking", R.string.weather_tracking));
+        fireTextView.setText(localisedString("fire", R.string.fire));
     }
 
     @Override
@@ -139,14 +138,13 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         groundTypeSpinner.setAdapter(new SimpleAdapter(getContext(), data, R.layout.row_icon_string, new String[] {"imageView","name"}, new int[] {R.id.imageView, R.id.name}));
         */
 
-        detailHabitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.detailed_habitat_values, R.layout.item_textview));
-        habitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.habitat_values, R.layout.item_textview));
-        plotTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.plot_type, R.layout.item_textview));
-        trackingEventSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_event_values, R.layout.item_textview));
+        countryTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.country_type_values, R.layout.item_textview));
+        vegetationSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.vegetation_type, R.layout.item_textview));
         disturbanceSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.disturbance_values, R.layout.item_textview));
         groundTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.ground_values, R.layout.item_textview));
         clearGroundSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.clear_ground_type, R.layout.item_textview));
         weatherSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.weather_value, R.layout.item_textview));
+        fireSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.fire_type, R.layout.item_textview));
 
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
@@ -172,6 +170,16 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         }
     }
 
+    @OnClick(R.id.foodPlantLayout)
+    void foodPlantLayout(){
+        Bundle bundle = new Bundle();
+        bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.FOOD_PLANT);
+        bundle.putString(getString(R.string.food_plant_parameter), foodPlantSelection.getText().toString());
+        Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+        intent.putExtras(bundle);
+        startActivityForResult(intent, REQUEST_FOOD_PLANT);
+    }
+
     /**
      * Called after the autocomplete activity has finished to return its result.
      */
@@ -193,6 +201,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
                         mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
                         imageView.setImageURI(selectedImageUri);
                     }
+                    break;
+                case REQUEST_FOOD_PLANT:
+                    String tagValues = data.getStringExtra(getString(R.string.food_plant_parameter));
+                    foodPlantSelection.setText(tagValues);
                     break;
             }
         }
@@ -303,14 +315,13 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     public void prepareData() {
         bilbyBlitzData.countryName = editCountryName.getText().toString();
-        bilbyBlitzData.habitatType = habitatSpinner.getSelectedItemPosition() == 0 ? null :(String) habitatSpinner.getSelectedItem();
-        bilbyBlitzData.plotType = plotTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) plotTypeSpinner.getSelectedItem();
-        bilbyBlitzData.plotSequence = trackingEventSpinner.getSelectedItemPosition() == 0 ? null :(String) trackingEventSpinner.getSelectedItem();
+        bilbyBlitzData.habitatType = countryTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) countryTypeSpinner.getSelectedItem();
+        bilbyBlitzData.plotType = vegetationSpinner.getSelectedItemPosition() == 0 ? null :(String) vegetationSpinner.getSelectedItem();
         bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null :(String) disturbanceSpinner.getSelectedItem();
         bilbyBlitzData.fireSigns = clearGroundSpinner.getSelectedItemPosition() == 0 ? null :(String) clearGroundSpinner.getSelectedItem();
         bilbyBlitzData.trackingSurfaceContinuity = groundTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) groundTypeSpinner.getSelectedItem();
-        bilbyBlitzData.vegetationType = detailHabitatSpinner.getSelectedItemPosition() == 0 ? null :(String) detailHabitatSpinner.getSelectedItem();
         bilbyBlitzData.surfaceTrackability = weatherSpinner.getSelectedItemPosition() == 0 ? null :(String) weatherSpinner.getSelectedItem();
+        bilbyBlitzData.fireSigns = fireSpinner.getSelectedItemPosition() == 0 ? null :(String) fireSpinner.getSelectedItem();
         if (mCurrentPhotoPath != null) {
             bilbyBlitzData.locationImage = new RealmList<>();
             ImageModel imageModel = new ImageModel();
@@ -322,13 +333,12 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     public void setBilbyBlitzData() {
         editCountryName.setText(bilbyBlitzData.countryName);
-        habitatSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.habitat_values), bilbyBlitzData.habitatType), false);
-        plotTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.plot_type), bilbyBlitzData.plotType), false);
-        trackingEventSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.tracking_event_values), bilbyBlitzData.plotSequence), false);
+        countryTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.country_type_values), bilbyBlitzData.habitatType), false);
+        vegetationSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.vegetation_type), bilbyBlitzData.plotType), false);
         disturbanceSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.disturbance_values), bilbyBlitzData.disturbance), false);
         clearGroundSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.clear_ground_type), bilbyBlitzData.fireSigns), false);
         groundTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.ground_values), bilbyBlitzData.trackingSurfaceContinuity), false);
-        detailHabitatSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.detailed_habitat_values), bilbyBlitzData.vegetationType), false);
         weatherSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.weather_value), bilbyBlitzData.surfaceTrackability), false);
+        fireSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.fire_type), bilbyBlitzData.fireSigns), false);
     }
 }

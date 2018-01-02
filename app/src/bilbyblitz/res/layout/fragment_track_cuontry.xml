@@ -32,6 +32,44 @@
         </android.support.design.widget.TextInputLayout>
 
         <LinearLayout
+            android:id="@+id/foodPlantLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_bigger_input_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+
+            <TextView
+                android:id="@+id/foodPlantHeading"
+                style="@style/InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/food_plant" />
+
+            <TextView
+                android:id="@+id/foodPlantSelection"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
+                android:text="@string/no_food_plant"
+                android:textSize="@dimen/smaller_input_font_size" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/input_view_top_margin"
@@ -40,14 +78,14 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/detailHabitatTextView"
+                android:id="@+id/countryTypeTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/detailed_habitat" />
+                android:text="@string/country_type" />
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/detailHabitatSpinner"
+                android:id="@+id/countryTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -72,14 +110,14 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/habitatTextView"
+                android:id="@+id/vegetationTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/habitat" />
+                android:text="@string/vegetation" />
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/habitatSpinner"
+                android:id="@+id/vegetationSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -104,46 +142,14 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/plotTextView"
+                android:id="@+id/fireTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/type_of_plot" />
+                android:text="@string/fire" />
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/plotTypeSpinner"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingStart="0dp"
-                android:textSize="@dimen/default_input_font_size" />
-        </LinearLayout>
-
-        <include
-            layout="@layout/horizonal_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/input_view_top_margin"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:id="@+id/trackEventTextView"
-                style="@style/InputLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tracking_event_type" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/trackingEventSpinner"
+                android:id="@+id/fireSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -1,8 +1,0 @@
-<item>Animal</item>
-        <item>Track</item>
-        <item>Scat</item>
-        <item>Burrow/Nest/Cave/Resting place</item>
-        <item>Body part</item>
-        <item>Digging</item>
-        <item>Digging into roots for grubs</item>
-        <item>Digging for ants/termites</item>
