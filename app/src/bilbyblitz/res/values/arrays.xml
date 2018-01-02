@@ -57,25 +57,22 @@
         <item>Select Option</item>
         <item>Wind</item>
         <item>Rain</item>
-        <item>Wet ground</item>
         <item>Car</item>
         <item>No recent disturbance</item>
     </string-array>
 
     <string-array name="ground_values">
         <item>Select Option</item>
-        <item>0 – 25% bare ground</item>
-        <item>25 – 50% bare ground</item>
-        <item>50 – 75% bare ground</item>
-        <item>> 75% bare ground</item>
+        <item>Soft (lots of little tracks)</item>
+        <item>Bit hard for little animal tracks</item>
+        <item>Hard (only tracks of big animals)</item>
     </string-array>
 
-    <string-array name="fire_type">
+    <string-array name="clear_ground_type">
         <item>Select Option</item>
-        <item>Recent fire</item>
-        <item>Regenerating</item>
-        <item>A few years since fire</item>
-        <item>Long unburnt</item>
+        <item>Lots of clear ground</item>
+        <item>Some clear ground</item>
+        <item>Little or no clear ground</item>
     </string-array>
 
     <string-array name="visibility_type">
@@ -85,11 +82,12 @@
         <item>No shadow</item>
     </string-array>
 
-    <string-array name="tracking_surface_value">
+    <string-array name="weather_value">
         <item>Select Option</item>
-        <item>Good</item>
-        <item>OK</item>
-        <item>Bad</item>
+        <item>Cloudy</item>
+        <item>Bright sun</item>
+        <item>Windy</item>
+        <item>Calm</item>
     </string-array>
 
     <string-array name="detailed_habitat_values">

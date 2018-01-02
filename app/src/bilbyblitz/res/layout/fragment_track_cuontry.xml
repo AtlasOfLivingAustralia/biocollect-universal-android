@@ -153,7 +153,7 @@
         </LinearLayout>
 
         <TextView
-            android:id="@+id/offlineHeading"
+            android:id="@+id/trackabilityHeading"
             style="@android:style/TextAppearance.DeviceDefault.Medium"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -165,6 +165,38 @@
             android:text="@string/trackability"
             android:textSize="@dimen/default_input_font_size"
             android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/input_view_top_margin"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin">
+
+            <TextView
+                android:id="@+id/clearGroundTextView"
+                style="@style/InputLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/how_clear_ground" />
+
+            <android.support.v7.widget.AppCompatSpinner
+                android:id="@+id/clearGroundSpinner"
+                style="@style/TextAppearance.AppCompat.Medium"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="0dp"
+                android:paddingStart="0dp"
+                android:textSize="@dimen/default_input_font_size" />
+        </LinearLayout>
+
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/activity_horizontal_margin"
+            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -230,37 +262,6 @@
             android:layout_marginLeft="@dimen/activity_horizontal_margin"
             android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/input_view_top_margin"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:id="@+id/fireTextView"
-                style="@style/InputLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/fire" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/fireSpinner"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingStart="0dp"
-                android:textSize="@dimen/default_input_font_size" />
-        </LinearLayout>
-
-        <include
-            layout="@layout/horizonal_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -271,46 +272,14 @@
             android:paddingRight="@dimen/activity_horizontal_margin">
 
             <TextView
-                android:id="@+id/visibilityTextView"
+                android:id="@+id/weatherTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/visibility" />
+                android:text="@string/weather_tracking" />
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/visibilitySpinner"
-                style="@style/TextAppearance.AppCompat.Medium"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="0dp"
-                android:paddingStart="0dp"
-                android:textSize="@dimen/default_input_font_size" />
-        </LinearLayout>
-
-        <include
-            layout="@layout/horizonal_line"
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/input_view_top_margin"
-            android:orientation="vertical"
-            android:paddingLeft="@dimen/activity_horizontal_margin"
-            android:paddingRight="@dimen/activity_horizontal_margin">
-
-            <TextView
-                android:id="@+id/surfaceTextView"
-                style="@style/InputLabel"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/surface_tracking" />
-
-            <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/surfaceTrackingSpinner"
+                android:id="@+id/weatherSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

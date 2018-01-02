@@ -60,12 +60,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     AppCompatSpinner trackingEventSpinner;
     @BindView(R.id.disturbanceSpinner)
     AppCompatSpinner disturbanceSpinner;
-    @BindView(R.id.fireSpinner)
-    AppCompatSpinner fireSpinner;
-    @BindView(R.id.surfaceTrackingSpinner)
-    AppCompatSpinner surfaceTrackingSpinner;
-    @BindView(R.id.visibilitySpinner)
-    AppCompatSpinner visibilitySpinner;
+    @BindView(R.id.clearGroundSpinner)
+    AppCompatSpinner clearGroundSpinner;
+    @BindView(R.id.weatherSpinner)
+    AppCompatSpinner weatherSpinner;
     @BindView(R.id.groundTypeSpinner)
     AppCompatSpinner groundTypeSpinner;
     @BindView(R.id.addPhotoButton)
@@ -86,12 +84,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     TextView disturbanceTextView;
     @BindView(R.id.groundTextView)
     TextView groundTextView;
-    @BindView(R.id.fireTextView)
-    TextView fireTextView;
-    @BindView(R.id.visibilityTextView)
-    TextView visibilityTextView;
-    @BindView(R.id.surfaceTextView)
-    TextView surfaceTextView;
+    @BindView(R.id.clearGroundTextView)
+    TextView clearGroundTextView;
+    @BindView(R.id.weatherTextView)
+    TextView weatherTextView;
     @BindView(R.id.inputLayoutCountryName)
     TextInputLayout inputLayoutCountryName;
 
@@ -107,9 +103,8 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         trackEventTextView.setText(localisedString("tracking_event_type", R.string.tracking_event_type));
         disturbanceTextView.setText(localisedString("disturbance", R.string.disturbance));
         groundTextView.setText(localisedString("ground_type", R.string.ground_type));
-        fireTextView.setText(localisedString("fire", R.string.fire));
-        visibilityTextView.setText(localisedString("visibility", R.string.visibility));
-        surfaceTextView.setText(localisedString("surface_tracking", R.string.surface_tracking));
+        clearGroundTextView.setText(localisedString("how_clear_ground", R.string.how_clear_ground));
+        weatherTextView.setText(localisedString("weather_tracking", R.string.weather_tracking));
     }
 
     @Override
@@ -145,123 +140,13 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         */
 
         detailHabitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.detailed_habitat_values, R.layout.item_textview));
-        /*detailHabitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //TODO which member
-                //bilbyBlitzData.habitatType = (String) detailHabitatSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
         habitatSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.habitat_values, R.layout.item_textview));
-        /*habitatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bilbyBlitzData.habitatType = (String) habitatSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
         plotTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.plot_type, R.layout.item_textview));
-        /*plotTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                bilbyBlitzData.plotType = (String) plotTypeSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
         trackingEventSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_event_values, R.layout.item_textview));
-        /*trackingEventSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //todo chaeck
-                bilbyBlitzData.surfaceTrackability = (String) trackingEventSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
         disturbanceSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.disturbance_values, R.layout.item_textview));
-        /*disturbanceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //sightingEvidenceTable.evidenceAgeClass = (String) disturbanceSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
         groundTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.ground_values, R.layout.item_textview));
-        /*groundTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //sightingEvidenceTable.evidenceAgeClass = (String) groundTypeSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-        fireSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.fire_type, R.layout.item_textview));
-        /*fireSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //sightingEvidenceTable.evidenceAgeClass = (String) fireSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-        visibilitySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.visibility_type, R.layout.item_textview));
-        /*visibilitySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //sightingEvidenceTable.evidenceAgeClass = (String) visibilitySpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
-
-        surfaceTrackingSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.tracking_surface_value, R.layout.item_textview));
-        /*surfaceTrackingSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                //sightingEvidenceTable.evidenceAgeClass = (String) surfaceTrackingSpinner.getItemAtPosition(position);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });*/
+        clearGroundSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.clear_ground_type, R.layout.item_textview));
+        weatherSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.weather_value, R.layout.item_textview));
 
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
@@ -422,11 +307,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         bilbyBlitzData.plotType = plotTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) plotTypeSpinner.getSelectedItem();
         bilbyBlitzData.plotSequence = trackingEventSpinner.getSelectedItemPosition() == 0 ? null :(String) trackingEventSpinner.getSelectedItem();
         bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null :(String) disturbanceSpinner.getSelectedItem();
-        bilbyBlitzData.fireSigns = fireSpinner.getSelectedItemPosition() == 0 ? null :(String) fireSpinner.getSelectedItem();
+        bilbyBlitzData.fireSigns = clearGroundSpinner.getSelectedItemPosition() == 0 ? null :(String) clearGroundSpinner.getSelectedItem();
         bilbyBlitzData.trackingSurfaceContinuity = groundTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) groundTypeSpinner.getSelectedItem();
-        bilbyBlitzData.visibility = visibilitySpinner.getSelectedItemPosition() == 0 ? null :(String) visibilitySpinner.getSelectedItem();
         bilbyBlitzData.vegetationType = detailHabitatSpinner.getSelectedItemPosition() == 0 ? null :(String) detailHabitatSpinner.getSelectedItem();
-        bilbyBlitzData.surfaceTrackability = surfaceTrackingSpinner.getSelectedItemPosition() == 0 ? null :(String) surfaceTrackingSpinner.getSelectedItem();
+        bilbyBlitzData.surfaceTrackability = weatherSpinner.getSelectedItemPosition() == 0 ? null :(String) weatherSpinner.getSelectedItem();
         if (mCurrentPhotoPath != null) {
             bilbyBlitzData.locationImage = new RealmList<>();
             ImageModel imageModel = new ImageModel();
@@ -442,10 +326,9 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         plotTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.plot_type), bilbyBlitzData.plotType), false);
         trackingEventSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.tracking_event_values), bilbyBlitzData.plotSequence), false);
         disturbanceSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.disturbance_values), bilbyBlitzData.disturbance), false);
-        fireSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.fire_type), bilbyBlitzData.fireSigns), false);
+        clearGroundSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.clear_ground_type), bilbyBlitzData.fireSigns), false);
         groundTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.ground_values), bilbyBlitzData.trackingSurfaceContinuity), false);
-        visibilitySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.visibility_type), bilbyBlitzData.visibility), false);
         detailHabitatSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.detailed_habitat_values), bilbyBlitzData.vegetationType), false);
-        surfaceTrackingSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.tracking_surface_value), bilbyBlitzData.surfaceTrackability), false);
+        weatherSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.weather_value), bilbyBlitzData.surfaceTrackability), false);
     }
 }
