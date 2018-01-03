@@ -188,8 +188,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         siteSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.site_type), bilbyBlitzData.siteChoice));
     }
 
-    private void putCoordinatesInVisibleArea(){
-        if(googleMap!=null) {
+    private void putCoordinatesInVisibleArea() {
+        if (googleMap != null) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (BilbyLocation location : locations) {
                 builder.include(new LatLng(location.latitude, location.longitude));
@@ -313,7 +313,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
      * @param latLng
      */
     private void setGoogleMapView(LatLng latLng) {
-        if(lastMarker!=null){
+        if (lastMarker != null) {
             lastMarker.remove();
         }
         googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
@@ -378,17 +378,22 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     public String getValidationMessage() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (TextUtils.isEmpty(editDate.getText())) {
-            stringBuilder.append(localisedString("", R.string.event_date_missing_error));
+        if (locations.size() == 0) {
+            stringBuilder.append(localisedString("location_missing", R.string.location_missing));
             stringBuilder.append("\n");
-            setError(inputLayoutDate, localisedString("", R.string.event_date_missing_error));
+        }
+
+        if (TextUtils.isEmpty(editDate.getText())) {
+            stringBuilder.append(localisedString("event_date_missing_error", R.string.event_date_missing_error));
+            stringBuilder.append("\n");
+            setError(inputLayoutDate, localisedString("event_date_missing_error", R.string.event_date_missing_error));
         } else {
             setError(inputLayoutDate, "");
         }
 
         if (TextUtils.isEmpty(editStartTime.getText())) {
-            stringBuilder.append(localisedString("", R.string.event_time_missing_error));
-            setError(inputLayoutstartTime, localisedString("", R.string.event_time_missing_error));
+            stringBuilder.append(localisedString("event_time_missing_error", R.string.event_time_missing_error));
+            setError(inputLayoutstartTime, localisedString("event_time_missing_error", R.string.event_time_missing_error));
         } else {
             setError(inputLayoutstartTime, "");
         }
@@ -504,6 +509,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
      */
     @Override
     public void prepareData() {
+        if (locations.size() > 0) {
+            bilbyBlitzData.locationLatitude = locations.get(0).latitude;
+            bilbyBlitzData.locationLongitude = locations.get(0).longitude;
+        }
         bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : (String) surveySpinner.getSelectedItem();
         bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : (String) siteSpinner.getSelectedItem();
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
