@@ -149,7 +149,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     }
 
     @OnClick(R.id.foodPlantLayout)
-    void foodPlantLayout(){
+    void foodPlantLayout() {
         Bundle bundle = new Bundle();
         bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.FOOD_PLANT);
         bundle.putString(getString(R.string.food_plant_parameter), foodPlantSelection.getText().toString());
@@ -293,17 +293,22 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     public void prepareData() {
         bilbyBlitzData.countryName = editCountryName.getText().toString();
-        String tags[] = foodPlantSelection.getText().toString().split(";");
-        for (String string : tags) {
-            bilbyBlitzData.foodPlants.add(new FoodPlant(string.trim()));
+        if (!foodPlantSelection.getText().equals(localisedString("no_food_plant", R.string.no_food_plant))) {
+            String tags[] = foodPlantSelection.getText().toString().split(";");
+            if (tags.length > 0) {
+                bilbyBlitzData.foodPlants = new RealmList<>();
+                for (String string : tags) {
+                    bilbyBlitzData.foodPlants.add(new FoodPlant(string.trim()));
+                }
+            }
         }
-        bilbyBlitzData.habitatType = countryTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) countryTypeSpinner.getSelectedItem();
-        bilbyBlitzData.vegetationType = vegetationSpinner.getSelectedItemPosition() == 0 ? null :(String) vegetationSpinner.getSelectedItem();
-        bilbyBlitzData.fireHistory = fireSpinner.getSelectedItemPosition() == 0 ? null :(String) fireSpinner.getSelectedItem();
-        bilbyBlitzData.trackingSurfaceContinuity = clearGroundSpinner.getSelectedItemPosition() == 0 ? null :(String) clearGroundSpinner.getSelectedItem();
-        bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null :(String) disturbanceSpinner.getSelectedItem();
-        bilbyBlitzData.surfaceTrackability = groundTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) groundTypeSpinner.getSelectedItem();
-        bilbyBlitzData.visibility = weatherSpinner.getSelectedItemPosition() == 0 ? null :(String) weatherSpinner.getSelectedItem();
+        bilbyBlitzData.habitatType = countryTypeSpinner.getSelectedItemPosition() == 0 ? null : (String) countryTypeSpinner.getSelectedItem();
+        bilbyBlitzData.vegetationType = vegetationSpinner.getSelectedItemPosition() == 0 ? null : (String) vegetationSpinner.getSelectedItem();
+        bilbyBlitzData.fireHistory = fireSpinner.getSelectedItemPosition() == 0 ? null : (String) fireSpinner.getSelectedItem();
+        bilbyBlitzData.trackingSurfaceContinuity = clearGroundSpinner.getSelectedItemPosition() == 0 ? null : (String) clearGroundSpinner.getSelectedItem();
+        bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null : (String) disturbanceSpinner.getSelectedItem();
+        bilbyBlitzData.surfaceTrackability = groundTypeSpinner.getSelectedItemPosition() == 0 ? null : (String) groundTypeSpinner.getSelectedItem();
+        bilbyBlitzData.visibility = weatherSpinner.getSelectedItemPosition() == 0 ? null : (String) weatherSpinner.getSelectedItem();
         if (mCurrentPhotoPath != null) {
             bilbyBlitzData.locationImage = new RealmList<>();
             ImageModel imageModel = new ImageModel();

@@ -1,5 +1,7 @@
 package model.track;
 
+import com.google.gson.annotations.Expose;
+
 import org.parceler.Parcel;
 
 import io.realm.RealmObject;
@@ -12,7 +14,9 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class BilbyLocation extends RealmObject{
+    @Expose
     public Double latitude;
+    @Expose
     public Double longitude;
 
     public BilbyLocation(){}

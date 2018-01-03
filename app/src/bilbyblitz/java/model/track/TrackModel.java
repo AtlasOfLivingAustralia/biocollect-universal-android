@@ -1,5 +1,7 @@
 package model.track;
 
+import com.google.gson.annotations.Expose;
+
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
@@ -20,18 +22,25 @@ public class TrackModel extends RealmObject {
     public Long realmId;
     public boolean upLoading;
 
+    @Expose
     public String mainTheme;
 
+    @Expose
     public String activityId;
 
+    @Expose
     public String siteId;
 
+    @Expose
     public String projectId;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
+    @Expose
     public RealmList<BilbyBlitzOutput> outputs;
 
+    @Expose
     public String type;
 
+    @Expose
     public String projectStage;
 }

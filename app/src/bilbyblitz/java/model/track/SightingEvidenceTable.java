@@ -1,5 +1,7 @@
 package model.track;
 
+import com.google.gson.annotations.Expose;
+
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
@@ -15,19 +17,26 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class SightingEvidenceTable extends RealmObject {
+    @Expose
     public String typeOfSign;
 
+    @Expose
     public Double observationLongitude;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
+    @Expose
     public RealmList<ImageModel> imageOfSign;
 
+    @Expose
     public Species species;
 
+    @Expose
     public Double observationLatitude;
 
+    @Expose
     public String evidenceAgeClass;
 
+    @Expose
     public String ageClassOfAnimal;
 
     //view

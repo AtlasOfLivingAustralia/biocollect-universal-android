@@ -1,11 +1,10 @@
 package model.track;
 
+import com.google.gson.annotations.Expose;
+
 import org.parceler.Parcel;
 
-import java.io.Serializable;
-
 import au.csiro.ozatlas.model.SearchSpecies;
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
@@ -16,14 +15,19 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class Species extends RealmObject {
+    @Expose
     public String guid;
 
+    @Expose
     public String commonName;
 
+    @Expose
     public String outputSpeciesId;
 
+    @Expose
     public String scientificName;
 
+    @Expose
     public String name;
 
     public Species() {

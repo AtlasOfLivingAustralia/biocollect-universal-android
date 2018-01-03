@@ -1,5 +1,7 @@
 package model.track;
 
+import com.google.gson.annotations.Expose;
+
 import org.parceler.Parcel;
 
 import io.realm.RealmObject;
@@ -12,5 +14,6 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class CheckMapInfo extends RealmObject{
+    @Expose
     public Boolean validation;
 }

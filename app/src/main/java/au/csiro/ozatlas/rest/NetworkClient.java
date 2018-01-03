@@ -6,13 +6,13 @@ import com.google.gson.reflect.TypeToken;
 import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.Tag;
 import io.realm.RealmList;
+import model.track.FoodPlant;
 import okhttp3.OkHttpClient;
+import rest.CustomFoodPlantTypeAdapter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -33,18 +33,22 @@ public class NetworkClient {
      * @param baseUrl
      */
     public NetworkClient(String baseUrl) {
-        Type token = new TypeToken<RealmList<Tag>>() {
+        GsonBuilder gsonBuilder = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation();
+
+        /*Type token = new TypeToken<RealmList<Tag>>() {
         }.getType();
-        Gson gson = new GsonBuilder()
-                .registerTypeAdapter(token, new CustomTagTypeAdapter())
-                .excludeFieldsWithoutExposeAnnotation()
-                .create();
+        gsonBuilder.registerTypeAdapter(token, new CustomTagTypeAdapter());*/
+
+        Type plantToken = new TypeToken<RealmList<FoodPlant>>() {
+        }.getType();
+        gsonBuilder.registerTypeAdapter(plantToken, new CustomFoodPlantTypeAdapter());
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(getOkHttpClient())
-                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addConverterFactory(GsonConverterFactory.create(gsonBuilder.create()))
                 .build();
     }
 

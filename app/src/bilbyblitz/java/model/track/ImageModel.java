@@ -1,10 +1,9 @@
 package model.track;
 
+import com.google.gson.annotations.Expose;
+
 import org.parceler.Parcel;
 
-import java.io.Serializable;
-
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
@@ -15,32 +14,46 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class ImageModel extends RealmObject {
+    @Expose
     public String licence;
 
+    @Expose
     public String status;
 
+    @Expose
     public String contentType;
 
+    @Expose
     public String url;
 
+    @Expose
     public String formattedSize;
 
+    @Expose
     public String dateTaken;
 
+    @Expose
     public Long filesize;
 
+    @Expose
     public String thumbnailUrl;
 
+    @Expose
     public String name;
 
+    @Expose
     public String filename;
 
+    @Expose
     public String notes;
 
+    @Expose
     public Boolean staged;
 
+    @Expose
     public String documentId;
 
+    @Expose
     public String attribution;
 
     //view
