@@ -45,6 +45,7 @@ import model.map.Site;
 import model.track.BilbyBlitzData;
 import model.track.BilbyBlitzOutput;
 import model.track.BilbyLocation;
+import model.track.CheckMapInfo;
 import model.track.ImageModel;
 import model.track.TrackModel;
 import retrofit2.Response;
@@ -140,6 +141,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         trackModel.outputs = new RealmList<>();
         trackModel.activityId = getString(R.string.project_activity_id);
         BilbyBlitzOutput output = new BilbyBlitzOutput();
+        output.selectFromSitesOnly = false;
         output.data = new BilbyBlitzData();
         trackModel.outputs.add(output);
         tabSetup();
@@ -283,6 +285,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onNext(MapResponse mapResponse) {
                         trackModel.siteId = mapResponse.id;
+                        trackModel.outputs.get(0).checkMapInfo = new CheckMapInfo();
+                        trackModel.outputs.get(0).checkMapInfo.validation = true;
                     }
 
                     @Override

@@ -29,6 +29,7 @@ import model.map.MapModel;
 import model.map.MapResponse;
 import model.map.Site;
 import model.track.BilbyLocation;
+import model.track.CheckMapInfo;
 import model.track.ImageModel;
 import model.track.TrackModel;
 import retrofit2.Response;
@@ -147,6 +148,8 @@ public class UploadService extends IntentService {
                     @Override
                     public void onNext(MapResponse mapResponse) {
                         trackModel.siteId = mapResponse.id;
+                        trackModel.outputs.get(0).checkMapInfo = new CheckMapInfo();
+                        trackModel.outputs.get(0).checkMapInfo.validation = true;
                     }
 
                     @Override

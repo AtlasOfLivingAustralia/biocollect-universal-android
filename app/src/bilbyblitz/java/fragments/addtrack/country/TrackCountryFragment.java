@@ -318,10 +318,10 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         bilbyBlitzData.habitatType = countryTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) countryTypeSpinner.getSelectedItem();
         bilbyBlitzData.plotType = vegetationSpinner.getSelectedItemPosition() == 0 ? null :(String) vegetationSpinner.getSelectedItem();
         bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null :(String) disturbanceSpinner.getSelectedItem();
-        bilbyBlitzData.fireSigns = clearGroundSpinner.getSelectedItemPosition() == 0 ? null :(String) clearGroundSpinner.getSelectedItem();
+        bilbyBlitzData.fireHistory = clearGroundSpinner.getSelectedItemPosition() == 0 ? null :(String) clearGroundSpinner.getSelectedItem();
         bilbyBlitzData.trackingSurfaceContinuity = groundTypeSpinner.getSelectedItemPosition() == 0 ? null :(String) groundTypeSpinner.getSelectedItem();
         bilbyBlitzData.surfaceTrackability = weatherSpinner.getSelectedItemPosition() == 0 ? null :(String) weatherSpinner.getSelectedItem();
-        bilbyBlitzData.fireSigns = fireSpinner.getSelectedItemPosition() == 0 ? null :(String) fireSpinner.getSelectedItem();
+        bilbyBlitzData.fireHistory = fireSpinner.getSelectedItemPosition() == 0 ? null :(String) fireSpinner.getSelectedItem();
         if (mCurrentPhotoPath != null) {
             bilbyBlitzData.locationImage = new RealmList<>();
             ImageModel imageModel = new ImageModel();
@@ -336,9 +336,9 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         countryTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.country_type_values), bilbyBlitzData.habitatType), false);
         vegetationSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.vegetation_type), bilbyBlitzData.plotType), false);
         disturbanceSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.disturbance_values), bilbyBlitzData.disturbance), false);
-        clearGroundSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.clear_ground_type), bilbyBlitzData.fireSigns), false);
+        clearGroundSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.clear_ground_type), bilbyBlitzData.fireHistory), false);
         groundTypeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.ground_values), bilbyBlitzData.trackingSurfaceContinuity), false);
         weatherSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.weather_value), bilbyBlitzData.surfaceTrackability), false);
-        fireSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.fire_type), bilbyBlitzData.fireSigns), false);
+        fireSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.fire_type), bilbyBlitzData.fireHistory), false);
     }
 }

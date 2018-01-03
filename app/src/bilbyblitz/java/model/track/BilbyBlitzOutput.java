@@ -13,6 +13,8 @@ import io.realm.annotations.RealmClass;
 @Parcel
 @RealmClass
 public class BilbyBlitzOutput extends RealmObject {
+    public Boolean selectFromSitesOnly;
+
     public String name;
 
     public BilbyBlitzData data;
@@ -22,4 +24,6 @@ public class BilbyBlitzOutput extends RealmObject {
     public String outputId;
 
     public String outputNotCompleted;
+
+    public CheckMapInfo checkMapInfo;
 }

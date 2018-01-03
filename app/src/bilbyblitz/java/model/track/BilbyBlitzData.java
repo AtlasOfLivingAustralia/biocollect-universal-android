@@ -36,7 +36,12 @@ public class BilbyBlitzData extends RealmObject{
 
     public String additionalTrackers;
 
-    public String fireSigns;
+    public String fireHistory;
+
+    public String siteChoice;
+
+    @ParcelPropertyConverter(RealmListParcelConverter.class)
+    public RealmList<FoodPlant> foodPlants;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
     public RealmList<SightingEvidenceTable> sightingEvidenceTable;

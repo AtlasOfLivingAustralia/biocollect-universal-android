@@ -28,6 +28,8 @@ public class SightingEvidenceTable extends RealmObject {
 
     public String evidenceAgeClass;
 
+    public String ageClassOfAnimal;
+
     //view
     public String mPhotoPath;
 }
