@@ -13,7 +13,14 @@
         <item>Anmatyerr</item>
     </string-array>
 
+    <string-array name="site_type">
+        <item>Select Option</item>
+        <item>Targetted</item>
+        <item>Anywhere</item>
+    </string-array>
+
     <string-array name="survey_type">
+        <item>Select Option</item>
         <item>Trackplot 2ha 100m x 200m</item>
         <item>Incidental</item>
         <item>Road</item>
@@ -21,6 +28,7 @@
     </string-array>
 
     <string-array name="survey_type_adithinngithigh">
+        <item>Select Option</item>
         <item>Trackplot 2ha 100m x 200m</item>
         <item>pardany-para-mi</item>
         <item>Yirdiyi</item>
@@ -92,7 +100,7 @@
 
     </string-array>
 
-    <string-array name="fire_type">
+    <string-array name="weather_value">
         <item>Select Option</item>
         <item>Cloudy</item>
         <item>Bright sun</item>
@@ -100,7 +108,7 @@
         <item>Calm</item>
     </string-array>
 
-    <string-array name="weather_value">
+    <string-array name="fire_type">
         <item>Select Option</item>
         <item>Recent fire</item>
         <item>Fresh shoots and plants growing</item>

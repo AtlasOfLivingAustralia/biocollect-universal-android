@@ -82,6 +82,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
+    @BindView(R.id.siteSpinner)
+    AppCompatSpinner siteSpinner;
     @BindView(R.id.startGPSButton)
     Button startGPSButton;
     @BindView(R.id.editDate)
@@ -96,6 +98,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextInputLayout inputLayoutstartTime;
     @BindView(R.id.surveyTextView)
     TextView surveyTextView;
+    @BindView(R.id.siteTextView)
+    TextView siteTextView;
     @BindView(R.id.gpsMessageTextView)
     TextView gpsMessageTextView;
     @BindView(R.id.inputLayoutEndTime)
@@ -122,6 +126,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
         gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
         surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
+        siteTextView.setText(localisedString("site_type", R.string.site_type));
     }
 
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -150,6 +155,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         myReceiver = new MyReceiver();
 
         surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
+        siteSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.site_type, R.layout.item_textview));
 
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
@@ -179,6 +185,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
+        siteSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.site_type), bilbyBlitzData.siteChoice));
     }
 
     private void putCoordinatesInVisibleArea(){
@@ -498,6 +505,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     @Override
     public void prepareData() {
         bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : (String) surveySpinner.getSelectedItem();
+        bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : (String) siteSpinner.getSelectedItem();
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);

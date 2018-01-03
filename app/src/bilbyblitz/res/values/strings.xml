@@ -46,6 +46,7 @@
     <string name="start_gps">Start GPS</string>
     <string name="stop_gps">Stop GPS</string>
     <string name="survey_type">Survey Type</string>
+    <string name="site_type">Site choice</string>
     <string name="country_type">Country Type</string>
     <string name="add_photo">Add Photo</string>
     <string name="ground_type">How soft is the ground for leaving tracks?</string>

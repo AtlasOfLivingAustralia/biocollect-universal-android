@@ -60,8 +60,6 @@ public class BilbyBlitzData extends RealmObject{
 
     public String recordedBy;
 
-    public String plotType;
-
     public String habitatType;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)

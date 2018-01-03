@@ -165,6 +165,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
         whatSeenSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.what_see_values), sightingEvidenceTable.typeOfSign));
         howRecentSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.how_recent_values), sightingEvidenceTable.evidenceAgeClass));
+        animalAgeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.animal_age_values), sightingEvidenceTable.ageClassOfAnimal));
         if (sightingEvidenceTable.mPhotoPath != null) {
             imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
         }
@@ -270,6 +271,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     private void prepareData() {
         sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null : (String) whatSeenSpinner.getSelectedItem();
         sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null : (String) howRecentSpinner.getSelectedItem();
+        sightingEvidenceTable.ageClassOfAnimal = animalAgeSpinner.getSelectedItemPosition() == 0 ? null : (String) animalAgeSpinner.getSelectedItem();
         sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
         sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
     }
