@@ -8,9 +8,8 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
-import au.csiro.ozatlas.model.Tag;
+import au.csiro.ozatlas.model.RealmString;
 import io.realm.RealmList;
-import model.track.FoodPlant;
 import okhttp3.OkHttpClient;
 import rest.CustomFoodPlantTypeAdapter;
 import retrofit2.Retrofit;
@@ -40,7 +39,7 @@ public class NetworkClient {
         }.getType();
         gsonBuilder.registerTypeAdapter(token, new CustomTagTypeAdapter());*/
 
-        Type plantToken = new TypeToken<RealmList<FoodPlant>>() {
+        Type plantToken = new TypeToken<RealmList<RealmString>>() {
         }.getType();
         gsonBuilder.registerTypeAdapter(plantToken, new CustomFoodPlantTypeAdapter());
 

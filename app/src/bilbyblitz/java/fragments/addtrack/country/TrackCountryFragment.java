@@ -40,7 +40,7 @@ import fragments.addtrack.ValidationCheck;
 import fragments.setting.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
-import model.track.FoodPlant;
+import au.csiro.ozatlas.model.RealmString;
 import model.track.ImageModel;
 
 import static android.app.Activity.RESULT_OK;
@@ -298,7 +298,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             if (tags.length > 0) {
                 bilbyBlitzData.foodPlants = new RealmList<>();
                 for (String string : tags) {
-                    bilbyBlitzData.foodPlants.add(new FoodPlant(string.trim()));
+                    bilbyBlitzData.foodPlants.add(new RealmString(string.trim()));
                 }
             }
         }

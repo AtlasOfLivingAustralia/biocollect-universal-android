@@ -1,4 +1,4 @@
-package model.track;
+package au.csiro.ozatlas.model;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -14,15 +14,15 @@ import io.realm.annotations.RealmClass;
 
 @Parcel
 @RealmClass
-public class FoodPlant extends RealmObject {
+public class RealmString extends RealmObject {
     @Expose
     @SerializedName("val")
     public String val;
 
-    public FoodPlant() {
+    public RealmString() {
     }
 
-    public FoodPlant(String val) {
+    public RealmString(String val) {
         this.val = val;
     }
 }

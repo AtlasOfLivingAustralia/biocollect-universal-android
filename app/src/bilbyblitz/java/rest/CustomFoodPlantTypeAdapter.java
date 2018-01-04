@@ -6,30 +6,32 @@ import com.google.gson.stream.JsonWriter;
 
 import java.io.IOException;
 
+import au.csiro.ozatlas.model.RealmString;
 import io.realm.RealmList;
-import model.track.FoodPlant;
 
 /**
  * Created by sad038 on 2/5/17.
  */
 
-public class CustomFoodPlantTypeAdapter extends TypeAdapter<RealmList<FoodPlant>> {
+public class CustomFoodPlantTypeAdapter extends TypeAdapter<RealmList<RealmString>> {
 
     @Override
-    public void write(JsonWriter out, RealmList<FoodPlant> value) throws IOException {
+    public void write(JsonWriter out, RealmList<RealmString> value) throws IOException {
         out.beginArray();
-        for (FoodPlant foodPlant : value) {
-            out.value(foodPlant.val);
-        }
+        if (value != null)
+            for (RealmString realmString : value) {
+                out.value(realmString.val);
+            }
         out.endArray();
+
     }
 
     @Override
-    public RealmList<FoodPlant> read(JsonReader in) throws IOException {
-        RealmList<FoodPlant> list = new RealmList<>();
+    public RealmList<RealmString> read(JsonReader in) throws IOException {
+        RealmList<RealmString> list = new RealmList<>();
         in.beginArray();
         while (in.hasNext()) {
-            list.add(new FoodPlant(in.nextString()));
+            list.add(new RealmString(in.nextString()));
         }
         in.endArray();
         return list;

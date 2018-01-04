@@ -6,9 +6,8 @@ import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
 import au.csiro.ozatlas.manager.RealmListParcelConverter;
-import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.RealmString;
 import io.realm.RealmList;
-import io.realm.RealmModel;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 
@@ -56,7 +55,7 @@ public class BilbyBlitzData extends RealmObject{
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
     @Expose
-    public RealmList<FoodPlant> foodPlants;
+    public RealmList<RealmString> foodPlants;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)
     @Expose
