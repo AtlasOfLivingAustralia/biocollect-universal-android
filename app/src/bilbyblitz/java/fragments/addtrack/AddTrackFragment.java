@@ -278,7 +278,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private void uploadMap(MapModel mapModel) {
-        mCompositeDisposable.add(restClient.getService().postMap(mapModel, null)
+        mCompositeDisposable.add(restClient.getService().postMap(mapModel)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<MapResponse>() {
@@ -291,6 +291,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
                     @Override
                     public void onError(Throwable e) {
+                        hideProgressDialog();
                         handleError(e, 0, "");
                     }
 
@@ -362,6 +363,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
                         @Override
                         public void onError(Throwable e) {
+                            hideProgressDialog();
+                            handleError(e, 0, "");
                         }
 
                         @Override
@@ -382,7 +385,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onNext(Response<Void> value) {
                         showSnackBarMessage("Sighting has been saved");
-                        Log.d("", "onNext");
                     }
 
                     @Override

@@ -35,8 +35,13 @@ public interface BioCollectApiService {
     Observable<Response<Void>> postTracks(@Query("pActivityId") String pActivityId, @Body TrackModel trackModel);
 
     //uploading a map
-    @POST("site/ajaxUpdate/{id}")
-    Observable<MapResponse> postMap(@Body MapModel mapModel, @Path("id") String id);
+    @POST("site/ajaxUpdate")
+    Observable<MapResponse> postMap(@Body MapModel mapModel);
+
+    //editing a map
+    //@POST("site/ajaxUpdate/{id}")
+    //Observable<MapResponse> postMap(@Body MapModel mapModel, @Path("id") String id);
+
 
     /*@GET("bioActivity/searchProjectActivities")
     Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm, @Query("userId") String userId);

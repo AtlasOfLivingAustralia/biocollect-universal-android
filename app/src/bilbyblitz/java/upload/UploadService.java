@@ -143,7 +143,7 @@ public class UploadService extends IntentService {
     }
 
     private void uploadMap(TrackModel trackModel, MapModel mapModel) {
-        mCompositeDisposable.add(restClient.getService().postMap(mapModel, null)
+        mCompositeDisposable.add(restClient.getService().postMap(mapModel)
                 .subscribeWith(new DisposableObserver<MapResponse>() {
                     @Override
                     public void onNext(MapResponse mapResponse) {
@@ -170,7 +170,7 @@ public class UploadService extends IntentService {
      * @return
      */
     private boolean getValidated(TrackModel trackModel) {
-        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) && trackModel.outputs.get(0).data.locationCentroidLatitude != null && trackModel.outputs.get(0).data.locationCentroidLongitude != null;
+        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) && trackModel.outputs.get(0).data.locationLatitude != null && trackModel.outputs.get(0).data.locationLongitude != null;
     }
 
     /**
