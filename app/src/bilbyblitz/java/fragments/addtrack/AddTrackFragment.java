@@ -349,6 +349,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private void uploadLocationImages(final TrackModel trackModel) {
         if (trackModel.outputs.get(0).data.locationImage != null && trackModel.outputs.get(0).data.locationImage.size() > 0) {
             mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.locationImage.get(0).mPhotoPath))
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
                         @Override
                         public void onNext(ImageUploadResponse value) {
