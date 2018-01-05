@@ -1,4 +1,4 @@
-package rest;
+package au.csiro.ozatlas.rest;
 
 import com.google.gson.TypeAdapter;
 import com.google.gson.stream.JsonReader;
@@ -13,7 +13,7 @@ import io.realm.RealmList;
  * Created by sad038 on 2/5/17.
  */
 
-public class CustomFoodPlantTypeAdapter extends TypeAdapter<RealmList<RealmString>> {
+public class CustomRealmStringTypeAdapter extends TypeAdapter<RealmList<RealmString>> {
 
     @Override
     public void write(JsonWriter out, RealmList<RealmString> value) throws IOException {

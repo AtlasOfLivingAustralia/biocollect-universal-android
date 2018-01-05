@@ -11,7 +11,6 @@ import java.util.concurrent.TimeUnit;
 import au.csiro.ozatlas.model.RealmString;
 import io.realm.RealmList;
 import okhttp3.OkHttpClient;
-import rest.CustomFoodPlantTypeAdapter;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -39,9 +38,9 @@ public class NetworkClient {
         }.getType();
         gsonBuilder.registerTypeAdapter(token, new CustomTagTypeAdapter());*/
 
-        Type plantToken = new TypeToken<RealmList<RealmString>>() {
+        Type token = new TypeToken<RealmList<RealmString>>() {
         }.getType();
-        gsonBuilder.registerTypeAdapter(plantToken, new CustomFoodPlantTypeAdapter());
+        gsonBuilder.registerTypeAdapter(token, new CustomRealmStringTypeAdapter());
 
         retrofit = new Retrofit.Builder()
                 .baseUrl(baseUrl)

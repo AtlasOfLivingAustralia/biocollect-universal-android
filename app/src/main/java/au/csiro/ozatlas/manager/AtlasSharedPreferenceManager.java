@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import au.csiro.ozatlas.model.Project;
-import fragments.setting.Language;
 
 /**
  * Created by sad038 on 5/4/17.

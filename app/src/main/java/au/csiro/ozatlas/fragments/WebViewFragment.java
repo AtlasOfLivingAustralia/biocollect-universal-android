@@ -36,8 +36,8 @@ import java.util.List;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.FileUtils;
+import au.csiro.ozatlas.manager.Language;
 import base.BaseMainActivityFragment;
-import fragments.setting.Language;
 
 import static android.app.Activity.RESULT_OK;
 
