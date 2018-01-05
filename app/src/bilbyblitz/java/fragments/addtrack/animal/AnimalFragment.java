@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.SightingEvidenceTable;

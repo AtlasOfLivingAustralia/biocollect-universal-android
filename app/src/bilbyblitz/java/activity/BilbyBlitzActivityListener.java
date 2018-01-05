@@ -1,6 +1,6 @@
 package activity;
 
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 
 /**
  * Created by sad038 on 10/11/17.

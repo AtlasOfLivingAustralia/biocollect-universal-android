@@ -29,6 +29,7 @@
     <string name="setting">Settings</string>
     <string name="offline_setting">Offline Settings</string>
     <string name="no_animal_record">No sightings have been recorded yet</string>
+    <string name="edit_track">Edit Track</string>
 
     <string name="choose_project">Choose Project</string>
     <string name="terms_condition">Do you agree to the terms of use for this app?</string>
@@ -109,6 +110,9 @@
 
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>
+
+    <string name="location_found_plural">%1$d locations are recorded.</string>
+    <string name="location_found_singular">1 location is recorded.</string>
 
     <string name="lead_tracker_missing_error">Lead Tracker is missing</string>
     <string name="map_location_missing_error">Location is missing</string>

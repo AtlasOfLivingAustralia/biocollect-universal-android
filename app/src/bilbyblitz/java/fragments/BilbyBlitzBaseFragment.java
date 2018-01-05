@@ -10,7 +10,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import activity.BilbyBlitzActivityListener;
 import activity.BilbyBlitzBaseActivity;
 import au.csiro.ozatlas.base.BaseFragment;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import io.realm.Realm;
 
 /**

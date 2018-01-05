@@ -26,7 +26,7 @@ import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
 import fragments.offline_species.SpeciesGroupFragment;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import fragments.setting.ProjectListFragment;
 
 /**

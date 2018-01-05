@@ -29,7 +29,7 @@ import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;

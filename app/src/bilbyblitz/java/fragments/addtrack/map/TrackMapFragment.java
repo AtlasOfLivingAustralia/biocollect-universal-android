@@ -55,6 +55,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDateTimeDialogManager;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.Utils;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -63,7 +64,6 @@ import butterknife.OnClick;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
-import fragments.setting.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.BilbyLocation;
@@ -378,10 +378,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     public String getValidationMessage() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        /*if (locations.size() == 0) {
+        if (locations.size() == 0) {
             stringBuilder.append(localisedString("location_missing", R.string.location_missing));
             stringBuilder.append("\n");
-        }*/
+        }
 
         if (TextUtils.isEmpty(editDate.getText())) {
             stringBuilder.append(localisedString("event_date_missing_error", R.string.event_date_missing_error));
@@ -532,7 +532,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             location = intent.getParcelableExtra(LocationUpdatesService.LAST_KNOWN_LOCATION);
             if (location != null) {
                 setGoogleMapView(location);
-                Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
                 return;
             }
 
@@ -542,7 +542,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                     locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
                     setGoogleMapView(location);
                     addPolyLine(location);
-                    Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), locations.size() == 1 ? getString(R.string.location_found_singular) : getString(R.string.location_found_plural, locations.size()), Toast.LENGTH_SHORT).show();
                 }
             }
         }

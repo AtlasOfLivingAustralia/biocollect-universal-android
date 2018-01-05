@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
 
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.FileUtils;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;

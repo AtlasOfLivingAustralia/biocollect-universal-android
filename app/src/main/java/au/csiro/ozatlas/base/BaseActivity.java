@@ -140,7 +140,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      * @param string            message to show
      */
     public void showSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
-        Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_INDEFINITE).show();
+        Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG).show();
     }
 
     /**
@@ -225,8 +225,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         } else if (e instanceof HttpException && ((HttpException) e).code() == code) {
             showSnackBarMessage(coordinatorLayout, message);
         } else {
-            showSnackBarMessage(coordinatorLayout, e.getMessage());
-            //showSnackBarMessage(coordinatorLayout, getString(R.string.generic_error));
+            //showSnackBarMessage(coordinatorLayout, e.getMessage());
+            showSnackBarMessage(coordinatorLayout, getString(R.string.generic_error));
         }
     }
 

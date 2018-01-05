@@ -14,6 +14,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.Project;
 import base.BaseMainActivityFragment;

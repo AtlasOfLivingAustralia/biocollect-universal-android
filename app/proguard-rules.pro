@@ -71,6 +71,8 @@
 }
 -dontwarn butterknife.internal.**
 
+
+
 -keepclassmembers class ** {
     @org.greenrobot.eventbus.Subscribe <methods>;
 }

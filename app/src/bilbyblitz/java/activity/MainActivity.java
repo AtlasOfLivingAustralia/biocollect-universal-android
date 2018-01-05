@@ -28,7 +28,7 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.addtrack.AddTrackFragment;
 import fragments.home.HomePageFragment;
 import fragments.draft.DraftTrackListFragment;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import fragments.setting.SettingFragment;
 
 /**

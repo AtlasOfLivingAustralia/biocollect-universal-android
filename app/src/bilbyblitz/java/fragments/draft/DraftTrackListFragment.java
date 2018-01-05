@@ -27,7 +27,7 @@ import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;

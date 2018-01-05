@@ -27,6 +27,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.Project;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;

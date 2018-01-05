@@ -55,7 +55,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.addtrack.map.LocationUpdatesService;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import model.track.SightingEvidenceTable;
 import model.track.Species;
 

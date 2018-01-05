@@ -30,7 +30,7 @@ import fragments.addtrack.animal.AnimalFragment;
 import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -98,13 +98,18 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_track, container, false);
-        setTitle(getString(R.string.add_track));
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
         Bundle bundle = getArguments();
         if(bundle!=null) {
             practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
+        }
+
+        if(practiseView){
+            setTitle(getString(R.string.practise_track));
+        }else{
+            setTitle(getString(R.string.add_track));
         }
 
         pager.setOffscreenPageLimit(3);
@@ -128,6 +133,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     trackModel = realm.copyFromRealm(element.first());
                     tabSetup();
                 });
+                setTitle(getString(R.string.edit_track));
             }else{
                 defaultSetup();
             }

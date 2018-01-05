@@ -43,7 +43,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import fragments.setting.Language;
+import au.csiro.ozatlas.manager.Language;
 
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
