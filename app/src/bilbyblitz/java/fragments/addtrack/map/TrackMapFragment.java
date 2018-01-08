@@ -189,7 +189,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     }
 
     private void putCoordinatesInVisibleArea() {
-        if (googleMap != null) {
+        if (googleMap != null && locations.size() > 1) {
             LatLngBounds.Builder builder = new LatLngBounds.Builder();
             for (BilbyLocation location : locations) {
                 builder.include(new LatLng(location.latitude, location.longitude));
@@ -283,8 +283,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 if (!checkPermissions()) {
                     requestPermissions();
                 } else {
+                    if(mService==null){
+                        getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+                    }
                     setButtonsState(true);
-                    //LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
                 }
             } else {
                 AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
@@ -296,14 +298,14 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 });
             }
         } else {
-            //Toast.makeText(getContext(), locations.size() + " locations:  " + locations.toString(), Toast.LENGTH_SHORT).show();
-            //LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
-            mService.removeLocationUpdates();
-            getActivity().unbindService(mServiceConnection);
-            mService = null;
-            mBound = false;
-            setButtonsState(false);
-            putCoordinatesInVisibleArea();
+            if(mService!=null) {
+                mService.removeLocationUpdates();
+                getActivity().unbindService(mServiceConnection);
+                mService = null;
+                mBound = false;
+                setButtonsState(false);
+                putCoordinatesInVisibleArea();
+            }
         }
     }
 
