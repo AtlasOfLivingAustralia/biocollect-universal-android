@@ -15,6 +15,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
@@ -31,6 +33,7 @@ import io.realm.OrderedCollectionChangeSet;
 import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmResults;
+import model.EventBusPosts;
 
 /**
  * Created by sad038 on 21/8/17.
@@ -104,6 +107,14 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EventBusPosts eventBusPosts) {
+        if(eventBusPosts.equals(EventBusPosts.FETCH_SPECIES_LIST)){
+            readAvailableSpecies();
+        }
+    }
+
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -125,18 +136,15 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     public void readAvailableSpecies() {
         RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).findAllAsync();
-        results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<SearchSpecies>>() {
-            @Override
-            public void onChange(RealmResults<SearchSpecies> collection, OrderedCollectionChangeSet changeSet) {
-                if (isAdded()) {
-                    species.clear();
-                    species.addAll(collection);
-                    selections = new boolean[species.size()];
-                    updateTotal();
-                    speciesAdapter.notifyDataSetChanged();
-                    if (swipeRefreshLayout.isRefreshing())
-                        swipeRefreshLayout.setRefreshing(false);
-                }
+        results.addChangeListener((collection, changeSet) -> {
+            if (isAdded()) {
+                species.clear();
+                species.addAll(collection);
+                selections = new boolean[species.size()];
+                updateTotal();
+                speciesAdapter.notifyDataSetChanged();
+                if (swipeRefreshLayout.isRefreshing())
+                    swipeRefreshLayout.setRefreshing(false);
             }
         });
     }

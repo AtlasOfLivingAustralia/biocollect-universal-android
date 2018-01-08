@@ -60,6 +60,4 @@
             android:label="@string/title_activity_main" />
 
     </application>-->
-
-    <application></application>
 </manifest>

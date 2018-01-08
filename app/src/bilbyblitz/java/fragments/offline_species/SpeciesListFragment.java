@@ -216,16 +216,13 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
     }
 
     private void saveData(final SearchSpecies species) {
-        realm.executeTransactionAsync(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                try {
-                    species.realmId = species.guid + species.id;
-                    Log.d(TAG + "ID", species.guid + "   " + species.id + "   " + species.realmId);
-                    realm.copyToRealm(species);
-                } catch (RealmPrimaryKeyConstraintException exception) {
-                    showSnackBarMessage(getString(R.string.duplicate_entry));
-                }
+        realm.executeTransactionAsync(realm -> {
+            try {
+                species.realmId = species.guid + species.id;
+                Log.d(TAG + "ID", species.guid + "   " + species.id + "   " + species.realmId);
+                realm.copyToRealm(species);
+            } catch (RealmPrimaryKeyConstraintException exception) {
+                showSnackBarMessage(getString(R.string.duplicate_entry));
             }
         });
     }

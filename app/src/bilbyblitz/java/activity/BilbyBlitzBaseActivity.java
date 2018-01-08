@@ -1,5 +1,6 @@
 package activity;
 
+import android.content.Intent;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -13,6 +14,7 @@ import java.util.concurrent.Callable;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
+import fragments.offline_species.service.FetchListSpeciesService;
 import io.reactivex.Observable;
 import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -80,12 +82,7 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
      * @return
      */
     private Observable<String> getFileReadObservable(final String filename) {
-        return Observable.defer(new Callable<ObservableSource<? extends String>>() {
-            @Override
-            public ObservableSource<? extends String> call() throws Exception {
-                return Observable.just(FileUtils.readAsset(filename, BilbyBlitzBaseActivity.this));
-            }
-        });
+        return Observable.defer(() -> Observable.just(FileUtils.readAsset(filename, BilbyBlitzBaseActivity.this)));
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -97,6 +94,7 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
+        startService(new Intent(this, FetchListSpeciesService.class));
     }
 
     @Override
