@@ -48,7 +48,7 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_with_single_fragment);
         ButterKnife.bind(this);

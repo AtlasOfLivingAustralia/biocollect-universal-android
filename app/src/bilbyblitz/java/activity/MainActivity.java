@@ -2,6 +2,7 @@ package activity;
 
 import android.app.Fragment;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -29,6 +30,7 @@ import fragments.addtrack.AddTrackFragment;
 import fragments.home.HomePageFragment;
 import fragments.draft.DraftTrackListFragment;
 import au.csiro.ozatlas.manager.Language;
+import fragments.offline_species.service.FetchListSpeciesService;
 import fragments.setting.SettingFragment;
 
 /**
@@ -58,9 +60,11 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        startService(new Intent(this, FetchListSpeciesService.class));
 
         //setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

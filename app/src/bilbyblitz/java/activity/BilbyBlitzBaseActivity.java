@@ -1,6 +1,7 @@
 package activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -9,14 +10,11 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.concurrent.Callable;
-
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
 import fragments.offline_species.service.FetchListSpeciesService;
 import io.reactivex.Observable;
-import io.reactivex.ObservableSource;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -94,7 +92,6 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
     public void onStart() {
         super.onStart();
         EventBus.getDefault().register(this);
-        startService(new Intent(this, FetchListSpeciesService.class));
     }
 
     @Override

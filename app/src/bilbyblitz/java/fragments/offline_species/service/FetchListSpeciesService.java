@@ -40,11 +40,13 @@ public class FetchListSpeciesService extends BaseIntentService {
     }
 
     private void fetchSpecies() {
-        mCompositeDisposable.add(speciesListApiService.getSpeciesList(getString(R.string.edit_title))
+        mCompositeDisposable.add(speciesListApiService.getSpeciesList("dr8016")
                 .subscribeWith(new DisposableObserver<List<SearchSpecies>>() {
                     @Override
                     public void onNext(List<SearchSpecies> value) {
+                        realm.beginTransaction();
                         realm.delete(SearchSpecies.class);
+                        realm.commitTransaction();
                         for (SearchSpecies searchSpecies : value) {
                             saveData(searchSpecies);
                         }
