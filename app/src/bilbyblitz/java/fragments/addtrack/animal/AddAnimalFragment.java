@@ -48,14 +48,16 @@ import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.FileUtils;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
+import au.csiro.ozatlas.model.SearchSpecies;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.addtrack.map.LocationUpdatesService;
-import au.csiro.ozatlas.manager.Language;
+import io.realm.RealmResults;
 import model.track.SightingEvidenceTable;
 import model.track.Species;
 
@@ -316,9 +318,15 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     imageView.setImageURI(selectedImageUri);
                     break;
                 case REQUEST_AVAILABLE_SPECIES:
-                    Species species = data.getParcelableExtra(getString(R.string.species_parameter));
-                    sightingEvidenceTable.species = species;
-                    editSpeciesName.setText(species.name);
+                    String id = data.getStringExtra(getString(R.string.species_parameter));
+                    RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).equalTo("realmId", id).findAllAsync();
+                    results.addChangeListener((collection, changeSet) -> {
+                        if (isAdded() && collection.size() > 0) {
+                            SearchSpecies species = collection.first();
+                            sightingEvidenceTable.species = new Species(species);
+                            editSpeciesName.setText(sightingEvidenceTable.species.name);
+                        }
+                    });
                     break;
             }
         }

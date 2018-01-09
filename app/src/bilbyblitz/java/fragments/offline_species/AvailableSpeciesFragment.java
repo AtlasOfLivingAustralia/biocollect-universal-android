@@ -20,6 +20,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import org.parceler.Parcels;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
@@ -60,8 +61,9 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         @Override
         public void onClick(View v) {
             selectedPosition = recyclerView.getChildAdapterPosition(v);
-            selections[selectedPosition] = !selections[selectedPosition];
-            speciesAdapter.notifyItemChanged(selectedPosition);
+            Arrays.fill(selections, false);
+            selections[selectedPosition] = true;
+            speciesAdapter.notifyDataSetChanged();
         }
     };
 
@@ -121,7 +123,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
             case R.id.select:
                 if (selectedPosition != -1) {
                     Intent intent = new Intent();
-                    intent.putExtra(getString(R.string.species_parameter), Parcels.wrap(species.get(selectedPosition)));
+                    intent.putExtra(getString(R.string.species_parameter), species.get(selectedPosition).realmId);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
                 }
