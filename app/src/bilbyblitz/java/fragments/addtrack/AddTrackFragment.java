@@ -280,8 +280,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
             for (int i = 0; i < tempLocations.size(); i++) {
                 BilbyLocation bilbyLocation = tempLocations.get(i);
-                mapModel.site.extent.geometry.coordinates[i][0] = bilbyLocation.latitude;
-                mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.longitude;
+                mapModel.site.extent.geometry.coordinates[i][0] = bilbyLocation.longitude;
+                mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.latitude;
             }
             return mapModel;
         }
