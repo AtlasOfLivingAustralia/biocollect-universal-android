@@ -380,10 +380,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     public String getValidationMessage() {
         StringBuilder stringBuilder = new StringBuilder();
 
-        if (locations.size() == 0) {
+        /*if (locations.size() == 0) {
             stringBuilder.append(localisedString("location_missing", R.string.location_missing));
             stringBuilder.append("\n");
-        }
+        }*/
 
         if (TextUtils.isEmpty(editDate.getText())) {
             stringBuilder.append(localisedString("event_date_missing_error", R.string.event_date_missing_error));

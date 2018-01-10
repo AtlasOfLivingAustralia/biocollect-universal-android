@@ -15,4 +15,13 @@ public class Site {
 
     @Expose
     public String name;
+
+    @Expose
+    public String siteId;
+
+    @Expose
+    public String visibility;
+
+    @Expose
+    public String asyncUpdate;
 }

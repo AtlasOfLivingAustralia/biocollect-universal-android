@@ -261,11 +261,14 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
+        tempLocations = new RealmList<>();
+        tempLocations.add(new BilbyLocation(123.344, 2342.45));
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
             mapModel.pActivityId = getString(R.string.project_activity_id);
             mapModel.site = new Site();
-            mapModel.site.name = "line 3";
+            mapModel.site.name = "Private site for survey";
+            mapModel.site.visibility = "private";
             mapModel.site.projects = new String[]{getString(R.string.project_id)};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "drawn";
@@ -319,7 +322,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
                         @Override
                         public void onNext(ImageUploadResponse value) {
-                            Log.d("", value.files[0].thumbnail_url);
+                            Log.d("uploadPhotos", value.files[0].thumbnail_url);
                             trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign = new RealmList<>();
                             trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(new ImageModel());
                             trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).thumbnailUrl = value.files[0].thumbnail_url;
@@ -360,7 +363,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
                         @Override
                         public void onNext(ImageUploadResponse value) {
-                            Log.d("", value.files[0].thumbnail_url);
+                            Log.d("uploadLocationImages", value.files[0].thumbnail_url);
                             trackModel.outputs.get(0).data.locationImage.get(0).thumbnailUrl = value.files[0].thumbnail_url;
                             trackModel.outputs.get(0).data.locationImage.get(0).url = value.files[0].url;
                             trackModel.outputs.get(0).data.locationImage.get(0).contentType = value.files[0].contentType;

@@ -38,62 +38,6 @@
                     android:maxLines="1"
                     android:textSize="@dimen/default_input_font_size" />
             </android.support.design.widget.TextInputLayout>
-
-            <!--<FrameLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <android.support.design.widget.TextInputLayout
-                    android:id="@+id/inputLayoutSpeciesName"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/editSpeciesName"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:drawableRight="@drawable/places_ic_search"
-                        android:hint="@string/animal"
-                        android:imeOptions="flagNoExtractUi|actionSearch"
-                        android:inputType="text"
-                        android:maxLines="1"
-                        android:textSize="@dimen/default_input_font_size" />
-                </android.support.design.widget.TextInputLayout>
-
-                <ProgressBar
-                    android:id="@+id/species_loading_indicator"
-                    style="?android:attr/progressBarStyleSmall"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical|right"
-                    android:layout_marginRight="@dimen/species_loading_indicator_right_margin"
-                    android:visibility="invisible" />
-            </FrameLayout>
-
-            <LinearLayout
-                android:id="@+id/speciesDetailLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="?attr/selectableItemBackground"
-                android:gravity="center_vertical"
-                android:orientation="horizontal"
-                android:visibility="gone">
-
-                <ImageView
-                    android:layout_width="@dimen/row_cross_round_tick_width"
-                    android:layout_height="@dimen/row_cross_round_tick_width"
-                    android:src="@drawable/ic_info_outline_black_24dp"
-                    android:tint="@color/colorPrimary" />
-
-                <TextView
-                    android:id="@+id/speciesURL"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="8dp"
-                    android:ellipsize="end"
-                    android:maxLines="1"
-                    android:textSize="@dimen/smaller_input_font_size" />
-            </LinearLayout>-->
         </LinearLayout>
 
         <LinearLayout
@@ -183,6 +127,8 @@
             android:gravity="center"
             android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
             android:text="@string/add_location"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing"
+            android:paddingRight="@dimen/input_label_horizontal_spacing"
             android:textColor="@android:color/white"
             android:textStyle="bold" />
 
