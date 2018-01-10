@@ -261,9 +261,10 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
+        /* Test Data
         tempLocations = new RealmList<>();
         tempLocations.add(new BilbyLocation(143.40, -13.27));
-        tempLocations.add(new BilbyLocation(143.40, -13.25));
+        tempLocations.add(new BilbyLocation(143.40, -13.25));*/
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
             mapModel.pActivityId = getString(R.string.project_activity_id);
