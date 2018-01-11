@@ -97,6 +97,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     }
 
+    @Override
+    public void setFloatingButtonClickListener(View.OnClickListener onClickListener) {
+
+    }
+
     /**
      * shows a message in using Snackbar
      *
@@ -143,6 +148,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     @Override
     public void setDrawerMenuClicked(int menuRes) {
 
+    }
+
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        showMultiLineSnackBarMessage(coordinatorLayout, string);
     }
 
     /**
