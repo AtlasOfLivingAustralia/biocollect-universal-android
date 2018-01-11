@@ -46,6 +46,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Inject
     FirebaseAnalytics firebaseAnalytics;
     private ProgressDialog mProgressDialog;
+    public final static int REQUEST_WEBVIEW = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -195,7 +196,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
             bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
             Intent intent = new Intent(this, SingleFragmentActivity.class);
             intent.putExtras(bundle);
-            startActivity(intent);
+            startActivityForResult(intent, REQUEST_WEBVIEW);
         }
     }
 

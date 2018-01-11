@@ -265,6 +265,12 @@ public class WebViewFragment extends BaseMainActivityFragment {
             public void onPageFinished(WebView view, String url) {
                 if (--running == 0) {
                     hideProgressDialog();
+                    if (url.endsWith("successfully-posted")) {
+                        if (getFragmentManager().getBackStackEntryCount() > 0)
+                            showSnackBarMessage(getString(R.string.submitted_record_will_visible));
+                        getActivity().setResult(RESULT_OK);
+                        getActivity().onBackPressed();
+                    }
                 }
             }
 
@@ -316,7 +322,7 @@ public class WebViewFragment extends BaseMainActivityFragment {
                         Log.d("WEBVIEW", "intent not null    " + dataString);
                         if (dataString != null) {
                             results = new Uri[]{Uri.parse(dataString)};
-                        }else if (mCM != null) {
+                        } else if (mCM != null) {
                             results = new Uri[]{Uri.parse(mCM)};
                         }
                     }

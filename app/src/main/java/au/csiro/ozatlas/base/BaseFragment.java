@@ -1,6 +1,7 @@
 package au.csiro.ozatlas.base;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.v4.app.Fragment;
@@ -8,10 +9,15 @@ import android.widget.EditText;
 
 import javax.inject.Inject;
 
+import activity.SingleFragmentActivity;
 import application.CsiroApplication;
+import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.fragments.WebViewFragment;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
+
+import static au.csiro.ozatlas.base.BaseActivity.REQUEST_WEBVIEW;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -76,10 +82,35 @@ public class BaseFragment extends Fragment implements BaseActivityFragmentListen
             baseActivityFragmentListener.launchLoginActivity();
     }
 
-    @Override
+/*    @Override
     public void startWebViewActivity(String url, String title, boolean chromeClientNeed) {
         if (baseActivityFragmentListener != null)
             baseActivityFragmentListener.startWebViewActivity(url, title, chromeClientNeed);
+    }*/
+
+
+    /**
+     * @param url   for the webview fragment
+     * @param title activity title
+     */
+    @Override
+    public void startWebViewActivity(String url, String title, boolean chromeClientNeed) {
+        Bundle bundle = new Bundle();
+        bundle.putString(getString(R.string.url_parameter), url);
+        bundle.putString(getString(R.string.title_parameter), title);
+        bundle.putBoolean(getString(R.string.chrome_client_need_parameter), chromeClientNeed);
+
+        //if this is an instance of SingleFragmentActivity then use it rather than making another intent
+        if (getActivity() instanceof SingleFragmentActivity) {
+            Fragment fragment = new WebViewFragment();
+            fragment.setArguments(bundle);
+            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).addToBackStack(null).commit();
+        } else {
+            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.WEB_FRAGMENT);
+            Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+            intent.putExtras(bundle);
+            startActivityForResult(intent, REQUEST_WEBVIEW);
+        }
     }
 
     @Override
