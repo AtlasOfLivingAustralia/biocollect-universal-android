@@ -171,6 +171,11 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
 
     }
 
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        showMultiLineSnackBarMessage(coordinatorLayout, string);
+    }
+
     /**
      * Type of Fragments
      */

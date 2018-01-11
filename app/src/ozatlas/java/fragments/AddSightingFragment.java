@@ -53,6 +53,7 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
+import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
@@ -430,7 +431,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                     }
                 } else {
                     //if there is no network, the sight will be saved in realm as Draft Sight
-                    AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
+                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (addSight == null || !addSight.isManaged()) {
@@ -684,7 +685,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
      *
      * @return
      */
-    private DisposableObserver<SpeciesSearchResponse> getSearchSpeciesResponseObserver() {
+    private DisposableObserver<List<SearchSpecies>> getSearchSpeciesResponseObserver() {
         return RxTextView.textChangeEvents(editSpeciesName)
                 .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS)
                 .map(new Function<TextViewTextChangeEvent, String>() {
@@ -693,26 +694,16 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                         return textViewTextChangeEvent.text().toString();
                     }
                 })
-                .filter(new Predicate<String>() {
-                    @Override
-                    public boolean test(String s) throws Exception {
-                        return s.length() > 1;
-                    }
-                })
+                .filter(s -> s.length() > 1)
                 .observeOn(Schedulers.io())
-                .flatMap(new Function<String, ObservableSource<SpeciesSearchResponse>>() {
-                    @Override
-                    public ObservableSource<SpeciesSearchResponse> apply(String s) throws Exception {
-                        return bieApiService.searchSpecies(s, "taxonomicStatus:accepted");
-                    }
-                })
+                .flatMap(s -> bieApiService.searchSpecies(s, "taxonomicStatus:accepted"))
                 .observeOn(AndroidSchedulers.mainThread())
                 .retry()
-                .subscribeWith(new DisposableObserver<SpeciesSearchResponse>() {
+                .subscribeWith(new DisposableObserver<List<SearchSpecies>>() {
                     @Override
-                    public void onNext(SpeciesSearchResponse speciesSearchResponse) {
+                    public void onNext(List<SearchSpecies> speciesSearchResponse) {
                         species.clear();
-                        species.addAll(speciesSearchResponse.results);
+                        species.addAll(speciesSearchResponse);
 
                         editSpeciesName.setAdapter(new SearchSpeciesAdapter(getActivity(), species));
                         if (species.size() == 0 || (selectedSpecies != null && selectedSpecies.name.equals(editSpeciesName.getText().toString()))) {
@@ -803,7 +794,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } else {
-            AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+            AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(myIntent);

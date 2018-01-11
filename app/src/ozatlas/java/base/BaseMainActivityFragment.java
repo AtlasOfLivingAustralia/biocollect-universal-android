@@ -81,4 +81,10 @@ public class BaseMainActivityFragment extends BaseFragment implements MainActivi
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.setDrawerMenuClicked(menuRes);
     }
+
+    @Override
+    public void showMultiLineSnackBarMessage(String string) {
+        if (mainActivityFragmentListener != null)
+            mainActivityFragmentListener.showMultiLineSnackBarMessage(string);
+    }
 }

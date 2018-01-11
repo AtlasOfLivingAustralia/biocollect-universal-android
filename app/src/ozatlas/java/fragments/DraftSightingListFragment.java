@@ -136,7 +136,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
      * @param position
      */
     private void delete(final int position) {
-        AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
+        AtlasDialogManager.alertBox(getActivity(), getString(R.string.delete_sight_message), getString(R.string.delete_sight_title), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 AddSight addSight = sights.get(position);
@@ -167,7 +167,7 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
                         it will show a dialog to get he permission to upload all the draft items.
                         */
                         if (sightAdapter.getNumberOfSelectedSight() == 0) {
-                            AtlasDialogManager.alertBoxForSetting(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
+                            AtlasDialogManager.alertBox(getActivity(), getString(R.string.upload_message), "Upload", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     uploadAll(true);

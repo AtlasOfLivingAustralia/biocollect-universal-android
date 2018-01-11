@@ -135,7 +135,7 @@ public class AvailableLocationsFragment extends BaseMainActivityFragment {
                 holder.delete.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.delete_location_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
+                        AtlasDialogManager.alertBox(getContext(), getString(R.string.delete_location_confirmation), getString(R.string.delete_species_title), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 realm.executeTransaction(new Realm.Transaction() {

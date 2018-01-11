@@ -135,7 +135,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment {
 
     @OnClick(R.id.clear_species)
     void clearData() {
-        AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.clear_data_confirmation), getString(R.string.clear_data), new DialogInterface.OnClickListener() {
+        AtlasDialogManager.alertBox(getContext(), getString(R.string.clear_data_confirmation), getString(R.string.clear_data), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 realm.executeTransactionAsync(new Realm.Transaction() {
@@ -165,7 +165,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment {
 
     @OnClick(R.id.clear_location)
     void clearLocation() {
-        AtlasDialogManager.alertBoxForSetting(getContext(), getString(R.string.clear_location_confirmation), getString(R.string.clear_data), new DialogInterface.OnClickListener() {
+        AtlasDialogManager.alertBox(getContext(), getString(R.string.clear_location_confirmation), getString(R.string.clear_data), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 realm.executeTransactionAsync(new Realm.Transaction() {
@@ -212,7 +212,7 @@ public class OfflineInformationFragment extends BaseMainActivityFragment {
             if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
                 locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         } else {
-            AtlasDialogManager.alertBoxForSetting(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+            AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                     startActivity(myIntent);
