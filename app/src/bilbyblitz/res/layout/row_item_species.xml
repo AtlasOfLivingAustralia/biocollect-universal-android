@@ -6,12 +6,13 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="@dimen/row_padding_smaller">
+        android:padding="@dimen/row_padding_smaller"
+        android:background="?attr/selectableItemBackground">
 
         <ImageView
             android:id="@+id/delete"
-            android:layout_width="@dimen/row_icon_medium_width"
-            android:layout_height="@dimen/row_icon_medium_width"
+            android:layout_width="@dimen/row_icon_small_width"
+            android:layout_height="@dimen/row_icon_small_width"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:adjustViewBounds="true"
@@ -44,6 +45,16 @@
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textSize="@dimen/smaller_input_font_size" />
+
+            <TextView
+                android:id="@+id/common_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/row_view_in_between_top_gap"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
+
         </LinearLayout>
 
     </RelativeLayout>

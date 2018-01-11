@@ -23,6 +23,7 @@
     <dimen name="row_tick_width">24dp</dimen>
     <dimen name="row_icon_width">64dp</dimen>
     <dimen name="row_icon_medium_width">48dp</dimen>
+    <dimen name="row_icon_small_width">40dp</dimen>
     <dimen name="row_big_icon_width">88dp</dimen>
     <dimen name="row_bigger_icon_width">108dp</dimen>
     <dimen name="row_padding">24dp</dimen>

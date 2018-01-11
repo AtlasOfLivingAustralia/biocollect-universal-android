@@ -195,6 +195,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
             final SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
+            holder.commonName.setText(getString(R.string.common_name,species.commonName));
             if (species.kingdom == null) {
                 if (species.scientificName != null) {
                     holder.kingdomName.setText(getString(R.string.scientific_name, species.scientificName));
@@ -217,12 +218,13 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
         class SpeciesViewHolder extends RecyclerView.ViewHolder {
             ImageView delete;
-            TextView speciesName, kingdomName;
+            TextView speciesName, kingdomName, commonName;
 
             public SpeciesViewHolder(View itemView) {
                 super(itemView);
                 speciesName = (TextView) itemView.findViewById(R.id.species_name);
                 kingdomName = (TextView) itemView.findViewById(R.id.kingdom_name);
+                commonName = (TextView) itemView.findViewById(R.id.common_name);
                 delete = (ImageView) itemView.findViewById(R.id.delete);
             }
         }

@@ -82,6 +82,7 @@
     <string name="tags_name">Tags: %1$s</string>
     <string name="kingdom_name">Kingdom: %1$s</string>
     <string name="scientific_name">Scientific Name: %1$s</string>
+    <string name="common_name">Common Name: %1$s</string>
     <string name="album_name">Atlas Camera</string>
 
     <string name="survey_dialog_title">Select survey to add records</string>
