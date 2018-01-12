@@ -4,7 +4,12 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import org.parceler.Parcel;
+import org.parceler.ParcelPropertyConverter;
 
+import java.util.List;
+
+import au.csiro.ozatlas.manager.RealmListParcelConverter;
+import io.realm.RealmList;
 import io.realm.RealmObject;
 import io.realm.annotations.PrimaryKey;
 import io.realm.annotations.RealmClass;
@@ -41,4 +46,8 @@ public class SearchSpecies extends RealmObject {
     @Expose
     @SerializedName("highlight")
     public String highlight;
+    @Expose
+    @SerializedName("kvpValues")
+    @ParcelPropertyConverter(RealmListParcelConverter.class)
+    public RealmList<KvpValues> kvpValues;
 }
