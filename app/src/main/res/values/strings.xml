@@ -60,6 +60,7 @@
     <string name="add">Add</string>
     <string name="delete">Delete</string>
     <string name="next">Next</string>
+    <string name="done">Done</string>
     <string name="register">Click to register</string>
     <string name="not_internet_title">No Internet Connection</string>
     <string name="no_internet_message">Would you like to save your data so that you submit later.</string>

@@ -129,6 +129,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
     /**
      * getting the projects
      */
+
     protected void fetchProjects() {
         swipeRefreshLayout.setRefreshing(true);
         mCompositeDisposable.add(restClient.getService().getProjects(getString(R.string.project_initiator), 50, 0, true, null, null, null)

@@ -22,6 +22,7 @@
     <dimen name="activity_padding">20dp</dimen>
     <dimen name="heading_top_margin">8dp</dimen>
     <dimen name="heading_left_margin">16dp</dimen>
+    <dimen name="checkbox_left_margin">24dp</dimen>
 
     <dimen name="row_tick_width">16dp</dimen>
     <dimen name="row_icon_width">48dp</dimen>

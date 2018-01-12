@@ -22,7 +22,7 @@ import retrofit2.http.Query;
  */
 
 public interface BioCollectApiService {
-    @GET("/ws/project/search?sort=nameSort&hub=clc-tracker&fq=isExternal:F")
+    @GET("/ws/project/search?sort=nameSort&hub=trackshub&fq=isExternal:F")
     Observable<ProjectList> getProjects(@Query("initiator") String initiator, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("sort") String sort, @Query("q") String q, @Query("isUserPage") Boolean isUserPage);
 
     //single image

@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import au.csiro.ozatlas.model.Project;
+import fragments.offline_species.SpeciesFilterBottomSheetDialogFragment;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -191,6 +192,27 @@ public class AtlasSharedPreferenceManager {
      */
     public String getUsername() {
         return sharedPreferences.getString("USER_NAME", "");
+    }
+
+
+    /**
+     * get the species filter for bilby blitz
+     * @return
+     */
+    public SpeciesFilterBottomSheetDialogFragment.SpeciesFilter getSpeciesFilter(){
+        Gson gson = new Gson();
+        String json = sharedPreferences.getString("SPECIES_FILTER", "");
+        return gson.fromJson(json, SpeciesFilterBottomSheetDialogFragment.SpeciesFilter.class);
+    }
+
+    /**
+     * write the species filter  for bilby blitz
+     * @param speciesFilter
+     */
+    public void writeSpeciesFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter){
+        Gson gson = new Gson();
+        String json = gson.toJson(speciesFilter);
+        sharedPreferences.edit().putString("SPECIES_FILTER", json).apply();
     }
 
     public Map getHeaderMap() {

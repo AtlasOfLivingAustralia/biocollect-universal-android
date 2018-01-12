@@ -1,5 +1,6 @@
 package dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         }
     };
 
+    @SuppressLint("RestrictedApi")
     @Override
     public void setupDialog(Dialog dialog, int style) {
         //noinspection RestrictedApi

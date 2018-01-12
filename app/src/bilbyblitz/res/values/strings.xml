@@ -13,6 +13,7 @@
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
     <string name="practise_parameter">PRACTISE_KEYS</string>
     <string name="food_plant_parameter">FOOD_PLANT_KEYS</string>
+    <string name="species_filter_parameter">SPECIES_FILTER_KEY</string>
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>
@@ -107,6 +108,14 @@
     <string name="download_interrupted">Download has been interrupted</string>
     <string name="animal_delete">Would you like to delete this animal from this list?</string>
     <string name="animal_delete_title">Delete Animal</string>
+    <string name="adult_size">Adult Size</string>
+    <string name="body_cover">Body Cover</string>
+    <string name="large">Large</string>
+    <string name="medium">Medium</string>
+    <string name="small">Small</string>
+    <string name="fur">Fur</string>
+    <string name="feathers">Feathers</string>
+    <string name="species_filter_title">Species Filter</string>
 
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>

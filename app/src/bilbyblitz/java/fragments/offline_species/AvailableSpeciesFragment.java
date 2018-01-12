@@ -105,7 +105,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.select, menu);
+        inflater.inflate(R.menu.species_menu, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -127,6 +127,14 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
                 }
+                break;
+            case R.id.filter:
+                SpeciesFilterBottomSheetDialogFragment bottomSheetDialogFragment = new SpeciesFilterBottomSheetDialogFragment();
+                Bundle bundle = new Bundle();
+                bundle.putParcelable(getString(R.string.species_filter_parameter), Parcels.wrap(sharedPreferences.getSpeciesFilter()));
+                bottomSheetDialogFragment.setArguments(bundle);
+                bottomSheetDialogFragment.setBottomSheetListener(speciesFilter -> sharedPreferences.writeSpeciesFilter(speciesFilter));
+                bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
         }
         return true;
