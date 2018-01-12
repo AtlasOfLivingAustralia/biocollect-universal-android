@@ -14,14 +14,17 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/home_page_header_background" />
+            android:src="@drawable/tracker_home_login" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_above="@+id/filedLayout"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
             android:adjustViewBounds="true"
+            android:padding="@dimen/login_title_image_padding"
+            android:src="@drawable/tracker_login_logo"
             android:scaleType="centerInside" />
 
         <LinearLayout

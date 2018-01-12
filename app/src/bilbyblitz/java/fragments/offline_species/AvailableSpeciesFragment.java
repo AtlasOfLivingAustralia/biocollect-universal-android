@@ -24,14 +24,12 @@ import java.util.Arrays;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import au.csiro.ozatlas.manager.Language;
-import io.realm.OrderedCollectionChangeSet;
-import io.realm.OrderedRealmCollectionChangeListener;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import model.EventBusPosts;
@@ -111,7 +109,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EventBusPosts eventBusPosts) {
-        if(eventBusPosts.equals(EventBusPosts.FETCH_SPECIES_LIST)){
+        if (eventBusPosts.equals(EventBusPosts.FETCH_SPECIES_LIST)) {
             readAvailableSpecies();
         }
     }
@@ -133,7 +131,13 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 Bundle bundle = new Bundle();
                 bundle.putParcelable(getString(R.string.species_filter_parameter), Parcels.wrap(sharedPreferences.getSpeciesFilter()));
                 bottomSheetDialogFragment.setArguments(bundle);
-                bottomSheetDialogFragment.setBottomSheetListener(speciesFilter -> sharedPreferences.writeSpeciesFilter(speciesFilter));
+                bottomSheetDialogFragment.setBottomSheetListener(speciesFilter -> {
+                    sharedPreferences.writeSpeciesFilter(speciesFilter);
+                    /*for(int i=0;i<species.size();i++){
+                        SearchSpecies spc = species.get(i);
+                        if(speciesFilter.isSizeSmall && spc.)
+                    }*/
+                });
                 bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
         }
@@ -203,7 +207,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
             final SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
             holder.speciesName.setText(species.name);
-            holder.commonName.setText(getString(R.string.common_name,species.commonName));
+            holder.commonName.setText(getString(R.string.common_name, species.commonName));
             if (species.kingdom == null) {
                 if (species.scientificName != null) {
                     holder.kingdomName.setText(getString(R.string.scientific_name, species.scientificName));
