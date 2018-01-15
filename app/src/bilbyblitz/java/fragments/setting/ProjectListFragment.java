@@ -111,10 +111,8 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         switch (item.getItemId()) {
             //when the user will press the done menu item
             case R.id.select:
-                getActivity().setResult(Activity.RESULT_OK);
                 if (selectedPosition != -1)
-                    sharedPreferences.writeSelectedProject(projects.get(selectedPosition));
-                getActivity().finish();
+                    getProjectDetails(projects.get(selectedPosition).projectId);
                 break;
         }
         return true;
@@ -126,10 +124,44 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         sendAnalyticsScreenName("Project List", TAG);
     }
 
+    private void getProjectDetails(String projectId){
+        showProgressDialog();
+        mCompositeDisposable.add(restClient.getService().getProjectDetail(projectId)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<List<Project>>() {
+                    @Override
+                    public void onNext(List<Project> value) {
+                        if(value!=null){
+                            for(Project project:value){
+                                if(project.status.equals("active")) {
+                                    sharedPreferences.writeSelectedProject(project);
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.d(TAG, "onError");
+                        handleError(e, 0, "");
+                        hideProgressDialog();
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        Log.d(TAG, "onComplete");
+                        hideProgressDialog();
+                        getActivity().setResult(Activity.RESULT_OK);
+                        getActivity().finish();
+                    }
+                }));
+    }
+
     /**
      * getting the projects
      */
-
     protected void fetchProjects() {
         swipeRefreshLayout.setRefreshing(true);
         mCompositeDisposable.add(restClient.getService().getProjects(getString(R.string.project_initiator), 50, 0, true, null, null, null)

@@ -1,7 +1,10 @@
 package rest;
 
 
+import java.util.List;
+
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.Project;
 import io.reactivex.Observable;
 import model.ProjectList;
 import model.map.MapModel;
@@ -24,6 +27,10 @@ import retrofit2.http.Query;
 public interface BioCollectApiService {
     @GET("/ws/project/search?sort=nameSort&hub=trackshub&fq=isExternal:F")
     Observable<ProjectList> getProjects(@Query("initiator") String initiator, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("sort") String sort, @Query("q") String q, @Query("isUserPage") Boolean isUserPage);
+
+    //https://biocollect-test.ala.org.au/ws/survey/list/2f4eed05-5be1-417d-a4ab-174f5b24d22a
+    @GET("/ws/survey/list/{projectId}")
+    Observable<List<Project>> getProjectDetail(@Path("projectId") String projectId);
 
     //single image
     @Multipart

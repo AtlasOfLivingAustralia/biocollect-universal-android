@@ -13,9 +13,11 @@ import javax.inject.Inject;
 
 import application.CsiroApplication;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.base.BaseIntentService;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.Project;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
@@ -43,14 +45,13 @@ import retrofit2.Response;
  * in Background
  */
 
-public class UploadService extends IntentService {
+public class UploadService extends BaseIntentService {
     private final String TAG = "UploadService";
-    @Inject
-    protected RestClient restClient;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private BroadcastNotifier mBroadcaster;
     private Realm realm;
     private int imageUploadCount;
+    private Project project;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -67,7 +68,9 @@ public class UploadService extends IntentService {
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
         CsiroApplication.component().inject(this);
-        if (AtlasManager.isNetworkAvailable(this)) {
+        project = sharedPreferenceManager.getSelectedProject();
+
+        if (AtlasManager.isNetworkAvailable(this) && project!=null) {
             realm = Realm.getDefaultInstance();
             //create the broadcaster to notify
             mBroadcaster = new BroadcastNotifier(this);
@@ -122,7 +125,7 @@ public class UploadService extends IntentService {
     private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
-            mapModel.pActivityId = getString(R.string.project_activity_id);
+            mapModel.pActivityId = project.projectActivityId;
             mapModel.site = new Site();
             mapModel.site.name = "line 3";
             mapModel.site.projects = new String[]{getString(R.string.project_id)};
@@ -250,7 +253,7 @@ public class UploadService extends IntentService {
      * @param trackModel
      */
     private void saveData(final TrackModel trackModel) {
-        mCompositeDisposable.add(restClient.getService().postTracks(getString(R.string.project_activity_id), realm.copyFromRealm(trackModel))
+        mCompositeDisposable.add(restClient.getService().postTracks(project.projectActivityId, realm.copyFromRealm(trackModel))
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {

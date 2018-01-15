@@ -30,6 +30,7 @@
         android:layout_height="@dimen/row_cross_round_tick_width"
         android:layout_alignParentRight="true"
         android:rotation="-90"
+        android:layout_centerVertical="true"
         android:src="@drawable/ic_keyboard_arrow_down_black_18dp"
         android:tint="@color/colorPrimary" />
 </RelativeLayout>

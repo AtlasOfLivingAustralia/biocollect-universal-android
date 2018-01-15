@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,6 +26,7 @@ import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.Language;
+import au.csiro.ozatlas.model.KvpValues;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
@@ -46,6 +48,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     @BindView(R.id.total)
     TextView total;
 
+    private List<SearchSpecies> filterSpecies = new ArrayList<>();
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
     private Realm realm;
@@ -92,7 +95,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         swipeRefreshLayout.setOnRefreshListener(this);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        //get the species
+        //get the filterSpecies
         readAvailableSpecies();
 
         //set the localized labels
@@ -121,7 +124,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
             case R.id.select:
                 if (selectedPosition != -1) {
                     Intent intent = new Intent();
-                    intent.putExtra(getString(R.string.species_parameter), species.get(selectedPosition).realmId);
+                    intent.putExtra(getString(R.string.species_parameter), filterSpecies.get(selectedPosition).realmId);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
                 }
@@ -133,10 +136,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 bottomSheetDialogFragment.setArguments(bundle);
                 bottomSheetDialogFragment.setBottomSheetListener(speciesFilter -> {
                     sharedPreferences.writeSpeciesFilter(speciesFilter);
-                    /*for(int i=0;i<species.size();i++){
-                        SearchSpecies spc = species.get(i);
-                        if(speciesFilter.isSizeSmall && spc.)
-                    }*/
+                    applyFilter(speciesFilter);
                 });
                 bottomSheetDialogFragment.show(getFragmentManager(), bottomSheetDialogFragment.getTag());
                 break;
@@ -144,19 +144,62 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         return true;
     }
 
+    private void applyFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter) {
+        if (speciesFilter != null) {
+            filterSpecies.clear();
+            for (int i = 0; i < species.size(); i++) {
+                SearchSpecies spc = species.get(i);
+                if (spc.kvpValues != null) {
+                    for (KvpValues kvpValues : spc.kvpValues) {
+                        if (kvpValues.key.equals("Adult  Size")) {
+                            Log.d("SPECIES", kvpValues.key+ "    "+kvpValues.value);
+                            if (speciesFilter.isSizeSmall && kvpValues.value.equals("Small")) {
+                                filterSpecies.add(spc);
+                                break;
+                            }
+
+                            if (speciesFilter.isSizeMedium && kvpValues.value.equals("Medium")) {
+                                filterSpecies.add(spc);
+                                break;
+                            }
+
+                            if (speciesFilter.isSizeLarge && kvpValues.value.equals("Large")) {
+                                filterSpecies.add(spc);
+                                break;
+                            }
+                        } else if (kvpValues.key.equals("Body  Cover")) {
+                            if (speciesFilter.isBodyCoverFur && kvpValues.value.equals("Fur")) {
+                                filterSpecies.add(spc);
+                                break;
+                            }
+
+                            if (speciesFilter.isBodyCoverFeather && kvpValues.value.equals("Feathers")) {
+                                filterSpecies.add(spc);
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+            selections = new boolean[filterSpecies.size()];
+            speciesAdapter.notifyDataSetChanged();
+            selectedPosition = -1;
+            updateTotal();
+        }
+    }
+
     private void updateTotal() {
-        total.setText(getString(R.string.total_species, species.size()));
+        total.setText(getString(R.string.total_species, filterSpecies.size()));
     }
 
     public void readAvailableSpecies() {
         RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).findAllAsync();
         results.addChangeListener((collection, changeSet) -> {
             if (isAdded()) {
-                species.clear();
+                filterSpecies.clear();
+                filterSpecies.addAll(collection);
                 species.addAll(collection);
-                selections = new boolean[species.size()];
-                updateTotal();
-                speciesAdapter.notifyDataSetChanged();
+                applyFilter(sharedPreferences.getSpeciesFilter());
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
             }
@@ -193,7 +236,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
         @Override
         public int getItemCount() {
-            return species.size();
+            return filterSpecies.size();
         }
 
         @Override
@@ -205,7 +248,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
         @Override
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
-            final SearchSpecies species = AvailableSpeciesFragment.this.species.get(position);
+            final SearchSpecies species = AvailableSpeciesFragment.this.filterSpecies.get(position);
             holder.speciesName.setText(species.name);
             holder.commonName.setText(getString(R.string.common_name, species.commonName));
             if (species.kingdom == null) {

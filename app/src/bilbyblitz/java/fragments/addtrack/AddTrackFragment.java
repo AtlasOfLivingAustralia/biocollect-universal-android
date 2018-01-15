@@ -21,8 +21,10 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.Project;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -30,7 +32,6 @@ import fragments.addtrack.animal.AnimalFragment;
 import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
-import au.csiro.ozatlas.manager.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -65,6 +66,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     TabLayout tabLayout;
 
     private boolean practiseView;
+    private Project project;
 
     private int imageUploadCount = 0;
     private TrackModel trackModel = new TrackModel();
@@ -102,17 +104,23 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         ButterKnife.bind(this, view);
 
         Bundle bundle = getArguments();
-        if(bundle!=null) {
+        if (bundle != null) {
             practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
         }
 
-        if(practiseView){
+        if (practiseView) {
             setTitle(getString(R.string.practise_track));
-        }else{
+        } else {
             setTitle(getString(R.string.add_track));
         }
 
         pager.setOffscreenPageLimit(3);
+
+        project = sharedPreferences.getSelectedProject();
+        if (project == null) {
+            showSnackBarMessage(getString(R.string.project_selection_message));
+        }
+
         getDataForEdit();
 
         //set the localized labels
@@ -126,7 +134,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         Bundle bundle = getArguments();
         if (bundle != null) {
             long primaryKey = bundle.getLong(getString(R.string.primary_key_parameter), -1);
-            if(primaryKey!=-1) {
+            if (primaryKey != -1) {
                 RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
                 RealmResults<TrackModel> results = query.findAllAsync();
                 results.addChangeListener(element -> {
@@ -134,7 +142,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     tabSetup();
                 });
                 setTitle(getString(R.string.edit_track));
-            }else{
+            } else {
                 defaultSetup();
             }
             return;
@@ -143,9 +151,10 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         defaultSetup();
     }
 
-    private void defaultSetup(){
+    private void defaultSetup() {
         trackModel.outputs = new RealmList<>();
-        trackModel.activityId = getString(R.string.project_activity_id);
+        if (project != null)
+            trackModel.activityId = project.projectActivityId;
         BilbyBlitzOutput output = new BilbyBlitzOutput();
         output.selectFromSitesOnly = false;
         output.data = new BilbyBlitzData();
@@ -163,7 +172,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.submit, menu);
-        if(practiseView)
+        if (practiseView)
             menu.findItem(R.id.submit).setTitle("CLOSE");
         super.onCreateOptionsMenu(menu, inflater);
     }
@@ -173,75 +182,79 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         switch (item.getItemId()) {
             //when the user will press the submit menu item
             case R.id.submit:
-                if(practiseView){
-                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            AtlasManager.hideKeyboard(getActivity());
-                            setDrawerMenuChecked(R.id.home);
-                            setDrawerMenuClicked(R.id.home);
-                        }
-                    });
-                }else {
-                    if (AtlasManager.isNetworkAvailable(getActivity())) {
-                        String message;
-                        StringBuilder stringBuilder = new StringBuilder();
-                        for (int i = 0; i < NUMBER_OF_FRAGMENTS; i++) {
-                            ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
-                            if (validationCheck != null) {
-                                message = validationCheck.getValidationMessage();
-                                if (!TextUtils.isEmpty(message)) {
-                                    stringBuilder.append("\n").append(message);
-                                }
+                if (project != null) {
+                    if (practiseView) {
+                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                AtlasManager.hideKeyboard(getActivity());
+                                setDrawerMenuChecked(R.id.home);
+                                setDrawerMenuClicked(R.id.home);
                             }
-                        }
-                        message = stringBuilder.toString();
-                        if (!TextUtils.isEmpty(message))
-                            showMultiLineSnackBarMessage(message);
-                        else {
-                            for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                                BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
-                                if (bilbyDataManager != null) {
-                                    bilbyDataManager.prepareData();
-                                }
-                            }
-                            imageUploadCount = 0;
-                            showProgressDialog();
-                            MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
-                            if (mapModel != null) {
-                                uploadMap(mapModel);
-                            } else {
-                                uploadPhotos();
-                            }
-                        }
+                        });
                     } else {
-                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
-                            if (trackModel != null && !trackModel.isManaged()) {
+                        if (AtlasManager.isNetworkAvailable(getActivity())) {
+                            String message;
+                            StringBuilder stringBuilder = new StringBuilder();
+                            for (int i = 0; i < NUMBER_OF_FRAGMENTS; i++) {
+                                ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
+                                if (validationCheck != null) {
+                                    message = validationCheck.getValidationMessage();
+                                    if (!TextUtils.isEmpty(message)) {
+                                        stringBuilder.append("\n").append(message);
+                                    }
+                                }
+                            }
+                            message = stringBuilder.toString();
+                            if (!TextUtils.isEmpty(message))
+                                showMultiLineSnackBarMessage(message);
+                            else {
                                 for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
                                     BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
                                     if (bilbyDataManager != null) {
                                         bilbyDataManager.prepareData();
                                     }
                                 }
-                                if (trackModel.realmId == null)
-                                    trackModel.realmId = getPrimaryKeyValue();
-                                realm.executeTransactionAsync(realm -> {
-                                    realm.insertOrUpdate(trackModel);
-                                    if (isAdded()) {
-                                        getActivity().runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                AtlasManager.hideKeyboard(getActivity());
-                                                showSnackBarMessage("Your track information has been saved as Draft");
-                                                setDrawerMenuChecked(R.id.nav_review_track);
-                                                setDrawerMenuClicked(R.id.nav_review_track);
-                                            }
-                                        });
-                                    }
-                                });
+                                imageUploadCount = 0;
+                                showProgressDialog();
+                                MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
+                                if (mapModel != null) {
+                                    uploadMap(mapModel);
+                                } else {
+                                    uploadPhotos();
+                                }
                             }
-                        });
+                        } else {
+                            AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
+                                if (trackModel != null && !trackModel.isManaged()) {
+                                    for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                                        BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
+                                        if (bilbyDataManager != null) {
+                                            bilbyDataManager.prepareData();
+                                        }
+                                    }
+                                    if (trackModel.realmId == null)
+                                        trackModel.realmId = getPrimaryKeyValue();
+                                    realm.executeTransactionAsync(realm -> {
+                                        realm.insertOrUpdate(trackModel);
+                                        if (isAdded()) {
+                                            getActivity().runOnUiThread(new Runnable() {
+                                                @Override
+                                                public void run() {
+                                                    AtlasManager.hideKeyboard(getActivity());
+                                                    showSnackBarMessage("Your track information has been saved as Draft");
+                                                    setDrawerMenuChecked(R.id.nav_review_track);
+                                                    setDrawerMenuClicked(R.id.nav_review_track);
+                                                }
+                                            });
+                                        }
+                                    });
+                                }
+                            });
+                        }
                     }
+                } else {
+                    showSnackBarMessage(getString(R.string.project_selection_message));
                 }
                 break;
         }
@@ -267,7 +280,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         tempLocations.add(new BilbyLocation(143.40, -13.25));*/
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
-            mapModel.pActivityId = getString(R.string.project_activity_id);
+            if (project != null)
+                mapModel.pActivityId = project.projectActivityId;
             mapModel.site = new Site();
             mapModel.site.name = "Private site for survey";
             mapModel.site.visibility = "private";
@@ -382,7 +396,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
                         @Override
                         public void onComplete() {
-                                saveData();
+                            saveData();
                         }
                     }));
         } else {
@@ -391,7 +405,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private void saveData() {
-        mCompositeDisposable.add(restClient.getService().postTracks(getString(R.string.project_activity_id), trackModel)
+        mCompositeDisposable.add(restClient.getService().postTracks(project.projectActivityId, trackModel)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(new DisposableObserver<Response<Void>>() {

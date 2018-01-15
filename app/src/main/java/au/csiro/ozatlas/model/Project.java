@@ -89,6 +89,14 @@ public class Project {
     public Boolean isExternal;
 
     @Expose
+    @SerializedName("projectActivityId")
+    public String projectActivityId;
+
+    @Expose
+    @SerializedName("status")
+    public String status;
+
+    @Expose
     public Boolean isSciStarter;
 
 }
