@@ -128,7 +128,7 @@ public class UploadService extends BaseIntentService {
             mapModel.pActivityId = project.projectActivityId;
             mapModel.site = new Site();
             mapModel.site.name = "line 3";
-            mapModel.site.projects = new String[]{getString(R.string.project_id)};
+            mapModel.site.projects = new String[]{project.projectId};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "drawn";
             mapModel.site.extent.geometry = new Geometry();

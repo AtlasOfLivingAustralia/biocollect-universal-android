@@ -285,7 +285,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             mapModel.site = new Site();
             mapModel.site.name = "Private site for survey";
             mapModel.site.visibility = "private";
-            mapModel.site.projects = new String[]{getString(R.string.project_id)};
+            mapModel.site.projects = new String[]{project.projectId};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "drawn";
             mapModel.site.extent.geometry = new Geometry();
