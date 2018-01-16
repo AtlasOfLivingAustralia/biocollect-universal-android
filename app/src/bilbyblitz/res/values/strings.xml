@@ -20,7 +20,7 @@
 
     <string name="title_activity_main">The Tracks App</string>
 
-    <string name="about_title">About Tracks Ap</string>
+    <string name="about_title">About Tracks App</string>
     <string name="contact_us_title">Contact Us</string>
     <string name="add_track">Add a New Track</string>
     <string name="practise_track">Practice Tracking</string>
@@ -117,6 +117,7 @@
     <string name="feathers">Feathers</string>
     <string name="species_filter_title">Species Filter</string>
     <string name="project_selection_message">Please select a project from Settings in order to submit Tracks.</string>
+    <string name="project_id_missing">This project is not active at this moment.</string>
 
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>

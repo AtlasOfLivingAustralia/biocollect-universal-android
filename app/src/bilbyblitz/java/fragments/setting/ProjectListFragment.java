@@ -132,13 +132,21 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                 .subscribeWith(new DisposableObserver<List<Project>>() {
                     @Override
                     public void onNext(List<Project> value) {
+                        boolean found = false;
                         if(value!=null){
                             for(Project project:value){
                                 if(project.status.equals("active")) {
                                     sharedPreferences.writeSelectedProject(project);
+                                    found = true;
                                     break;
                                 }
                             }
+                        }
+                        if(!found){
+                            showSnackBarMessage(getString(R.string.project_id_missing));
+                        }else{
+                            getActivity().setResult(Activity.RESULT_OK);
+                            getActivity().finish();
                         }
                     }
 
@@ -153,8 +161,6 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                     public void onComplete() {
                         Log.d(TAG, "onComplete");
                         hideProgressDialog();
-                        getActivity().setResult(Activity.RESULT_OK);
-                        getActivity().finish();
                     }
                 }));
     }
