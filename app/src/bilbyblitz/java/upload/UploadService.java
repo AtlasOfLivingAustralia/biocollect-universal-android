@@ -1,6 +1,5 @@
 package upload;
 
-import android.app.IntentService;
 import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
@@ -9,8 +8,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.inject.Inject;
-
 import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseIntentService;
@@ -18,7 +15,6 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Project;
-import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
 import io.realm.Realm;
@@ -70,7 +66,7 @@ public class UploadService extends BaseIntentService {
         CsiroApplication.component().inject(this);
         project = sharedPreferenceManager.getSelectedProject();
 
-        if (AtlasManager.isNetworkAvailable(this) && project!=null) {
+        if (AtlasManager.isNetworkAvailable(this) && project != null) {
             realm = Realm.getDefaultInstance();
             //create the broadcaster to notify
             mBroadcaster = new BroadcastNotifier(this);
@@ -173,7 +169,7 @@ public class UploadService extends BaseIntentService {
      * @return
      */
     private boolean getValidated(TrackModel trackModel) {
-        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) && trackModel.outputs.get(0).data.locationLatitude != null && trackModel.outputs.get(0).data.locationLongitude != null;
+        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) && trackModel.outputs.get(0).data.locationLatitude != null && trackModel.outputs.get(0).data.locationLongitude != null && trackModel.outputs.get(0).data.tempLocations.size() > 1;
     }
 
     /**
