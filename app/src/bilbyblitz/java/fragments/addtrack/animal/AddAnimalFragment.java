@@ -446,8 +446,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
             location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
             if (location != null) {
-                if (BuildConfig.DEBUG)
-                    Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+                //if (BuildConfig.DEBUG)
+                //    Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
 
                 setLatitudeLongitude(location.getLatitude(), location.getLongitude());
             }

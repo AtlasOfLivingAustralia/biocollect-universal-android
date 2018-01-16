@@ -283,7 +283,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 if (!checkPermissions()) {
                     requestPermissions();
                 } else {
-                    if(mService==null){
+                    if (mService == null) {
                         getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
                     }
                     setButtonsState(true);
@@ -298,7 +298,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 });
             }
         } else {
-            if(mService!=null) {
+            if (mService != null) {
                 mService.removeLocationUpdates();
                 getActivity().unbindService(mServiceConnection);
                 mService = null;
@@ -382,6 +382,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         if (locations.size() == 0) {
             stringBuilder.append(localisedString("location_missing", R.string.location_missing));
+            stringBuilder.append("\n");
+        } else if (locations.size() < 2) {
+            stringBuilder.append(localisedString("at_least_two_coordinates", R.string.at_least_two_coordinates));
             stringBuilder.append("\n");
         }
 
@@ -529,22 +532,24 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private class MyReceiver extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            Location location;
+            if (isAdded()) {
+                Location location;
 
-            location = intent.getParcelableExtra(LocationUpdatesService.LAST_KNOWN_LOCATION);
-            if (location != null) {
-                setGoogleMapView(location);
-                //Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-            if (isGPSStarted()) {
-                location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+                location = intent.getParcelableExtra(LocationUpdatesService.LAST_KNOWN_LOCATION);
                 if (location != null) {
-                    locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
                     setGoogleMapView(location);
-                    addPolyLine(location);
-                    Toast.makeText(getContext(), locations.size() == 1 ? getString(R.string.location_found_singular) : getString(R.string.location_found_plural, locations.size()), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), location.toString(), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                if (isGPSStarted()) {
+                    location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+                    if (location != null) {
+                        locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
+                        setGoogleMapView(location);
+                        addPolyLine(location);
+                        Toast.makeText(getContext(), locations.size() == 1 ? getString(R.string.location_found_singular) : getString(R.string.location_found_plural, locations.size()), Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         }

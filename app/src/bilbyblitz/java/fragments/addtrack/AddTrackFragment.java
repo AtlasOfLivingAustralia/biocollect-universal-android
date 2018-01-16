@@ -16,6 +16,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.gson.Gson;
+
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -278,7 +280,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         tempLocations = new RealmList<>();
         tempLocations.add(new BilbyLocation(143.40, -13.27));
         tempLocations.add(new BilbyLocation(143.40, -13.25));*/
-        if (tempLocations != null && tempLocations.size() > 0) {
+        if (tempLocations != null && tempLocations.size() > 1) {
             MapModel mapModel = new MapModel();
             if (project != null)
                 mapModel.pActivityId = project.projectActivityId;
@@ -298,11 +300,14 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.latitude;
             }
             return mapModel;
+        }else{
+            showSnackBarMessage(getString(R.string.at_least_two_coordinates));
         }
         return null;
     }
 
     private void uploadMap(MapModel mapModel) {
+        Log.d("MAP_MODEL", new Gson().toJson(mapModel));
         mCompositeDisposable.add(restClient.getService().postMap(mapModel)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -181,11 +181,11 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     }
                 }
             }
-            selections = new boolean[filterSpecies.size()];
-            speciesAdapter.notifyDataSetChanged();
-            selectedPosition = -1;
-            updateTotal();
         }
+        selections = new boolean[filterSpecies.size()];
+        speciesAdapter.notifyDataSetChanged();
+        selectedPosition = -1;
+        updateTotal();
     }
 
     private void updateTotal() {
@@ -205,7 +205,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
             }
         });
     }
-
 
     @Override
     public void onRefresh() {
