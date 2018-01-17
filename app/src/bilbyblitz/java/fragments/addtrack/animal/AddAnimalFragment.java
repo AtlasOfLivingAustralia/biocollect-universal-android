@@ -246,10 +246,12 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     @Override
     public void onPause() {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
-        mService.removeLocationUpdates();
-        getActivity().unbindService(mServiceConnection);
-        mService = null;
-        mBound = false;
+        if(mService!=null) {
+            mService.removeLocationUpdates();
+            getActivity().unbindService(mServiceConnection);
+            mService = null;
+            mBound = false;
+        }
         super.onPause();
     }
 
