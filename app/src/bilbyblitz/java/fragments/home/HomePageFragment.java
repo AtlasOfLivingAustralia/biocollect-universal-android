@@ -114,7 +114,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.isForWebView = false;
         listItems.add(item);
         item = new BilbyHomePageListItem();
-        item.icon = R.drawable.animal_track;
+        item.icon = R.drawable.animal_practise_track;
         item.text = getString(R.string.practise_track);
         item.textResource = R.string.practise_track;
         item.languageKey = "practise_track";
