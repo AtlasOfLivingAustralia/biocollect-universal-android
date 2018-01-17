@@ -10,6 +10,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -53,7 +54,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         super.onCreate(savedInstanceState);
         //initializing dagger
         CsiroApplication.component().inject(this);
-        //// TODO: 20/7/17 FIX
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (getApplicationContext().getPackageName().equals("au.org.ala.mobile.ozatlas") || getApplicationContext().getPackageName().equals("au.org.ala.bilbyblitz"))
             realm = Realm.getDefaultInstance();
     }
