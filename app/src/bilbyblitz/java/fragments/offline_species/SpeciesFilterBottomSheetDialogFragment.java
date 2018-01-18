@@ -57,7 +57,7 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
         Button done = contentView.findViewById(R.id.done);
         done.setOnClickListener(v -> {
             speciesFilter.isBodyCoverFeather = checkBoxFeather.isChecked();
-            speciesFilter.isBodyCoverFur = checkBoxFeather.isChecked();
+            speciesFilter.isBodyCoverFur = checkBoxFur.isChecked();
             speciesFilter.isSizeLarge = checkBoxLarge.isChecked();
             speciesFilter.isSizeMedium = checkBoxMedium.isChecked();
             speciesFilter.isSizeSmall = checkBoxSmall.isChecked();

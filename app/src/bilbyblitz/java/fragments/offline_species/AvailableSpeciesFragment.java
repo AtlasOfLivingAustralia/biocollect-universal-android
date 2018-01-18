@@ -2,6 +2,7 @@ package fragments.offline_species;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -15,6 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -145,8 +151,8 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     }
 
     private void applyFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter) {
+        filterSpecies.clear();
         if (speciesFilter != null) {
-            filterSpecies.clear();
             for (int i = 0; i < species.size(); i++) {
                 SearchSpecies spc = species.get(i);
                 if (spc.kvpValues != null) {
@@ -181,6 +187,8 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     }
                 }
             }
+        }else{
+            filterSpecies.addAll(species);
         }
         selections = new boolean[filterSpecies.size()];
         speciesAdapter.notifyDataSetChanged();
@@ -196,8 +204,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).findAllAsync();
         results.addChangeListener((collection, changeSet) -> {
             if (isAdded()) {
-                filterSpecies.clear();
-                filterSpecies.addAll(collection);
+                species.clear();
                 species.addAll(collection);
                 applyFilter(sharedPreferences.getSpeciesFilter());
                 if (swipeRefreshLayout.isRefreshing())
@@ -268,10 +275,46 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     holder.delete.setImageResource(0);
                 }
             }
+
+            /*if (species.kvpValues != null) {
+                for (KvpValues kvpValues : species.kvpValues) {
+                    if (kvpValues.key.equals("Image")) {
+                        Glide.with(getActivity())
+                                .load(kvpValues.value)
+                                .placeholder(R.drawable.no_image_available)
+                                .crossFade()
+                                .listener(new RequestListener<String, GlideDrawable>() {
+                                    @Override
+                                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                        holder.image.setColorFilter(Color.WHITE);
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                        holder.image.clearColorFilter();
+                                        return false;
+                                    }
+                                })
+                                .into(holder.image);
+                    }
+                }
+            }*/
+            /*if (species.kvpValues != null) {
+                for (KvpValues kvpValues : species.kvpValues) {
+                    if (kvpValues.key.equals("Adult  Size")) {
+                        Log.d("SPECIES", kvpValues.key+ "    "+kvpValues.value);
+                        holder.kingdomName.setText(kvpValues.value);
+                    }
+                    if (kvpValues.key.equals("Body  Cover")) {
+                        holder.kingdomName.append("   " + kvpValues.value);
+                    }
+                }
+            }*/
         }
 
         class SpeciesViewHolder extends RecyclerView.ViewHolder {
-            ImageView delete;
+            ImageView delete, image;
             TextView speciesName, kingdomName, commonName;
 
             public SpeciesViewHolder(View itemView) {
@@ -280,6 +323,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 kingdomName = (TextView) itemView.findViewById(R.id.kingdom_name);
                 commonName = (TextView) itemView.findViewById(R.id.common_name);
                 delete = (ImageView) itemView.findViewById(R.id.delete);
+                image = (ImageView) itemView.findViewById(R.id.image);
             }
         }
     }
