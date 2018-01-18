@@ -21,12 +21,12 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_above="@+id/filedLayout"
-            android:layout_margin="@dimen/activity_vertical_margin"
             android:layout_centerHorizontal="true"
+            android:layout_margin="@dimen/activity_vertical_margin"
             android:adjustViewBounds="true"
             android:padding="@dimen/login_title_image_padding"
-            android:src="@drawable/tracker_login_logo"
-            android:scaleType="centerInside" />
+            android:scaleType="centerInside"
+            android:src="@drawable/tracker_login_logo" />
 
         <LinearLayout
             android:id="@+id/filedLayout"

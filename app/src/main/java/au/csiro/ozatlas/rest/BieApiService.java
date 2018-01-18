@@ -3,7 +3,6 @@ package au.csiro.ozatlas.rest;
 import java.util.List;
 
 import au.csiro.ozatlas.model.SearchSpecies;
-import au.csiro.ozatlas.model.SpeciesSearchResponse;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
 import retrofit2.http.Query;

@@ -13,13 +13,15 @@ import io.realm.annotations.RealmClass;
 
 @Parcel
 @RealmClass
-public class BilbyLocation extends RealmObject{
+public class BilbyLocation extends RealmObject {
     @Expose
     public Double latitude;
     @Expose
     public Double longitude;
 
-    public BilbyLocation(){}
+    public BilbyLocation() {
+    }
+
     public BilbyLocation(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;

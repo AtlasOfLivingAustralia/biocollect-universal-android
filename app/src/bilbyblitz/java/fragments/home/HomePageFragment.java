@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.HomePageListItem;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import au.csiro.ozatlas.manager.Language;
 
 /**
  * Created by sad038 on 1/9/17.

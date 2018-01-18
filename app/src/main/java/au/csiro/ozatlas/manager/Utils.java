@@ -24,6 +24,7 @@ public class Utils {
 
     /**
      * Hide the soft keyboard
+     *
      * @param c
      * @param windowToken
      */
@@ -34,13 +35,14 @@ public class Utils {
 
     /**
      * Parse String to Double type
+     *
      * @param s
      * @return
      */
-    public static Double parseDouble(String s){
-        try{
+    public static Double parseDouble(String s) {
+        try {
             return Double.parseDouble(s);
-        }catch (NumberFormatException ex){
+        } catch (NumberFormatException ex) {
             return null;
         }
     }

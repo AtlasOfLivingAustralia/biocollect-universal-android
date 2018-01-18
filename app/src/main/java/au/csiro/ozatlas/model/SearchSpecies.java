@@ -6,8 +6,6 @@ import com.google.gson.annotations.SerializedName;
 import org.parceler.Parcel;
 import org.parceler.ParcelPropertyConverter;
 
-import java.util.List;
-
 import au.csiro.ozatlas.manager.RealmListParcelConverter;
 import io.realm.RealmList;
 import io.realm.RealmObject;

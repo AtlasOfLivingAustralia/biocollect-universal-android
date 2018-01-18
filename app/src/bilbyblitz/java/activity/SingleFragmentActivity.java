@@ -17,6 +17,7 @@ import com.androidadvance.topsnackbar.TSnackbar;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.fragments.WebViewFragment;
+import au.csiro.ozatlas.manager.Language;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
@@ -26,7 +27,6 @@ import fragments.offline_species.AvailableSpeciesFragment;
 import fragments.offline_species.ExploreSpeciesFragment;
 import fragments.offline_species.SearchAndAddFragment;
 import fragments.offline_species.SpeciesGroupFragment;
-import au.csiro.ozatlas.manager.Language;
 import fragments.setting.ProjectListFragment;
 
 /**

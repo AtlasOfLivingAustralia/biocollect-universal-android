@@ -1,6 +1,5 @@
 package activity;
 
-import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -26,10 +25,10 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
-import fragments.addtrack.AddTrackFragment;
-import fragments.home.HomePageFragment;
-import fragments.draft.DraftTrackListFragment;
 import au.csiro.ozatlas.manager.Language;
+import fragments.addtrack.AddTrackFragment;
+import fragments.draft.DraftTrackListFragment;
+import fragments.home.HomePageFragment;
 import fragments.offline_species.service.FetchListSpeciesService;
 import fragments.setting.SettingFragment;
 
@@ -160,7 +159,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             bundle.putBoolean(getString(R.string.practise_parameter), true);
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
-        }else if (id == R.id.nav_review_track) {
+        } else if (id == R.id.nav_review_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
         }/*else if (id == R.id.nav_my_projects) {
             Bundle bundle = new Bundle();

@@ -21,6 +21,7 @@ public abstract class BaseIntentService extends IntentService {
 
     @Inject
     protected RestClient restClient;
+
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
      *

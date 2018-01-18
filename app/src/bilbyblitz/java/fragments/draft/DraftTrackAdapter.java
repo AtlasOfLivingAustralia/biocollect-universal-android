@@ -33,13 +33,13 @@ import model.track.TrackModel;
  */
 public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolders> {
 
+    Realm realm;
     private List<TrackModel> trackModels;
     private boolean[] selection;
     private Context context;
     private View.OnClickListener onClickListener;
     private View.OnLongClickListener onLongClickListener;
     private MoreButtonListener moreButtonListener;
-    Realm realm;
 
     /**
      * constructor

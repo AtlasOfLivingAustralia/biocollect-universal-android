@@ -17,13 +17,13 @@ import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.FileUtils;
+import au.csiro.ozatlas.manager.Language;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
-import au.csiro.ozatlas.manager.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
 import model.track.SightingEvidenceTable;
@@ -37,16 +37,14 @@ import static android.app.Activity.RESULT_OK;
 public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck, BilbyDataManager {
     private final int ADD_ANIMAL_REQUEST_CODE = 1;
     private final int EDIT_ANIMAL_REQUEST_CODE = 2;
-
-    private RealmList<SightingEvidenceTable> sightingEvidenceTables = new RealmList<>();
-    private SightingEvidenceTableAdapter sightingEvidenceTableAdapter;
-    private int editRequestPosition = -1;
-    private BilbyBlitzData bilbyBlitzData;
-
     @BindView(R.id.listView)
     ListView listView;
     @BindView(R.id.total)
     TextView total;
+    private RealmList<SightingEvidenceTable> sightingEvidenceTables = new RealmList<>();
+    private SightingEvidenceTableAdapter sightingEvidenceTableAdapter;
+    private int editRequestPosition = -1;
+    private BilbyBlitzData bilbyBlitzData;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -143,7 +141,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
         }
     }
 
-    private void showHeaderMessage(){
+    private void showHeaderMessage() {
         if (sightingEvidenceTables.size() > 0) {
             total.setVisibility(View.GONE);
         } else {

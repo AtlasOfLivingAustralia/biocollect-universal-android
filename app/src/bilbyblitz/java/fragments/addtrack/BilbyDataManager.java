@@ -6,5 +6,6 @@ package fragments.addtrack;
 
 public interface BilbyDataManager {
     void prepareData();
+
     void setBilbyBlitzData();
 }

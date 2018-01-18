@@ -29,12 +29,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.parceler.Parcels;
 
@@ -44,7 +42,6 @@ import java.util.List;
 import java.util.Locale;
 
 import activity.SingleFragmentActivity;
-import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.FileUtils;
@@ -111,6 +108,21 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     private LocationUpdatesService mService = null;
     // Tracks the bound state of the service.
     private boolean mBound = false;
+    private final ServiceConnection mServiceConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
+            mService = binder.getService();
+            mService.requestLocationUpdates();
+            mBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            mService = null;
+            mBound = false;
+        }
+    };
 
     @Override
     protected void setLanguageValues(Language language) {
@@ -132,9 +144,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
-        whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.what_see_values), R.layout.item_textview));
-        howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.how_recent_values), R.layout.item_textview));
-        animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.animal_age_values), R.layout.item_textview));
+        whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values), R.layout.item_textview));
+        howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values), R.layout.item_textview));
+        animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values), R.layout.item_textview));
 
         Bundle bundle = getArguments();
         if (bundle == null) {
@@ -201,22 +213,6 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         }
     }
 
-    private final ServiceConnection mServiceConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            LocationUpdatesService.LocalBinder binder = (LocationUpdatesService.LocalBinder) service;
-            mService = binder.getService();
-            mService.requestLocationUpdates();
-            mBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            mService = null;
-            mBound = false;
-        }
-    };
-
     @Override
     public void onStart() {
         super.onStart();
@@ -248,7 +244,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     @Override
     public void onPause() {
         LocalBroadcastManager.getInstance(getContext()).unregisterReceiver(myReceiver);
-        if(mService!=null) {
+        if (mService != null) {
             mService.removeLocationUpdates();
             getActivity().unbindService(mServiceConnection);
             mService = null;

@@ -16,7 +16,7 @@ import io.realm.annotations.RealmClass;
  */
 @Parcel
 @RealmClass
-public class BilbyBlitzData extends RealmObject{
+public class BilbyBlitzData extends RealmObject {
     @Expose
     public Double locationCentroidLatitude;
 

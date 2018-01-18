@@ -15,21 +15,21 @@
             android:id="@+id/title"
             style="@style/TextAppearance.AppCompat.Large"
             android:layout_width="match_parent"
-            android:layout_toLeftOf="@+id/select"
             android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/select"
             android:padding="@dimen/row_padding_smaller"
             android:text="@string/species_filter_title"
             android:textStyle="bold" />
 
         <Button
-            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
-            android:layout_alignParentRight="true"
             android:id="@+id/done"
-            android:textStyle="bold"
-            android:textSize="@dimen/default_input_font_size"
+            style="@style/Base.Widget.AppCompat.Button.Borderless.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/done" />
+            android:layout_alignParentRight="true"
+            android:text="@string/done"
+            android:textSize="@dimen/default_input_font_size"
+            android:textStyle="bold" />
     </RelativeLayout>
 
 

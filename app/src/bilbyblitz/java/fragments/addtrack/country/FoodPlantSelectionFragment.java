@@ -21,10 +21,10 @@ import java.util.Arrays;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import au.csiro.ozatlas.manager.Language;
 
 /**
  * Created by sad038 on 22/6/17.

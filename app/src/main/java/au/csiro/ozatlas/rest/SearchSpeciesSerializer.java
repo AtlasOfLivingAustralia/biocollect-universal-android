@@ -3,7 +3,6 @@ package au.csiro.ozatlas.rest;
 import android.util.Log;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -15,7 +14,6 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 import au.csiro.ozatlas.model.SearchSpecies;
-import au.csiro.ozatlas.model.SpeciesSearchResponse;
 
 /**
  * Created by sad038 on 18/4/17.
@@ -45,6 +43,7 @@ public class SearchSpeciesSerializer implements JsonDeserializer<List<SearchSpec
             jsonElement = json;
         }
 
-        return new Gson().fromJson(jsonElement, new TypeToken<List<SearchSpecies>>() {}.getType());
+        return new Gson().fromJson(jsonElement, new TypeToken<List<SearchSpecies>>() {
+        }.getType());
     }
 }

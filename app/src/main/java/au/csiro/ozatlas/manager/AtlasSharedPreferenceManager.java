@@ -197,9 +197,10 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * get the species filter for bilby blitz
+     *
      * @return
      */
-    public SpeciesFilterBottomSheetDialogFragment.SpeciesFilter getSpeciesFilter(){
+    public SpeciesFilterBottomSheetDialogFragment.SpeciesFilter getSpeciesFilter() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("SPECIES_FILTER", "");
         return gson.fromJson(json, SpeciesFilterBottomSheetDialogFragment.SpeciesFilter.class);
@@ -207,9 +208,10 @@ public class AtlasSharedPreferenceManager {
 
     /**
      * write the species filter  for bilby blitz
+     *
      * @param speciesFilter
      */
-    public void writeSpeciesFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter){
+    public void writeSpeciesFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter) {
         Gson gson = new Gson();
         String json = gson.toJson(speciesFilter);
         sharedPreferences.edit().putString("SPECIES_FILTER", json).apply();

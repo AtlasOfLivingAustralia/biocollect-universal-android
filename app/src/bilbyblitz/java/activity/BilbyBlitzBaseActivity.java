@@ -1,7 +1,5 @@
 package activity;
 
-import android.content.Intent;
-import android.os.Bundle;
 import android.util.Log;
 
 import org.greenrobot.eventbus.EventBus;
@@ -13,7 +11,6 @@ import org.json.JSONObject;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
-import fragments.offline_species.service.FetchListSpeciesService;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;

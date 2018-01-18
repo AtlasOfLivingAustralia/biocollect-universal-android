@@ -23,7 +23,6 @@ import fragments.ContactUsFragment;
 import fragments.SightingListFragment;
 
 import static au.csiro.ozatlas.R.id.coordinatorLayout;
-import static au.csiro.ozatlas.R.id.fab;
 
 /**
  * Created by sad038 on 21/4/17.

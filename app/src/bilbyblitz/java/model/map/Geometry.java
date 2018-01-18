@@ -8,7 +8,7 @@ import com.google.gson.annotations.Expose;
 
 public class Geometry {
     @Expose
-   public Double areaKmSq;
+    public Double areaKmSq;
 
     @Expose
     public String type;

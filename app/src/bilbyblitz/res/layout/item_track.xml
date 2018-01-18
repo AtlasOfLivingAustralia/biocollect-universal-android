@@ -55,8 +55,8 @@
                 android:layout_marginBottom="1dp"
                 android:layout_toLeftOf="@+id/checkBox"
                 android:ellipsize="end"
-                android:textSize="@dimen/default_input_font_size"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/default_input_font_size" />
 
             <TextView
                 android:id="@+id/type"
@@ -66,9 +66,9 @@
                 android:layout_below="@+id/name"
                 android:layout_marginBottom="1dp"
                 android:layout_toLeftOf="@+id/more_button"
-                android:textSize="@dimen/smaller_input_font_size"
                 android:ellipsize="end"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
 
             <TextView
                 android:id="@+id/user"
@@ -76,10 +76,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/type"
-                android:textSize="@dimen/smaller_input_font_size"
                 android:layout_marginRight="4dp"
                 android:layout_toLeftOf="@+id/time"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
 
             <TextView
                 android:id="@+id/time"
@@ -87,10 +87,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignWithParentIfMissing="true"
-                android:textSize="@dimen/smaller_input_font_size"
                 android:layout_below="@id/type"
                 android:layout_toLeftOf="@+id/more_button"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:textSize="@dimen/smaller_input_font_size" />
 
             <ImageView
                 android:id="@+id/more_button"

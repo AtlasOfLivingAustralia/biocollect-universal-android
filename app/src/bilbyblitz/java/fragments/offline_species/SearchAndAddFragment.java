@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
@@ -32,7 +33,6 @@ import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import au.csiro.ozatlas.manager.Language;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Function;
 import io.reactivex.observers.DisposableObserver;

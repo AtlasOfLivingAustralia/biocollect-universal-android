@@ -40,7 +40,6 @@ import com.google.android.gms.tasks.Task;
 /**
  * A bound and started service that is promoted to a foreground service when location updates have
  * been requested and all clients unbind.
- *
  */
 public class LocationUpdatesService extends Service {
 

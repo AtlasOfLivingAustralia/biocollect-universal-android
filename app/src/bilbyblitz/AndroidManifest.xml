@@ -35,10 +35,10 @@
 
         <activity
             android:name="activity.MainActivity"
+            android:configChanges="orientation|screenSize"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar"
-            android:windowSoftInputMode="stateHidden"
-            android:configChanges="orientation|screenSize">
+            android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -48,10 +48,10 @@
 
         <activity
             android:name="au.csiro.ozatlas.activity.LoginActivity"
+            android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:configChanges="orientation|screenSize"/>
+            android:windowSoftInputMode="stateHidden" />
 
         <activity
             android:name="activity.SingleFragmentActivity"

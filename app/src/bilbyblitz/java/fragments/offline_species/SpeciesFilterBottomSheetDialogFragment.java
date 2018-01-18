@@ -37,7 +37,7 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
         }
     };
 
-    private SpeciesFilter getSpeciesFilter(){
+    private SpeciesFilter getSpeciesFilter() {
         return speciesFilter;
     }
 
@@ -61,7 +61,7 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
             speciesFilter.isSizeLarge = checkBoxLarge.isChecked();
             speciesFilter.isSizeMedium = checkBoxMedium.isChecked();
             speciesFilter.isSizeSmall = checkBoxSmall.isChecked();
-            if(bottomSheetListener!=null)
+            if (bottomSheetListener != null)
                 bottomSheetListener.onDoneFiltering(speciesFilter);
             dismiss();
         });
@@ -70,7 +70,7 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
         if (bundle != null) {
             speciesFilter = Parcels.unwrap(bundle.getParcelable(getString(R.string.species_filter_parameter)));
         }
-        if(speciesFilter==null || bundle==null){
+        if (speciesFilter == null || bundle == null) {
             speciesFilter = new SpeciesFilter();
         }
 

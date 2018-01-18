@@ -15,7 +15,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -119,12 +118,12 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
 
         countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.country_type_values), R.layout.item_textview));
         //countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.country_type_values, R.layout.item_textview));
-        vegetationSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.vegetation_type), R.layout.item_textview));
-        disturbanceSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.disturbance_values), R.layout.item_textview));
-        groundTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.ground_values), R.layout.item_textview));
-        clearGroundSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.clear_ground_type), R.layout.item_textview));
-        weatherSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.weather_value), R.layout.item_textview));
-        fireSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.fire_type), R.layout.item_textview));
+        vegetationSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.vegetation_type), R.layout.item_textview));
+        disturbanceSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.disturbance_values), R.layout.item_textview));
+        groundTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.ground_values), R.layout.item_textview));
+        clearGroundSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.clear_ground_type), R.layout.item_textview));
+        weatherSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.weather_value), R.layout.item_textview));
+        fireSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.fire_type), R.layout.item_textview));
 
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();

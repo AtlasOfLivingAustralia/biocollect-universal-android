@@ -37,6 +37,7 @@ import io.realm.Realm;
  */
 
 public class BaseActivity extends AppCompatActivity implements BaseActivityFragmentListener, FragmentManager.OnBackStackChangedListener {
+    public final static int REQUEST_WEBVIEW = 99;
     protected final String TAG = getClass().getSimpleName();
     @Inject
     protected AtlasSharedPreferenceManager sharedPreferences;
@@ -47,7 +48,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Inject
     FirebaseAnalytics firebaseAnalytics;
     private ProgressDialog mProgressDialog;
-    public final static int REQUEST_WEBVIEW = 99;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

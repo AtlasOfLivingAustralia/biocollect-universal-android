@@ -50,7 +50,7 @@ public class AtlasDateTimeUtils {
             return getSimpleFormatter(expectedFormat).format(sdf.parse(dateString));
         } catch (ParseException p) {
             Log.d(TAG, p.getMessage());
-        } catch (Exception e){
+        } catch (Exception e) {
             Log.d(TAG, e.getMessage());
         }
         return "";

@@ -124,7 +124,7 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
         sendAnalyticsScreenName("Project List", TAG);
     }
 
-    private void getProjectDetails(String projectId){
+    private void getProjectDetails(String projectId) {
         showProgressDialog();
         mCompositeDisposable.add(restClient.getService().getProjectDetail(projectId)
                 .subscribeOn(Schedulers.io())
@@ -133,18 +133,18 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                     @Override
                     public void onNext(List<Project> value) {
                         boolean found = false;
-                        if(value!=null){
-                            for(Project project:value){
-                                if(project.status.equals("active")) {
+                        if (value != null) {
+                            for (Project project : value) {
+                                if (project.status.equals("active")) {
                                     sharedPreferences.writeSelectedProject(project);
                                     found = true;
                                     break;
                                 }
                             }
                         }
-                        if(!found){
+                        if (!found) {
                             showSnackBarMessage(getString(R.string.project_id_missing));
-                        }else{
+                        } else {
                             getActivity().setResult(Activity.RESULT_OK);
                             getActivity().finish();
                         }

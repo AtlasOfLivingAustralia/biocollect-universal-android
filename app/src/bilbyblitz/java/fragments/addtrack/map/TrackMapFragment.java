@@ -30,7 +30,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -76,11 +75,9 @@ import model.track.BilbyLocation;
 public class TrackMapFragment extends BaseMainActivityFragment implements ValidationCheck, OnMapReadyCallback, BilbyDataManager {
     // Used in checking for runtime permissions.
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
-    private final float INITIAL_ZOOM = 13.2f;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
-    private Marker lastMarker;
-
+    private final float INITIAL_ZOOM = 13.2f;
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.siteSpinner)
@@ -105,7 +102,20 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextView gpsMessageTextView;
     @BindView(R.id.inputLayoutEndTime)
     TextInputLayout inputLayoutEndTime;
-
+    /**
+     * Date Picker Listener
+     */
+    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
+        @Override
+        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+            Calendar now = Calendar.getInstance();
+            now.set(Calendar.YEAR, year);
+            now.set(Calendar.MONTH, month);
+            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+            editDate.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
+        }
+    };
+    private Marker lastMarker;
     private RealmList<BilbyLocation> locations = new RealmList<>();
     private GoogleMap googleMap;
     // The BroadcastReceiver used to listen from broadcasts from the service.
@@ -114,22 +124,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private LocationUpdatesService mService = null;
     // Tracks the bound state of the service.
     private boolean mBound = false;
-
-    private PolylineOptions polylineOptions;
-    private BilbyBlitzData bilbyBlitzData;
-    private Calendar now = Calendar.getInstance();
-    private LocationManager locationManager;
-
-    @Override
-    protected void setLanguageValues(Language language) {
-        inputLayoutDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
-        inputLayoutstartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
-        inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
-        gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
-        surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
-        siteTextView.setText(localisedString("site_type", R.string.site_type));
-    }
-
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
@@ -146,6 +140,42 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             setButtonsState(false);
         }
     };
+    private PolylineOptions polylineOptions;
+    private BilbyBlitzData bilbyBlitzData;
+    private Calendar now = Calendar.getInstance();
+    /**
+     * Time picker Listener
+     */
+    TimePickerDialog.OnTimeSetListener startTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            now.set(Calendar.MINUTE, minute);
+            editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
+    };
+    /**
+     * Time picker Listener
+     */
+    TimePickerDialog.OnTimeSetListener endTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
+        @Override
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
+            now.set(Calendar.MINUTE, minute);
+            editEndTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
+    };
+    private LocationManager locationManager;
+
+    @Override
+    protected void setLanguageValues(Language language) {
+        inputLayoutDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
+        inputLayoutstartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
+        inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
+        gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
+        surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
+        siteTextView.setText(localisedString("site_type", R.string.site_type));
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -155,8 +185,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
 
-        surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.survey_type), R.layout.item_textview));
-        siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.site_type), R.layout.item_textview));
+        surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type), R.layout.item_textview));
+        siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type), R.layout.item_textview));
 
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
@@ -418,44 +448,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             addPolyLine(location);
         }
     }
-
-    /**
-     * Time picker Listener
-     */
-    TimePickerDialog.OnTimeSetListener startTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            now.set(Calendar.MINUTE, minute);
-            editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
-        }
-    };
-
-    /**
-     * Time picker Listener
-     */
-    TimePickerDialog.OnTimeSetListener endTimeSetListener = new TimePickerDialog.OnTimeSetListener() {
-        @Override
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            now.set(Calendar.HOUR_OF_DAY, hourOfDay);
-            now.set(Calendar.MINUTE, minute);
-            editEndTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
-        }
-    };
-
-    /**
-     * Date Picker Listener
-     */
-    DatePickerDialog.OnDateSetListener onDateSetListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
-            Calendar now = Calendar.getInstance();
-            now.set(Calendar.YEAR, year);
-            now.set(Calendar.MONTH, month);
-            now.set(Calendar.DAY_OF_MONTH, dayOfMonth);
-            editDate.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
-        }
-    };
 
     @OnClick(R.id.editDate)
     void editDate() {
