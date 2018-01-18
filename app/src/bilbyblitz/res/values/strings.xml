@@ -48,6 +48,7 @@
     <string name="start_gps">Start GPS</string>
     <string name="stop_gps">Stop GPS</string>
     <string name="add_country_photo">Add Country Photo</string>
+    <string name="add_sign_photo">Add Sign/Animal Photo</string>
     <string name="survey_type">Survey Type</string>
     <string name="site_type">Site choice</string>
     <string name="country_type">Country Type</string>
@@ -79,9 +80,10 @@
     <string name="kind_of_animal">Kind of Animal</string>
     <string name="size">Size</string>
     <string name="covering">Covering</string>
-    <string name="animal">Animal</string>
+    <string name="animal">Animals</string>
     <string name="animal_name">Animal Name</string>
-    <string name="what_you_see">What did you see?</string>
+    <string name="what_animal">What animal did you see?</string>
+    <string name="what_you_see">What sign did you see?</string>
     <string name="how_recent">How old is the sign?</string>
     <string name="how_old_animal">How old is the animal?</string>
     <string name="offline_species">Offline Settings</string>

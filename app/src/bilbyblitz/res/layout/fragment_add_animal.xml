@@ -28,7 +28,7 @@
                     android:id="@+id/editSpeciesName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/animal"
+                    android:hint="@string/what_animal"
                     android:imeOptions="flagNoExtractUi|actionSearch"
                     android:inputType="text"
                     android:clickable="true"
@@ -72,14 +72,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/animalAgeTextView"
+                android:id="@+id/recentTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/how_recent" />
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/animalAgeSpinner"
+                android:id="@+id/howRecentSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,14 +97,14 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/recentTextView"
+                android:id="@+id/animalAgeTextView"
                 style="@style/InputLabel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/how_recent" />
 
             <android.support.v7.widget.AppCompatSpinner
-                android:id="@+id/howRecentSpinner"
+                android:id="@+id/animalAgeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -194,10 +194,12 @@
                 android:layout_width="wrap_content"
                 android:minWidth="@dimen/button_minimum_width"
                 android:layout_height="36dp"
+                android:paddingLeft="@dimen/input_label_horizontal_spacing"
+                android:paddingRight="@dimen/input_label_horizontal_spacing"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/button_background"
                 android:gravity="center"
-                android:text="@string/add_photo"
+                android:text="@string/add_sign_photo"
                 android:textColor="@android:color/white"
                 android:textStyle="bold" />
 

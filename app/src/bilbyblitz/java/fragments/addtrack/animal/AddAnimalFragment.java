@@ -114,7 +114,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues(Language language) {
-        inputLayoutSpeciesName.setHint(localisedString("animal", R.string.animal));
+        setTitle(localisedString("animal", R.string.animal));
+        inputLayoutSpeciesName.setHint(localisedString("what_animal", R.string.what_animal));
         inputLayoutLatitude.setHint(localisedString("sign_latitude", R.string.sign_latitude));
         inputLayoutLongitude.setHint(localisedString("sign_longitude", R.string.sign_longitude));
         recentTextView.setText(localisedString("how_recent", R.string.how_recent));
