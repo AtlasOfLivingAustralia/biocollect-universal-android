@@ -56,6 +56,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.CustomSpinnerAdapter;
 import fragments.addtrack.map.LocationUpdatesService;
 import io.realm.RealmResults;
 import model.track.SightingEvidenceTable;
@@ -130,9 +131,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
-        whatSeenSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.what_see_values, R.layout.item_textview));
-        howRecentSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.how_recent_values, R.layout.item_textview));
-        animalAgeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.animal_age_values, R.layout.item_textview));
+        whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.what_see_values), R.layout.item_textview));
+        howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.how_recent_values), R.layout.item_textview));
+        animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.animal_age_values), R.layout.item_textview));
 
         Bundle bundle = getArguments();
         if (bundle == null) {

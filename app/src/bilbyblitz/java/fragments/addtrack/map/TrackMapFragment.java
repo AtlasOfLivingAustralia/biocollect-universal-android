@@ -61,6 +61,7 @@ import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.CustomSpinnerAdapter;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
@@ -154,8 +155,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
 
-        surveySpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.survey_type, R.layout.item_textview));
-        siteSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.site_type, R.layout.item_textview));
+        surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.survey_type), R.layout.item_textview));
+        siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.site_type), R.layout.item_textview));
 
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());

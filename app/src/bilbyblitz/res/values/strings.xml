@@ -47,6 +47,7 @@
     <string name="logout_message">Would you like to logout?</string>
     <string name="start_gps">Start GPS</string>
     <string name="stop_gps">Stop GPS</string>
+    <string name="add_country_photo">Add Country Photo</string>
     <string name="survey_type">Survey Type</string>
     <string name="site_type">Site choice</string>
     <string name="country_type">Country Type</string>

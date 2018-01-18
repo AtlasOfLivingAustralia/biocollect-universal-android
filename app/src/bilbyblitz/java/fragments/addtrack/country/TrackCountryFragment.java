@@ -28,19 +28,20 @@ import java.util.List;
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.FileUtils;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
+import au.csiro.ozatlas.model.RealmString;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import fragments.CustomSpinnerAdapter;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
-import au.csiro.ozatlas.manager.Language;
 import io.realm.RealmList;
 import model.track.BilbyBlitzData;
-import au.csiro.ozatlas.model.RealmString;
 import model.track.ImageModel;
 
 import static android.app.Activity.RESULT_OK;
@@ -116,13 +117,14 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
-        countryTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.country_type_values, R.layout.item_textview));
-        vegetationSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.vegetation_type, R.layout.item_textview));
-        disturbanceSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.disturbance_values, R.layout.item_textview));
-        groundTypeSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.ground_values, R.layout.item_textview));
-        clearGroundSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.clear_ground_type, R.layout.item_textview));
-        weatherSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.weather_value, R.layout.item_textview));
-        fireSpinner.setAdapter(ArrayAdapter.createFromResource(getContext(), R.array.fire_type, R.layout.item_textview));
+        countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.country_type_values), R.layout.item_textview));
+        //countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.country_type_values, R.layout.item_textview));
+        vegetationSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.vegetation_type), R.layout.item_textview));
+        disturbanceSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.disturbance_values), R.layout.item_textview));
+        groundTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.ground_values), R.layout.item_textview));
+        clearGroundSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.clear_ground_type), R.layout.item_textview));
+        weatherSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.weather_value), R.layout.item_textview));
+        fireSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray( R.array.fire_type), R.layout.item_textview));
 
         if (getParentFragment() instanceof AddTrackFragment) {
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();

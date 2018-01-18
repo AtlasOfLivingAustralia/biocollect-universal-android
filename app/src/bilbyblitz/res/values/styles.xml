@@ -15,6 +15,11 @@
         <item name="android:textColorPrimaryInverse">@android:color/white</item>
         <item name="android:textColorSecondaryInverse">@android:color/white</item>
         <item name="android:textColorTertiaryInverse">@android:color/white</item>
+        <item name="android:actionMenuTextAppearance">@style/customActionBar</item>
+    </style>
+
+    <style name="customActionBar" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/default_input_font_size</item>
     </style>
 
     <!--login theme-->
@@ -32,6 +37,10 @@
     <style name="DateTimeDialogTheme" parent="Theme.AppCompat.Light.Dialog">
         <item name="colorAccent">@color/colorPrimary</item>
         <item name="android:textColor">@color/colorPrimary</item>
+    </style>
+
+    <style name="ToolbarMenu">
+        <item name="android:textSize">@dimen/default_input_font_size</item> //size desired.
     </style>
 
     <!--    <style name="MediumTextAppearance" parent="TextAppearance.AppCompat.Medium">

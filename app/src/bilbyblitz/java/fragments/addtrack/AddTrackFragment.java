@@ -175,7 +175,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         inflater.inflate(R.menu.submit, menu);
         if (practiseView)
-            menu.findItem(R.id.submit).setTitle("CLOSE");
+            menu.findItem(R.id.submit).setTitle("FINISH");
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -272,7 +272,11 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues(Language language) {
-        setTitle(localisedString("add_track", R.string.add_track));
+        if (practiseView) {
+            setTitle(localisedString("practise_track", R.string.practise_track));
+        } else {
+            setTitle(localisedString("add_track", R.string.add_track));
+        }
     }
 
     private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
@@ -300,7 +304,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.latitude;
             }
             return mapModel;
-        }else{
+        } else {
             showSnackBarMessage(getString(R.string.at_least_two_coordinates));
         }
         return null;

@@ -10,13 +10,14 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
+import au.csiro.ozatlas.model.Project;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.addtrack.AddTrackFragment;
 import fragments.addtrack.BilbyDataManager;
 import fragments.addtrack.ValidationCheck;
-import au.csiro.ozatlas.manager.Language;
 import model.track.BilbyBlitzData;
 
 /**
@@ -58,7 +59,14 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     }
 
     public void setBilbyBlitzData() {
-        editOrganisationName.setText(bilbyBlitzData.organisationName);
+        if (bilbyBlitzData.organisationName == null) {
+            Project project = sharedPreferences.getSelectedProject();
+            if (project != null) {
+                editOrganisationName.setText(project.name);
+            }
+        } else
+            editOrganisationName.setText(bilbyBlitzData.organisationName);
+
         if (bilbyBlitzData.recordedBy == null)
             editLeadTracker.setText(sharedPreferences.getUserDisplayName());
         else
