@@ -77,7 +77,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private static final int REQUEST_PERMISSIONS_REQUEST_CODE = 34;
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
-    private final float INITIAL_ZOOM = 13.2f;
+    private final float INITIAL_ZOOM = 19.0f;
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.siteSpinner)

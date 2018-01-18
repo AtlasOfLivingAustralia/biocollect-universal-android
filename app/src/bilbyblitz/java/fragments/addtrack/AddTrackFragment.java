@@ -341,40 +341,49 @@ public class AddTrackFragment extends BaseMainActivityFragment {
      */
     private void uploadPhotos() {
         if (trackModel.outputs.get(0).data.sightingEvidenceTable != null && imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size()) {
-            mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath))
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
-                        @Override
-                        public void onNext(ImageUploadResponse value) {
-                            Log.d("uploadPhotos", value.files[0].thumbnail_url);
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign = new RealmList<>();
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(new ImageModel());
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).thumbnailUrl = value.files[0].thumbnail_url;
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).url = value.files[0].url;
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).contentType = value.files[0].contentType;
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).staged = true;
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).dateTaken = value.files[0].date;
-                            trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).filesize = value.files[0].size;
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            hideProgressDialog();
-                            handleError(e, 0, "");
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            imageUploadCount++;
-                            if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
-                                uploadPhotos();
-                            else {
-                                uploadLocationImages(trackModel);
+            if (trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath != null) {
+                mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath))
+                        .subscribeOn(Schedulers.newThread())
+                        .observeOn(AndroidSchedulers.mainThread())
+                        .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
+                            @Override
+                            public void onNext(ImageUploadResponse value) {
+                                Log.d("uploadPhotos", value.files[0].thumbnail_url);
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign = new RealmList<>();
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(new ImageModel());
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).thumbnailUrl = value.files[0].thumbnail_url;
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).url = value.files[0].url;
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).contentType = value.files[0].contentType;
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).staged = true;
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).dateTaken = value.files[0].date;
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).filesize = value.files[0].size;
                             }
 
-                        }
-                    }));
+                            @Override
+                            public void onError(Throwable e) {
+                                hideProgressDialog();
+                                handleError(e, 0, "");
+                            }
+
+                            @Override
+                            public void onComplete() {
+                                imageUploadCount++;
+                                if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
+                                    uploadPhotos();
+                                else {
+                                    uploadLocationImages(trackModel);
+                                }
+
+                            }
+                        }));
+            } else {
+                imageUploadCount++;
+                if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
+                    uploadPhotos();
+                else {
+                    uploadLocationImages(trackModel);
+                }
+            }
         } else {
             uploadLocationImages(trackModel);
         }
