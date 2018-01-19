@@ -14,7 +14,7 @@
             android:layout_height="match_parent"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
-            android:src="@drawable/home_page_header_background" />
+            android:src="@drawable/tracker_home_login" />
 
 
         <ImageView
