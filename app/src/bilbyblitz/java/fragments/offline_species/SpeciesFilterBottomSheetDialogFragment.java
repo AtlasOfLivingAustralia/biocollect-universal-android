@@ -98,11 +98,11 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
 
     @Parcel
     public static class SpeciesFilter {
-        public boolean isSizeLarge = true;
-        public boolean isSizeMedium = true;
-        public boolean isSizeSmall = true;
-        public boolean isBodyCoverFur = true;
-        public boolean isBodyCoverFeather = true;
+        public boolean isSizeLarge;
+        public boolean isSizeMedium;
+        public boolean isSizeSmall;
+        public boolean isBodyCoverFur;
+        public boolean isBodyCoverFeather;
 
     }
 }

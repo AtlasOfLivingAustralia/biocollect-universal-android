@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -149,37 +148,43 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         if (speciesFilter != null) {
             for (int i = 0; i < species.size(); i++) {
                 SearchSpecies spc = species.get(i);
+                boolean adultFilter = false;
+                boolean coverFilter = false;
                 if (spc.kvpValues != null) {
                     for (KvpValues kvpValues : spc.kvpValues) {
                         if (kvpValues.key.equals("Adult  Size")) {
-                            Log.d("SPECIES", kvpValues.key + "    " + kvpValues.value);
-                            if (speciesFilter.isSizeSmall && kvpValues.value.equals("Small")) {
-                                filterSpecies.add(spc);
-                                break;
+                            if (speciesFilter.isSizeSmall || speciesFilter.isSizeMedium || speciesFilter.isSizeLarge) {
+                                if (speciesFilter.isSizeSmall && kvpValues.value.equals("Small")) {
+                                    adultFilter = true;
+                                } else if (speciesFilter.isSizeMedium && kvpValues.value.equals("Medium")) {
+                                    adultFilter = true;
+                                } else if (speciesFilter.isSizeLarge && kvpValues.value.equals("Large")) {
+                                    adultFilter = true;
+                                }
+                            } else {
+                                adultFilter = true;
                             }
+                        }
 
-                            if (speciesFilter.isSizeMedium && kvpValues.value.equals("Medium")) {
-                                filterSpecies.add(spc);
-                                break;
-                            }
-
-                            if (speciesFilter.isSizeLarge && kvpValues.value.equals("Large")) {
-                                filterSpecies.add(spc);
-                                break;
-                            }
-                        } else if (kvpValues.key.equals("Body  Cover")) {
-                            if (speciesFilter.isBodyCoverFur && kvpValues.value.equals("Fur")) {
-                                filterSpecies.add(spc);
-                                break;
-                            }
-
-                            if (speciesFilter.isBodyCoverFeather && kvpValues.value.equals("Feathers")) {
-                                filterSpecies.add(spc);
-                                break;
+                        if (kvpValues.key.equals("Body  Cover")) {
+                            if (speciesFilter.isBodyCoverFur || speciesFilter.isBodyCoverFeather) {
+                                if (speciesFilter.isBodyCoverFur && kvpValues.value.equals("Fur")) {
+                                    coverFilter = true;
+                                } else if (speciesFilter.isBodyCoverFeather && kvpValues.value.equals("Feathers")) {
+                                    coverFilter = true;
+                                }
+                            } else {
+                                coverFilter = true;
                             }
                         }
                     }
+                } else {
+                    adultFilter = true;
+                    coverFilter = true;
                 }
+
+                if (adultFilter && coverFilter)
+                    filterSpecies.add(spc);
             }
         } else {
             filterSpecies.addAll(species);
