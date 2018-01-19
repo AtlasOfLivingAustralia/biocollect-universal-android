@@ -249,17 +249,19 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         @Override
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
             final SearchSpecies species = AvailableSpeciesFragment.this.filterSpecies.get(position);
-            holder.speciesName.setText(species.name);
-            holder.commonName.setText(getString(R.string.common_name, species.commonName));
+            holder.speciesName.setText(species.commonName == null ? species.name : species.commonName);
             if (species.kingdom == null) {
                 if (species.scientificName != null) {
-                    holder.kingdomName.setText(getString(R.string.scientific_name, species.scientificName));
+                    holder.commonName.setText(getString(R.string.scientific_name, species.scientificName));
                 } else {
-                    holder.kingdomName.setText(getString(R.string.kingdom_name, "Undefined"));
+                    holder.commonName.setText(getString(R.string.kingdom_name, "Undefined"));
                 }
             } else {
-                holder.kingdomName.setText(getString(R.string.kingdom_name, species.kingdom));
+                holder.commonName.setText(getString(R.string.kingdom_name, species.kingdom));
             }
+
+            //holder.commonName.setText(getString(R.string.common_name, species.commonName));
+
             if (selections != null) {
                 if (selections[position]) {
                     holder.delete.setBackgroundResource(R.drawable.filled_circle);
@@ -294,17 +296,21 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     }
                 }
             }*/
-            /*if (species.kvpValues != null) {
+            if (species.kvpValues != null) {
                 for (KvpValues kvpValues : species.kvpValues) {
-                    if (kvpValues.key.equals("Adult  Size")) {
+                    /*if (kvpValues.key.equals("Adult  Size")) {
                         Log.d("SPECIES", kvpValues.key+ "    "+kvpValues.value);
                         holder.kingdomName.setText(kvpValues.value);
                     }
                     if (kvpValues.key.equals("Body  Cover")) {
                         holder.kingdomName.append("   " + kvpValues.value);
+                    }*/
+
+                    if (kvpValues.key.equals("Warlpiri name")) {
+                        holder.kingdomName.setText(getString(R.string.warlpiri_name, kvpValues.value));
                     }
                 }
-            }*/
+            }
         }
 
         class SpeciesViewHolder extends RecyclerView.ViewHolder {
