@@ -8,7 +8,7 @@
     <dimen name="caption_font_size">12sp</dimen>
     <dimen name="bigger_input_font_size">22sp</dimen>
     <dimen name="big_title_font_size">26sp</dimen>
-
+    <dimen name="map_height">400dp</dimen>
     <dimen name="minimum_height_bigger_input_views">58dp</dimen>
     <dimen name="map_line_width">4dp</dimen>
     <dimen name="species_loading_indicator_right_margin">10dp</dimen>

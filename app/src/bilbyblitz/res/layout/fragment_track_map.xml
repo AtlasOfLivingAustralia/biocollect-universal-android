@@ -100,7 +100,7 @@
         <FrameLayout
             android:id="@+id/mapLayout"
             android:layout_width="match_parent"
-            android:layout_height="400dp"
+            android:layout_height="@dimen/map_height"
             android:layout_marginTop="@dimen/input_view_top_margin" />
 
         <android.support.design.widget.TextInputLayout
