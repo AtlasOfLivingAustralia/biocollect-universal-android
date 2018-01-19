@@ -32,12 +32,16 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
     EditText editLeadTracker;
     @BindView(R.id.editOtherTracker)
     EditText editOtherTracker;
+    @BindView(R.id.editComments)
+    EditText editComments;
     @BindView(R.id.inputLayoutOrganisationName)
     TextInputLayout inputLayoutOrganisationName;
     @BindView(R.id.inputLayoutLeadTracker)
     TextInputLayout inputLayoutLeadTracker;
     @BindView(R.id.inputLayoutOtherTracker)
     TextInputLayout inputLayoutOtherTracker;
+    @BindView(R.id.inputLayoutComments)
+    TextInputLayout inputLayoutComments;
 
     private BilbyBlitzData bilbyBlitzData;
 
@@ -71,6 +75,10 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
             editLeadTracker.setText(sharedPreferences.getUserDisplayName());
         else
             editLeadTracker.setText(bilbyBlitzData.recordedBy);
+
+        if(bilbyBlitzData.eventComments!=null)
+            editComments.setText(bilbyBlitzData.eventComments);
+
         editOtherTracker.setText(bilbyBlitzData.additionalTrackers);
     }
 
@@ -123,5 +131,6 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.recordedBy = editLeadTracker.getText().toString();
         bilbyBlitzData.organisationName = editOrganisationName.getText().toString();
         bilbyBlitzData.additionalTrackers = editOtherTracker.getText().toString();
+        bilbyBlitzData.eventComments = editComments.getText().toString();
     }
 }
