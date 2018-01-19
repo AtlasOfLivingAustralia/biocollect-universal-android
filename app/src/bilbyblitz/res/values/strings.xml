@@ -24,6 +24,7 @@
     <string name="contact_us_title">Contact Us</string>
     <string name="add_track">Add a New Track</string>
     <string name="practise_track">Practice Tracking</string>
+    <string name="my_track">My Tracks</string>
     <string name="review_track">Review Tracks</string>
     <string name="help">Help</string>
     <string name="update_location">Update Location</string>
@@ -75,6 +76,7 @@
     <string name="organisation_name">Organisation Name</string>
     <string name="lead_tracker">Lead Tracker</string>
     <string name="other_tracker">Other Tracker Names</string>
+    <string name="comment">Comments</string>
     <string name="other_setting">Other Settings</string>
     <string name="group_selfie">Group Selfie</string>
     <string name="kind_of_animal">Kind of Animal</string>

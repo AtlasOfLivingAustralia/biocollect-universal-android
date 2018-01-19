@@ -83,6 +83,9 @@ public class BilbyBlitzData extends RealmObject {
     public String recordedBy;
 
     @Expose
+    public String eventComments;
+
+    @Expose
     public String habitatType;
 
     @ParcelPropertyConverter(RealmListParcelConverter.class)

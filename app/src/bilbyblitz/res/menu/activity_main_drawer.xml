@@ -20,6 +20,11 @@
             android:title="@string/practise_track" />
 
         <item
+            android:id="@+id/nav_my_track"
+            android:icon="@drawable/animal_practise_track"
+            android:title="@string/my_track" />
+
+        <item
             android:id="@+id/nav_review_track"
             android:icon="@drawable/review"
             android:title="@string/review_track" />
