@@ -195,65 +195,67 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                             }
                         });
                     } else {
-                        if (AtlasManager.isNetworkAvailable(getActivity())) {
-                            String message;
-                            StringBuilder stringBuilder = new StringBuilder();
-                            for (int i = 0; i < NUMBER_OF_FRAGMENTS; i++) {
-                                ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
-                                if (validationCheck != null) {
-                                    message = validationCheck.getValidationMessage();
-                                    if (!TextUtils.isEmpty(message)) {
-                                        stringBuilder.append("\n").append(message);
+                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.track_save_message), getString(R.string.track_save_title), getString(R.string.submit_text), (dialog, which) -> {
+                            if (AtlasManager.isNetworkAvailable(getActivity())) {
+                                String message;
+                                StringBuilder stringBuilder = new StringBuilder();
+                                for (int i = 0; i < NUMBER_OF_FRAGMENTS; i++) {
+                                    ValidationCheck validationCheck = (ValidationCheck) pagerAdapter.getRegisteredFragment(i);
+                                    if (validationCheck != null) {
+                                        message = validationCheck.getValidationMessage();
+                                        if (!TextUtils.isEmpty(message)) {
+                                            stringBuilder.append("\n").append(message);
+                                        }
                                     }
                                 }
-                            }
-                            message = stringBuilder.toString();
-                            if (!TextUtils.isEmpty(message))
-                                showMultiLineSnackBarMessage(message);
-                            else {
-                                for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                                    BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
-                                    if (bilbyDataManager != null) {
-                                        bilbyDataManager.prepareData();
-                                    }
-                                }
-                                imageUploadCount = 0;
-                                showProgressDialog();
-                                MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
-                                if (mapModel != null) {
-                                    uploadMap(mapModel);
-                                } else {
-                                    uploadPhotos();
-                                }
-                            }
-                        } else {
-                            AtlasDialogManager.alertBox(getActivity(), getString(R.string.no_internet_message), getString(R.string.not_internet_title), (dialog, which) -> {
-                                if (trackModel != null && !trackModel.isManaged()) {
+                                message = stringBuilder.toString();
+                                if (!TextUtils.isEmpty(message))
+                                    showMultiLineSnackBarMessage(message);
+                                else {
                                     for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
                                         BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
                                         if (bilbyDataManager != null) {
                                             bilbyDataManager.prepareData();
                                         }
                                     }
-                                    if (trackModel.realmId == null)
-                                        trackModel.realmId = getPrimaryKeyValue();
-                                    realm.executeTransactionAsync(realm -> {
-                                        realm.insertOrUpdate(trackModel);
-                                        if (isAdded()) {
-                                            getActivity().runOnUiThread(new Runnable() {
-                                                @Override
-                                                public void run() {
-                                                    AtlasManager.hideKeyboard(getActivity());
-                                                    showSnackBarMessage("Your track information has been saved as Draft");
-                                                    setDrawerMenuChecked(R.id.nav_review_track);
-                                                    setDrawerMenuClicked(R.id.nav_review_track);
-                                                }
-                                            });
-                                        }
-                                    });
+                                    imageUploadCount = 0;
+                                    showProgressDialog();
+                                    MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
+                                    if (mapModel != null) {
+                                        uploadMap(mapModel);
+                                    } else {
+                                        uploadPhotos();
+                                    }
                                 }
-                            });
-                        }
+                            }else{
+                                showSnackBarMessage(getString(R.string.not_internet_error));
+                            }
+                        }, getString(R.string.later), (dialog, which) -> {
+                            if (trackModel != null && !trackModel.isManaged()) {
+                                for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                                    BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
+                                    if (bilbyDataManager != null) {
+                                        bilbyDataManager.prepareData();
+                                    }
+                                }
+                                if (trackModel.realmId == null)
+                                    trackModel.realmId = getPrimaryKeyValue();
+                                realm.executeTransactionAsync(realm -> {
+                                    realm.insertOrUpdate(trackModel);
+                                    if (isAdded()) {
+                                        getActivity().runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                AtlasManager.hideKeyboard(getActivity());
+                                                showSnackBarMessage("Your track information has been saved as Draft");
+                                                setDrawerMenuChecked(R.id.nav_review_track);
+                                                setDrawerMenuClicked(R.id.nav_review_track);
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        }, "Cancel");
                     }
                 } else {
                     showSnackBarMessage(getString(R.string.project_selection_message));

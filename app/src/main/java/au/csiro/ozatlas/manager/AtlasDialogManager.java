@@ -21,15 +21,47 @@ public class AtlasDialogManager {
      * @param positiveClickListener listener when the user click "OK" or positive button
      * @param negativeClickListener listener when the user click "CANCEL" or negative button
      */
-    public static void alertBox(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener, DialogInterface.OnClickListener negativeClickListener) {
+    public static void alertBox(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener, String negativeText, DialogInterface.OnClickListener negativeClickListener, String neutralText) {
         AlertDialog.Builder builder = new AlertDialog.Builder(context);
         builder.setMessage(message)
                 .setCancelable(false)
                 .setTitle(title)
                 .setPositiveButton(positiveButtonText, positiveClickListener)
-                .setNegativeButton("Cancel", negativeClickListener);
+                .setNegativeButton(negativeText, negativeClickListener)
+                .setNeutralButton(neutralText, null);
         AlertDialog alert = builder.create();
         alert.show();
+    }
+
+    /**
+     * @param context
+     * @param message               message to show in the Alert Dialog
+     * @param title                 Dialog Title
+     * @param positiveButtonText    The text for the positive button such as "OK"
+     * @param positiveClickListener listener when the user click "OK" or positive button
+     * @param negativeClickListener listener when the user click "CANCEL" or negative button
+     */
+    public static void alertBox(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener, String negativeText, DialogInterface.OnClickListener negativeClickListener) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context);
+        builder.setMessage(message)
+                .setCancelable(false)
+                .setTitle(title)
+                .setPositiveButton(positiveButtonText, positiveClickListener)
+                .setNegativeButton(negativeText, negativeClickListener);
+        AlertDialog alert = builder.create();
+        alert.show();
+    }
+
+    /**
+     * @param context
+     * @param message               message to show in the Alert Dialog
+     * @param title                 Dialog Title
+     * @param positiveButtonText    The text for the positive button such as "OK"
+     * @param positiveClickListener listener when the user click "OK" or positive button
+     * @param negativeClickListener listener when the user click "CANCEL" or negative button
+     */
+    public static void alertBox(Context context, String message, String title, String positiveButtonText, DialogInterface.OnClickListener positiveClickListener, DialogInterface.OnClickListener negativeClickListener) {
+        alertBox(context, message, title, positiveButtonText, positiveClickListener, "Cancel", negativeClickListener);
     }
 
     /**

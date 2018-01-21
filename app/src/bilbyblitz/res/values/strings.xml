@@ -42,6 +42,7 @@
     <string name="map">Map</string>
     <string name="country">Country</string>
     <string name="animals">Animals</string>
+    <string name="later">Later</string>
     <string name="food_plant_separator">;&#160;</string>
 
     <string name="good_day_message">Hello %1$s</string>
@@ -124,6 +125,8 @@
     <string name="project_selection_message">Please select a project from Settings in order to submit Tracks.</string>
     <string name="project_id_missing">This project is not active at this moment.</string>
     <string name="at_least_two_coordinates">You need at least two locations.</string>
+    <string name="track_save_title">Save Track</string>
+    <string name="track_save_message">Would you like to submit the track information now? If you press LATER, it will be saved locally and you can modify the information later.</string>
 
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>
