@@ -7,12 +7,14 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -20,6 +22,8 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
+import com.jakewharton.rxbinding2.widget.RxTextView;
+import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -28,6 +32,7 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.Language;
@@ -37,7 +42,15 @@ import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import io.reactivex.BackpressureStrategy;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Function;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
+import io.realm.Case;
 import io.realm.Realm;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import model.EventBusPosts;
 
@@ -52,7 +65,10 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     SwipeRefreshLayout swipeRefreshLayout;
     @BindView(R.id.total)
     TextView total;
+    @BindView(R.id.editSearch)
+    EditText editSearch;
 
+    private static final int DELAY_IN_MILLIS = 400;
     private List<SearchSpecies> filterSpecies = new ArrayList<>();
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
@@ -75,7 +91,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
+        View view = inflater.inflate(R.layout.fragment_available_species, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         setTitle(getString(R.string.available_species));
@@ -103,10 +119,41 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         //get the filterSpecies
         readAvailableSpecies();
 
+        mCompositeDisposable.add(searchInRealm());
+
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
         return view;
+    }
+
+
+    private Disposable searchInRealm() {
+        return RxTextView.textChangeEvents(editSearch)
+                .debounce(DELAY_IN_MILLIS, TimeUnit.MILLISECONDS) // default Scheduler is Schedulers.computation()
+                .map(textViewTextChangeEvent -> textViewTextChangeEvent.text().toString())
+                .observeOn(AndroidSchedulers.mainThread()) // Needed to access Realm data
+                .toFlowable(BackpressureStrategy.BUFFER)
+                .switchMap(string -> {
+                    // Use Async API to move Realm queries off the main thread.
+                    // Realm currently doesn't support the standard Schedulers.
+                    return realm.where(SearchSpecies.class)
+                            .contains("commonName", string, Case.INSENSITIVE)
+                            .or()
+                            .contains("name", string, Case.INSENSITIVE)
+                            .findAllAsync()
+                            .asFlowable();
+                })
+                // Only continue once data is actually loaded
+                // RealmObservables will emit the unloaded (empty) list as its first item
+                .filter(RealmResults::isLoaded)
+                .subscribe(searchSpecies -> setSpeciesAdapter(realm.copyFromRealm(searchSpecies)), Throwable::printStackTrace);
+    }
+
+    private void setSpeciesAdapter(List<SearchSpecies> searchSpecies){
+        species.clear();
+        species.addAll(searchSpecies);
+        applyFilter(sharedPreferences.getSpeciesFilter());
     }
 
     @Override
@@ -209,9 +256,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).findAllAsync();
         results.addChangeListener((collection, changeSet) -> {
             if (isAdded()) {
-                species.clear();
-                species.addAll(collection);
-                applyFilter(sharedPreferences.getSpeciesFilter());
+                setSpeciesAdapter(collection);
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
             }

@@ -124,6 +124,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         }
     };
 
+
     @Override
     protected void setLanguageValues(Language language) {
         setTitle(localisedString("animal", R.string.animal));
