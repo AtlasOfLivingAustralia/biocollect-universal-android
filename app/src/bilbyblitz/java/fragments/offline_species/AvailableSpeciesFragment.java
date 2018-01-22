@@ -2,6 +2,7 @@ package fragments.offline_species;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,6 +15,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -313,6 +319,27 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
                     if (kvpValues.key.equals("Warlpiri name")) {
                         holder.kingdomName.setText(getString(R.string.warlpiri_name, kvpValues.value));
+                    }
+
+                    if (kvpValues.key.equals("Image")) {
+                        Glide.with(getActivity())
+                                .load(kvpValues.value)
+                                .placeholder(R.drawable.no_image_available)
+                                .crossFade()
+                                .listener(new RequestListener<String, GlideDrawable>() {
+                                    @Override
+                                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                                        holder.image.setColorFilter(Color.WHITE);
+                                        return false;
+                                    }
+
+                                    @Override
+                                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                                        holder.image.clearColorFilter();
+                                        return false;
+                                    }
+                                })
+                                .into(holder.image);
                     }
                 }
             }
