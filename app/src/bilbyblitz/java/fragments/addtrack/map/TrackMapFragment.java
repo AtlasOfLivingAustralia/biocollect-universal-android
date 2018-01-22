@@ -30,12 +30,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -82,8 +80,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     AppCompatSpinner surveySpinner;
     @BindView(R.id.siteSpinner)
     AppCompatSpinner siteSpinner;
-    @BindView(R.id.startGPSButton)
-    Button startGPSButton;
     @BindView(R.id.editDate)
     EditText editDate;
     @BindView(R.id.editStartTime)
@@ -102,6 +98,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextView gpsMessageTextView;
     @BindView(R.id.inputLayoutEndTime)
     TextInputLayout inputLayoutEndTime;
+
     /**
      * Date Picker Listener
      */
@@ -137,7 +134,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         public void onServiceDisconnected(ComponentName name) {
             mService = null;
             mBound = false;
-            setButtonsState(false);
         }
     };
     private PolylineOptions polylineOptions;
@@ -172,7 +168,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         inputLayoutDate.setHint(localisedString("event_date_hint", R.string.event_date_hint));
         inputLayoutstartTime.setHint(localisedString("event_start_time_hint", R.string.event_start_time_hint));
         inputLayoutEndTime.setHint(localisedString("event_end_time_hint", R.string.event_end_time_hint));
-        gpsMessageTextView.setText(localisedString("gps_start_message", R.string.gps_start_message));
+        //gpsMessageTextView.setText(localisedString("number_of_location", R.string.number_of_location));
         surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
         siteTextView.setText(localisedString("site_type", R.string.site_type));
     }
@@ -195,6 +191,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
             setBilbyBlitzData();
         }
+
+        lookForGPSSettings();
         return view;
     }
 
@@ -214,6 +212,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         if (bilbyBlitzData.tempLocations != null)
             locations = bilbyBlitzData.tempLocations;
 
+        gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
         editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
         siteSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.site_type), bilbyBlitzData.siteChoice));
@@ -233,26 +232,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putString("TrackMapFragmentGPSButton", startGPSButton.getText().toString());
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            String string = savedInstanceState.getString("TrackMapFragmentGPSButton");
-            if (string != null)
-                startGPSButton.setText(string);
-        }
-    }
-
-    private boolean isGPSStarted() {
-        return startGPSButton.getText().equals(getString(R.string.stop_gps));
-    }
-
-    @Override
     public void onStart() {
         super.onStart();
         // Bind to the service. If the service is in foreground mode, this signals to the service
@@ -261,6 +240,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             requestPermissions();
         } else {
             getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
+            //lookForGPSSettings();
         }
     }
 
@@ -292,8 +272,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
      * requesting Location access permission
      */
     private void requestPermissions() {
-        ActivityCompat.requestPermissions(getActivity(),
-                new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_REQUEST_CODE);
+        requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, REQUEST_PERMISSIONS_REQUEST_CODE);
     }
 
     /**
@@ -305,38 +284,17 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     }
 
     /**
-     * look for hardware GPS location
+     * look for hardware GPS Settings
      */
-    @OnClick(R.id.startGPSButton)
-    public void lookForGPSLocation() {
-        if (startGPSButton.getText().equals(getString(R.string.start_gps))) {
-            if (locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
-                if (!checkPermissions()) {
-                    requestPermissions();
-                } else {
-                    if (mService == null) {
-                        getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
-                    }
-                    setButtonsState(true);
+    public void lookForGPSSettings() {
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) && !locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)) {
+            AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivity(myIntent);
+                    dialog.cancel();
                 }
-            } else {
-                AtlasDialogManager.alertBox(getActivity(), "Your Device's GPS or Network is Disable", "Location Provider Status", "Setting", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        Intent myIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                        startActivity(myIntent);
-                        dialog.cancel();
-                    }
-                });
-            }
-        } else {
-            if (mService != null) {
-                mService.removeLocationUpdates();
-                getActivity().unbindService(mServiceConnection);
-                mService = null;
-                mBound = false;
-                setButtonsState(false);
-                putCoordinatesInVisibleArea();
-            }
+            });
         }
     }
 
@@ -371,6 +329,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         if (polylineOptions != null) {
             polylineOptions.add(new LatLng(location.getLatitude(), location.getLongitude()));
             googleMap.addPolyline(polylineOptions);
+            putCoordinatesInVisibleArea();
         }
     }
 
@@ -478,27 +437,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 Log.i(TAG, "User interaction was cancelled.");
             } else if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // Permission was granted.
-                //setButtonsState(true);
                 getActivity().bindService(new Intent(getActivity(), LocationUpdatesService.class), mServiceConnection, Context.BIND_AUTO_CREATE);
-                //LocalBroadcastManager.getInstance(getContext()).registerReceiver(myReceiver, new IntentFilter(LocationUpdatesService.ACTION_BROADCAST));
-                //mService.requestLocationUpdates();
-            } else {
-                // Permission denied.
-                setButtonsState(false);
             }
-        }
-    }
-
-    /**
-     * update the status of GPS Button
-     *
-     * @param requestingLocationUpdates
-     */
-    private void setButtonsState(boolean requestingLocationUpdates) {
-        if (requestingLocationUpdates) {
-            startGPSButton.setText(getString(R.string.stop_gps));
-        } else {
-            startGPSButton.setText(getString(R.string.start_gps));
         }
     }
 
@@ -535,14 +475,13 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                     return;
                 }
 
-                if (isGPSStarted()) {
-                    location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
-                    if (location != null) {
-                        locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
-                        setGoogleMapView(location);
-                        addPolyLine(location);
-                        Toast.makeText(getContext(), locations.size() == 1 ? getString(R.string.location_found_singular) : getString(R.string.location_found_plural, locations.size()), Toast.LENGTH_SHORT).show();
-                    }
+                location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
+                if (location != null) {
+                    locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
+                    setGoogleMapView(location);
+                    addPolyLine(location);
+                    gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
+                    //Toast.makeText(getContext(), locations.size() == 1 ? getString(R.string.location_found_singular) : getString(R.string.location_found_plural, locations.size()), Toast.LENGTH_SHORT).show();
                 }
             }
         }

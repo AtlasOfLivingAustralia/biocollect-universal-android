@@ -227,7 +227,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                         uploadPhotos();
                                     }
                                 }
-                            }else{
+                            } else {
                                 showSnackBarMessage(getString(R.string.not_internet_error));
                             }
                         }, getString(R.string.later), (dialog, which) -> {

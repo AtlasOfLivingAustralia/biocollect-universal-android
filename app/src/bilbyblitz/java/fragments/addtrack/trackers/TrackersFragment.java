@@ -76,7 +76,7 @@ public class TrackersFragment extends BaseMainActivityFragment implements Valida
         else
             editLeadTracker.setText(bilbyBlitzData.recordedBy);
 
-        if(bilbyBlitzData.eventComments!=null)
+        if (bilbyBlitzData.eventComments != null)
             editComments.setText(bilbyBlitzData.eventComments);
 
         editOtherTracker.setText(bilbyBlitzData.additionalTrackers);
