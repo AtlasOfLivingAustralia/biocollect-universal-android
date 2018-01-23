@@ -38,6 +38,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.KvpValues;
 import au.csiro.ozatlas.model.SearchSpecies;
+import au.csiro.ozatlas.model.SpeciesFilter;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -196,7 +197,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         return true;
     }
 
-    private void applyFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter) {
+    private void applyFilter(SpeciesFilter speciesFilter) {
         filterSpecies.clear();
         if (speciesFilter != null) {
             for (int i = 0; i < species.size(); i++) {

@@ -15,6 +15,7 @@ import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.model.SpeciesFilter;
 
 /**
  * Created by sad038 on 5/6/17.
@@ -94,15 +95,5 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
 
     public interface SpeciesFilterBottomSheetListener {
         void onDoneFiltering(SpeciesFilter speciesFilter);
-    }
-
-    @Parcel
-    public static class SpeciesFilter {
-        public boolean isSizeLarge;
-        public boolean isSizeMedium;
-        public boolean isSizeSmall;
-        public boolean isBodyCoverFur;
-        public boolean isBodyCoverFeather;
-
     }
 }

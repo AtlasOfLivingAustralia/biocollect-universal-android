@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import au.csiro.ozatlas.model.Project;
-import fragments.offline_species.SpeciesFilterBottomSheetDialogFragment;
+import au.csiro.ozatlas.model.SpeciesFilter;
 
 /**
  * Created by sad038 on 5/4/17.
@@ -200,10 +200,10 @@ public class AtlasSharedPreferenceManager {
      *
      * @return
      */
-    public SpeciesFilterBottomSheetDialogFragment.SpeciesFilter getSpeciesFilter() {
+    public SpeciesFilter getSpeciesFilter() {
         Gson gson = new Gson();
         String json = sharedPreferences.getString("SPECIES_FILTER", "");
-        return gson.fromJson(json, SpeciesFilterBottomSheetDialogFragment.SpeciesFilter.class);
+        return gson.fromJson(json, SpeciesFilter.class);
     }
 
     /**
@@ -211,7 +211,7 @@ public class AtlasSharedPreferenceManager {
      *
      * @param speciesFilter
      */
-    public void writeSpeciesFilter(SpeciesFilterBottomSheetDialogFragment.SpeciesFilter speciesFilter) {
+    public void writeSpeciesFilter(SpeciesFilter speciesFilter) {
         Gson gson = new Gson();
         String json = gson.toJson(speciesFilter);
         sharedPreferences.edit().putString("SPECIES_FILTER", json).apply();
