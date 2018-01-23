@@ -95,9 +95,9 @@
 
     <string-array name="disturbance_values_adithinngithigh">
         <item>Select Option</item>
-        <item>Wind</item>
-        <item>Rain</item>
-        <item>Car</item>
+        <item>warlpa / mayawurnpa</item>
+        <item>ngapa</item>
+        <item>mutukayi</item>
         <item>No recent disturbance</item>
     </string-array>
 
@@ -110,9 +110,9 @@
 
     <string-array name="ground_values_adithinngithigh">
         <item>Select Option</item>
-        <item>Soft (lots of little tracks)</item>
-        <item>Bit hard for little animal tracks</item>
-        <item>Hard (only tracks of big animals)</item>
+        <item>Walya ngurrju yitaki maninjaku</item>
+        <item>Walya wita-kari wita-kari yitaki maninjaku</item>
+        <item>puta karlipa yitaki mani</item>
     </string-array>
 
     <string-array name="clear_ground_type">
@@ -124,9 +124,9 @@
 
     <string-array name="clear_ground_type_adithinngithigh">
         <item>Select Option</item>
-        <item>Lots of clear ground</item>
-        <item>Some clear ground</item>
-        <item>Little or no clear ground</item>
+        <item>Marna wurnturu-wurnturu</item>
+        <item>Marna wita-kari wita-kari</item>
+        <item>Marna kutu-kutu</item>
     </string-array>
 
     <string-array name="vegetation_type">
@@ -142,13 +142,13 @@
 
     <string-array name="vegetation_type_adithinngithigh">
         <item>Select Option</item>
-        <item>Spinifex grassland</item>
-        <item>Open grassland</item>
-        <item>Buffel grassland</item>
-        <item>Shrubland</item>
-        <item>Open woodland</item>
-        <item>Dense woodland</item>
-        <item>Other</item>
+        <item>Marna</item>
+        <item>Marna jinta-kari jinta-kari</item>
+        <item>Marna kardiya kurlangu</item>
+        <item>Yurrku yurrku</item>
+        <item>Manja</item>
+        <item>yuwurrku</item>
+        <item>Marna panu-kari</item>
     </string-array>
 
     <string-array name="food_plant_type">
@@ -161,12 +161,12 @@
     </string-array>
 
     <string-array name="food_plant_type_adithinngithigh">
-        <item>Grass seeds</item>
-        <item>Yakirra grass</item>
-        <item>Witchetty grub shrubs</item>
-        <item>Bush fruits</item>
-        <item>Bush onions</item>
-        <item>Yams and potatoes</item>
+        <item>Yakunjiyi</item>
+        <item>Punatiju / purnujutu / warripinyi / yukarrija</item>
+        <item>Ngarlkirdi manu  murlurrpa piya</item>
+        <item>Watakiyi / yuparli / yakajirri / marnikiji / wanakiji / yipirntiri</item>
+        <item>Janmarda</item>
+        <item>Ngamarna / puurda / yaljirrpa / ngarlaji</item>
     </string-array>
 
     <string-array name="weather_value">
@@ -179,10 +179,10 @@
 
     <string-array name="weather_value_adithinngithigh">
         <item>Select Option</item>
-        <item>Cloudy</item>
-        <item>Bright sun</item>
-        <item>Windy</item>
-        <item>Calm</item>
+        <item>Mangkurdu</item>
+        <item>Wanta</item>
+        <item>Warlpa / mayawurnpa</item>
+        <item>Rdiwaraji</item>
     </string-array>
 
     <string-array name="fire_type">
@@ -196,33 +196,11 @@
 
     <string-array name="fire_type_adithinngithigh">
         <item>Select Option</item>
-        <item>Recent fire</item>
-        <item>Fresh shoots and plants growing</item>
-        <item>Mature herbs with small grasses</item>
-        <item>Old enough to burn</item>
-        <item>Long unburnt</item>
-    </string-array>
-
-    <string-array name="detailed_habitat_values">
-        <item>Select Option</item>
-        <item>Spinifex</item>
-        <item>Open grassland</item>
-        <item>Buffel grassland</item>
-        <item>Shrubland</item>
-        <item>Open woodland</item>
-        <item>Dense woodland</item>
-        <item>Other</item>
-    </string-array>
-
-    <string-array name="detailed_habitat_values_adithinngithigh">
-        <item>Select Option</item>
-        <item>Spinifex</item>
-        <item>Open grassland</item>
-        <item>Buffel grassland</item>
-        <item>Shrubland</item>
-        <item>Open woodland</item>
-        <item>Dense woodland</item>
-        <item>Other</item>
+        <item>Wini</item>
+        <item>Kuntara</item>
+        <item>Tingkirrkari-tingkirrkari / yarlu-yarlu</item>
+        <item>Tarlajirri / tarltarlpanu</item>
+        <item>Pukulyu</item>
     </string-array>
 
     <string-array name="what_see_values">
@@ -239,14 +217,14 @@
 
     <string-array name="what_see_values_adithinngithigh">
         <item>Select Option</item>
-        <item>Animal</item>
-        <item>Track</item>
-        <item>Scat</item>
-        <item>Burrow/Nest/Cave/Resting place</item>
-        <item>Body part</item>
-        <item>Digging</item>
-        <item>Digging into roots for grubs</item>
-        <item>Digging for ants/termites</item>
+        <item>nyiyanpa nyangu</item>
+        <item>wirliya </item>
+        <item>kuna</item>
+        <item>ngurra</item>
+        <item>palka</item>
+        <item>parngirni</item>
+        <item>parngirni ngarlkirdiki</item>
+        <item>parngirni ngama-ku / murluru-ku</item>
     </string-array>
 
     <string-array name="how_recent_values">
@@ -258,9 +236,9 @@
 
     <string-array name="how_recent_values_adithinngithigh">
         <item>Select Option</item>
-        <item>Fresh (1 – 2 days)</item>
-        <item>Old (3 days - 1 week)</item>
-        <item>Really old (> 1 week)</item>
+        <item>jalangu warnu</item>
+        <item>yangkurra-kari-warnu</item>
+        <item>nyurru-warnu</item>
     </string-array>
 
     <string-array name="animal_age_values">
@@ -272,17 +250,9 @@
 
     <string-array name="animal_age_values_adithinngithigh">
         <item>Select Option</item>
-        <item>Big adult</item>
-        <item>Small adult</item>
-        <item>Young</item>
-    </string-array>
-
-    <string-array name="dummy_type">
-        <item>Type 1</item>
-        <item>Type 2</item>
-        <item>Type 3</item>
-        <item>Type 4</item>
-        <item>Type 5</item>
+        <item>wiri-jarlu</item>
+        <item>wiri wita-karri-karri</item>
+        <item>kurdu</item>
     </string-array>
 
 </resources>
