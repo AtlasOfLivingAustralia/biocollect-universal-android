@@ -35,8 +35,8 @@ public interface BioCollectApiService {
     Observable<ImageUploadResponse> uploadPhoto(@Part MultipartBody.Part file);
 
     //unique ID for uploading a sight
-    @POST("/ws/species/uniqueId")
-    Observable<JsonObject> getGUID();
+    //@POST("/ws/species/uniqueId")
+    //Observable<JsonObject> getGUID();
 
     //uploading a sight
     @POST("ws/bioactivity/save")

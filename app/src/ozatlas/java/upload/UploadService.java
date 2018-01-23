@@ -102,7 +102,7 @@ public class UploadService extends IntentService {
                         //sightingPhotos = addSight.outputs.get(0).data.sightingPhoto;
                         uploadPhotos(addSight);
                     } else {
-                        getGUID(addSight);
+                        saveData(addSight);
                     }
                 }
             }
@@ -162,41 +162,10 @@ public class UploadService extends IntentService {
                             if (imageUploadCount < addSight.outputs.get(0).data.sightingPhoto.size())
                                 uploadPhotos(addSight);
                             else
-                                getGUID(addSight);
+                                saveData(addSight);
                         }
                     }));
         }
-    }
-
-    /**
-     * the the guid
-     *
-     * @param addSight
-     */
-    private void getGUID(final AddSight addSight) {
-        mCompositeDisposable.add(restClient.getService().getGUID()
-                .subscribeWith(new DisposableObserver<JsonObject>() {
-                    @Override
-                    public void onNext(JsonObject value) {
-                        if (value.has("outputSpeciesId")) {
-                            realm.beginTransaction();
-                            addSight.outputs.get(0).data.species.outputSpeciesId = value.getAsJsonPrimitive("outputSpeciesId").getAsString();
-                            realm.commitTransaction();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        makeUploadingFalse(addSight);
-                        Log.d("", e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        saveData(addSight);
-                        Log.d("", "onNext");
-                    }
-                }));
     }
 
     /**

@@ -423,7 +423,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                             uploadPhotos();
                         } else {
                             //other wise get the unique id to upload a sight
-                            getGUID();
+                            saveData();
                         }
                     }
                 } else {
@@ -459,36 +459,6 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    /**
-     * get the unique GUID
-     */
-    private void getGUID() {
-        mCompositeDisposable.add(restClient.getService().getGUID()
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<JsonObject>() {
-                    @Override
-                    public void onNext(JsonObject value) {
-                        if (value.has("outputSpeciesId")) {
-                            outputSpeciesId = value.getAsJsonPrimitive("outputSpeciesId").getAsString();
-                            saveData();
-                        } else {
-                            hideProgressDialog();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        handleError(e, 0, "");
-                        hideProgressDialog();
-                    }
-
-                    @Override
-                    public void onComplete() {
-                    }
-                }));
     }
 
     //upload the Sight Object
@@ -560,7 +530,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                             if (imageUploadCount < sightingPhotos.size())
                                 uploadPhotos();
                             else
-                                getGUID();
+                                saveData();
                         }
                     }));
         }
