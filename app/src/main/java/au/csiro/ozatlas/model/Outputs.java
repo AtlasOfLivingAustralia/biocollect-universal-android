@@ -3,6 +3,7 @@ package au.csiro.ozatlas.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import au.csiro.ozatlas.model.map.CheckMapInfo;
 import io.realm.RealmObject;
 
 /**
@@ -25,6 +26,9 @@ public class Outputs extends RealmObject {
     @Expose
     @SerializedName("outputNotCompleted")
     public String outputNotCompleted;
+    @Expose
+    @SerializedName("checkMapInfo")
+    public CheckMapInfo checkMapInfo;
 
     public Outputs() {
     }

@@ -5,7 +5,7 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import com.google.gson.JsonObject;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,12 +17,19 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.map.MapResponse;
 import au.csiro.ozatlas.rest.RestClient;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
+import model.map.Extent;
+import model.map.Geometry;
+import model.map.MapModel;
+import model.map.Site;
 import retrofit2.Response;
 
 import static au.csiro.ozatlas.manager.FileUtils.getMultipart;
@@ -97,13 +104,7 @@ public class UploadService extends IntentService {
                     addSight.upLoading = true;
                     realm.commitTransaction();
                     mBroadcaster.notifyDataChange();
-                    if (addSight.outputs.get(0).data.sightingPhoto.size() > 0) {
-                        imageUploadCount = 0;
-                        //sightingPhotos = addSight.outputs.get(0).data.sightingPhoto;
-                        uploadPhotos(addSight);
-                    } else {
-                        saveData(addSight);
-                    }
+                    uploadMap(addSight, getMapModel(addSight));
                 }
             }
 
@@ -111,6 +112,59 @@ public class UploadService extends IntentService {
             if (realm != null)
                 realm.close();
         }
+    }
+
+    private MapModel getMapModel(final AddSight addSight) {
+        if (addSight.outputs.get(0).data.locationLongitude != null && addSight.outputs.get(0).data.locationLatitude != null) {
+            MapModel mapModel = new MapModel();
+            mapModel.pActivityId = getString(R.string.project_activity_id);
+            mapModel.site = new Site();
+            mapModel.site.name = "Private site for survey: Individual sighting";
+            mapModel.site.visibility = "private";
+            mapModel.site.projects = new String[]{getString(R.string.project_id)};
+            mapModel.site.extent = new Extent();
+            mapModel.site.extent.source = "Point";
+            mapModel.site.extent.geometry = new Geometry();
+            mapModel.site.extent.geometry.areaKmSq = 0.0;
+            mapModel.site.extent.geometry.type = "Point";
+            mapModel.site.extent.geometry.coordinates = new Double[2];
+            mapModel.site.extent.geometry.coordinates[0] = addSight.outputs.get(0).data.locationLongitude;
+            mapModel.site.extent.geometry.coordinates[1] = addSight.outputs.get(0).data.locationLatitude;
+            mapModel.site.extent.geometry.centre = new Double[2];
+            mapModel.site.extent.geometry.centre[0] = addSight.outputs.get(0).data.locationLongitude;
+            mapModel.site.extent.geometry.centre[1] = addSight.outputs.get(0).data.locationLatitude;
+
+            return mapModel;
+        }
+        return null;
+    }
+
+    private void uploadMap(final AddSight addSight, MapModel mapModel) {
+        Log.d("MAP_MODEL", new Gson().toJson(mapModel));
+        mCompositeDisposable.add(restClient.getService().postMap(mapModel)
+                .subscribeWith(new DisposableObserver<MapResponse>() {
+                    @Override
+                    public void onNext(MapResponse mapResponse) {
+                        realm.beginTransaction();
+                        addSight.siteId = mapResponse.id;
+                        realm.commitTransaction();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        makeUploadingFalse(addSight);
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (addSight.outputs.get(0).data.sightingPhoto.size() > 0) {
+                            imageUploadCount = 0;
+                            uploadPhotos(addSight);
+                        } else {
+                            saveData(addSight);
+                        }
+                    }
+                }));
     }
 
 

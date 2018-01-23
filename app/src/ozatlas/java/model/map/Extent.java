@@ -6,9 +6,9 @@ import com.google.gson.annotations.Expose;
  * Created by sad038 on 7/12/17.
  */
 
-public class MapResponse {
+public class Extent {
     @Expose
-    public String id;
+    public String source;
     @Expose
-    public String status;
+    public Geometry geometry;
 }

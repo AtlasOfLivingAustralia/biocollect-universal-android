@@ -1,4 +1,4 @@
-package model.track;
+package au.csiro.ozatlas.model.map;
 
 import com.google.gson.annotations.Expose;
 

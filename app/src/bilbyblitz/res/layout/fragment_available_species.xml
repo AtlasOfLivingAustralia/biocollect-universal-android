@@ -28,9 +28,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/search"
-                    android:textSize="@dimen/default_input_font_size"
                     android:inputType="text"
-                    android:maxLines="1" />
+                    android:maxLines="1"
+                    android:textSize="@dimen/default_input_font_size" />
             </android.support.design.widget.TextInputLayout>
 
 

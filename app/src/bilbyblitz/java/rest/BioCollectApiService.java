@@ -5,10 +5,10 @@ import java.util.List;
 
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Project;
+import au.csiro.ozatlas.model.map.MapResponse;
 import io.reactivex.Observable;
 import model.ProjectList;
 import model.map.MapModel;
-import model.map.MapResponse;
 import model.track.TrackModel;
 import okhttp3.MultipartBody;
 import retrofit2.Response;

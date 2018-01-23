@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 
 import org.parceler.Parcel;
 
+import au.csiro.ozatlas.model.map.CheckMapInfo;
 import io.realm.RealmObject;
 import io.realm.annotations.RealmClass;
 

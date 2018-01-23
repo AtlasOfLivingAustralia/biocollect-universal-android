@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -23,7 +22,6 @@ import com.bumptech.glide.load.resource.drawable.GlideDrawable;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.jakewharton.rxbinding2.widget.RxTextView;
-import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -46,12 +44,8 @@ import butterknife.ButterKnife;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Case;
 import io.realm.Realm;
-import io.realm.RealmList;
 import io.realm.RealmResults;
 import model.EventBusPosts;
 
@@ -60,6 +54,7 @@ import model.EventBusPosts;
  */
 
 public class AvailableSpeciesFragment extends BaseMainActivityFragment implements SwipeRefreshLayout.OnRefreshListener {
+    private static final int DELAY_IN_MILLIS = 400;
     @BindView(R.id.recyclerView)
     RecyclerView recyclerView;
     @BindView(R.id.swipe_container)
@@ -68,8 +63,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     TextView total;
     @BindView(R.id.editSearch)
     EditText editSearch;
-
-    private static final int DELAY_IN_MILLIS = 400;
     private List<SearchSpecies> filterSpecies = new ArrayList<>();
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
@@ -151,7 +144,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 .subscribe(searchSpecies -> setSpeciesAdapter(realm.copyFromRealm(searchSpecies)), Throwable::printStackTrace);
     }
 
-    private void setSpeciesAdapter(List<SearchSpecies> searchSpecies){
+    private void setSpeciesAdapter(List<SearchSpecies> searchSpecies) {
         species.clear();
         species.addAll(searchSpecies);
         applyFilter(sharedPreferences.getSpeciesFilter());

@@ -52,7 +52,6 @@ import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.jakewharton.rxbinding2.widget.RxTextView;
 import com.jakewharton.rxbinding2.widget.TextViewTextChangeEvent;
@@ -86,6 +85,8 @@ import au.csiro.ozatlas.model.Outputs;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.SightingPhoto;
 import au.csiro.ozatlas.model.Tag;
+import au.csiro.ozatlas.model.map.CheckMapInfo;
+import au.csiro.ozatlas.model.map.MapResponse;
 import au.csiro.ozatlas.rest.BieApiService;
 import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.rest.SearchSpeciesSerializer;
@@ -105,6 +106,10 @@ import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
 import model.OzAtlasLocation;
+import model.map.Extent;
+import model.map.Geometry;
+import model.map.MapModel;
+import model.map.Site;
 import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
@@ -223,7 +228,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         public void onProviderDisabled(String provider) {
         }
     };
-    private String outputSpeciesId;
+    private String siteId;
     private ImageUploadAdapter imageUploadAdapter;
     private String mCurrentPhotoPath;
     private RealmList<SightingPhoto> sightingPhotos = new RealmList<>();
@@ -417,14 +422,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
                 if (AtlasManager.isNetworkAvailable(getActivity())) {
                     if (getValidated()) {
                         showProgressDialog();
-                        //if the user attaches any image then upload image first
-                        if (sightingPhotos.size() > 0) {
-                            imageUploadCount = 0;
-                            uploadPhotos();
-                        } else {
-                            //other wise get the unique id to upload a sight
-                            saveData();
-                        }
+                        uploadMap(getMapModel());
                     }
                 } else {
                     //if there is no network, the sight will be saved in realm as Draft Sight
@@ -536,6 +534,63 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         }
     }
 
+    private MapModel getMapModel() {
+        if (latitude != null && longitude != null) {
+            MapModel mapModel = new MapModel();
+            mapModel.pActivityId = getString(R.string.project_activity_id);
+            mapModel.site = new Site();
+            mapModel.site.name = "Private site for survey: Individual sighting";
+            mapModel.site.visibility = "private";
+            mapModel.site.projects = new String[]{getString(R.string.project_id)};
+            mapModel.site.extent = new Extent();
+            mapModel.site.extent.source = "Point";
+            mapModel.site.extent.geometry = new Geometry();
+            mapModel.site.extent.geometry.areaKmSq = 0.0;
+            mapModel.site.extent.geometry.type = "Point";
+            mapModel.site.extent.geometry.coordinates = new Double[2];
+            mapModel.site.extent.geometry.coordinates[0] = longitude;
+            mapModel.site.extent.geometry.coordinates[1] = latitude;
+            mapModel.site.extent.geometry.centre = new Double[2];
+            mapModel.site.extent.geometry.centre[0] = longitude;
+            mapModel.site.extent.geometry.centre[1] = latitude;
+
+            return mapModel;
+        } else {
+            showSnackBarMessage(getString(R.string.location_missing));
+        }
+        return null;
+    }
+
+    private void uploadMap(MapModel mapModel) {
+        Log.d("MAP_MODEL", new Gson().toJson(mapModel));
+        mCompositeDisposable.add(restClient.getService().postMap(mapModel)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(new DisposableObserver<MapResponse>() {
+                    @Override
+                    public void onNext(MapResponse mapResponse) {
+                        siteId = mapResponse.id;
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        hideProgressDialog();
+                        handleError(e, 0, "");
+                    }
+
+                    @Override
+                    public void onComplete() {
+                        if (sightingPhotos.size() > 0) {
+                            imageUploadCount = 0;
+                            uploadPhotos();
+                        } else {
+                            //other wise get the unique id to upload a sight
+                            saveData();
+                        }
+                    }
+                }));
+    }
+
     /**
      * set the values if the fragment is for Editing a Sight
      */
@@ -607,21 +662,18 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         addSight.projectStage = "";
         addSight.type = getString(R.string.project_type);
         addSight.projectId = getString(R.string.project_id);
-        /*addSight.activityId="";
-        addSight.mainTheme = "";
-        addSight.siteId = "";*/
+        addSight.siteId = siteId;
         addSight.outputs = new RealmList<>();
         Outputs outputs = new Outputs();
         outputs.name = getString(R.string.project_output_name);
-        /*outputs.outputId = "";
-        outputs.outputNotCompleted = "";*/
+        outputs.checkMapInfo = new CheckMapInfo();
+        outputs.checkMapInfo.validation = true;
         outputs.data = new Data();
         outputs.data.recordedBy = sharedPreferences.getUserDisplayName();
         outputs.data.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         outputs.data.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(date.getText().toString() + time.getText().toString(), DATE_FORMAT + TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         if (outputs.data.species == null)
             outputs.data.species = new DraftSpecies();
-        outputs.data.species.outputSpeciesId = outputSpeciesId;
         if (selectedSpecies != null) {
             outputs.data.species.name = selectedSpecies.name;
             outputs.data.species.scientificName = selectedSpecies.kingdom;

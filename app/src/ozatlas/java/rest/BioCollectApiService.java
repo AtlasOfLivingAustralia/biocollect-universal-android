@@ -1,11 +1,11 @@
 package rest;
 
-import com.google.gson.JsonObject;
-
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.SightList;
+import au.csiro.ozatlas.model.map.MapResponse;
 import io.reactivex.Observable;
+import model.map.MapModel;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import retrofit2.Response;
@@ -42,4 +42,7 @@ public interface BioCollectApiService {
     @POST("ws/bioactivity/save")
     Observable<Response<Void>> postSightings(@Query("pActivityId") String pActivityId, @Body AddSight addSight);
 
+    //uploading a map
+    @POST("site/ajaxUpdate")
+    Observable<MapResponse> postMap(@Body MapModel mapModel);
 }

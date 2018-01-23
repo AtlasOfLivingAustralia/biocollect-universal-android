@@ -11,7 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import org.parceler.Parcel;
 import org.parceler.Parcels;
 
 import au.csiro.ozatlas.R;
