@@ -210,7 +210,8 @@
                 android:layout_marginBottom="@dimen/input_view_top_margin"
                 android:layout_marginTop="@dimen/input_view_top_margin"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/animalsignphoto" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

@@ -325,6 +325,7 @@
 
             <ImageView
                 android:id="@+id/imageView"
+                android:src="@drawable/countryphoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/input_view_top_margin"
