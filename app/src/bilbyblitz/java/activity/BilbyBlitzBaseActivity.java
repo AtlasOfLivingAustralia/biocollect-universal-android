@@ -108,4 +108,15 @@ public abstract class BilbyBlitzBaseActivity extends BaseActivity implements Bil
     public String localisedString(String key, int defaultRes) {
         return LanguageManager.localizedString(this, key, defaultRes);
     }
+
+    /**
+     * localised a string if a translation is being chosen
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public String localisedString(String key) {
+        return LanguageManager.localizedString(key);
+    }
 }

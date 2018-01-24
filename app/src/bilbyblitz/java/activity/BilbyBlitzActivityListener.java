@@ -9,5 +9,7 @@ import au.csiro.ozatlas.manager.Language;
 public interface BilbyBlitzActivityListener {
     String localisedString(String key, int defaultRes);
 
+    String localisedString(String key);
+
     void loadLanguageFile(String fileName, Language language);
 }

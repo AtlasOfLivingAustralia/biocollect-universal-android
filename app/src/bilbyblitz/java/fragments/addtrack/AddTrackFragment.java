@@ -247,9 +247,14 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                             @Override
                                             public void run() {
                                                 AtlasManager.hideKeyboard(getActivity());
-                                                showSnackBarMessage("Your track information has been saved as Draft");
-                                                setDrawerMenuChecked(R.id.nav_review_track);
-                                                setDrawerMenuClicked(R.id.nav_review_track);
+                                                if(getActivity() instanceof SingleFragmentActivity){
+                                                    getActivity().setResult(RESULT_OK);
+                                                    getActivity().fileList();
+                                                }else {
+                                                    showSnackBarMessage("Your track information has been saved as Draft");
+                                                    setDrawerMenuChecked(R.id.nav_review_track);
+                                                    setDrawerMenuClicked(R.id.nav_review_track);
+                                                }
                                             }
                                         });
                                     }

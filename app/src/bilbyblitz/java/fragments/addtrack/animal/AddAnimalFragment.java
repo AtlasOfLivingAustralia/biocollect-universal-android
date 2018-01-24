@@ -123,6 +123,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
             mBound = false;
         }
     };
+    private String[] whatSeeEnglishValues;
+    private String[] recentEnglishValues;
+    private String[] ageEnglishValues;
 
 
     @Override
@@ -142,9 +145,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values_adithinngithigh), R.layout.item_textview));
                 break;
             default:
-                whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values), R.layout.item_textview));
-                howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values), R.layout.item_textview));
-                animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values), R.layout.item_textview));
+                whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), whatSeeEnglishValues, R.layout.item_textview));
+                howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), recentEnglishValues, R.layout.item_textview));
+                animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), ageEnglishValues, R.layout.item_textview));
                 break;
         }
     }
@@ -155,6 +158,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
 
+        whatSeeEnglishValues = getResources().getStringArray(R.array.what_see_values);
+        recentEnglishValues = getResources().getStringArray(R.array.how_recent_values);
+        ageEnglishValues = getResources().getStringArray(R.array.animal_age_values);
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
@@ -281,9 +287,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     }
 
     private void prepareData() {
-        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null : (String) whatSeenSpinner.getSelectedItem();
-        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null : (String) howRecentSpinner.getSelectedItem();
-        sightingEvidenceTable.ageClassOfAnimal = animalAgeSpinner.getSelectedItemPosition() == 0 ? null : (String) animalAgeSpinner.getSelectedItem();
+        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null : whatSeeEnglishValues[whatSeenSpinner.getSelectedItemPosition() - 1];
+        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null : recentEnglishValues[howRecentSpinner.getSelectedItemPosition() - 1];
+        sightingEvidenceTable.ageClassOfAnimal = animalAgeSpinner.getSelectedItemPosition() == 0 ? null : ageEnglishValues[animalAgeSpinner.getSelectedItemPosition() - 1];
         sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
         sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
     }

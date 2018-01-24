@@ -162,6 +162,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
     };
     private LocationManager locationManager;
+    private String[] surveyTypeEnglishValues;
+    private String[] siteTypeEnglishValues;
 
     @Override
     protected void setLanguageValues(Language language) {
@@ -178,8 +180,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type_adithinngithigh), R.layout.item_textview));
                 break;
             default:
-                surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type), R.layout.item_textview));
-                siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type), R.layout.item_textview));
+                surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), surveyTypeEnglishValues, R.layout.item_textview));
+                siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), siteTypeEnglishValues, R.layout.item_textview));
                 break;
         }
     }
@@ -192,6 +194,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
 
+        surveyTypeEnglishValues = getResources().getStringArray(R.array.survey_type);
+        siteTypeEnglishValues = getResources().getStringArray(R.array.site_type);
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
@@ -222,6 +226,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
         editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
+
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
         siteSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.site_type), bilbyBlitzData.siteChoice));
     }
@@ -459,8 +464,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             bilbyBlitzData.locationLatitude = locations.get(0).latitude;
             bilbyBlitzData.locationLongitude = locations.get(0).longitude;
         }
-        bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : (String) surveySpinner.getSelectedItem();
-        bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : (String) siteSpinner.getSelectedItem();
+        bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : surveyTypeEnglishValues[surveySpinner.getSelectedItemPosition() - 1];
+        bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : siteTypeEnglishValues[siteSpinner.getSelectedItemPosition() - 1];
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);

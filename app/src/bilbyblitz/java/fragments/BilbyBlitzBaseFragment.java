@@ -53,6 +53,19 @@ public abstract class BilbyBlitzBaseFragment extends BaseFragment implements Bil
     }
 
     /**
+     * localised a string if a translation is being chosen
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public String localisedString(String key) {
+        if (bilbyBlitzActivityListener != null)
+            return bilbyBlitzActivityListener.localisedString(key);
+        return null;
+    }
+
+    /**
      * loading the language file
      *
      * @param fileName
