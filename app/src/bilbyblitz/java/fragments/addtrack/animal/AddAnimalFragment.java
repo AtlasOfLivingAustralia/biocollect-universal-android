@@ -134,6 +134,19 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         recentTextView.setText(localisedString("how_recent", R.string.how_recent));
         whatSeenTextView.setText(localisedString("what_you_see", R.string.what_you_see));
         animalAgeTextView.setText(localisedString("how_old_animal", R.string.how_old_animal));
+
+        switch (language) {
+            case ADITHINNGITHIGH:
+                whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values_adithinngithigh), R.layout.item_textview));
+                howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values_adithinngithigh), R.layout.item_textview));
+                animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values_adithinngithigh), R.layout.item_textview));
+                break;
+            default:
+                whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values), R.layout.item_textview));
+                howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values), R.layout.item_textview));
+                animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values), R.layout.item_textview));
+                break;
+        }
     }
 
     @Override
@@ -144,10 +157,6 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
-
-        whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values), R.layout.item_textview));
-        howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values), R.layout.item_textview));
-        animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values), R.layout.item_textview));
 
         Bundle bundle = getArguments();
         if (bundle == null) {

@@ -171,6 +171,17 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         //gpsMessageTextView.setText(localisedString("number_of_location", R.string.number_of_location));
         surveyTextView.setText(localisedString("survey_type", R.string.survey_type));
         siteTextView.setText(localisedString("site_type", R.string.site_type));
+
+        switch (language) {
+            case ADITHINNGITHIGH:
+                surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type_adithinngithigh), R.layout.item_textview));
+                siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type_adithinngithigh), R.layout.item_textview));
+                break;
+            default:
+                surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type), R.layout.item_textview));
+                siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type), R.layout.item_textview));
+                break;
+        }
     }
 
     @Override
@@ -180,9 +191,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
         myReceiver = new MyReceiver();
-
-        surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type), R.layout.item_textview));
-        siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type), R.layout.item_textview));
 
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());

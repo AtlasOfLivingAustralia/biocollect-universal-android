@@ -56,7 +56,7 @@ public class FoodPlantSelectionFragment extends BaseMainActivityFragment {
                 foodPlantAdapter.notifyDataSetChanged();
             }
         });
-        foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type));
+        setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
         selections = new boolean[foodPlants.size()];
 
         String[] existingTags = null;
@@ -118,7 +118,14 @@ public class FoodPlantSelectionFragment extends BaseMainActivityFragment {
 
     @Override
     protected void setLanguageValues(Language language) {
-
+        switch (language) {
+            case ADITHINNGITHIGH:
+                foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type_adithinngithigh));
+                break;
+            default:
+                foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type));
+                break;
+        }
     }
 
     /**
