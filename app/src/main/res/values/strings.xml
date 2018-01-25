@@ -20,6 +20,7 @@
     <string name="is_for_animal_parameter">FOR_ANIMAL</string>
     <string name="group_parameter">GROUP</string>
     <string name="species_parameter">SPECIES</string>
+    <string name="unknown_species_parameter">UNKNOWN_SPECIES</string>
     <string name="longitude_parameter">LONGITUDE</string>
     <string name="survey_list_parameter">SURVEY_LIST</string>
     <string name="radius_parameter">RADIUS</string>

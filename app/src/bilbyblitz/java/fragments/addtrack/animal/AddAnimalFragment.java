@@ -334,15 +334,23 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     imageView.setImageURI(selectedImageUri);
                     break;
                 case REQUEST_AVAILABLE_SPECIES:
-                    String id = data.getStringExtra(getString(R.string.species_parameter));
-                    RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).equalTo("realmId", id).findAllAsync();
-                    results.addChangeListener((collection, changeSet) -> {
-                        if (isAdded() && collection.size() > 0) {
-                            SearchSpecies species = collection.first();
-                            sightingEvidenceTable.species = new Species(species);
+                    String unknownSpecies = data.getStringExtra(getString(R.string.unknown_species_parameter));
+                    if(unknownSpecies!=null){
+                        if(isAdded()){
+                            sightingEvidenceTable.species = new Species(unknownSpecies, unknownSpecies);
                             editSpeciesName.setText(sightingEvidenceTable.species.name);
                         }
-                    });
+                    }else {
+                        String id = data.getStringExtra(getString(R.string.species_parameter));
+                        RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).equalTo("realmId", id).findAllAsync();
+                        results.addChangeListener((collection, changeSet) -> {
+                            if (isAdded() && collection.size() > 0) {
+                                SearchSpecies species = collection.first();
+                                sightingEvidenceTable.species = new Species(species);
+                                editSpeciesName.setText(sightingEvidenceTable.species.name);
+                            }
+                        });
+                    }
                     break;
             }
         }

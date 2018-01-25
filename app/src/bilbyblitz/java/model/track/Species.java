@@ -33,6 +33,11 @@ public class Species extends RealmObject {
     public Species() {
     }
 
+    public Species(String scientificName, String name) {
+        this.scientificName = scientificName;
+        this.name = name;
+    }
+
     public Species(SearchSpecies searchSpecies) {
         this.guid = searchSpecies.guid;
         this.commonName = searchSpecies.commonName;

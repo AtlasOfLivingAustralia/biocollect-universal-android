@@ -41,6 +41,7 @@ import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -63,6 +64,9 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     TextView total;
     @BindView(R.id.editSearch)
     EditText editSearch;
+    @BindView(R.id.unknownSpecies)
+    TextView unknownSpecies;
+
     private List<SearchSpecies> filterSpecies = new ArrayList<>();
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
@@ -163,7 +167,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         }
     }
 
-
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -240,6 +243,13 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         speciesAdapter.notifyDataSetChanged();
         selectedPosition = -1;
         updateTotal();
+
+        if(filterSpecies.size()==0 && editSearch.getText().toString().trim().length()!=0){
+            unknownSpecies.setVisibility(View.VISIBLE);
+            unknownSpecies.setText(getString(R.string.unknown_species, editSearch.getText().toString()));
+        }else{
+            unknownSpecies.setVisibility(View.GONE);
+        }
     }
 
     private void updateTotal() {
@@ -259,6 +269,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Override
     public void onRefresh() {
+        editSearch.setText("");
         readAvailableSpecies();
     }
 
@@ -273,6 +284,14 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         super.onDestroy();
         if (realm != null)
             realm.close();
+    }
+
+    @OnClick(R.id.unknownSpecies)
+    void unknownSpecies(){
+        Intent intent = new Intent();
+        intent.putExtra(getString(R.string.unknown_species_parameter), editSearch.getText().toString());
+        getActivity().setResult(Activity.RESULT_OK, intent);
+        getActivity().onBackPressed();
     }
 
     @Override

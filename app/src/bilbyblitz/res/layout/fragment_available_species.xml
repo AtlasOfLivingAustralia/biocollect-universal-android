@@ -33,6 +33,21 @@
                     android:textSize="@dimen/default_input_font_size" />
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/row_padding_smaller"
+                android:layout_marginRight="@dimen/row_padding_smaller">
+
+                <TextView
+                    android:id="@+id/unknownSpecies"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/row_padding_smaller"
+                    android:text="asdasd"
+                    android:textSize="@dimen/default_input_font_size"
+                    android:visibility="gone" />
+            </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/recyclerView"
