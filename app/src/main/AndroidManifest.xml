@@ -60,7 +60,4 @@
             android:label="@string/title_activity_main" />
 
     </application>-->
-    <application>
-        <service name="service.FetchProjectListService" />
-    </application>
 </manifest>

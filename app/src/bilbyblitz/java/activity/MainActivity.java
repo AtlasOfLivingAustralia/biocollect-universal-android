@@ -32,6 +32,7 @@ import fragments.draft.DraftTrackListFragment;
 import fragments.home.HomePageFragment;
 import service.FetchListSpeciesService;
 import fragments.setting.SettingFragment;
+import service.FetchProjectListService;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -65,6 +66,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         setContentView(R.layout.activity_main);
 
         startService(new Intent(this, FetchListSpeciesService.class));
+        startService(new Intent(this, FetchProjectListService.class));
 
         //setting up the toolbar
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

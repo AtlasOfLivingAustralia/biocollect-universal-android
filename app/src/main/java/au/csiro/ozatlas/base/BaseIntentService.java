@@ -4,6 +4,7 @@ import android.app.IntentService;
 
 import javax.inject.Inject;
 
+import application.CsiroApplication;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -17,7 +18,7 @@ public abstract class BaseIntentService extends IntentService {
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
 
     @Inject
-    protected AtlasSharedPreferenceManager sharedPreferenceManager;
+    protected AtlasSharedPreferenceManager sharedPreferences;
 
     @Inject
     protected RestClient restClient;
@@ -29,6 +30,7 @@ public abstract class BaseIntentService extends IntentService {
      */
     public BaseIntentService(String name) {
         super(name);
+        CsiroApplication.component().inject(this);
     }
 
     @Override

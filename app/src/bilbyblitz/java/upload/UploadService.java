@@ -63,8 +63,7 @@ public class UploadService extends BaseIntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        CsiroApplication.component().inject(this);
-        project = sharedPreferenceManager.getSelectedProject();
+        project = sharedPreferences.getSelectedProject();
 
         if (AtlasManager.isNetworkAvailable(this) && project != null) {
             realm = Realm.getDefaultInstance();

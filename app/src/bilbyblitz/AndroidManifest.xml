@@ -88,6 +88,10 @@
             android:exported="false" />
 
         <service
+            android:name="service.FetchProjectListService"
+            android:exported="false" />
+
+        <service
             android:name="upload.UploadService"
             android:exported="false" />
     </application>
