@@ -9,6 +9,7 @@ import java.lang.reflect.Type;
 import java.util.concurrent.TimeUnit;
 
 import au.csiro.ozatlas.model.RealmString;
+import au.csiro.ozatlas.model.Sight;
 import io.realm.RealmList;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;

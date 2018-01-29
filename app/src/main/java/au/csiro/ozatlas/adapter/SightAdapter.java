@@ -76,7 +76,7 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
                 sightViewHolders.moreButton.setVisibility(View.INVISIBLE);
             }
             sightViewHolders.name.setText(sight.projectName);
-            sightViewHolders.type.setText(sight.type);
+            sightViewHolders.type.setText(sight.type == null ? sight.name : sight.type);
             sightViewHolders.user.setText(sight.activityOwnerName);
             sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.lastUpdated, "dd MMM, yyyy"));
             Glide.with(sightViewHolders.image.getContext())

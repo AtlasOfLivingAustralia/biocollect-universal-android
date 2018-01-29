@@ -26,6 +26,7 @@ import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.Language;
+import fragments.TrackListFragment;
 import fragments.addtrack.AddTrackFragment;
 import fragments.draft.DraftTrackListFragment;
 import fragments.home.HomePageFragment;
@@ -161,30 +162,9 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_review_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
-        }/*else if (id == R.id.nav_my_projects) {
-            Bundle bundle = new Bundle();
-            bundle.putBoolean(getString(R.string.user_project_parameter), true);
-            Fragment fragment = new ProjectListFragment();
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
-        } else if (id == R.id.nav_all_sighting) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SightingListFragment()).commit();
-        } else if (id == R.id.nav_my_sighting) {
-            Bundle bundle = new Bundle();
-            bundle.putString(getString(R.string.myview_parameter), "myrecords");
-            Fragment fragment = new SightingListFragment();
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
-        } *//*else if (id == R.id.nav_about) {
-            //startWebViewActivity(getString(R.string.about_us_url), getString(R.string.about_title), false);
-            startWebViewActivity("http://biocollect-test.ala.org.au/bioActivity/create/d57961a1-517d-42f2-8446-c373c0c59579", getString(R.string.about_title), true);
-        }*//* else if (id == R.id.nav_contact) {
-            Bundle bundle = new Bundle();
-            bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.CONTACT_US);
-            Intent intent = new Intent(this, SingleFragmentActivity.class);
-            intent.putExtras(bundle);
-            startActivity(intent);
-        }*/
+        }else if (id == R.id.nav_my_track) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackListFragment()).commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

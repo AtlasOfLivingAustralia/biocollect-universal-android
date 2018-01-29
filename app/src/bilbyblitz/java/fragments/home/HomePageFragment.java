@@ -67,7 +67,10 @@ public class HomePageFragment extends BaseMainActivityFragment {
                     } else if (item.text.equals(getString(R.string.review_track))) {
                         setDrawerMenuChecked(R.id.nav_review_track);
                         setDrawerMenuClicked(R.id.nav_review_track);
-                    } else if (item.text.equals(getString(R.string.setting))) {
+                    } else if (item.text.equals(getString(R.string.my_track))) {
+                        setDrawerMenuChecked(R.id.nav_my_track);
+                        setDrawerMenuClicked(R.id.nav_my_track);
+                    }else if (item.text.equals(getString(R.string.setting))) {
                         setDrawerMenuChecked(R.id.nav_setting);
                         setDrawerMenuClicked(R.id.nav_setting);
                     } else if (item.text.equals(getString(R.string.help))) {

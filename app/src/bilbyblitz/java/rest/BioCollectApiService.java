@@ -5,6 +5,7 @@ import java.util.List;
 
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Project;
+import au.csiro.ozatlas.model.SightList;
 import au.csiro.ozatlas.model.map.MapResponse;
 import io.reactivex.Observable;
 import model.ProjectList;
@@ -50,9 +51,9 @@ public interface BioCollectApiService {
     //Observable<MapResponse> postMap(@Body MapModel mapModel, @Path("id") String id);
 
 
-    /*@GET("bioActivity/searchProjectActivities")
+    @GET("bioActivity/searchProjectActivities?hub=trackshub")
     Observable<SightList> getSightings(@Query("projectId") String id, @Query("max") Integer max, @Query("offset") Integer offset, @Query("mobile") Boolean mobile, @Query("view") String view, @Query("searchTerm") String searchTerm, @Query("userId") String userId);
 
-    @GET("ws/survey/list/{projectId}")
-    Observable<List<Survey>> getSurveys(@Path("projectId") String id);*/
+    //@GET("ws/survey/list/{projectId}")
+    //Observable<List<Survey>> getSurveys(@Path("projectId") String id);
 }
