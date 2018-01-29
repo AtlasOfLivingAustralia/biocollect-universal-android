@@ -18,7 +18,6 @@ import au.csiro.ozatlas.adapter.SightViewHolders;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.FileUtils;
-import au.csiro.ozatlas.model.Tag;
 import io.realm.Realm;
 import model.track.BilbyBlitzOutput;
 import model.track.SightingEvidenceTable;
@@ -150,26 +149,6 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
         } else {
             trackViewHolders.image.setColorFilter(Color.GRAY);
         }
-    }
-
-    /**
-     * join the Tags' val with the given delimeter
-     *
-     * @param delimiter
-     * @param tokens
-     * @return
-     */
-    private String tagJoin(CharSequence delimiter, List<Tag> tokens) {
-        StringBuilder sb = new StringBuilder();
-        Iterator<Tag> it = tokens.iterator();
-        if (it.hasNext()) {
-            sb.append(it.next().val);
-            while (it.hasNext()) {
-                sb.append(delimiter);
-                sb.append(it.next().val);
-            }
-        }
-        return sb.toString();
     }
 
     @Override

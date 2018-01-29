@@ -17,7 +17,7 @@ import io.realm.RealmObject;
 public class Data extends RealmObject {
     @Expose
     @SerializedName("tags")
-    public RealmList<Tag> tags;
+    public RealmList<RealmString> tags;
     @Expose
     @SerializedName("locationLatitude")
     public Double locationLatitude;

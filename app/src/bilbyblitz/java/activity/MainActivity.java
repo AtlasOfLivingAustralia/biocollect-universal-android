@@ -30,7 +30,7 @@ import fragments.TrackListFragment;
 import fragments.addtrack.AddTrackFragment;
 import fragments.draft.DraftTrackListFragment;
 import fragments.home.HomePageFragment;
-import fragments.offline_species.service.FetchListSpeciesService;
+import service.FetchListSpeciesService;
 import fragments.setting.SettingFragment;
 
 /**

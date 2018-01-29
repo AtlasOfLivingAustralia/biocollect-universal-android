@@ -20,7 +20,7 @@ import au.csiro.ozatlas.adapter.SightViewHolders;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.AddSight;
-import au.csiro.ozatlas.model.Tag;
+import au.csiro.ozatlas.model.RealmString;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -160,9 +160,9 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
      * @param tokens
      * @return
      */
-    private String tagJoin(CharSequence delimiter, List<Tag> tokens) {
+    private String tagJoin(CharSequence delimiter, List<RealmString> tokens) {
         StringBuilder sb = new StringBuilder();
-        Iterator<Tag> it = tokens.iterator();
+        Iterator<RealmString> it = tokens.iterator();
         if (it.hasNext()) {
             sb.append(it.next().val);
             while (it.hasNext()) {

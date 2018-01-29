@@ -82,9 +82,9 @@ import au.csiro.ozatlas.model.DraftSpecies;
 import au.csiro.ozatlas.model.ExploreAnimal;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Outputs;
+import au.csiro.ozatlas.model.RealmString;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.model.SightingPhoto;
-import au.csiro.ozatlas.model.Tag;
 import au.csiro.ozatlas.model.map.CheckMapInfo;
 import au.csiro.ozatlas.model.map.MapResponse;
 import au.csiro.ozatlas.rest.BieApiService;
@@ -689,7 +689,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
         outputs.data.tags = new RealmList<>();
         String tags[] = editTags.getText().toString().split(";");
         for (String string : tags) {
-            outputs.data.tags.add(new Tag(string.trim()));
+            outputs.data.tags.add(new RealmString(string.trim()));
         }
         outputs.data.locationLatitude = latitude;
         outputs.data.locationLongitude = longitude;

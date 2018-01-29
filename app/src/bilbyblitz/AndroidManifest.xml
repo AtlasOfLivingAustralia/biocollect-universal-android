@@ -80,7 +80,7 @@
             android:exported="false" />
 
         <service
-            android:name="fragments.offline_species.service.FetchListSpeciesService"
+            android:name="service.FetchListSpeciesService"
             android:exported="false" />
 
         <service

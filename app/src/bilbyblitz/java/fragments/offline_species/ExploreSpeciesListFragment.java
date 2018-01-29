@@ -37,7 +37,7 @@ import au.csiro.ozatlas.rest.NetworkClient;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import fragments.offline_species.service.FetchAndSaveSpeciesService;
+import service.FetchAndSaveSpeciesService;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
