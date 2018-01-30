@@ -23,5 +23,5 @@ public class Site {
     public String visibility;
 
     @Expose
-    public String asyncUpdate;
+    public Boolean asyncUpdate;
 }

@@ -13,4 +13,6 @@ public class SpeciesFilter {
     public boolean isSizeSmall;
     public boolean isBodyCoverFur;
     public boolean isBodyCoverFeather;
+    public boolean isBodyCoverScales;
+    public boolean isBodyCoverSpikes;
 }

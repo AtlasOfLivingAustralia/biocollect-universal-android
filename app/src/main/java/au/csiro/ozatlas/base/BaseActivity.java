@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
 import javax.inject.Inject;
@@ -226,6 +227,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
             showSnackBarMessage(coordinatorLayout, getString(R.string.not_internet_title));
         } else if (e instanceof HttpException && ((HttpException) e).code() == code) {
             showSnackBarMessage(coordinatorLayout, message);
+        }else if (e instanceof SocketTimeoutException) {
+            showSnackBarMessage(coordinatorLayout, e.getMessage());
         } else {
             //showSnackBarMessage(coordinatorLayout, e.getMessage());
             showSnackBarMessage(coordinatorLayout, getString(R.string.generic_error));

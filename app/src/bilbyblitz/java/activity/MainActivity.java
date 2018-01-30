@@ -57,7 +57,10 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         menu.findItem(R.id.nav_setting).setTitle(localisedString("setting", R.string.setting));
         menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
         menu.findItem(R.id.nav_help).setTitle(localisedString("help", R.string.help));
-        menu.findItem(R.id.nav_contact).setTitle(localisedString("about", R.string.about));
+        menu.findItem(R.id.nav_contact).setTitle(localisedString("contact", R.string.contact));
+        menu.findItem(R.id.nav_about).setTitle(localisedString("about", R.string.about));
+        menu.findItem(R.id.nav_partners).setTitle(localisedString("partners", R.string.partners));
+        menu.findItem(R.id.nav_my_track).setTitle(localisedString("my_track", R.string.my_track));
     }
 
     @Override
@@ -166,6 +169,16 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
         }else if (id == R.id.nav_my_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackListFragment()).commit();
+        }else if (id == R.id.nav_about) {
+            startWebViewActivity(getString(R.string.about_url), getString(R.string.about_title), false);
+        }else if (id == R.id.nav_contact) {
+            startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
+        }else if (id == R.id.nav_partners) {
+            startWebViewActivity(getString(R.string.partners_url), getString(R.string.partners), false);
+        }else if (id == R.id.nav_help) {
+            startWebViewActivity(getString(R.string.help_url), getString(R.string.help), false);
+        }else if (id == R.id.nav_biocollect) {
+            startWebViewActivity(getString(R.string.biocollect_url), getString(R.string.biocollect), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

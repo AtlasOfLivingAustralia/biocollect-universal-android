@@ -75,8 +75,12 @@ public class HomePageFragment extends BaseMainActivityFragment {
                         setDrawerMenuClicked(R.id.nav_setting);
                     } else if (item.text.equals(getString(R.string.help))) {
                         setDrawerMenuClicked(R.id.nav_help);
-                    } else if (item.text.equals(getString(R.string.contact_us_title))) {
+                    } else if (item.text.equals(getString(R.string.contact))) {
                         setDrawerMenuClicked(R.id.nav_contact);
+                    }else if (item.text.equals(getString(R.string.about))) {
+                        setDrawerMenuClicked(R.id.nav_about);
+                    }else if (item.text.equals(getString(R.string.partners))) {
+                        setDrawerMenuClicked(R.id.nav_partners);
                     }
                 }
             }
@@ -124,17 +128,17 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.isForWebView = false;
         listItems.add(item);
         item = new BilbyHomePageListItem();
-        item.icon = R.drawable.animal_practise_track;
-        item.text = getString(R.string.my_track);
-        item.textResource = R.string.my_track;
-        item.languageKey = "my_track";
-        item.isForWebView = false;
-        listItems.add(item);
-        item = new BilbyHomePageListItem();
         item.icon = R.drawable.review;
         item.text = getString(R.string.review_track);
         item.textResource = R.string.review_track;
         item.languageKey = "review_track";
+        item.isForWebView = false;
+        listItems.add(item);
+        item = new BilbyHomePageListItem();
+        item.icon = R.drawable.my_track_icon;
+        item.text = getString(R.string.my_track);
+        item.textResource = R.string.my_track;
+        item.languageKey = "my_track";
         item.isForWebView = false;
         listItems.add(item);
         item = new BilbyHomePageListItem();
@@ -143,6 +147,13 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.textResource = R.string.setting;
         item.languageKey = "setting";
         item.isForWebView = false;
+        listItems.add(item);
+        item = new BilbyHomePageListItem();
+        item.icon = R.drawable.ic_info_outline_black_24dp;
+        item.text = getString(R.string.partners);
+        item.textResource = R.string.partners;
+        item.languageKey = "partners";
+        item.isForWebView = true;
         listItems.add(item);
         item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_help_outline_black_24dp;
@@ -156,6 +167,13 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.text = getString(R.string.about);
         item.textResource = R.string.about;
         item.languageKey = "about";
+        item.isForWebView = true;
+        listItems.add(item);
+        item = new BilbyHomePageListItem();
+        item.icon = R.drawable.ic_info_outline_black_24dp;
+        item.text = getString(R.string.contact);
+        item.textResource = R.string.contact;
+        item.languageKey = "contact";
         item.isForWebView = true;
         listItems.add(item);
         item = new BilbyHomePageListItem();

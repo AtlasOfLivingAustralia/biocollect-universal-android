@@ -2,7 +2,7 @@
 <resources>
     <string-array name="bilby_language">
         <item>English</item>
-        <item>Adithinngithigh</item>
+        <item>Warlpiri</item>
         <!--<item>Barngarla</item>
         <item>Burdana</item>-->
     </string-array>

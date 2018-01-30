@@ -1,9 +1,11 @@
 <resources>
     <string name="app_name">The Tracks App</string>
-    <string name="app_version">Version 1.0 (2)</string>
+    <string name="app_version">Version 1.0 (3)</string>
 
-    <string name="project_activity_id">6fe3fbad-e417-4866-a755-52696d9c44c7</string>
-    <string name="project_id">2f4eed05-5be1-417d-a4ab-174f5b24d22a</string>
+    <string name="help_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=Tracker%20Help</string>
+    <string name="about_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=About</string>
+    <string name="partners_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=Partners</string>
+    <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
 
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="project_id_parameter">PROJECT_ID</string>
@@ -22,10 +24,12 @@
 
     <string name="about_title">About Tracks App</string>
     <string name="contact_us_title">Contact Us</string>
+    <string name="contact">Contact</string>
     <string name="add_track">Add a New Track</string>
     <string name="practise_track">Practice Tracking</string>
     <string name="my_track">My Tracks</string>
     <string name="review_track">Review Tracks</string>
+    <string name="partners">Partners</string>
     <string name="help">Help</string>
     <string name="update_location">Update Location</string>
     <string name="setting">Settings</string>
@@ -121,6 +125,8 @@
     <string name="medium">Medium</string>
     <string name="small">Small</string>
     <string name="fur">Fur</string>
+    <string name="scales">Scales</string>
+    <string name="spikes">Spikes</string>
     <string name="feathers">Feathers</string>
     <string name="species_filter_title">Species Filter</string>
     <string name="project_selection_message">Please select a project from Settings in order to submit Tracks.</string>
@@ -140,4 +146,11 @@
     <string name="event_date_missing_error">Tracking Event is missing</string>
     <string name="event_time_missing_error">Tracking Start Time is missing</string>
     <string name="organisation_name_missing_error">Organisation name is missing</string>
+
+    <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
+    <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
+
+    <string name="survey_entry_url">https://biocollect-test.ala.org.au/bioActivity/mobileCreate/%1$s</string>
+    <string name="sighting_edit_url">https://biocollect-test.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
+    <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 </resources>

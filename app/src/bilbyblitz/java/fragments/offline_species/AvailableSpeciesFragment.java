@@ -217,10 +217,14 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                         }
 
                         if (kvpValues.key.equals("Body  Cover")) {
-                            if (speciesFilter.isBodyCoverFur || speciesFilter.isBodyCoverFeather) {
+                            if (speciesFilter.isBodyCoverFur || speciesFilter.isBodyCoverFeather || speciesFilter.isBodyCoverScales||speciesFilter.isBodyCoverSpikes) {
                                 if (speciesFilter.isBodyCoverFur && kvpValues.value.equals("Fur")) {
                                     coverFilter = true;
                                 } else if (speciesFilter.isBodyCoverFeather && kvpValues.value.equals("Feathers")) {
+                                    coverFilter = true;
+                                }else if (speciesFilter.isBodyCoverScales && kvpValues.value.equals("Scales")) {
+                                    coverFilter = true;
+                                }else if (speciesFilter.isBodyCoverSpikes && kvpValues.value.equals("Spikes")) {
                                     coverFilter = true;
                                 }
                             } else {

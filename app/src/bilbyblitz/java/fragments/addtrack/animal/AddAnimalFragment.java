@@ -271,7 +271,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.save, menu);
+        inflater.inflate(R.menu.done, menu);
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -297,7 +297,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.save:
+            case R.id.done:
                 prepareSightingEvidenceTableModel();
                 if (isSightingEvidenceTableModelValid()) {
                     prepareData();

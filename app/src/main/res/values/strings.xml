@@ -85,7 +85,7 @@
     <string name="species_name">Species: %1$s</string>
     <string name="tags_name">Tags: %1$s</string>
     <string name="kingdom_name">Kingdom: %1$s</string>
-    <string name="warlpiri_name">Warlpiri name: %1$s</string>
+    <string name="warlpiri_name">Warlpiri: %1$s</string>
     <string name="scientific_name">Scientific Name: %1$s</string>
     <string name="common_name">Common Name: %1$s</string>
     <string name="album_name">Atlas Camera</string>

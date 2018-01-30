@@ -53,9 +53,13 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
         CheckBox checkBoxMedium = (CheckBox) contentView.findViewById(R.id.checkBoxMedium);
         CheckBox checkBoxSmall = (CheckBox) contentView.findViewById(R.id.checkBoxSmall);
         CheckBox checkBoxFur = (CheckBox) contentView.findViewById(R.id.checkBoxFur);
+        CheckBox checkBoxSpikes = (CheckBox) contentView.findViewById(R.id.checkBoxSpikes);
+        CheckBox checkBoxScales = (CheckBox) contentView.findViewById(R.id.checkBoxScales);
         CheckBox checkBoxFeather = (CheckBox) contentView.findViewById(R.id.checkBoxFeathers);
         Button done = contentView.findViewById(R.id.done);
         done.setOnClickListener(v -> {
+            speciesFilter.isBodyCoverSpikes = checkBoxSpikes.isChecked();
+            speciesFilter.isBodyCoverScales = checkBoxScales.isChecked();
             speciesFilter.isBodyCoverFeather = checkBoxFeather.isChecked();
             speciesFilter.isBodyCoverFur = checkBoxFur.isChecked();
             speciesFilter.isSizeLarge = checkBoxLarge.isChecked();
@@ -74,6 +78,8 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
             speciesFilter = new SpeciesFilter();
         }
 
+        checkBoxSpikes.setChecked(speciesFilter.isBodyCoverSpikes);
+        checkBoxScales.setChecked(speciesFilter.isBodyCoverScales);
         checkBoxFeather.setChecked(speciesFilter.isBodyCoverFeather);
         checkBoxFur.setChecked(speciesFilter.isBodyCoverFur);
         checkBoxLarge.setChecked(speciesFilter.isSizeLarge);

@@ -20,14 +20,14 @@
             android:title="@string/practise_track" />
 
         <item
-            android:id="@+id/nav_my_track"
-            android:icon="@drawable/animal_practise_track"
-            android:title="@string/my_track" />
-
-        <item
             android:id="@+id/nav_review_track"
             android:icon="@drawable/review"
             android:title="@string/review_track" />
+
+        <item
+            android:id="@+id/nav_my_track"
+            android:icon="@drawable/my_track_icon"
+            android:title="@string/my_track" />
 
         <item
             android:id="@+id/nav_setting"
@@ -52,14 +52,24 @@
         <item android:title="@string/app_name">
             <menu>
                 <item
+                    android:id="@+id/nav_partners"
+                    android:icon="@drawable/ic_info_outline_black_24dp"
+                    android:title="@string/partners" />
+
+                <item
                     android:id="@+id/nav_help"
                     android:icon="@drawable/ic_help_outline_black_24dp"
                     android:title="@string/help" />
 
                 <item
-                    android:id="@+id/nav_contact"
+                    android:id="@+id/nav_about"
                     android:icon="@drawable/ic_info_outline_black_24dp"
                     android:title="@string/about" />
+
+                <item
+                    android:id="@+id/nav_contact"
+                    android:icon="@drawable/ic_info_outline_black_24dp"
+                    android:title="@string/contact" />
 
                 <item
                     android:id="@+id/nav_biocollect"

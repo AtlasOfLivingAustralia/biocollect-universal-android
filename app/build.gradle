@@ -7,10 +7,10 @@ android {
     signingConfigs {
         config {
             //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-            keyAlias 'key0'
-            keyPassword '123456'
-            storeFile file('/Users/sad038/ozAtlas-android-kotlin/csiro_app_key.jks')
-            storePassword '123456'
+            keyAlias 'au.csiro.ala.bilbyblitz'
+            keyPassword ${key.password}
+            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
+            storePassword ${key.password}
         }
     }
     compileSdkVersion 26
@@ -51,7 +51,7 @@ android {
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
-            versionCode 2
+            versionCode 4
             versionName '1.0'
         }
     }

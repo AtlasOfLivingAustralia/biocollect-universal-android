@@ -386,9 +386,6 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         if (locations.size() == 0) {
             stringBuilder.append(localisedString("location_missing", R.string.location_missing));
             stringBuilder.append("\n");
-        } else if (locations.size() < 2) {
-            stringBuilder.append(localisedString("at_least_two_coordinates", R.string.at_least_two_coordinates));
-            stringBuilder.append("\n");
         }
 
         if (TextUtils.isEmpty(editDate.getText())) {
@@ -470,6 +467,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.tempLocations = locations;
+        if(locations.size()==1){
+            bilbyBlitzData.tempLocations.add(locations.get(0));
+        }
     }
 
     /**
