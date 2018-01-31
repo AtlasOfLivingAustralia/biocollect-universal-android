@@ -1,9 +1,14 @@
 package upload;
 
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -31,6 +36,8 @@ import model.track.ImageModel;
 import model.track.TrackModel;
 import retrofit2.Response;
 
+import static upload.UploadService.UploadNotification.INTERRUPTED;
+
 /**
  * Created by sad038 on 8/5/17.
  */
@@ -42,11 +49,13 @@ import retrofit2.Response;
 
 public class UploadService extends BaseIntentService {
     private final String TAG = "UploadService";
+    private final int SUCCESS_NOTIFICATION_ID = 1;
+    private final int ERROR_NOTIFICATION_ID = 0;
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-    private BroadcastNotifier mBroadcaster;
     private Realm realm;
     private int imageUploadCount;
     private Project project;
+    private int successCount = 1;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -66,8 +75,6 @@ public class UploadService extends BaseIntentService {
 
         if (AtlasManager.isNetworkAvailable(this) && project != null) {
             realm = Realm.getDefaultInstance();
-            //create the broadcaster to notify
-            mBroadcaster = new BroadcastNotifier(this);
 
             ArrayList<Long> sightPrimarykeys = null;
             if (intent != null) {
@@ -100,13 +107,15 @@ public class UploadService extends BaseIntentService {
                     realm.beginTransaction();
                     trackModel.upLoading = true;
                     realm.commitTransaction();
-                    mBroadcaster.notifyDataChange();
+                    EventBus.getDefault().post(UploadNotification.UPLOAD_STARTED);
                     MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
                     if (mapModel != null) {
                         uploadMap(trackModel, mapModel);
                     } else {
                         uploadPhotos(trackModel);
                     }
+                }else{
+                    postNotification(ERROR_NOTIFICATION_ID, "Something is wrong. Please check the Track.");
                 }
             }
 
@@ -152,14 +161,17 @@ public class UploadService extends BaseIntentService {
                 .subscribeWith(new DisposableObserver<MapResponse>() {
                     @Override
                     public void onNext(MapResponse mapResponse) {
+                        realm.beginTransaction();
                         trackModel.siteId = mapResponse.id;
-                        trackModel.outputs.get(0).checkMapInfo = new CheckMapInfo();
+                        trackModel.outputs.get(0).checkMapInfo = realm.createObject(CheckMapInfo.class);
                         trackModel.outputs.get(0).checkMapInfo.validation = true;
+                        realm.commitTransaction();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.d(TAG, e.getMessage());
+                        makeUploadingFalse(trackModel, e);
                     }
 
                     @Override
@@ -191,18 +203,21 @@ public class UploadService extends BaseIntentService {
                             @Override
                             public void onNext(ImageUploadResponse value) {
                                 Log.d("", value.files[0].thumbnail_url);
+                                realm.beginTransaction();
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign = new RealmList<>();
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(new ImageModel());
+                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(realm.createObject(ImageModel.class));
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).thumbnailUrl = value.files[0].thumbnail_url;
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).url = value.files[0].url;
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).contentType = value.files[0].contentType;
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).staged = true;
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).dateTaken = value.files[0].date;
                                 trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).filesize = value.files[0].size;
+                                realm.commitTransaction();
                             }
 
                             @Override
                             public void onError(Throwable e) {
+                                makeUploadingFalse(trackModel, e);
                             }
 
                             @Override
@@ -236,16 +251,19 @@ public class UploadService extends BaseIntentService {
                         @Override
                         public void onNext(ImageUploadResponse value) {
                             Log.d("", value.files[0].thumbnail_url);
+                            realm.beginTransaction();
                             trackModel.outputs.get(0).data.locationImage.get(0).thumbnailUrl = value.files[0].thumbnail_url;
                             trackModel.outputs.get(0).data.locationImage.get(0).url = value.files[0].url;
                             trackModel.outputs.get(0).data.locationImage.get(0).contentType = value.files[0].contentType;
                             trackModel.outputs.get(0).data.locationImage.get(0).staged = true;
                             trackModel.outputs.get(0).data.locationImage.get(0).dateTaken = value.files[0].date;
                             trackModel.outputs.get(0).data.locationImage.get(0).filesize = value.files[0].size;
+                            realm.commitTransaction();
                         }
 
                         @Override
                         public void onError(Throwable e) {
+                            makeUploadingFalse(trackModel, e);
                         }
 
                         @Override
@@ -273,20 +291,20 @@ public class UploadService extends BaseIntentService {
 
                     @Override
                     public void onError(Throwable e) {
-                        makeUploadingFalse(trackModel);
+                        makeUploadingFalse(trackModel, e);
                         Log.d("", e.getMessage());
                     }
 
                     @Override
                     public void onComplete() {
-                        /*if (trackModel.outputs.get(0).data.sightingPhoto.size() > 0) {
-                            Log.d(TAG, trackModel.outputs.get(0).data.sightingPhoto.get(0).thumbnailUrl);
-                        }*/
+                        if (successCount == 1)
+                            postNotification(SUCCESS_NOTIFICATION_ID, successCount++ + " of the tracks has been successfully uploaded");
+                        else
+                            postNotification(SUCCESS_NOTIFICATION_ID, successCount++ + " of the tracks have been successfully uploaded");
                         realm.beginTransaction();
                         trackModel.deleteFromRealm();
                         realm.commitTransaction();
-
-                        mBroadcaster.notifyDataChange();
+                        EventBus.getDefault().post(UploadNotification.UPLOAD_STARTED);
                     }
                 }));
     }
@@ -296,10 +314,31 @@ public class UploadService extends BaseIntentService {
      *
      * @param trackModel
      */
-    private void makeUploadingFalse(final TrackModel trackModel) {
+    private void makeUploadingFalse(final TrackModel trackModel, Throwable throwable) {
         realm.beginTransaction();
         trackModel.upLoading = false;
         realm.commitTransaction();
+        EventBus.getDefault().post(INTERRUPTED);
+        postNotification(ERROR_NOTIFICATION_ID, throwable.getMessage());
+    }
+
+    private void postNotification(int mNotificationId, String message) {
+        // The id of the channel.
+        String CHANNEL_ID = "bilby_channel";
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this, CHANNEL_ID)
+                        .setSmallIcon(R.drawable.ic_stat_bilby_blitz)
+                        .setContentText(message);
+        switch (mNotificationId) {
+            case SUCCESS_NOTIFICATION_ID:
+                mBuilder.setContentTitle("Upload Successful");
+                break;
+            case ERROR_NOTIFICATION_ID:
+                mBuilder.setContentTitle("Upload Unsuccessful");
+                break;
+        }
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(mNotificationId, mBuilder.build());
     }
 
     @Override
@@ -307,4 +346,11 @@ public class UploadService extends BaseIntentService {
         super.onDestroy();
         mCompositeDisposable.dispose();
     }
+
+    public enum UploadNotification {
+        UPLOAD_STARTED,
+        UPLOAD_DONE,
+        INTERRUPTED,
+    }
+
 }

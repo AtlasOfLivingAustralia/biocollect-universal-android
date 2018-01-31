@@ -37,7 +37,6 @@ import fragments.DraftSightingListFragment;
 import fragments.ExploreSpeciesFragment;
 import fragments.HomePageFragment;
 import fragments.SightingListFragment;
-import upload.Constants;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do

@@ -15,6 +15,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -286,13 +289,12 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
 
     @Override
     protected void setLanguageValues(Language language) {
-
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (realm != null)
-            realm.close();
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(UploadService.UploadNotification uploadNotification) {
+        if (isAdded())
+            readDraftSights();
     }
+
 }
