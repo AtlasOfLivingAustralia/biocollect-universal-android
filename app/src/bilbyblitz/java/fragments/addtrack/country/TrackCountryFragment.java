@@ -350,6 +350,9 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
 
     @Override
     public void setBilbyBlitzData() {
+        if(bilbyBlitzData.locationImage!=null && bilbyBlitzData.locationImage.size()>0){
+            imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(bilbyBlitzData.locationImage.get(0).mPhotoPath));
+        }
         editCountryName.setText(bilbyBlitzData.countryName);
         if (bilbyBlitzData.foodPlants != null) {
             String s[] = new String[bilbyBlitzData.foodPlants.size()];

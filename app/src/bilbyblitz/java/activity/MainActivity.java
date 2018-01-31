@@ -1,5 +1,7 @@
 package activity;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,8 +32,8 @@ import fragments.TrackListFragment;
 import fragments.addtrack.AddTrackFragment;
 import fragments.draft.DraftTrackListFragment;
 import fragments.home.HomePageFragment;
-import service.FetchListSpeciesService;
 import fragments.setting.SettingFragment;
+import service.FetchListSpeciesService;
 import service.FetchProjectListService;
 
 /**
@@ -77,12 +79,6 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         //Navigation Drawer setup
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -167,17 +163,17 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_review_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
-        }else if (id == R.id.nav_my_track) {
+        } else if (id == R.id.nav_my_track) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new TrackListFragment()).commit();
-        }else if (id == R.id.nav_about) {
+        } else if (id == R.id.nav_about) {
             startWebViewActivity(getString(R.string.about_url), getString(R.string.about_title), false);
-        }else if (id == R.id.nav_contact) {
+        } else if (id == R.id.nav_contact) {
             startWebViewActivity(getString(R.string.contact_us_url), getString(R.string.contact_us_title), false);
-        }else if (id == R.id.nav_partners) {
+        } else if (id == R.id.nav_partners) {
             startWebViewActivity(getString(R.string.partners_url), getString(R.string.partners), false);
-        }else if (id == R.id.nav_help) {
+        } else if (id == R.id.nav_help) {
             startWebViewActivity(getString(R.string.help_url), getString(R.string.help), false);
-        }else if (id == R.id.nav_biocollect) {
+        } else if (id == R.id.nav_biocollect) {
             startWebViewActivity(getString(R.string.biocollect_url), getString(R.string.biocollect), false);
         }
 
@@ -192,7 +188,19 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
     @Override
     public void hideFloatingButton() {
         if (fab.getScaleX() != 0.0f)
-            fab.animate().scaleX(0.0f).scaleY(0.0f).setDuration(100).setInterpolator(new AccelerateInterpolator()).start();
+            fab.animate().scaleX(0.0f).scaleY(0.0f).setDuration(100)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            fab.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            fab.setVisibility(View.INVISIBLE);
+                        }
+                    }).start();
     }
 
     /**
@@ -201,7 +209,14 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
     @Override
     public void showFloatingButton() {
         if (fab.getScaleX() != 1.0f)
-            fab.animate().scaleX(1.0f).scaleY(1.0f).setInterpolator(new AccelerateInterpolator()).start();
+            fab.animate().scaleX(1.0f).scaleY(1.0f)
+                    .setInterpolator(new AccelerateInterpolator())
+                    .setListener(new AnimatorListenerAdapter() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            fab.setVisibility(View.VISIBLE);
+                        }
+                    }).start();
     }
 
     /**
