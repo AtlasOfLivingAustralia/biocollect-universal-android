@@ -333,13 +333,13 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
                 }
             }
         }
-        bilbyBlitzData.habitatType = countryTypeSpinner.getSelectedItemPosition() == 0 ? null : countryTypeEnglishValues[countryTypeSpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.vegetationType = vegetationSpinner.getSelectedItemPosition() == 0 ? null : vegetationEnglishValues[vegetationSpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.fireHistory = fireSpinner.getSelectedItemPosition() == 0 ? null : fireEnglishValues[fireSpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.trackingSurfaceContinuity = clearGroundSpinner.getSelectedItemPosition() == 0 ? null : clearGroundEnglishValues[clearGroundSpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null : disturbanceEnglishvalues[disturbanceSpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.surfaceTrackability = groundTypeSpinner.getSelectedItemPosition() == 0 ? null : groundEnglishValues[groundTypeSpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.visibility = weatherSpinner.getSelectedItemPosition() == 0 ? null : weatherEnglishValues[weatherSpinner.getSelectedItemPosition() - 1];
+        bilbyBlitzData.habitatType = countryTypeSpinner.getSelectedItemPosition() == 0 ? null : countryTypeEnglishValues[countryTypeSpinner.getSelectedItemPosition()];
+        bilbyBlitzData.vegetationType = vegetationSpinner.getSelectedItemPosition() == 0 ? null : vegetationEnglishValues[vegetationSpinner.getSelectedItemPosition()];
+        bilbyBlitzData.fireHistory = fireSpinner.getSelectedItemPosition() == 0 ? null : fireEnglishValues[fireSpinner.getSelectedItemPosition()];
+        bilbyBlitzData.trackingSurfaceContinuity = clearGroundSpinner.getSelectedItemPosition() == 0 ? null : clearGroundEnglishValues[clearGroundSpinner.getSelectedItemPosition()];
+        bilbyBlitzData.disturbance = disturbanceSpinner.getSelectedItemPosition() == 0 ? null : disturbanceEnglishvalues[disturbanceSpinner.getSelectedItemPosition()];
+        bilbyBlitzData.surfaceTrackability = groundTypeSpinner.getSelectedItemPosition() == 0 ? null : groundEnglishValues[groundTypeSpinner.getSelectedItemPosition()];
+        bilbyBlitzData.visibility = weatherSpinner.getSelectedItemPosition() == 0 ? null : weatherEnglishValues[weatherSpinner.getSelectedItemPosition()];
         if (mCurrentPhotoPath != null) {
             bilbyBlitzData.locationImage = new RealmList<>();
             ImageModel imageModel = new ImageModel();

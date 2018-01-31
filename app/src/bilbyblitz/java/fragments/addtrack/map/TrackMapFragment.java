@@ -461,8 +461,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             bilbyBlitzData.locationLatitude = locations.get(0).latitude;
             bilbyBlitzData.locationLongitude = locations.get(0).longitude;
         }
-        bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : surveyTypeEnglishValues[surveySpinner.getSelectedItemPosition() - 1];
-        bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : siteTypeEnglishValues[siteSpinner.getSelectedItemPosition() - 1];
+        bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : surveyTypeEnglishValues[surveySpinner.getSelectedItemPosition()];
+        bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : siteTypeEnglishValues[siteSpinner.getSelectedItemPosition()];
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);

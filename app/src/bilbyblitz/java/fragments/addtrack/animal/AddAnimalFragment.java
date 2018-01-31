@@ -287,9 +287,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     }
 
     private void prepareData() {
-        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null : whatSeeEnglishValues[whatSeenSpinner.getSelectedItemPosition() - 1];
-        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null : recentEnglishValues[howRecentSpinner.getSelectedItemPosition() - 1];
-        sightingEvidenceTable.ageClassOfAnimal = animalAgeSpinner.getSelectedItemPosition() == 0 ? null : ageEnglishValues[animalAgeSpinner.getSelectedItemPosition() - 1];
+        sightingEvidenceTable.typeOfSign = whatSeenSpinner.getSelectedItemPosition() == 0 ? null : whatSeeEnglishValues[whatSeenSpinner.getSelectedItemPosition()];
+        sightingEvidenceTable.evidenceAgeClass = howRecentSpinner.getSelectedItemPosition() == 0 ? null : recentEnglishValues[howRecentSpinner.getSelectedItemPosition()];
+        sightingEvidenceTable.ageClassOfAnimal = animalAgeSpinner.getSelectedItemPosition() == 0 ? null : ageEnglishValues[animalAgeSpinner.getSelectedItemPosition()];
         sightingEvidenceTable.observationLongitude = Utils.parseDouble(editLongitude.getText().toString());
         sightingEvidenceTable.observationLatitude = Utils.parseDouble(editLatitude.getText().toString());
     }
