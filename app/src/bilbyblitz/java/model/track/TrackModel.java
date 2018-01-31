@@ -20,10 +20,10 @@ import io.realm.annotations.RealmClass;
 public class TrackModel extends RealmObject {
     @PrimaryKey
     public Long realmId;
-    public boolean upLoading;
+    public Boolean upLoading;
 
     @Expose
-    public String mainTheme;
+    public String mainTheme = "";
 
     @Expose
     public String activityId;
@@ -42,5 +42,5 @@ public class TrackModel extends RealmObject {
     public String type;
 
     @Expose
-    public String projectStage;
+    public String projectStage = "";
 }

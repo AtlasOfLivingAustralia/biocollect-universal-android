@@ -541,6 +541,7 @@ public class AddSightingFragment extends BaseMainActivityFragment {
             mapModel.site = new Site();
             mapModel.site.name = "Private site for survey: Individual sighting";
             mapModel.site.visibility = "private";
+            mapModel.site.asyncUpdate = true;
             mapModel.site.projects = new String[]{getString(R.string.project_id)};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "Point";

@@ -1,11 +1,12 @@
 <resources>
     <string name="app_name">The Tracks App</string>
-    <string name="app_version">Version 1.0 (3)</string>
+    <string name="app_version">Version 1.0 (4)</string>
 
     <string name="help_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=Tracker%20Help</string>
     <string name="about_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=About</string>
     <string name="partners_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=Partners</string>
     <string name="contact_us_url">http://www.ala.org.au/about-the-atlas/contact-us/</string>
+
 
     <string name="user_project_parameter">USER_PROJECT</string>
     <string name="project_id_parameter">PROJECT_ID</string>
@@ -16,6 +17,8 @@
     <string name="practise_parameter">PRACTISE_KEYS</string>
     <string name="food_plant_parameter">FOOD_PLANT_KEYS</string>
     <string name="species_filter_parameter">SPECIES_FILTER_KEY</string>
+
+    <string name="project_type">CLC 2Ha Track Plot</string>
 
     <string name="project_initiator">biocollect</string>
     <string name="project_soft_option">nameSort</string>

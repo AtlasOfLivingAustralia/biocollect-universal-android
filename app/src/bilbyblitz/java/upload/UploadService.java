@@ -8,7 +8,6 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseIntentService;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -120,15 +119,23 @@ public class UploadService extends BaseIntentService {
     private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
-            mapModel.pActivityId = project.projectActivityId;
+            if (project != null)
+                mapModel.pActivityId = project.projectActivityId;
             mapModel.site = new Site();
-            mapModel.site.name = "line 3";
+            mapModel.site.name = "Private site for survey";
+            mapModel.site.visibility = "private";
+            mapModel.site.asyncUpdate = true;
             mapModel.site.projects = new String[]{project.projectId};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "drawn";
             mapModel.site.extent.geometry = new Geometry();
             mapModel.site.extent.geometry.areaKmSq = 0.0;
             mapModel.site.extent.geometry.type = "LineString";
+            if (tempLocations.size() > 0) {
+                mapModel.site.extent.geometry.centre = new Double[2];
+                mapModel.site.extent.geometry.centre[0] = tempLocations.get(0).longitude;
+                mapModel.site.extent.geometry.centre[1] = tempLocations.get(0).latitude;
+            }
             mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
             for (int i = 0; i < tempLocations.size(); i++) {
                 BilbyLocation bilbyLocation = tempLocations.get(i);

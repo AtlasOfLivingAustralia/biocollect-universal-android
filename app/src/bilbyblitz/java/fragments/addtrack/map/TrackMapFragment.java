@@ -175,7 +175,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         siteTextView.setText(localisedString("site_type", R.string.site_type));
 
         switch (language) {
-            case ADITHINNGITHIGH:
+            case WARLPIRI:
                 surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type_adithinngithigh), R.layout.item_textview));
                 siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type_adithinngithigh), R.layout.item_textview));
                 break;
@@ -468,7 +468,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.tempLocations = locations;
         if(locations.size()==1){
-            bilbyBlitzData.tempLocations.add(locations.get(0));
+            BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.0001, locations.get(0).longitude + + 0.0001);
+            bilbyBlitzData.tempLocations.add(bilbyLocation);
         }
     }
 

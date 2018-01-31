@@ -155,11 +155,15 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
     private void defaultSetup() {
         trackModel.outputs = new RealmList<>();
-        if (project != null)
+        if (project != null) {
+            trackModel.projectId = project.projectId;
+            trackModel.type = getString(R.string.project_type);
             trackModel.activityId = project.projectActivityId;
+        }
         BilbyBlitzOutput output = new BilbyBlitzOutput();
         output.selectFromSitesOnly = false;
         output.data = new BilbyBlitzData();
+        output.name = getString(R.string.project_type);
         trackModel.outputs.add(output);
         tabSetup();
     }
@@ -238,8 +242,9 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                         bilbyDataManager.prepareData();
                                     }
                                 }
-                                if (trackModel.realmId == null)
+                                if (trackModel.realmId == null) {
                                     trackModel.realmId = getPrimaryKeyValue();
+                                }
                                 realm.executeTransactionAsync(realm -> {
                                     realm.insertOrUpdate(trackModel);
                                     if (isAdded()) {
@@ -298,12 +303,18 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             mapModel.site = new Site();
             mapModel.site.name = "Private site for survey";
             mapModel.site.visibility = "private";
+            mapModel.site.asyncUpdate = true;
             mapModel.site.projects = new String[]{project.projectId};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "drawn";
             mapModel.site.extent.geometry = new Geometry();
             mapModel.site.extent.geometry.areaKmSq = 0.0;
             mapModel.site.extent.geometry.type = "LineString";
+            if(tempLocations.size()>0){
+                mapModel.site.extent.geometry.centre = new Double[2];
+                mapModel.site.extent.geometry.centre[0] = tempLocations.get(0).longitude;
+                mapModel.site.extent.geometry.centre[1] = tempLocations.get(0).latitude;
+            }
             mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
             for (int i = 0; i < tempLocations.size(); i++) {
                 BilbyLocation bilbyLocation = tempLocations.get(i);
@@ -430,6 +441,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private void saveData() {
+        Log.d("TRACK_MODEL", new Gson().toJson(trackModel));
         mCompositeDisposable.add(restClient.getService().postTracks(project.projectActivityId, trackModel)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())

@@ -119,7 +119,7 @@ public class FoodPlantSelectionFragment extends BaseMainActivityFragment {
     @Override
     protected void setLanguageValues(Language language) {
         switch (language) {
-            case ADITHINNGITHIGH:
+            case WARLPIRI:
                 foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type_adithinngithigh));
                 break;
             default:

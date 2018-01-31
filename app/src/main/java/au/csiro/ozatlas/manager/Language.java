@@ -6,5 +6,5 @@ package au.csiro.ozatlas.manager;
 
 public enum Language {
     ENGLISH,
-    ADITHINNGITHIGH
+    WARLPIRI
 }

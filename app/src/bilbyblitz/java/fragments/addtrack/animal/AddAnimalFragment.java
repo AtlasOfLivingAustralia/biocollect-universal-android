@@ -139,7 +139,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         animalAgeTextView.setText(localisedString("how_old_animal", R.string.how_old_animal));
 
         switch (language) {
-            case ADITHINNGITHIGH:
+            case WARLPIRI:
                 whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values_adithinngithigh), R.layout.item_textview));
                 howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values_adithinngithigh), R.layout.item_textview));
                 animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values_adithinngithigh), R.layout.item_textview));

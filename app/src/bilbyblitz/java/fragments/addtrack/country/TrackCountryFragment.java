@@ -118,7 +118,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         fireTextView.setText(localisedString("fire", R.string.fire));
 
         switch (language) {
-            case ADITHINNGITHIGH:
+            case WARLPIRI:
                 countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.country_type_values_adithinngithigh), R.layout.item_textview));
                 vegetationSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.vegetation_type_adithinngithigh), R.layout.item_textview));
                 disturbanceSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.disturbance_values_adithinngithigh), R.layout.item_textview));

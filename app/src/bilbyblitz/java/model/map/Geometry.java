@@ -15,4 +15,7 @@ public class Geometry {
 
     @Expose
     public Double[][] coordinates;
+
+    @Expose
+    public Double[] centre;
 }
