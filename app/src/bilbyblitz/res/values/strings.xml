@@ -77,13 +77,13 @@
     <string name="country_name">Country Name</string>
     <string name="sign_latitude">Latitude of sign</string>
     <string name="sign_longitude">Longitude of sign</string>
-    <string name="event_date_hint">Tracking event date</string>
-    <string name="event_start_time_hint">Tracking event start time</string>
+    <string name="event_date_hint">Tracking event date <sup><small>*</small></sup></string>
+    <string name="event_start_time_hint">Tracking event start time <sup><small>*</small></sup></string>
     <string name="event_end_time_hint">Tracking event finish time</string>
     <string name="centroid_longitude">Centroid Longitude</string>
     <string name="centroid_latitude">Centroid Latitude</string>
-    <string name="organisation_name">Organisation Name</string>
-    <string name="lead_tracker">Lead Tracker</string>
+    <string name="organisation_name">Organisation Name <sup><small>*</small></sup></string>
+    <string name="lead_tracker">Lead Tracker <sup><small>*</small></sup></string>
     <string name="other_tracker">Other Tracker Names</string>
     <string name="comment">Comments</string>
     <string name="other_setting">Other Settings</string>
@@ -93,7 +93,7 @@
     <string name="covering">Covering</string>
     <string name="animal">Animals</string>
     <string name="animal_name">Animal Name</string>
-    <string name="what_animal">What animal did you see?</string>
+    <string name="what_animal">What animal did you see? <sup><small>*</small></sup></string>
     <string name="what_you_see">What sign did you see?</string>
     <string name="how_recent">How old is the sign?</string>
     <string name="how_old_animal">How old is the animal?</string>
