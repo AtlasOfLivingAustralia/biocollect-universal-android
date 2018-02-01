@@ -137,6 +137,8 @@
     <string name="at_least_two_coordinates">You need at least two locations.</string>
     <string name="track_save_title">Save Track</string>
     <string name="track_save_message">Would you like to submit the track information now? If you press LATER, it will be saved locally and you can modify the information later.</string>
+    <string name="add_gps_location_in_edit">Would you like to add more GPS Locations?</string>
+    <string name="gps_edit_title">Add GPS Location</string>
 
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>

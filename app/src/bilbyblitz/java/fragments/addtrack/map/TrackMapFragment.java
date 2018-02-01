@@ -76,6 +76,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private static final String DATE_FORMAT = "dd MMMM, yyyy";
     private static final String TIME_FORMAT = "hh:mm a";
     private final float INITIAL_ZOOM = 19.0f;
+    public boolean acquireGPSLocation = true;
     @BindView(R.id.surveySpinner)
     AppCompatSpinner surveySpinner;
     @BindView(R.id.siteSpinner)
@@ -198,8 +199,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         siteTypeEnglishValues = getResources().getStringArray(R.array.site_type);
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
-
         if (getParentFragment() instanceof AddTrackFragment) {
+            acquireGPSLocation = ((AddTrackFragment) getParentFragment()).acquireGPSLocation;
             bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
             setBilbyBlitzData();
         }
@@ -355,6 +356,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         if (polylineOptions != null) {
             polylineOptions.add(new LatLng(location.latitude, location.longitude));
             googleMap.addPolyline(polylineOptions);
+            putCoordinatesInVisibleArea();
         }
     }
 
@@ -468,7 +470,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.tempLocations = locations;
         if(locations.size()==1){
-            BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.0001, locations.get(0).longitude + + 0.0001);
+            BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.00001, locations.get(0).longitude + + 0.00001);
             bilbyBlitzData.tempLocations.add(bilbyLocation);
         }
     }
@@ -490,12 +492,11 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 }
 
                 location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
-                if (location != null) {
+                if (location != null && acquireGPSLocation) {
                     locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
                     setGoogleMapView(location);
                     addPolyLine(location);
                     gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
-                    //Toast.makeText(getContext(), locations.size() == 1 ? getString(R.string.location_found_singular) : getString(R.string.location_found_plural, locations.size()), Toast.LENGTH_SHORT).show();
                 }
             }
         }

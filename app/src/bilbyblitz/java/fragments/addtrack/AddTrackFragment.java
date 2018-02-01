@@ -1,7 +1,9 @@
 package fragments.addtrack;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -71,6 +73,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private Project project;
 
     private int imageUploadCount = 0;
+    public boolean acquireGPSLocation = true;
     private TrackModel trackModel = new TrackModel();
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
@@ -137,13 +140,24 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         if (bundle != null) {
             long primaryKey = bundle.getLong(getString(R.string.primary_key_parameter), -1);
             if (primaryKey != -1) {
+                setTitle(getString(R.string.edit_track));
                 RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
                 RealmResults<TrackModel> results = query.findAllAsync();
                 results.addChangeListener(element -> {
                     trackModel = realm.copyFromRealm(element.first());
-                    tabSetup();
+                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_gps_location_in_edit), getString(R.string.gps_edit_title), "ADD", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            acquireGPSLocation = true;
+                            tabSetup();
+                        }
+                    }, "NO", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            acquireGPSLocation = false;
+                            tabSetup();
+                        }
+                    });
                 });
-                setTitle(getString(R.string.edit_track));
             } else {
                 defaultSetup();
             }

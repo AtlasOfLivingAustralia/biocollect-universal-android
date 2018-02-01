@@ -23,6 +23,7 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.AppCompatSpinner;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -205,6 +206,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
             editLatitude.setText(String.valueOf(sightingEvidenceTable.observationLatitude));
         if (sightingEvidenceTable.observationLongitude != null)
             editLongitude.setText(String.valueOf(sightingEvidenceTable.observationLongitude));
+        if(!TextUtils.isEmpty(editLatitude.getText()) || !TextUtils.isEmpty(editLongitude.getText()))
+            addLocation.setText(R.string.update_location);
     }
 
     private boolean checkPermissions() {
