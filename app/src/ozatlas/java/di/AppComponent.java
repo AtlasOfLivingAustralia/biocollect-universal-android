@@ -4,6 +4,7 @@ import javax.inject.Singleton;
 
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.BaseFragment;
+import au.csiro.ozatlas.base.BaseIntentService;
 import au.csiro.ozatlas.di.AnalyticsModule;
 import au.csiro.ozatlas.di.PreferenceModule;
 import au.csiro.ozatlas.di.RestModule;
@@ -24,5 +25,5 @@ public interface AppComponent {
 
     void inject(CustomRequestInterceptor customRequestInterceptor);
 
-    void inject(UploadService uploadService);
+    void inject(BaseIntentService uploadService);
 }

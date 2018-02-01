@@ -66,7 +66,6 @@ public class UploadService extends IntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        CsiroApplication.component().inject(this);
         if (AtlasManager.isNetworkAvailable(this)) {
             realm = Realm.getDefaultInstance();
             //create the broadcaster to notify

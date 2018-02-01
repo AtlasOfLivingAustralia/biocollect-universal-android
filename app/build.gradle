@@ -41,7 +41,7 @@ android {
         }
         ozatlas {
             applicationIdSuffix '.ala.mobile.ozatlas'
-            versionCode 13
+            versionCode 14
             versionName '2.1.2'
         }
         biocontrolhub {
