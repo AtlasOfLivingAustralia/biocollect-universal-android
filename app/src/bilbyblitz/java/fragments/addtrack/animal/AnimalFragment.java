@@ -156,7 +156,11 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
 
     @Override
     public String getValidationMessage() {
-        return null;
+        StringBuilder stringBuilder = new StringBuilder();
+        if (sightingEvidenceTables!=null && sightingEvidenceTables.size()==0) {
+            stringBuilder.append(localisedString("species_select", R.string.species_select));
+        }
+        return stringBuilder.toString().trim();
     }
 
     @Override

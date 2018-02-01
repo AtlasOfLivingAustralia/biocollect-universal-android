@@ -114,7 +114,7 @@ public class UploadService extends BaseIntentService {
                     } else {
                         uploadPhotos(trackModel);
                     }
-                }else{
+                } else {
                     postNotification(ERROR_NOTIFICATION_ID, "Something is wrong. Please check the Track.");
                 }
             }
@@ -187,7 +187,15 @@ public class UploadService extends BaseIntentService {
      * @return
      */
     private boolean getValidated(TrackModel trackModel) {
-        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) && !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) && trackModel.outputs.get(0).data.locationLatitude != null && trackModel.outputs.get(0).data.locationLongitude != null && trackModel.outputs.get(0).data.tempLocations.size() > 1;
+        return !TextUtils.isEmpty(trackModel.outputs.get(0).data.recordedBy) &&
+                !TextUtils.isEmpty(trackModel.outputs.get(0).data.organisationName) &&
+                !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyDate) &&
+                !TextUtils.isEmpty(trackModel.outputs.get(0).data.surveyStartTime) &&
+                trackModel.outputs.get(0).data.locationLatitude != null &&
+                trackModel.outputs.get(0).data.locationLongitude != null &&
+                trackModel.outputs.get(0).data.tempLocations.size() > 1 &&
+                trackModel.outputs.get(0).data.sightingEvidenceTable != null &&
+                trackModel.outputs.get(0).data.sightingEvidenceTable.size() > 1;
     }
 
     /**
