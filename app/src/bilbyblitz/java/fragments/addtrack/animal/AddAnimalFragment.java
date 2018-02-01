@@ -308,6 +308,8 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     intent.putExtra(getString(R.string.add_animal_parameter), Parcels.wrap(sightingEvidenceTable));
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
+                }else{
+                    showSnackBarMessage(getString(R.string.species_select));
                 }
                 break;
         }

@@ -176,6 +176,8 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     intent.putExtra(getString(R.string.species_parameter), filterSpecies.get(selectedPosition).realmId);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
+                }else{
+                    showSnackBarMessage(getString(R.string.species_select));
                 }
                 break;
             case R.id.filter:
