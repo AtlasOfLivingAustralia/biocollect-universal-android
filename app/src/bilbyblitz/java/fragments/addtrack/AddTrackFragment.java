@@ -20,6 +20,8 @@ import android.view.ViewGroup;
 
 import com.google.gson.Gson;
 
+import java.util.UUID;
+
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -312,10 +314,11 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         tempLocations.add(new BilbyLocation(143.40, -13.25));*/
         if (tempLocations != null && tempLocations.size() > 1) {
             MapModel mapModel = new MapModel();
-            if (project != null)
-                mapModel.pActivityId = project.projectActivityId;
             mapModel.site = new Site();
-            mapModel.site.name = "Private site for survey";
+            if (project != null) {
+                mapModel.pActivityId = project.projectActivityId;
+                mapModel.site.name = project.name + "-" + UUID.randomUUID().toString();
+            }
             mapModel.site.visibility = "private";
             mapModel.site.asyncUpdate = true;
             mapModel.site.projects = new String[]{project.projectId};

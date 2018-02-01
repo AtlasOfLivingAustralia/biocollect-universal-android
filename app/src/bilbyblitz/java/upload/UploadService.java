@@ -12,6 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.UUID;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseIntentService;
@@ -128,10 +129,11 @@ public class UploadService extends BaseIntentService {
     private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
-            if (project != null)
-                mapModel.pActivityId = project.projectActivityId;
             mapModel.site = new Site();
-            mapModel.site.name = "Private site for survey";
+            if (project != null) {
+                mapModel.pActivityId = project.projectActivityId;
+                mapModel.site.name = project.name + "-" + UUID.randomUUID().toString();
+            }
             mapModel.site.visibility = "private";
             mapModel.site.asyncUpdate = true;
             mapModel.site.projects = new String[]{project.projectId};
