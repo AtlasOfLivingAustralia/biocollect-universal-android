@@ -167,6 +167,7 @@ public class UploadService extends BaseIntentService {
                         trackModel.siteId = mapResponse.id;
                         trackModel.outputs.get(0).checkMapInfo = realm.createObject(CheckMapInfo.class);
                         trackModel.outputs.get(0).checkMapInfo.validation = true;
+                        trackModel.outputs.get(0).data.location = mapResponse.id;
                         realm.commitTransaction();
                     }
 

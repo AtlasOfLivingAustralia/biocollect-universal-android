@@ -18,7 +18,7 @@ import io.realm.annotations.RealmClass;
 @RealmClass
 public class BilbyBlitzData extends RealmObject {
     @Expose
-    public Double locationCentroidLatitude;
+    public Double locationCentroidLatitude = 0.0;
 
     @Expose
     public String visibility;
@@ -30,7 +30,7 @@ public class BilbyBlitzData extends RealmObject {
     public String location;
 
     @Expose
-    public String locationAccuracy;
+    public Integer locationAccuracy = 50;
 
     @Expose
     public String surveyStartTime;
@@ -93,7 +93,7 @@ public class BilbyBlitzData extends RealmObject {
     public RealmList<TrackerGroupImage> trackerGroupImage;
 
     @Expose
-    public Double locationCentroidLongitude;
+    public Double locationCentroidLongitude = 0.0;
 
     @Expose
     public String surveyDate;

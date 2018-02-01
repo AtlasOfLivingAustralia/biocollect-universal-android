@@ -356,6 +356,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                         trackModel.siteId = mapResponse.id;
                         trackModel.outputs.get(0).checkMapInfo = new CheckMapInfo();
                         trackModel.outputs.get(0).checkMapInfo.validation = true;
+                        trackModel.outputs.get(0).data.location = mapResponse.id;
                     }
 
                     @Override
