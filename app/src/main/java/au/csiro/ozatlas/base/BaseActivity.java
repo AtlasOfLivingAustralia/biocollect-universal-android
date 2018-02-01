@@ -8,6 +8,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -28,6 +29,7 @@ import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
 import au.csiro.ozatlas.fragments.WebViewFragment;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 import au.csiro.ozatlas.rest.RestClient;
 import io.reactivex.disposables.CompositeDisposable;
@@ -223,7 +225,10 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      */
     @Override
     public void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message) {
-        if (e instanceof UnknownHostException) {
+        if(!TextUtils.isEmpty(message)){
+            showSnackBarMessage(coordinatorLayout, message);
+            AtlasDialogManager.alertBoxForMessage(this, message, "OK");
+        }else if (e instanceof UnknownHostException) {
             showSnackBarMessage(coordinatorLayout, getString(R.string.not_internet_title));
         } else if (e instanceof HttpException && ((HttpException) e).code() == code) {
             showSnackBarMessage(coordinatorLayout, message);

@@ -469,10 +469,23 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.tempLocations = locations;
-        if(locations.size()==1){
-            BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.00001, locations.get(0).longitude + + 0.00001);
+        if (locations.size() == 1) {
+            BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.00001, locations.get(0).longitude + +0.00001);
             bilbyBlitzData.tempLocations.add(bilbyLocation);
         }
+    }
+
+    private double locationRound(double num) {
+        return ((int) (num * 100000)) / 100000;
+    }
+
+    /*
+    If fifth digit is after decimal is different then its different
+     */
+    private boolean isSameLocation(BilbyLocation location1, BilbyLocation location2) {
+        double latitude_diff = Math.abs(locationRound(location1.latitude) - locationRound(location2.latitude));
+        double longitude_diff = Math.abs(locationRound(location1.longitude) - locationRound(location2.longitude));
+        return latitude_diff == 0 && longitude_diff == 0;
     }
 
     /**
@@ -493,10 +506,13 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
                 location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
                 if (location != null && acquireGPSLocation) {
-                    locations.add(new BilbyLocation(location.getLatitude(), location.getLongitude()));
-                    setGoogleMapView(location);
-                    addPolyLine(location);
-                    gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
+                    BilbyLocation bilbyLocation = new BilbyLocation(location.getLatitude(), location.getLongitude());
+                    if (locations.size() == 0 || (locations.size() > 0 && isSameLocation(locations.get(locations.size() - 1), bilbyLocation))) {
+                        locations.add(bilbyLocation);
+                        setGoogleMapView(location);
+                        addPolyLine(location);
+                        gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
+                    }
                 }
             }
         }

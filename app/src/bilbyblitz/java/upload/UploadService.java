@@ -174,7 +174,7 @@ public class UploadService extends BaseIntentService {
                     @Override
                     public void onError(Throwable e) {
                         Log.d(TAG, e.getMessage());
-                        makeUploadingFalse(trackModel, e);
+                        makeUploadingFalse(trackModel, getString(R.string.map_upload_fail));
                     }
 
                     @Override
@@ -228,7 +228,7 @@ public class UploadService extends BaseIntentService {
 
                             @Override
                             public void onError(Throwable e) {
-                                makeUploadingFalse(trackModel, e);
+                                makeUploadingFalse(trackModel, getString(R.string.species_photo_upload_fail));
                             }
 
                             @Override
@@ -274,7 +274,7 @@ public class UploadService extends BaseIntentService {
 
                         @Override
                         public void onError(Throwable e) {
-                            makeUploadingFalse(trackModel, e);
+                            makeUploadingFalse(trackModel, getString(R.string.country_photo_upload_fail));
                         }
 
                         @Override
@@ -302,7 +302,7 @@ public class UploadService extends BaseIntentService {
 
                     @Override
                     public void onError(Throwable e) {
-                        makeUploadingFalse(trackModel, e);
+                        makeUploadingFalse(trackModel, getString(R.string.track_upload_fail));
                         Log.d("", e.getMessage());
                     }
 
@@ -325,12 +325,12 @@ public class UploadService extends BaseIntentService {
      *
      * @param trackModel
      */
-    private void makeUploadingFalse(final TrackModel trackModel, Throwable throwable) {
+    private void makeUploadingFalse(final TrackModel trackModel, String message) {
         realm.beginTransaction();
         trackModel.upLoading = false;
         realm.commitTransaction();
         EventBus.getDefault().post(INTERRUPTED);
-        postNotification(ERROR_NOTIFICATION_ID, throwable.getMessage());
+        postNotification(ERROR_NOTIFICATION_ID, message);
     }
 
     private void postNotification(int mNotificationId, String message) {

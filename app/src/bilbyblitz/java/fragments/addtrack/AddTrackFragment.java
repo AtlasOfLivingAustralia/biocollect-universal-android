@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import java.util.UUID;
 
@@ -346,7 +347,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private void uploadMap(MapModel mapModel) {
-        Log.d("MAP_MODEL", new Gson().toJson(mapModel));
+        Log.d("MAP_MODEL", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel));
         mCompositeDisposable.add(restClient.getService().postMap(mapModel)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -362,7 +363,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        handleError(e, 0, "");
+                        handleError(e, 0, getString(R.string.map_upload_fail) + "\n"+ new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel));
                     }
 
                     @Override
@@ -398,7 +399,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                             @Override
                             public void onError(Throwable e) {
                                 hideProgressDialog();
-                                handleError(e, 0, "");
+                                handleError(e, 0, getString(R.string.species_photo_upload_fail));
                             }
 
                             @Override
@@ -445,7 +446,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                         @Override
                         public void onError(Throwable e) {
                             hideProgressDialog();
-                            handleError(e, 0, "");
+                            handleError(e, 0, getString(R.string.country_photo_upload_fail));
                         }
 
                         @Override
@@ -472,7 +473,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        handleError(e, 0, "");
+                        handleError(e, 0, getString(R.string.track_upload_fail) + "\n" + new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(trackModel));
                     }
 
                     @Override
