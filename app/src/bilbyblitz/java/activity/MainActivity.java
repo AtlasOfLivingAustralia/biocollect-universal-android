@@ -126,7 +126,11 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            if (!(getSupportFragmentManager().findFragmentById(R.id.fragmentHolder) instanceof HomePageFragment)) {
+                setDrawerMenuChecked(R.id.home);
+                setDrawerMenuClicked(R.id.home);
+            } else
+                super.onBackPressed();
         }
     }
 
