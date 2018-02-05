@@ -91,12 +91,12 @@ public abstract class BilbyBlitzBaseFragment extends BaseFragment implements Bil
     public void onStop() {
         super.onStop();
         EventBus.getDefault().unregister(this);
+        if (realm != null)
+            realm.close();
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (realm != null)
-            realm.close();
     }
 }

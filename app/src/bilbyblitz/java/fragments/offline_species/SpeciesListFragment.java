@@ -56,7 +56,6 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
     private List<SearchSpecies> species = new ArrayList<>();
     private String dataResourceId;
     private boolean[] addButtonFlag;
-    private Realm realm;
     private boolean isSaved;
 
     private SpeciesListApiService speciesListApiService;
@@ -67,8 +66,6 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
-
-        realm = Realm.getDefaultInstance();
 
         //species group service
         speciesListApiService = new NetworkClient(getString(R.string.species_list_url)).getRetrofit().create(SpeciesListApiService.class);
@@ -162,13 +159,6 @@ public class SpeciesListFragment extends BaseListWithRefreshFragment {
     public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Species List", TAG);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (realm != null)
-            realm.close();
     }
 
     protected void fetchSpecies() {

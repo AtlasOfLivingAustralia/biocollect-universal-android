@@ -70,7 +70,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     private List<SearchSpecies> filterSpecies = new ArrayList<>();
     private List<SearchSpecies> species = new ArrayList<>();
     private SpeciesAdapter speciesAdapter;
-    private Realm realm;
     private boolean[] selections;
     private int selectedPosition = -1;
 
@@ -97,9 +96,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         if (mainActivityFragmentListener != null) {
             mainActivityFragmentListener.hideFloatingButton();
         }
-
-        // Get a Realm instance for this thread
-        realm = Realm.getDefaultInstance();
 
         //recyclerView setup
         recyclerView.setHasFixedSize(true);
@@ -283,13 +279,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Available Species List", TAG);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (realm != null)
-            realm.close();
     }
 
     @OnClick(R.id.unknownSpecies)

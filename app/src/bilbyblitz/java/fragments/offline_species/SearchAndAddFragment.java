@@ -54,7 +54,6 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
     ProgressBar progressBar;
     List<SearchSpecies> species = new ArrayList<>();
     SpeciesAdapter speciesAdapter;
-    private Realm realm;
     private BieApiService bieApiService;
     private boolean[] addButtonFlag;
 
@@ -71,8 +70,6 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
 
         //progressBar.setVisibility(View.VISIBLE);
 
-        // Get a Realm instance for this thread
-        realm = Realm.getDefaultInstance();
         speciesAdapter = new SpeciesAdapter();
         listView.setAdapter(speciesAdapter);
         mCompositeDisposable.add(getSearchSpeciesResponseObserver());
@@ -160,13 +157,6 @@ public class SearchAndAddFragment extends BaseMainActivityFragment {
     public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Available Species List", TAG);
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        if (realm != null)
-            realm.close();
     }
 
     @Override
