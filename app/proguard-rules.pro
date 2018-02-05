@@ -29,6 +29,9 @@
 -keepclassmembers class au.csiro.ozatlas.model.** { <fields>; }
 -keepclassmembers class model.** { <fields>; }
 
+-renamesourcefileattribute SourceFile
+-keepattributes SourceFile,LineNumberTable
+
 -keepclassmembers,allowobfuscation class * {
     @javax.inject.* *;
     @dagger.* *;

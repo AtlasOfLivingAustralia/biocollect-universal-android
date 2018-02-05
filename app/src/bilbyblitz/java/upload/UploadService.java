@@ -104,7 +104,7 @@ public class UploadService extends BaseIntentService {
             while (sightIterator.hasNext()) {
                 TrackModel trackModel = sightIterator.next();
                 //only those which are not being uploaded right now
-                if (trackModel.isValid() && !trackModel.upLoading && getValidated(trackModel)) {
+                if (trackModel.isValid() && !trackModel.upLoading && getValidated(realm.copyFromRealm(trackModel))) {
                     realm.beginTransaction();
                     trackModel.upLoading = true;
                     realm.commitTransaction();
@@ -116,7 +116,7 @@ public class UploadService extends BaseIntentService {
                         uploadPhotos(trackModel);
                     }
                 } else {
-                    postNotification(ERROR_NOTIFICATION_ID, "Something is wrong. Please check the Track.");
+                    postNotification(ERROR_NOTIFICATION_ID, "Please complete the Track information.");
                 }
             }
 
@@ -198,7 +198,7 @@ public class UploadService extends BaseIntentService {
                 trackModel.outputs.get(0).data.locationLongitude != null &&
                 trackModel.outputs.get(0).data.tempLocations.size() > 1 &&
                 trackModel.outputs.get(0).data.sightingEvidenceTable != null &&
-                trackModel.outputs.get(0).data.sightingEvidenceTable.size() > 1;
+                trackModel.outputs.get(0).data.sightingEvidenceTable.size() > 0;
     }
 
     /**

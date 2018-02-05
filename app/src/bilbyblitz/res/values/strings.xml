@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">The Tracks App</string>
-    <string name="app_version">Version 1.0 (4)</string>
+    <string name="app_version">Version 1.0 (8)</string>
 
     <string name="help_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=Tracker%20Help</string>
     <string name="about_url">https://biocollect-test.ala.org.au/trackshub/staticPage/index?page=About</string>
@@ -137,14 +137,15 @@
     <string name="at_least_two_coordinates">You need at least two locations.</string>
     <string name="track_save_title">Save Track</string>
     <string name="track_save_message">Would you like to submit the track information now? If you press LATER, it will be saved locally and you can modify the information later.</string>
-    <string name="add_gps_location_in_edit">Would you like to add more GPS Locations?</string>
-    <string name="gps_edit_title">Add GPS Location</string>
+    <string name="add_gps_location_in_edit">Would you like to continue the tracks in the survey?</string>
+    <string name="gps_edit_title">Continue Track</string>
     <string name="species_select">Please select a species.</string>
-    <string name="map_upload_fail">Map uploading failure. Please try later.</string>
-    <string name="country_photo_upload_fail">Country photo uploading failure. Please try later.</string>
-    <string name="species_photo_upload_fail">Species photo uploading failure. Please try later.</string>
-    <string name="track_upload_fail">Track uploading failed. Please try later.</string>
-
+    <string name="map_upload_fail">Submission failed, please try again later (Error code - MAP01).</string>
+    <string name="country_photo_upload_fail">Submission failed, please try again later (Error code - COU01).</string>
+    <string name="species_photo_upload_fail">Submission failed, please try again later (Error code - SPE01).</string>
+    <string name="track_upload_fail">Submission failed, please try again later (Error code - TRA01).</string>
+    <string name="successful_submit">Successfully submitted</string>
+    <string name="successful_local_save">Successfully saved under review tracks.</string>
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>
 

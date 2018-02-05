@@ -97,6 +97,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
+        setTitle(getString(R.string.review_track));
         setHasOptionsMenu(true);
 
         if (mainActivityFragmentListener != null)

@@ -116,12 +116,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
         }
 
-        if (practiseView) {
-            setTitle(getString(R.string.practise_track));
-        } else {
-            setTitle(getString(R.string.add_track));
-        }
-
         pager.setOffscreenPageLimit(3);
 
         project = sharedPreferences.getSelectedProject();
@@ -129,10 +123,10 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             showSnackBarMessage(getString(R.string.project_selection_message));
         }
 
-        getDataForEdit();
-
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
+
+        getDataForEdit();
 
         return view;
     }
@@ -273,7 +267,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                                     getActivity().setResult(RESULT_OK);
                                                     getActivity().finish();
                                                 }else {
-                                                    showSnackBarMessage("Your track information has been saved as Draft");
+                                                    showSnackBarMessage(getString(R.string.successful_local_save));
                                                     setDrawerMenuChecked(R.id.nav_review_track);
                                                     setDrawerMenuClicked(R.id.nav_review_track);
                                                 }
@@ -363,7 +357,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        handleError(e, 0, getString(R.string.map_upload_fail) + "\n"+ new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel));
+                        handleError(e, 0, getString(R.string.map_upload_fail) );//+ "\n"+ new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel)
                     }
 
                     @Override
@@ -467,13 +461,13 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {
-                        showSnackBarMessage("Sighting has been saved");
+                        showSnackBarMessage(getString(R.string.successful_submit));
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        handleError(e, 0, getString(R.string.track_upload_fail) + "\n" + new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(trackModel));
+                        handleError(e, 0, getString(R.string.track_upload_fail) ); //+ "\n" + new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(trackModel)
                     }
 
                     @Override

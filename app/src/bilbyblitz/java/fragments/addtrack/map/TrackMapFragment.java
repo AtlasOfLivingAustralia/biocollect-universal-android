@@ -476,7 +476,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     }
 
     private double locationRound(double num) {
-        return ((int) (num * 100000)) / 100000;
+        return Math.floor(num * 100000) / 100000;
     }
 
     /*
@@ -507,7 +507,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 location = intent.getParcelableExtra(LocationUpdatesService.EXTRA_LOCATION);
                 if (location != null && acquireGPSLocation) {
                     BilbyLocation bilbyLocation = new BilbyLocation(location.getLatitude(), location.getLongitude());
-                    if (locations.size() == 0 || (locations.size() > 0 && isSameLocation(locations.get(locations.size() - 1), bilbyLocation))) {
+                    if (locations.size() == 0 || (locations.size() > 0 && !isSameLocation(locations.get(locations.size() - 1), bilbyLocation))) {
                         locations.add(bilbyLocation);
                         setGoogleMapView(location);
                         addPolyLine(location);
