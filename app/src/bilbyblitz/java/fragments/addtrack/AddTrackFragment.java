@@ -44,6 +44,7 @@ import fragments.addtrack.trackers.TrackersFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -473,11 +474,11 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onComplete() {
                         hideProgressDialog();
-
-                        if (trackModel.isManaged()) {
-                            realm.beginTransaction();
-                            trackModel.deleteFromRealm();
-                            realm.commitTransaction();
+                        if(trackModel.realmId!=null){
+                            realm.executeTransactionAsync(realm -> {
+                                RealmResults<TrackModel> result = realm.where(TrackModel.class).equalTo("realmId",trackModel.realmId).findAll();
+                                result.deleteAllFromRealm();
+                            });
                         }
 
                         if (getActivity() instanceof SingleFragmentActivity) {
