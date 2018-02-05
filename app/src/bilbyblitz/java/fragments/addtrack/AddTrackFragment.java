@@ -1,9 +1,7 @@
 package fragments.addtrack;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -44,7 +42,6 @@ import fragments.addtrack.trackers.TrackersFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -264,10 +261,10 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                                             @Override
                                             public void run() {
                                                 AtlasManager.hideKeyboard(getActivity());
-                                                if(getActivity() instanceof SingleFragmentActivity){
+                                                if (getActivity() instanceof SingleFragmentActivity) {
                                                     getActivity().setResult(RESULT_OK);
                                                     getActivity().finish();
-                                                }else {
+                                                } else {
                                                     showSnackBarMessage(getString(R.string.successful_local_save));
                                                     setDrawerMenuChecked(R.id.nav_review_track);
                                                     setDrawerMenuClicked(R.id.nav_review_track);
@@ -323,7 +320,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             mapModel.site.extent.geometry = new Geometry();
             mapModel.site.extent.geometry.areaKmSq = 0.0;
             mapModel.site.extent.geometry.type = "LineString";
-            if(tempLocations.size()>0){
+            if (tempLocations.size() > 0) {
                 mapModel.site.extent.geometry.centre = new Double[2];
                 mapModel.site.extent.geometry.centre[0] = tempLocations.get(0).longitude;
                 mapModel.site.extent.geometry.centre[1] = tempLocations.get(0).latitude;
@@ -358,7 +355,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        handleError(e, 0, getString(R.string.map_upload_fail) );//+ "\n"+ new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel)
+                        handleError(e, 0, getString(R.string.map_upload_fail));//+ "\n"+ new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel)
                     }
 
                     @Override
@@ -462,32 +459,38 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {
-                        showSnackBarMessage(getString(R.string.successful_submit));
+                        if (value.isSuccessful()) {
+                            showSnackBarMessage(getString(R.string.successful_submit));
+                            if (trackModel.realmId != null) {
+                                realm.executeTransactionAsync(realm -> {
+                                    RealmResults<TrackModel> result = realm.where(TrackModel.class).equalTo("realmId", trackModel.realmId).findAll();
+                                    result.deleteAllFromRealm();
+                                });
+                            }
+                            if (getActivity() instanceof SingleFragmentActivity) {
+                                getActivity().setResult(RESULT_OK);
+                                getActivity().finish();
+                            } else {
+                                setDrawerMenuChecked(R.id.home);
+                                setDrawerMenuClicked(R.id.home);
+                            }
+                        } else {
+                            if (value.code() == 401)
+                                handleError(new Throwable(""), value.code(), getString(R.string.authentication_error));
+                            else
+                                handleError(new Throwable(""), value.code(), "");
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         hideProgressDialog();
-                        handleError(e, 0, getString(R.string.track_upload_fail) ); //+ "\n" + new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(trackModel)
+                        handleError(e, 0, getString(R.string.track_upload_fail)); //+ "\n" + new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(trackModel)
                     }
 
                     @Override
                     public void onComplete() {
                         hideProgressDialog();
-                        if(trackModel.realmId!=null){
-                            realm.executeTransactionAsync(realm -> {
-                                RealmResults<TrackModel> result = realm.where(TrackModel.class).equalTo("realmId",trackModel.realmId).findAll();
-                                result.deleteAllFromRealm();
-                            });
-                        }
-
-                        if (getActivity() instanceof SingleFragmentActivity) {
-                            getActivity().setResult(RESULT_OK);
-                            getActivity().finish();
-                        } else {
-                            setDrawerMenuChecked(R.id.home);
-                            setDrawerMenuClicked(R.id.home);
-                        }
                     }
                 }));
     }

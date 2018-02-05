@@ -132,18 +132,18 @@
     <string name="spikes">Spikes</string>
     <string name="feathers">Feathers</string>
     <string name="species_filter_title">Species Filter</string>
-    <string name="project_selection_message">Please select a project from Settings in order to submit Tracks.</string>
+    <string name="project_selection_message">Please select an active project from Settings in order to submit Tracks.</string>
     <string name="project_id_missing">This project is not active at this moment.</string>
     <string name="at_least_two_coordinates">You need at least two locations.</string>
     <string name="track_save_title">Save Track</string>
     <string name="track_save_message">Would you like to submit the track information now? If you press LATER, it will be saved locally and you can modify the information later.</string>
-    <string name="add_gps_location_in_edit">Would you like to continue the tracks in the survey?</string>
+    <string name="add_gps_location_in_edit">Would you like to continue the track in the survey?</string>
     <string name="gps_edit_title">Continue Track</string>
-    <string name="species_select">Please select a species.</string>
     <string name="map_upload_fail">Submission failed, please try again later (Error code - MAP01).</string>
     <string name="country_photo_upload_fail">Submission failed, please try again later (Error code - COU01).</string>
     <string name="species_photo_upload_fail">Submission failed, please try again later (Error code - SPE01).</string>
     <string name="track_upload_fail">Submission failed, please try again later (Error code - TRA01).</string>
+    <string name="authentication_error">You are not authorised to submit tracks, please contact our support team at biocollect-support@ala.org.au</string>
     <string name="successful_submit">Successfully submitted</string>
     <string name="successful_local_save">Successfully saved under review tracks.</string>
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
@@ -152,11 +152,12 @@
     <string name="location_found_plural">%1$d locations are recorded.</string>
     <string name="location_found_singular">1 location is recorded.</string>
 
-    <string name="lead_tracker_missing_error">Lead Tracker is missing</string>
-    <string name="map_location_missing_error">Location is missing</string>
-    <string name="event_date_missing_error">Tracking Event is missing</string>
-    <string name="event_time_missing_error">Tracking Start Time is missing</string>
-    <string name="organisation_name_missing_error">Organisation name is missing</string>
+    <string name="species_select">Please add a species from the Animal tab. </string>
+    <string name="lead_tracker_missing_error">Lead Tracker is missing in Tracker Tab.</string>
+    <string name="map_location_missing_error">Please wait till the application gets at least one location.</string>
+    <string name="event_date_missing_error">Tracking Event date is missing in Map Tab.</string>
+    <string name="event_time_missing_error">Tracking Start Time is missing in Map Tab.</string>
+    <string name="organisation_name_missing_error">Organisation name is missing in Tracker Tab.</string>
 
     <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
