@@ -11,6 +11,7 @@ import android.content.IntentFilter;
 import android.content.ServiceConnection;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
@@ -316,6 +317,15 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         return super.onOptionsItemSelected(item);
     }
 
+    private void setThumbnail(ImageView imageView, String path){
+        Bitmap bitmap = FileUtils.getBitmapFromFilePath(path);
+        if(bitmap!=null) {
+            int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+            imageView.setImageBitmap(scaled);
+        }
+    }
+
     /**
      * Called after the autocomplete activity has finished to return its result.
      */
@@ -329,14 +339,16 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     if (mCurrentPhotoPath != null) {
                         sightingEvidenceTable.mPhotoPath = mCurrentPhotoPath;
                         FileUtils.galleryAddPic(getActivity(), mCurrentPhotoPath);
-                        imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
+                        //imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
+                        setThumbnail(imageView, mCurrentPhotoPath);
                     }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
                     mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
                     sightingEvidenceTable.mPhotoPath = mCurrentPhotoPath;
-                    imageView.setImageURI(selectedImageUri);
+                    //imageView.setImageURI(selectedImageUri);
+                    setThumbnail(imageView, mCurrentPhotoPath);
                     break;
                 case REQUEST_AVAILABLE_SPECIES:
                     String unknownSpecies = data.getStringExtra(getString(R.string.unknown_species_parameter));

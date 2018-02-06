@@ -31,8 +31,11 @@ import android.util.Log;
 import android.webkit.MimeTypeMap;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -59,6 +62,7 @@ public class FileUtils {
     public static final String MIME_TYPE_VIDEO = "video/*";
     public static final String MIME_TYPE_APP = "application/*";
     public static final String HIDDEN_PREFIX = ".";
+    public static final int IMAGE_FILE_WIDTH = 800;
     /**
      * TAG for log messages.
      */
@@ -615,11 +619,57 @@ public class FileUtils {
     public static MultipartBody.Part getMultipart(String path) {
         // use the FileUtils to get the actual file by uri
         File file = new File(path);
-        // create RequestBody instance from file
-        RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), file);
+        Bitmap bitmap = decodeFile(file, IMAGE_FILE_WIDTH);
+        if(bitmap!=null) {
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , bos);
+            // create RequestBody instance from file
+            RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), bos.toByteArray());
 
-        // MultipartBody.Part is used to send also the actual file name
-        return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
+            // MultipartBody.Part is used to send also the actual file name
+            return MultipartBody.Part.createFormData("files", file.getName(), requestFile);
+        }
+        return null;
+    }
+
+
+    // Decodes image and scales it to reduce memory consumption
+    private static Bitmap decodeFile(File f, int requiredSize) {
+        try {
+            // Decode image size
+            BitmapFactory.Options o = new BitmapFactory.Options();
+            o.inJustDecodeBounds = true;
+            BitmapFactory.decodeStream(new FileInputStream(f), null, o);
+
+            // Decode with inSampleSize
+            BitmapFactory.Options o2 = new BitmapFactory.Options();
+            o2.inSampleSize = calculateInSampleSize(o, requiredSize, requiredSize);
+            return BitmapFactory.decodeStream(new FileInputStream(f), null, o2);
+        } catch (FileNotFoundException e) {
+        }
+        return null;
+    }
+
+
+    public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+        // Raw height and width of image
+        final int height = options.outHeight;
+        final int width = options.outWidth;
+        int inSampleSize = 1;
+
+        if (height > reqHeight || width > reqWidth) {
+
+            final int halfHeight = height / 2;
+            final int halfWidth = width / 2;
+
+            // Calculate the largest inSampleSize value that is a power of 2 and keeps both
+            // height and width larger than the requested height and width.
+            while ((halfHeight / inSampleSize) >= reqHeight || (halfWidth / inSampleSize) >= reqWidth) {
+                inSampleSize *= 2;
+            }
+        }
+
+        return inSampleSize;
     }
 
     /**

@@ -4,6 +4,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -176,7 +178,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         if (savedInstanceState != null) {
             mCurrentPhotoPath = savedInstanceState.getString("TrackCountryFragmentCurrentPhotoPath");
             if (mCurrentPhotoPath != null)
-                imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
+                setThumbnail(imageView, mCurrentPhotoPath);
         }
     }
 
@@ -202,20 +204,31 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
                 case REQUEST_IMAGE_CAPTURE:
                     if (mCurrentPhotoPath != null) {
                         FileUtils.galleryAddPic(getActivity(), mCurrentPhotoPath);
-                        imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
+                        setThumbnail(imageView, mCurrentPhotoPath);
+                        //imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(mCurrentPhotoPath));
                     }
                     break;
                 case REQUEST_IMAGE_GALLERY:
                     final Uri selectedImageUri = data.getData();
                     if (selectedImageUri != null) {
                         mCurrentPhotoPath = FileUtils.getPath(getActivity(), selectedImageUri);
-                        imageView.setImageURI(selectedImageUri);
+                        setThumbnail(imageView, mCurrentPhotoPath);
+                        //imageView.setImageURI(selectedImageUri);
                     }
                     break;
                 case REQUEST_FOOD_PLANT:
                     foodPlantSelection.setText(data.getStringExtra(getString(R.string.food_plant_parameter)));
                     break;
             }
+        }
+    }
+
+    private void setThumbnail(ImageView imageView, String path){
+        Bitmap bitmap = FileUtils.getBitmapFromFilePath(path);
+        if(bitmap!=null) {
+            int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
+            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
+            imageView.setImageBitmap(scaled);
         }
     }
 
@@ -273,7 +286,6 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         mCurrentPhotoPath = null;
         File f = FileUtils.createImageFile(getActivity());
         mCurrentPhotoPath = f.getAbsolutePath();
-
         return f;
     }
 
@@ -299,7 +311,6 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
             f = setUpPhotoFile();
             mCurrentPhotoPath = f.getAbsolutePath();
             takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, FileUtils.getUriFromFileProvider(getActivity(), f));
-
         } catch (IOException e) {
             e.printStackTrace();
             f = null;
