@@ -136,7 +136,7 @@
     <string name="project_id_missing">This project is not active at this moment.</string>
     <string name="at_least_two_coordinates">You need at least two locations.</string>
     <string name="track_save_title">Save Track</string>
-    <string name="track_save_message">Would you like to submit the track information now? If you press LATER, it will be saved locally and you can modify the information later.</string>
+    <string name="track_save_message">Would you like to save the track information now? It will be saved locally in Review Tracks and you can modify the information later.</string>
     <string name="add_gps_location_in_edit">Would you like to continue the track in the survey?</string>
     <string name="gps_edit_title">Continue Track</string>
     <string name="map_upload_fail">Submission failed, please try again later (Error code - MAP01).</string>
