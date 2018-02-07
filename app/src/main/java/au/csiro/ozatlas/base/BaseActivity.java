@@ -233,14 +233,14 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
      */
     @Override
     public void handleError(CoordinatorLayout coordinatorLayout, Throwable e, int code, String message) {
-        if(!TextUtils.isEmpty(message)){
+        if (!TextUtils.isEmpty(message)) {
             //showSnackBarMessage(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE);
             AtlasDialogManager.alertBoxForMessage(this, message, "OK");
-        }else if (e instanceof UnknownHostException) {
+        } else if (e instanceof UnknownHostException) {
             showSnackBarMessage(coordinatorLayout, getString(R.string.not_internet_title), Snackbar.LENGTH_INDEFINITE);
         } else if (e instanceof HttpException && ((HttpException) e).code() == code) {
             showSnackBarMessage(coordinatorLayout, message, Snackbar.LENGTH_INDEFINITE);
-        }else if (e instanceof SocketTimeoutException) {
+        } else if (e instanceof SocketTimeoutException) {
             showSnackBarMessage(coordinatorLayout, e.getMessage(), Snackbar.LENGTH_INDEFINITE);
         } else {
             //showSnackBarMessage(coordinatorLayout, e.getMessage());

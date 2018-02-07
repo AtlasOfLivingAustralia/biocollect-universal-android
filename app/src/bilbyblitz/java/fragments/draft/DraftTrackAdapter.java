@@ -10,7 +10,6 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import au.csiro.ozatlas.R;

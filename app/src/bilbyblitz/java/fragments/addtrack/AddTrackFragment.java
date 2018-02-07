@@ -38,6 +38,7 @@ import fragments.addtrack.animal.AnimalFragment;
 import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
+import fragments.draft.DraftTrackListFragment;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
@@ -64,16 +65,14 @@ import static android.app.Activity.RESULT_OK;
 public class AddTrackFragment extends BaseMainActivityFragment {
 
     private final int NUMBER_OF_FRAGMENTS = 4;
+    public boolean acquireGPSLocation = true;
     @BindView(R.id.pager)
     ViewPager pager;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
-
     private boolean practiseView;
     private Project project;
-
     private int imageUploadCount = 0;
-    public boolean acquireGPSLocation = true;
     private TrackModel trackModel = new TrackModel();
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
@@ -191,6 +190,10 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         super.onCreateOptionsMenu(menu, inflater);
     }
 
+    public boolean isPractiseView() {
+        return practiseView;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -207,33 +210,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                         AtlasDialogManager.alertBox(getActivity(), getString(R.string.track_save_message),
                                 getString(R.string.track_save_title),
                                 getString(R.string.save), (dialog, which) -> {
-                                    if (trackModel != null && !trackModel.isManaged()) {
-                                        for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
-                                            BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
-                                            if (bilbyDataManager != null) {
-                                                bilbyDataManager.prepareData();
-                                            }
-                                        }
-                                        if (trackModel.realmId == null) {
-                                            trackModel.realmId = getPrimaryKeyValue();
-                                        }
-                                        realm.executeTransactionAsync(realm -> {
-                                            realm.insertOrUpdate(trackModel);
-                                            if (isAdded()) {
-                                                getActivity().runOnUiThread(() -> {
-                                                    AtlasManager.hideKeyboard(getActivity());
-                                                    if (getActivity() instanceof SingleFragmentActivity) {
-                                                        getActivity().setResult(RESULT_OK);
-                                                        getActivity().finish();
-                                                    } else {
-                                                        showSnackBarMessage(getString(R.string.successful_local_save));
-                                                        setDrawerMenuChecked(R.id.nav_review_track);
-                                                        setDrawerMenuClicked(R.id.nav_review_track);
-                                                    }
-                                                });
-                                            }
-                                        });
-                                    }
+                                    saveLocally(true);
                                 });
                     }
                 } else {
@@ -242,6 +219,37 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 break;
         }
         return true;
+    }
+
+
+    public void saveLocally(boolean goToDraft) {
+        if (trackModel != null && !trackModel.isManaged()) {
+            for (int j = 0; j < NUMBER_OF_FRAGMENTS; j++) {
+                BilbyDataManager bilbyDataManager = (BilbyDataManager) pagerAdapter.getRegisteredFragment(j);
+                if (bilbyDataManager != null) {
+                    bilbyDataManager.prepareData();
+                }
+            }
+            if (trackModel.realmId == null) {
+                trackModel.realmId = getPrimaryKeyValue();
+            }
+            realm.executeTransactionAsync(realm -> {
+                realm.insertOrUpdate(trackModel);
+                if (goToDraft && isAdded()) {
+                    getActivity().runOnUiThread(() -> {
+                        AtlasManager.hideKeyboard(getActivity());
+                        if (getActivity() instanceof SingleFragmentActivity) {
+                            getActivity().setResult(RESULT_OK);
+                            getActivity().finish();
+                        } else {
+                            showSnackBarMessage(getString(R.string.successful_local_save));
+                            setDrawerMenuChecked(R.id.nav_review_track);
+                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
+                        }
+                    });
+                }
+            });
+        }
     }
 
     private long getPrimaryKeyValue() {

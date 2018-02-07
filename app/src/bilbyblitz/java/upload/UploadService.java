@@ -298,7 +298,7 @@ public class UploadService extends BaseIntentService {
                     @Override
                     public void onNext(Response<Void> value) {
                         Log.d("", "onNext");
-                        if(value.isSuccessful()) {
+                        if (value.isSuccessful()) {
                             if (successCount == 1)
                                 postNotification(SUCCESS_NOTIFICATION_ID, successCount++ + " of the tracks has been successfully uploaded");
                             else
@@ -307,7 +307,7 @@ public class UploadService extends BaseIntentService {
                             trackModel.deleteFromRealm();
                             realm.commitTransaction();
                             EventBus.getDefault().post(UploadNotification.UPLOAD_STARTED);
-                        }else{
+                        } else {
                             makeUploadingFalse(trackModel, getString(R.string.track_upload_fail));
                         }
                     }

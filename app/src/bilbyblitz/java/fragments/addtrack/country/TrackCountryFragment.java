@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -223,9 +222,9 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
         }
     }
 
-    private void setThumbnail(ImageView imageView, String path){
+    private void setThumbnail(ImageView imageView, String path) {
         Bitmap bitmap = FileUtils.getBitmapFromFilePath(path);
-        if(bitmap!=null) {
+        if (bitmap != null) {
             int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
             Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
             imageView.setImageBitmap(scaled);
@@ -361,7 +360,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
 
     @Override
     public void setBilbyBlitzData() {
-        if(bilbyBlitzData.locationImage!=null && bilbyBlitzData.locationImage.size()>0){
+        if (bilbyBlitzData.locationImage != null && bilbyBlitzData.locationImage.size() > 0) {
             imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(bilbyBlitzData.locationImage.get(0).mPhotoPath));
         }
         editCountryName.setText(bilbyBlitzData.countryName);

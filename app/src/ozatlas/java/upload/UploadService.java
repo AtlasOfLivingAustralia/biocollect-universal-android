@@ -12,17 +12,14 @@ import java.util.Iterator;
 
 import javax.inject.Inject;
 
-import application.CsiroApplication;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.map.MapResponse;
 import au.csiro.ozatlas.rest.RestClient;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.Realm;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;

@@ -46,7 +46,6 @@ import io.reactivex.BackpressureStrategy;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.realm.Case;
-import io.realm.Realm;
 import io.realm.RealmResults;
 import model.EventBusPosts;
 
@@ -172,7 +171,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     intent.putExtra(getString(R.string.species_parameter), filterSpecies.get(selectedPosition).realmId);
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
-                }else{
+                } else {
                     showSnackBarMessage(getString(R.string.species_select));
                 }
                 break;
@@ -215,14 +214,14 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                         }
 
                         if (kvpValues.key.equals("Body  Cover")) {
-                            if (speciesFilter.isBodyCoverFur || speciesFilter.isBodyCoverFeather || speciesFilter.isBodyCoverScales||speciesFilter.isBodyCoverSpikes) {
+                            if (speciesFilter.isBodyCoverFur || speciesFilter.isBodyCoverFeather || speciesFilter.isBodyCoverScales || speciesFilter.isBodyCoverSpikes) {
                                 if (speciesFilter.isBodyCoverFur && kvpValues.value.equals("Fur")) {
                                     coverFilter = true;
                                 } else if (speciesFilter.isBodyCoverFeather && kvpValues.value.equals("Feathers")) {
                                     coverFilter = true;
-                                }else if (speciesFilter.isBodyCoverScales && kvpValues.value.equals("Scales")) {
+                                } else if (speciesFilter.isBodyCoverScales && kvpValues.value.equals("Scales")) {
                                     coverFilter = true;
-                                }else if (speciesFilter.isBodyCoverSpikes && kvpValues.value.equals("Spikes")) {
+                                } else if (speciesFilter.isBodyCoverSpikes && kvpValues.value.equals("Spikes")) {
                                     coverFilter = true;
                                 }
                             } else {
@@ -246,10 +245,10 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         selectedPosition = -1;
         updateTotal();
 
-        if(filterSpecies.size()==0 && editSearch.getText().toString().trim().length()!=0){
+        if (filterSpecies.size() == 0 && editSearch.getText().toString().trim().length() != 0) {
             unknownSpecies.setVisibility(View.VISIBLE);
             unknownSpecies.setText(getString(R.string.unknown_species, editSearch.getText().toString()));
-        }else{
+        } else {
             unknownSpecies.setVisibility(View.GONE);
         }
     }
@@ -282,7 +281,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
     }
 
     @OnClick(R.id.unknownSpecies)
-    void unknownSpecies(){
+    void unknownSpecies() {
         Intent intent = new Intent();
         intent.putExtra(getString(R.string.unknown_species_parameter), editSearch.getText().toString());
         getActivity().setResult(Activity.RESULT_OK, intent);

@@ -620,9 +620,9 @@ public class FileUtils {
         // use the FileUtils to get the actual file by uri
         File file = new File(path);
         Bitmap bitmap = decodeFile(file, IMAGE_FILE_WIDTH);
-        if(bitmap!=null) {
+        if (bitmap != null) {
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , bos);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bos);
             // create RequestBody instance from file
             RequestBody requestFile = RequestBody.create(MediaType.parse("image/*"), bos.toByteArray());
 

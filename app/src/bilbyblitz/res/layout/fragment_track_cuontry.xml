@@ -325,13 +325,13 @@
 
             <ImageView
                 android:id="@+id/imageView"
-                android:src="@drawable/countryphoto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="@dimen/input_view_top_margin"
                 android:layout_marginTop="@dimen/input_view_top_margin"
                 android:adjustViewBounds="true"
-                android:scaleType="fitCenter" />
+                android:scaleType="fitCenter"
+                android:src="@drawable/countryphoto" />
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

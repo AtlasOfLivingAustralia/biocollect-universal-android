@@ -207,7 +207,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
             editLatitude.setText(String.valueOf(sightingEvidenceTable.observationLatitude));
         if (sightingEvidenceTable.observationLongitude != null)
             editLongitude.setText(String.valueOf(sightingEvidenceTable.observationLongitude));
-        if(!TextUtils.isEmpty(editLatitude.getText()) || !TextUtils.isEmpty(editLongitude.getText()))
+        if (!TextUtils.isEmpty(editLatitude.getText()) || !TextUtils.isEmpty(editLongitude.getText()))
             addLocation.setText(R.string.update_location);
     }
 
@@ -309,7 +309,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     intent.putExtra(getString(R.string.add_animal_parameter), Parcels.wrap(sightingEvidenceTable));
                     getActivity().setResult(Activity.RESULT_OK, intent);
                     getActivity().onBackPressed();
-                }else{
+                } else {
                     showSnackBarMessage(getString(R.string.species_select));
                 }
                 break;
@@ -317,9 +317,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         return super.onOptionsItemSelected(item);
     }
 
-    private void setThumbnail(ImageView imageView, String path){
+    private void setThumbnail(ImageView imageView, String path) {
         Bitmap bitmap = FileUtils.getBitmapFromFilePath(path);
-        if(bitmap!=null) {
+        if (bitmap != null) {
             int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
             Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
             imageView.setImageBitmap(scaled);
@@ -352,12 +352,12 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                     break;
                 case REQUEST_AVAILABLE_SPECIES:
                     String unknownSpecies = data.getStringExtra(getString(R.string.unknown_species_parameter));
-                    if(unknownSpecies!=null){
-                        if(isAdded()){
+                    if (unknownSpecies != null) {
+                        if (isAdded()) {
                             sightingEvidenceTable.species = new Species(unknownSpecies, unknownSpecies);
                             editSpeciesName.setText(sightingEvidenceTable.species.name);
                         }
-                    }else {
+                    } else {
                         String id = data.getStringExtra(getString(R.string.species_parameter));
                         RealmResults<SearchSpecies> results = realm.where(SearchSpecies.class).equalTo("realmId", id).findAllAsync();
                         results.addChangeListener((collection, changeSet) -> {

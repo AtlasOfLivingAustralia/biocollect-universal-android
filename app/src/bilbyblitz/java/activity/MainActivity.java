@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -134,18 +135,9 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         }
     }
 
-    /**
-     * navigation drawer items click listener
-     *
-     * @param item
-     * @return
-     */
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    private void processNavigationClick(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         } else if (id == R.id.nav_logout) {
@@ -179,6 +171,30 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
             startWebViewActivity(getString(R.string.help_url), getString(R.string.help), false);
         } else if (id == R.id.nav_biocollect) {
             startWebViewActivity(getString(R.string.biocollect_url), getString(R.string.biocollect), false);
+        }
+    }
+
+    /**
+     * navigation drawer items click listener
+     *
+     * @param item
+     * @return
+     */
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(MenuItem item) {
+        Fragment addTrackFragment = getSupportFragmentManager().findFragmentById(R.id.fragmentHolder);
+        if (addTrackFragment != null && addTrackFragment instanceof AddTrackFragment && !((AddTrackFragment) addTrackFragment).isPractiseView()) {
+            AtlasDialogManager.alertBox(this, getString(R.string.track_save_message),
+                    getString(R.string.track_save_title),
+                    getString(R.string.save), (dialog, which) -> {
+                        ((AddTrackFragment) addTrackFragment).saveLocally(false);
+                        processNavigationClick(item);
+                    }, "NO", (dialog, which) -> {
+                        processNavigationClick(item);
+                    });
+        } else {
+            processNavigationClick(item);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
