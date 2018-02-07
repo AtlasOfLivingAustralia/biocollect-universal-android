@@ -185,9 +185,9 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.submit, menu);
+        inflater.inflate(R.menu.save, menu);
         if (practiseView)
-            menu.findItem(R.id.submit).setTitle("FINISH");
+            menu.findItem(R.id.save).setTitle("FINISH");
         super.onCreateOptionsMenu(menu, inflater);
     }
 
@@ -195,7 +195,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             //when the user will press the submit menu item
-            case R.id.submit:
+            case R.id.save:
                 if (project != null) {
                     if (practiseView) {
                         AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), (dialog, which) -> {
