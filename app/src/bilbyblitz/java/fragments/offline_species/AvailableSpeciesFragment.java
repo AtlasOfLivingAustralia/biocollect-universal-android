@@ -314,6 +314,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
             final SearchSpecies species = AvailableSpeciesFragment.this.filterSpecies.get(position);
             holder.speciesName.setText(species.commonName == null ? species.name : species.commonName);
+
             if (species.kingdom == null) {
                 if (species.scientificName != null) {
                     holder.commonName.setText(getString(R.string.scientific_name, species.scientificName));
