@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 import com.androidadvance.topsnackbar.TSnackbar;
 
-import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -99,9 +98,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (BuildConfig.DEBUG) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        } else {
+        if (savedInstanceState == null) {
             navigationView.getMenu().findItem(R.id.home).setChecked(true);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
         }

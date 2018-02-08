@@ -15,8 +15,10 @@
     <string name="primary_key_parameter">PRIMARY_KEY</string>
     <string name="primary_keys_parameter">PRIMARY_KEYS</string>
     <string name="practise_parameter">PRACTISE_KEYS</string>
+    <string name="acquire_GPS_location_parameter">ACQUIRE_GPS_LOCATION</string>
     <string name="food_plant_parameter">FOOD_PLANT_KEYS</string>
     <string name="species_filter_parameter">SPECIES_FILTER_KEY</string>
+    <string name="track_model_parameter">TRACK_MODEL</string>
 
     <string name="project_type">CLC 2Ha Track Plot</string>
 

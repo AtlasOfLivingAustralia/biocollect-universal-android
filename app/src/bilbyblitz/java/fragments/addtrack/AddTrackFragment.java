@@ -18,6 +18,8 @@ import android.view.ViewGroup;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import org.parceler.Parcels;
+
 import java.util.UUID;
 
 import activity.SingleFragmentActivity;
@@ -65,15 +67,18 @@ import static android.app.Activity.RESULT_OK;
 public class AddTrackFragment extends BaseMainActivityFragment {
 
     private final int NUMBER_OF_FRAGMENTS = 4;
-    public boolean acquireGPSLocation = true;
+
     @BindView(R.id.pager)
     ViewPager pager;
     @BindView(R.id.tabLayout)
     TabLayout tabLayout;
+
+    public boolean acquireGPSLocation = true;
     private boolean practiseView;
+    private TrackModel trackModel = new TrackModel();
+
     private Project project;
     private int imageUploadCount = 0;
-    private TrackModel trackModel = new TrackModel();
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
@@ -107,13 +112,18 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
+        if (savedInstanceState != null) {
+            acquireGPSLocation = savedInstanceState.getBoolean(getString(R.string.acquire_GPS_location_parameter));
+            practiseView = savedInstanceState.getBoolean(getString(R.string.practise_parameter));
+            trackModel = savedInstanceState.getParcelable(getString(R.string.track_model_parameter));
+        } else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
+            }
         }
 
         pager.setOffscreenPageLimit(3);
-
         project = sharedPreferences.getSelectedProject();
         if (project == null) {
             showSnackBarMessage(getString(R.string.project_selection_message));
@@ -127,6 +137,13 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         return view;
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(getString(R.string.acquire_GPS_location_parameter), acquireGPSLocation);
+        outState.putBoolean(getString(R.string.practise_parameter), practiseView);
+        outState.putParcelable(getString(R.string.track_model_parameter), Parcels.wrap(trackModel));
+    }
 
     private void getDataForEdit() {
         Bundle bundle = getArguments();
