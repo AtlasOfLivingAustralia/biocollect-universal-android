@@ -19,7 +19,6 @@ import au.csiro.ozatlas.base.BaseIntentService;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
-import au.csiro.ozatlas.model.Project;
 import au.csiro.ozatlas.model.map.CheckMapInfo;
 import au.csiro.ozatlas.model.map.MapResponse;
 import io.reactivex.disposables.CompositeDisposable;
@@ -55,7 +54,7 @@ public class UploadService extends BaseIntentService {
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private Realm realm;
     private int imageUploadCount;
-    private Project project;
+    //private Project project;
     private int successCount = 1;
 
     /**
@@ -72,9 +71,9 @@ public class UploadService extends BaseIntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        project = sharedPreferences.getSelectedProject();
+        //project = sharedPreferences.getSelectedProject();
 
-        if (AtlasManager.isNetworkAvailable(this) && project != null) {
+        if (AtlasManager.isNetworkAvailable(this)) {
             realm = Realm.getDefaultInstance();
 
             ArrayList<Long> sightPrimarykeys = null;
@@ -109,11 +108,12 @@ public class UploadService extends BaseIntentService {
                     trackModel.upLoading = true;
                     realm.commitTransaction();
                     EventBus.getDefault().post(UploadNotification.UPLOAD_STARTED);
-                    MapModel mapModel = getMapModel(trackModel.outputs.get(0).data.tempLocations);
+                    MapModel mapModel = getMapModel(trackModel.projectName, trackModel.activityId, trackModel.projectId, trackModel.outputs.get(0).data.tempLocations);
                     if (mapModel != null) {
                         uploadMap(trackModel, mapModel);
                     } else {
-                        uploadPhotos(trackModel);
+                        //uploadPhotos(trackModel);
+                        postNotification(ERROR_NOTIFICATION_ID, "Please complete the Track information.");
                     }
                 } else {
                     postNotification(ERROR_NOTIFICATION_ID, "Please complete the Track information.");
@@ -126,17 +126,17 @@ public class UploadService extends BaseIntentService {
         }
     }
 
-    private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
+    private MapModel getMapModel(String projectName, String projectActivityId, String projectId, RealmList<BilbyLocation> tempLocations) {
         if (tempLocations != null && tempLocations.size() > 0) {
             MapModel mapModel = new MapModel();
             mapModel.site = new Site();
-            if (project != null) {
-                mapModel.pActivityId = project.projectActivityId;
-                mapModel.site.name = project.name + "-" + UUID.randomUUID().toString();
-            }
+
+            mapModel.pActivityId = projectActivityId;
+            mapModel.site.name = projectName + "-" + UUID.randomUUID().toString();
+
             mapModel.site.visibility = "private";
             mapModel.site.asyncUpdate = true;
-            mapModel.site.projects = new String[]{project.projectId};
+            mapModel.site.projects = new String[]{projectId};
             mapModel.site.extent = new Extent();
             mapModel.site.extent.source = "drawn";
             mapModel.site.extent.geometry = new Geometry();
@@ -293,7 +293,7 @@ public class UploadService extends BaseIntentService {
      * @param trackModel
      */
     private void saveData(final TrackModel trackModel) {
-        mCompositeDisposable.add(restClient.getService().postTracks(project.projectActivityId, realm.copyFromRealm(trackModel))
+        mCompositeDisposable.add(restClient.getService().postTracks(trackModel.activityId, realm.copyFromRealm(trackModel))
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {

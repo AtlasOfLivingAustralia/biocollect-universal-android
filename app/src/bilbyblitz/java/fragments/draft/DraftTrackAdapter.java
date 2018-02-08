@@ -128,8 +128,10 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
             if (output != null && output.data != null) {
                 trackViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(output.data.surveyDate, "dd MMM, yyyy"));
                 trackViewHolders.user.setText(output.data.recordedBy);
-                trackViewHolders.name.setText(output.data.surveyType);
+                trackViewHolders.name.setText(trackModel.outputs.get(0).data.organisationName);
+                //trackViewHolders.name.setText(output.data.surveyType);
                 if (output.data.sightingEvidenceTable != null) {
+                    trackViewHolders.type.setText("");
                     for (SightingEvidenceTable sightingEvidenceTable : output.data.sightingEvidenceTable)
                         if (sightingEvidenceTable.species != null)
                             trackViewHolders.type.append(sightingEvidenceTable.species.name + ", ");

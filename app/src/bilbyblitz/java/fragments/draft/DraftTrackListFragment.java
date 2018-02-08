@@ -59,6 +59,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
 
     private DraftTrackAdapter sightAdapter;
     private List<TrackModel> trackModels = new ArrayList<>();
+
     /**
      * onclick listener for recyclerview items
      */

@@ -89,7 +89,8 @@ public class AtlasDateTimeUtils {
      * @return
      */
     public static String getFormattedDayTime(String dateString, String format) {
-        return getFormattedDayTime(dateString, DEFAULT_DATE_FORMAT, format);
+        String s = getFormattedDayTime(dateString, DEFAULT_DATE_FORMAT, format);
+        return s;
     }
 
     /**

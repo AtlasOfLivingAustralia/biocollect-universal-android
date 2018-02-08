@@ -211,7 +211,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     public void setBilbyBlitzData() {
         if (bilbyBlitzData.surveyDate != null) {
-            editDate.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyStartTime, DATE_FORMAT).toUpperCase());
+            editDate.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyDate, DATE_FORMAT));
         } else {
             editDate.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), DATE_FORMAT));
         }

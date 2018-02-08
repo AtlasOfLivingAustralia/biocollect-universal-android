@@ -163,6 +163,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private void defaultSetup() {
         trackModel.outputs = new RealmList<>();
         if (project != null) {
+            trackModel.projectName = project.name;
             trackModel.projectId = project.projectId;
             trackModel.type = getString(R.string.project_type);
             trackModel.activityId = project.projectActivityId;
