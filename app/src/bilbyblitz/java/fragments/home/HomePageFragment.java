@@ -149,7 +149,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.isForWebView = false;
         listItems.add(item);
         item = new BilbyHomePageListItem();
-        item.icon = R.drawable.ic_info_outline_black_24dp;
+        item.icon = R.drawable.ic_partners;
         item.text = getString(R.string.partners);
         item.textResource = R.string.partners;
         item.languageKey = "partners";

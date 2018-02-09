@@ -1,8 +1,11 @@
 package upload;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
+import android.media.RingtoneManager;
+import android.os.Build;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
@@ -297,7 +300,7 @@ public class UploadService extends BaseIntentService {
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
                     public void onNext(Response<Void> value) {
-                        Log.d("", "onNext");
+                        Log.d("UPLOAD BIlBY", "onNext" + value.code() + value.message());
                         if (value.isSuccessful()) {
                             if (successCount == 1)
                                 postNotification(SUCCESS_NOTIFICATION_ID, successCount++ + " of the tracks has been successfully uploaded");
@@ -306,9 +309,9 @@ public class UploadService extends BaseIntentService {
                             realm.beginTransaction();
                             trackModel.deleteFromRealm();
                             realm.commitTransaction();
-                            EventBus.getDefault().post(UploadNotification.UPLOAD_STARTED);
+                            EventBus.getDefault().post(UploadNotification.UPLOAD_DONE);
                         } else {
-                            makeUploadingFalse(trackModel, getString(R.string.track_upload_fail));
+                            makeUploadingFalse(trackModel, getString(R.string.authentication_error));
                         }
                     }
 
@@ -344,7 +347,16 @@ public class UploadService extends BaseIntentService {
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_stat_bilby_blitz)
-                        .setContentText(message);
+                        .setTicker(getString(R.string.app_name)).setWhen(0)
+                        .setAutoCancel(true).setStyle(new NotificationCompat.BigTextStyle().bigText(message))
+                        .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                        .setContentText(message)
+                        .setDefaults(Notification.DEFAULT_ALL);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
+            mBuilder.setPriority(NotificationManager.IMPORTANCE_HIGH);
+        else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
+            mBuilder.setPriority(Notification.PRIORITY_MAX);
+
         switch (mNotificationId) {
             case SUCCESS_NOTIFICATION_ID:
                 mBuilder.setContentTitle("Upload Successful");
@@ -366,6 +378,7 @@ public class UploadService extends BaseIntentService {
     public enum UploadNotification {
         UPLOAD_STARTED,
         UPLOAD_DONE,
+        UPLOAD_ALL_DONE,
         INTERRUPTED,
     }
 

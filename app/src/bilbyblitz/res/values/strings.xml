@@ -146,6 +146,10 @@
     <string name="species_photo_upload_fail">Submission failed, please try again later (Error code - SPE01).</string>
     <string name="track_upload_fail">Submission failed, please try again later (Error code - TRA01).</string>
     <string name="authentication_error">You are not authorised to submit tracks, please contact our support team at biocollect-support@ala.org.au</string>
+    <string name="upload_start">Upload has been started</string>
+    <string name="upload_one_succes">One of the tracks has been uploaded successfully</string>
+    <string name="upload_all_sucess">Upload is finished.</string>
+    <string name="upload_error">One of the tracks could not be uploaded.</string>
     <string name="successful_submit">Successfully submitted</string>
     <string name="successful_local_save">Successfully saved under review tracks.</string>
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>

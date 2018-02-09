@@ -295,8 +295,22 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(UploadService.UploadNotification uploadNotification) {
-        if (isAdded())
+        if (isAdded()) {
+            switch (uploadNotification) {
+                case INTERRUPTED:
+                    showSnackBarFromTop(getString(R.string.upload_error));
+                    break;
+                case UPLOAD_DONE:
+                    showSnackBarFromTop(getString(R.string.upload_one_succes));
+                    break;
+                case UPLOAD_STARTED:
+                    showSnackBarFromTop(getString(R.string.upload_start));
+                    break;
+                //case UPLOAD_ALL_DONE:
+                //    showSnackBarFromTop(getString(R.string.upload_all_sucess));
+            }
             readDraftSights();
+        }
     }
 
 }
