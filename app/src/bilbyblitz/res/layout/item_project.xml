@@ -18,7 +18,7 @@
             android:layout_marginRight="@dimen/row_view_in_between_gap"
             android:adjustViewBounds="true"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_camera_alt_black_48dp" />
+            android:src="@drawable/no_image_available" />
 
         <ImageView
             android:id="@+id/infoIcon"

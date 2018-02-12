@@ -1,6 +1,7 @@
 package upload;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
@@ -21,6 +22,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseIntentService;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
+import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.map.CheckMapInfo;
 import au.csiro.ozatlas.model.map.MapResponse;
@@ -59,6 +61,7 @@ public class UploadService extends BaseIntentService {
     private int imageUploadCount;
     //private Project project;
     private int successCount = 1;
+    private int trackCount = 0;
 
     /**
      * Creates an IntentService.  Invoked by your subclass's constructor.
@@ -104,13 +107,14 @@ public class UploadService extends BaseIntentService {
             //upload the sights
             Iterator<TrackModel> sightIterator = result.iterator();
             while (sightIterator.hasNext()) {
+                trackCount++;
                 TrackModel trackModel = sightIterator.next();
                 //only those which are not being uploaded right now
                 if (trackModel.isValid() && !trackModel.upLoading && getValidated(realm.copyFromRealm(trackModel))) {
                     realm.beginTransaction();
                     trackModel.upLoading = true;
                     realm.commitTransaction();
-                    EventBus.getDefault().post(UploadNotification.UPLOAD_STARTED);
+                    EventBus.getDefault().post(new UploadNotificationModel(UploadNotification.UPLOAD_STARTED, trackCount));
                     MapModel mapModel = getMapModel(trackModel.projectName, trackModel.activityId, trackModel.projectId, trackModel.outputs.get(0).data.tempLocations);
                     if (mapModel != null) {
                         uploadMap(trackModel, mapModel);
@@ -302,14 +306,12 @@ public class UploadService extends BaseIntentService {
                     public void onNext(Response<Void> value) {
                         Log.d("UPLOAD BIlBY", "onNext" + value.code() + value.message());
                         if (value.isSuccessful()) {
-                            if (successCount == 1)
-                                postNotification(SUCCESS_NOTIFICATION_ID, successCount++ + " of the tracks has been successfully uploaded");
-                            else
-                                postNotification(SUCCESS_NOTIFICATION_ID, successCount++ + " of the tracks have been successfully uploaded");
+                            successCount++;
+                            postNotification(SUCCESS_NOTIFICATION_ID, Utils.ordinal(trackCount) + " track has been successfully uploaded");
                             realm.beginTransaction();
                             trackModel.deleteFromRealm();
                             realm.commitTransaction();
-                            EventBus.getDefault().post(UploadNotification.UPLOAD_DONE);
+                            EventBus.getDefault().post(new UploadNotificationModel(UploadNotification.UPLOAD_DONE, trackCount));
                         } else {
                             makeUploadingFalse(trackModel, getString(R.string.authentication_error));
                         }
@@ -337,21 +339,22 @@ public class UploadService extends BaseIntentService {
         realm.beginTransaction();
         trackModel.upLoading = false;
         realm.commitTransaction();
-        EventBus.getDefault().post(INTERRUPTED);
+        EventBus.getDefault().post(new UploadNotificationModel(INTERRUPTED, trackCount));
         postNotification(ERROR_NOTIFICATION_ID, message);
     }
 
     private void postNotification(int mNotificationId, String message) {
         // The id of the channel.
         String CHANNEL_ID = "bilby_channel";
+        String CHANNEL_NAME = "Tracks App";
         NotificationCompat.Builder mBuilder =
                 new NotificationCompat.Builder(this, CHANNEL_ID)
                         .setSmallIcon(R.drawable.ic_stat_bilby_blitz)
-                        .setTicker(getString(R.string.app_name)).setWhen(0)
                         .setAutoCancel(true).setStyle(new NotificationCompat.BigTextStyle().bigText(message))
                         .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setContentText(message)
                         .setDefaults(Notification.DEFAULT_ALL);
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N)
             mBuilder.setPriority(NotificationManager.IMPORTANCE_HIGH);
         else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN)
@@ -366,7 +369,15 @@ public class UploadService extends BaseIntentService {
                 break;
         }
         NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(mNotificationId, mBuilder.build());
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(CHANNEL_ID, CHANNEL_NAME, importance);
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+
+        if (mNotificationManager != null)
+            mNotificationManager.notify(mNotificationId, mBuilder.build());
     }
 
     @Override
@@ -382,4 +393,13 @@ public class UploadService extends BaseIntentService {
         INTERRUPTED,
     }
 
+    public class UploadNotificationModel {
+        public UploadNotification uploadNotification;
+        public int index;
+
+        public UploadNotificationModel(UploadNotification uploadNotification, int index) {
+            this.uploadNotification = uploadNotification;
+            this.index = index;
+        }
+    }
 }

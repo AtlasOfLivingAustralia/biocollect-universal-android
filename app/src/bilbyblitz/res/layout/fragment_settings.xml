@@ -6,15 +6,15 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
 
         <LinearLayout
             android:id="@+id/projectLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/input_view_top_small_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/input_view_top_small_margin"
             android:background="?attr/selectableItemBackground"
             android:gravity="center_vertical"
@@ -24,18 +24,18 @@
 
             <TextView
                 android:id="@+id/projectHeading"
-                style="@style/TextAppearance.AppCompat.Medium"
+                style="@style/InputLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/select_project"
-                android:textSize="@dimen/default_input_font_size" />
+                android:text="@string/select_project" />
 
             <TextView
                 android:id="@+id/projectDescription"
                 style="@style/TextAppearance.AppCompat.Small"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
                 android:text="@string/no_selected_project"
                 android:textSize="@dimen/smaller_input_font_size" />
         </LinearLayout>
@@ -43,16 +43,12 @@
         <include
             layout="@layout/horizonal_line"
             android:layout_width="match_parent"
-            android:layout_height=".8dp"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin" />
+            android:layout_height=".8dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/input_view_top_small_margin"
-            android:layout_marginLeft="@dimen/activity_horizontal_margin"
-            android:layout_marginRight="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/input_view_top_small_margin"
             android:gravity="center_vertical"
             android:minHeight="@dimen/minimum_height_input_medium_views"
@@ -61,12 +57,11 @@
 
             <TextView
                 android:id="@+id/languageHeading"
-                style="@style/TextAppearance.AppCompat.Medium"
+                style="@style/InputLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
-                android:text="@string/choose_language"
-                android:textSize="@dimen/default_input_font_size" />
+                android:text="@string/choose_language" />
 
             <Spinner
                 android:id="@+id/languageSpinner"

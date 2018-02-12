@@ -223,13 +223,16 @@ public class DraftSightingListFragment extends BaseMainActivityFragment implemen
         results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<AddSight>>() {
             @Override
             public void onChange(RealmResults<AddSight> collection, OrderedCollectionChangeSet changeSet) {
-                sights.clear();
-                sights.addAll(collection);
-                sightAdapter.selectionRefresh();
-                updateTotal();
-                sightAdapter.notifyDataSetChanged();
-                if (swipeRefreshLayout.isRefreshing())
-                    swipeRefreshLayout.setRefreshing(false);
+                if(isAdded()) {
+                    sights.clear();
+                    sights.addAll(collection);
+                    sightAdapter.selectionRefresh();
+                    updateTotal();
+                    sightAdapter.notifyDataSetChanged();
+                    results.removeAllChangeListeners();
+                    if (swipeRefreshLayout.isRefreshing())
+                        swipeRefreshLayout.setRefreshing(false);
+                }
             }
         });
 

@@ -53,42 +53,44 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
         setContentView(R.layout.activity_with_single_fragment);
         ButterKnife.bind(this);
 
-        Fragment fragment = null;
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
-            setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
-            switch (fragmentType) {
-                case WEB_FRAGMENT:
-                    fragment = new WebViewFragment();
-                    break;
-                case AVAILABLE_SPECIES:
-                    fragment = new AvailableSpeciesFragment();
-                    break;
-                case SEARCH_ADD_SPECIES:
-                    fragment = new SearchAndAddFragment();
-                    break;
-                case MAP_SPECIES:
-                    fragment = new ExploreSpeciesFragment();
-                    break;
-                case GROUP_SPECIES:
-                    fragment = new SpeciesGroupFragment();
-                    break;
-                case ADD_ANIMAL:
-                    fragment = new AddAnimalFragment();
-                    break;
-                case PROJECT_SELECTION:
-                    fragment = new ProjectListFragment();
-                    break;
-                case EDIT_TRACK_FRAGMENT:
-                    fragment = new AddTrackFragment();
-                    break;
-                case FOOD_PLANT:
-                    fragment = new FoodPlantSelectionFragment();
-                    break;
+        if (savedInstanceState == null) {
+            Fragment fragment = null;
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
+                setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
+                switch (fragmentType) {
+                    case WEB_FRAGMENT:
+                        fragment = new WebViewFragment();
+                        break;
+                    case AVAILABLE_SPECIES:
+                        fragment = new AvailableSpeciesFragment();
+                        break;
+                    case SEARCH_ADD_SPECIES:
+                        fragment = new SearchAndAddFragment();
+                        break;
+                    case MAP_SPECIES:
+                        fragment = new ExploreSpeciesFragment();
+                        break;
+                    case GROUP_SPECIES:
+                        fragment = new SpeciesGroupFragment();
+                        break;
+                    case ADD_ANIMAL:
+                        fragment = new AddAnimalFragment();
+                        break;
+                    case PROJECT_SELECTION:
+                        fragment = new ProjectListFragment();
+                        break;
+                    case EDIT_TRACK_FRAGMENT:
+                        fragment = new AddTrackFragment();
+                        break;
+                    case FOOD_PLANT:
+                        fragment = new FoodPlantSelectionFragment();
+                        break;
+                }
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
             }
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         }
 
         //set the localized labels

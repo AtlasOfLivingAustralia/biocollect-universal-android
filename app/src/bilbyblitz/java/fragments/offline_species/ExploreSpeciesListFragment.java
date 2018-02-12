@@ -4,7 +4,9 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
@@ -16,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
@@ -358,23 +362,25 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 speciesAnimalViewHolders.name.setText(animal.name);
                 speciesAnimalViewHolders.count.setText(getString(R.string.species_count, animal.count));
                 speciesAnimalViewHolders.family.setText(animal.commonName == null ? animal.family : animal.commonName);
+                speciesAnimalViewHolders.icon.setColorFilter(Color.WHITE);
+                RequestOptions options = new RequestOptions()
+                        .placeholder(R.drawable.no_image_available)
+                        .error(R.drawable.no_image_available);
                 Glide.with(getActivity())
                         .load(getString(R.string.explore_image_url, animal.guid))
-                        .placeholder(R.drawable.no_image_available)
-                        .crossFade()
-                        .listener(new RequestListener<String, GlideDrawable>() {
+                        .listener(new RequestListener<Drawable>() {
                             @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                speciesAnimalViewHolders.icon.setColorFilter(Color.WHITE);
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                 return false;
                             }
 
                             @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 speciesAnimalViewHolders.icon.clearColorFilter();
+                                speciesAnimalViewHolders.icon.setImageDrawable(resource);
                                 return false;
                             }
-                        })
+                        }).apply(options)
                         .into(speciesAnimalViewHolders.icon);
             }
         }

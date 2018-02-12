@@ -17,8 +17,7 @@
             android:layout_height="@dimen/list_item_image_width"
             android:layout_marginRight="4dp"
             android:adjustViewBounds="true"
-            android:scaleType="fitCenter"
-            android:src="@drawable/ic_camera_alt_black_48dp" />
+            android:scaleType="fitCenter"/>
 
         <RelativeLayout
             android:layout_width="match_parent"

@@ -3,7 +3,9 @@ package fragments.offline_species;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -18,7 +20,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.jakewharton.rxbinding2.widget.RxTextView;
@@ -262,6 +265,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         results.addChangeListener((collection, changeSet) -> {
             if (isAdded()) {
                 setSpeciesAdapter(collection);
+                results.removeAllChangeListeners();
                 if (swipeRefreshLayout.isRefreshing())
                     swipeRefreshLayout.setRefreshing(false);
             }
@@ -378,24 +382,22 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     }
 
                     if (kvpValues.key.equals("Image")) {
-                        Glide.with(getActivity())
-                                .load(kvpValues.value)
-                                .placeholder(R.drawable.no_image_available)
-                                .crossFade()
-                                .listener(new RequestListener<String, GlideDrawable>() {
-                                    @Override
-                                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                        holder.image.setColorFilter(Color.WHITE);
-                                        return false;
-                                    }
+                        Glide.with(getContext())
+                                .load(kvpValues.value).listener(new RequestListener<Drawable>() {
+                            @Override
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                                holder.image.setImageResource(R.drawable.no_image_available);
+                                holder.image.setColorFilter(Color.WHITE);
+                                return false;
+                            }
 
-                                    @Override
-                                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                        holder.image.clearColorFilter();
-                                        return false;
-                                    }
-                                })
-                                .into(holder.image);
+                            @Override
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                                holder.image.clearColorFilter();
+                                holder.image.setImageDrawable(resource);
+                                return false;
+                            }
+                        }).into(holder.image);
                     }
                 }
             }

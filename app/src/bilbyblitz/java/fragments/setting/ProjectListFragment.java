@@ -2,7 +2,9 @@ package fragments.setting;
 
 import android.app.Activity;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -16,8 +18,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
 import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
@@ -261,23 +265,26 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                 projectViewHolders.type.setText(project.organisationName);
                 projectViewHolders.user.setText(project.projectType);
                 projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(project.startDate, "dd MMM, yyyy"));
+                //projectViewHolders.image.setImageResource(R.drawable.no_image_available);
+                projectViewHolders.image.setColorFilter(Color.WHITE);
+                RequestOptions options = new RequestOptions()
+                        .placeholder(R.drawable.no_image_available)
+                        .error(R.drawable.no_image_available);
                 Glide.with(projectViewHolders.image.getContext())
                         .load(project.urlImage)
-                        .placeholder(R.drawable.no_image_available)
-                        .crossFade()
-                        .listener(new RequestListener<String, GlideDrawable>() {
+                        .listener(new RequestListener<Drawable>() {
                             @Override
-                            public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                projectViewHolders.image.setColorFilter(Color.WHITE);
+                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
                                 return false;
                             }
 
                             @Override
-                            public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
                                 projectViewHolders.image.clearColorFilter();
+                                projectViewHolders.image.setImageDrawable(resource);
                                 return false;
                             }
-                        })
+                        }).apply(options)
                         .into(projectViewHolders.image);
                 if (position == selectedPosition) {
                     projectViewHolders.infoButton.setImageResource(R.drawable.ic_done_white_24dp);

@@ -19,6 +19,7 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.LocalBroadcastManager;
@@ -155,7 +156,15 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(getString(R.string.acquire_GPS_location_parameter), needLocationUpdate);
+        outState.putString(getString(R.string.photo_path_parameter), mCurrentPhotoPath);
+        outState.putParcelable(getString(R.string.sighting_model_parameter), Parcels.wrap(sightingEvidenceTable));
+    }
+
+    @Override
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_animal, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
@@ -166,15 +175,26 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
-        Bundle bundle = getArguments();
-        if (bundle == null) {
-            sightingEvidenceTable = new SightingEvidenceTable();
-        } else {
-            sightingEvidenceTable = Parcels.unwrap(bundle.getParcelable(getString(R.string.add_animal_parameter)));
+
+        if(savedInstanceState!=null){
+            needLocationUpdate = savedInstanceState.getBoolean(getString(R.string.acquire_GPS_location_parameter));
+            mCurrentPhotoPath = savedInstanceState.getString(getString(R.string.photo_path_parameter));
+            sightingEvidenceTable = Parcels.unwrap(savedInstanceState.getParcelable(getString(R.string.sighting_model_parameter)));
             if (sightingEvidenceTable == null)
                 sightingEvidenceTable = new SightingEvidenceTable();
             else
                 setValues();
+        }else {
+            Bundle bundle = getArguments();
+            if (bundle == null) {
+                sightingEvidenceTable = new SightingEvidenceTable();
+            } else {
+                sightingEvidenceTable = Parcels.unwrap(bundle.getParcelable(getString(R.string.add_animal_parameter)));
+                if (sightingEvidenceTable == null)
+                    sightingEvidenceTable = new SightingEvidenceTable();
+                else
+                    setValues();
+            }
         }
 
         locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -365,6 +385,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                                 SearchSpecies species = collection.first();
                                 sightingEvidenceTable.species = new Species(species);
                                 editSpeciesName.setText(sightingEvidenceTable.species.name);
+                                results.removeAllChangeListeners();
                             }
                         });
                     }

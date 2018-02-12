@@ -1,11 +1,19 @@
 package au.csiro.ozatlas.adapter;
 
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
 
 import java.util.List;
 
@@ -79,10 +87,25 @@ public class SightAdapter extends BaseRecyclerWithFooterViewAdapter {
             sightViewHolders.type.setText(sight.type == null ? sight.name : sight.type);
             sightViewHolders.user.setText(sight.activityOwnerName);
             sightViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(sight.lastUpdated, "dd MMM, yyyy"));
+            sightViewHolders.image.setColorFilter(Color.WHITE);
+            RequestOptions options = new RequestOptions()
+                    .placeholder(R.drawable.no_image_available)
+                    .error(R.drawable.no_image_available);
             Glide.with(sightViewHolders.image.getContext())
                     .load(getImageURL(sight))
-                    .placeholder(R.drawable.no_image_available)
-                    .crossFade()
+                    .listener(new RequestListener<Drawable>() {
+                        @Override
+                        public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                            return false;
+                        }
+
+                        @Override
+                        public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                            sightViewHolders.image.clearColorFilter();
+                            sightViewHolders.image.setImageDrawable(resource);
+                            return false;
+                        }
+                    }).apply(options)
                     .into(sightViewHolders.image);
         }
     }

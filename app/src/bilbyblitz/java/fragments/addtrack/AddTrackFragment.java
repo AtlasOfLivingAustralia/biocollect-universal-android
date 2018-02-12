@@ -2,6 +2,7 @@ package fragments.addtrack;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -75,10 +76,9 @@ public class AddTrackFragment extends BaseMainActivityFragment {
 
     public boolean acquireGPSLocation = true;
     private boolean practiseView;
-    private TrackModel trackModel = new TrackModel();
+    private TrackModel trackModel;
 
     private Project project;
-    private int imageUploadCount = 0;
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
@@ -112,17 +112,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         setHasOptionsMenu(true);
         ButterKnife.bind(this, view);
 
-        if (savedInstanceState != null) {
-            acquireGPSLocation = savedInstanceState.getBoolean(getString(R.string.acquire_GPS_location_parameter));
-            practiseView = savedInstanceState.getBoolean(getString(R.string.practise_parameter));
-            trackModel = savedInstanceState.getParcelable(getString(R.string.track_model_parameter));
-        } else {
-            Bundle bundle = getArguments();
-            if (bundle != null) {
-                practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
-            }
-        }
-
         pager.setOffscreenPageLimit(3);
         project = sharedPreferences.getSelectedProject();
         if (project == null) {
@@ -132,7 +121,18 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
-        getDataForEdit();
+        if (savedInstanceState != null) {
+            acquireGPSLocation = savedInstanceState.getBoolean(getString(R.string.acquire_GPS_location_parameter));
+            practiseView = savedInstanceState.getBoolean(getString(R.string.practise_parameter));
+            trackModel = Parcels.unwrap(savedInstanceState.getParcelable(getString(R.string.track_model_parameter)));
+            tabSetup();
+        } else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                practiseView = bundle.getBoolean(getString(R.string.practise_parameter));
+            }
+            getDataForEdit();
+        }
 
         return view;
     }
@@ -154,19 +154,19 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
                 RealmResults<TrackModel> results = query.findAllAsync();
                 results.addChangeListener(element -> {
-                    trackModel = realm.copyFromRealm(element.first());
-                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_gps_location_in_edit), getString(R.string.gps_edit_title), "ADD", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int id) {
-                            acquireGPSLocation = true;
-                            tabSetup();
-                        }
-                    }, "NO", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    if(isAdded()) {
+                        trackModel = realm.copyFromRealm(element.first());
+                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_gps_location_in_edit), getString(R.string.gps_edit_title), "ADD", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                acquireGPSLocation = true;
+                                tabSetup();
+                                results.removeAllChangeListeners();
+                            }
+                        }, "NO", (dialog, which) -> {
                             acquireGPSLocation = false;
                             tabSetup();
-                        }
-                    });
+                        });
+                    }
                 });
             } else {
                 defaultSetup();
@@ -178,6 +178,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     private void defaultSetup() {
+        trackModel = new TrackModel();
         trackModel.outputs = new RealmList<>();
         if (project != null) {
             trackModel.projectName = project.name;
@@ -286,215 +287,27 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         }
     }
 
-    private MapModel getMapModel(RealmList<BilbyLocation> tempLocations) {
-        /* Test Data
-        tempLocations = new RealmList<>();
-        tempLocations.add(new BilbyLocation(143.40, -13.27));
-        tempLocations.add(new BilbyLocation(143.40, -13.25));*/
-        if (tempLocations != null && tempLocations.size() > 1) {
-            MapModel mapModel = new MapModel();
-            mapModel.site = new Site();
-            if (project != null) {
-                mapModel.pActivityId = project.projectActivityId;
-                mapModel.site.name = project.name + "-" + UUID.randomUUID().toString();
-            }
-            mapModel.site.visibility = "private";
-            mapModel.site.asyncUpdate = true;
-            mapModel.site.projects = new String[]{project.projectId};
-            mapModel.site.extent = new Extent();
-            mapModel.site.extent.source = "drawn";
-            mapModel.site.extent.geometry = new Geometry();
-            mapModel.site.extent.geometry.areaKmSq = 0.0;
-            mapModel.site.extent.geometry.type = "LineString";
-            if (tempLocations.size() > 0) {
-                mapModel.site.extent.geometry.centre = new Double[2];
-                mapModel.site.extent.geometry.centre[0] = tempLocations.get(0).longitude;
-                mapModel.site.extent.geometry.centre[1] = tempLocations.get(0).latitude;
-            }
-            mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
-            for (int i = 0; i < tempLocations.size(); i++) {
-                BilbyLocation bilbyLocation = tempLocations.get(i);
-                mapModel.site.extent.geometry.coordinates[i][0] = bilbyLocation.longitude;
-                mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.latitude;
-            }
-            return mapModel;
-        } else {
-            showSnackBarMessage(getString(R.string.at_least_two_coordinates));
-        }
-        return null;
-    }
-
-    private void uploadMap(MapModel mapModel) {
-        Log.d("MAP_MODEL", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel));
-        mCompositeDisposable.add(restClient.getService().postMap(mapModel)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<MapResponse>() {
-                    @Override
-                    public void onNext(MapResponse mapResponse) {
-                        trackModel.siteId = mapResponse.id;
-                        trackModel.outputs.get(0).checkMapInfo = new CheckMapInfo();
-                        trackModel.outputs.get(0).checkMapInfo.validation = true;
-                        trackModel.outputs.get(0).data.location = mapResponse.id;
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        hideProgressDialog();
-                        handleError(e, 0, getString(R.string.map_upload_fail));//+ "\n"+ new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(mapModel)
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        uploadPhotos();
-                    }
-                }));
-    }
-
-    /**
-     * upload photos
-     */
-    private void uploadPhotos() {
-        if (trackModel.outputs.get(0).data.sightingEvidenceTable != null && imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size()) {
-            if (trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath != null) {
-                mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).mPhotoPath))
-                        .subscribeOn(Schedulers.newThread())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
-                            @Override
-                            public void onNext(ImageUploadResponse value) {
-                                Log.d("uploadPhotos", value.files[0].thumbnail_url);
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign = new RealmList<>();
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.add(new ImageModel());
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).thumbnailUrl = value.files[0].thumbnail_url;
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).url = value.files[0].url;
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).contentType = value.files[0].contentType;
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).staged = true;
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).dateTaken = value.files[0].date;
-                                trackModel.outputs.get(0).data.sightingEvidenceTable.get(imageUploadCount).imageOfSign.get(0).filesize = value.files[0].size;
-                            }
-
-                            @Override
-                            public void onError(Throwable e) {
-                                hideProgressDialog();
-                                handleError(e, 0, getString(R.string.species_photo_upload_fail));
-                            }
-
-                            @Override
-                            public void onComplete() {
-                                imageUploadCount++;
-                                if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
-                                    uploadPhotos();
-                                else {
-                                    uploadLocationImages(trackModel);
-                                }
-
-                            }
-                        }));
-            } else {
-                imageUploadCount++;
-                if (imageUploadCount < trackModel.outputs.get(0).data.sightingEvidenceTable.size())
-                    uploadPhotos();
-                else {
-                    uploadLocationImages(trackModel);
-                }
-            }
-        } else {
-            uploadLocationImages(trackModel);
-        }
-    }
-
-    private void uploadLocationImages(final TrackModel trackModel) {
-        if (trackModel.outputs.get(0).data.locationImage != null && trackModel.outputs.get(0).data.locationImage.size() > 0) {
-            mCompositeDisposable.add(restClient.getService().uploadPhoto(FileUtils.getMultipart(trackModel.outputs.get(0).data.locationImage.get(0).mPhotoPath))
-                    .subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribeWith(new DisposableObserver<ImageUploadResponse>() {
-                        @Override
-                        public void onNext(ImageUploadResponse value) {
-                            Log.d("uploadLocationImages", value.files[0].thumbnail_url);
-                            trackModel.outputs.get(0).data.locationImage.get(0).thumbnailUrl = value.files[0].thumbnail_url;
-                            trackModel.outputs.get(0).data.locationImage.get(0).url = value.files[0].url;
-                            trackModel.outputs.get(0).data.locationImage.get(0).contentType = value.files[0].contentType;
-                            trackModel.outputs.get(0).data.locationImage.get(0).staged = true;
-                            trackModel.outputs.get(0).data.locationImage.get(0).dateTaken = value.files[0].date;
-                            trackModel.outputs.get(0).data.locationImage.get(0).filesize = value.files[0].size;
-                        }
-
-                        @Override
-                        public void onError(Throwable e) {
-                            hideProgressDialog();
-                            handleError(e, 0, getString(R.string.country_photo_upload_fail));
-                        }
-
-                        @Override
-                        public void onComplete() {
-                            saveData();
-                        }
-                    }));
-        } else {
-            saveData();
-        }
-    }
-
-    private void saveData() {
-        Log.d("TRACK_MODEL", new Gson().toJson(trackModel));
-        mCompositeDisposable.add(restClient.getService().postTracks(project.projectActivityId, trackModel)
-                .subscribeOn(Schedulers.newThread())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<Response<Void>>() {
-                    @Override
-                    public void onNext(Response<Void> value) {
-                        if (value.isSuccessful()) {
-                            showSnackBarMessage(getString(R.string.successful_submit));
-                            if (trackModel.realmId != null) {
-                                realm.executeTransactionAsync(realm -> {
-                                    RealmResults<TrackModel> result = realm.where(TrackModel.class).equalTo("realmId", trackModel.realmId).findAll();
-                                    result.deleteAllFromRealm();
-                                });
-                            }
-                            if (getActivity() instanceof SingleFragmentActivity) {
-                                getActivity().setResult(RESULT_OK);
-                                getActivity().finish();
-                            } else {
-                                setDrawerMenuChecked(R.id.home);
-                                setDrawerMenuClicked(R.id.home);
-                            }
-                        } else {
-                            if (value.code() == 401)
-                                handleError(new Throwable(""), value.code(), getString(R.string.authentication_error));
-                            else
-                                handleError(new Throwable(""), value.code(), "");
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        hideProgressDialog();
-                        handleError(e, 0, getString(R.string.track_upload_fail)); //+ "\n" + new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(trackModel)
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        hideProgressDialog();
-                    }
-                }));
-    }
-
     private class TrackerPagerAdapter extends FragmentStatePagerAdapter {
         SparseArray<Fragment> registeredFragments = new SparseArray<>();
 
         TrackerPagerAdapter() {
             super(getChildFragmentManager());
-            registeredFragments.put(0, new TrackersFragment());
-            registeredFragments.put(1, new TrackMapFragment());
-            registeredFragments.put(2, new TrackCountryFragment());
-            registeredFragments.put(3, new AnimalFragment());
         }
 
         @Override
         public Fragment getItem(int position) {
-            return registeredFragments.get(position);
+            //return registeredFragments.get(position);
+            switch (position){
+                case 0:
+                    return new TrackersFragment();
+                case 1:
+                    return new TrackMapFragment();
+                case 2:
+                    return new TrackCountryFragment();
+                case 3:
+                    return new AnimalFragment();
+            }
+            return null;
         }
 
         @Override
@@ -511,6 +324,27 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 default:
                     return null;
             }
+        }
+
+        @NonNull
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment f = (Fragment) super.instantiateItem(container, position);
+            switch (position){
+                case 0:
+                    registeredFragments.put(0, f);
+                    break;
+                case 1:
+                    registeredFragments.put(1, f);
+                    break;
+                case 2:
+                    registeredFragments.put(2, f);
+                    break;
+                case 3:
+                    registeredFragments.put(3, f);
+                    break;
+            }
+            return f;
         }
 
         Fragment getRegisteredFragment(int position) {

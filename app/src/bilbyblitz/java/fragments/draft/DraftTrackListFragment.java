@@ -27,6 +27,7 @@ import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.Language;
+import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -220,17 +221,15 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
      */
     public void readDraftSights() {
         RealmResults<TrackModel> results = realm.where(TrackModel.class).findAllAsync();
-        results.addChangeListener(new OrderedRealmCollectionChangeListener<RealmResults<TrackModel>>() {
-            @Override
-            public void onChange(RealmResults<TrackModel> collection, OrderedCollectionChangeSet changeSet) {
-                trackModels.clear();
-                trackModels.addAll(collection);
-                sightAdapter.selectionRefresh();
-                updateTotal();
-                sightAdapter.notifyDataSetChanged();
-                if (swipeRefreshLayout.isRefreshing())
-                    swipeRefreshLayout.setRefreshing(false);
-            }
+        results.addChangeListener((collection, changeSet) -> {
+            trackModels.clear();
+            trackModels.addAll(collection);
+            sightAdapter.selectionRefresh();
+            updateTotal();
+            sightAdapter.notifyDataSetChanged();
+            results.removeAllChangeListeners();
+            if (swipeRefreshLayout.isRefreshing())
+                swipeRefreshLayout.setRefreshing(false);
         });
 
     }
@@ -294,17 +293,17 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(UploadService.UploadNotification uploadNotification) {
+    public void onMessageEvent(UploadService.UploadNotificationModel uploadNotification) {
         if (isAdded()) {
-            switch (uploadNotification) {
+            switch (uploadNotification.uploadNotification) {
                 case INTERRUPTED:
-                    showSnackBarFromTop(getString(R.string.upload_error));
+                    showSnackBarFromTop(getString(R.string.upload_error, Utils.ordinal(uploadNotification.index)));
                     break;
                 case UPLOAD_DONE:
-                    showSnackBarFromTop(getString(R.string.upload_one_succes));
+                    showSnackBarFromTop(getString(R.string.upload_one_success, Utils.ordinal(uploadNotification.index)));
                     break;
                 case UPLOAD_STARTED:
-                    showSnackBarFromTop(getString(R.string.upload_start));
+                    showSnackBarFromTop(getString(R.string.upload_start, Utils.ordinal(uploadNotification.index)));
                     break;
                 //case UPLOAD_ALL_DONE:
                 //    showSnackBarFromTop(getString(R.string.upload_all_sucess));

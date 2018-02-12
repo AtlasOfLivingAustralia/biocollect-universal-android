@@ -17,6 +17,7 @@
                 android:id="@+id/image"
                 android:layout_width="@dimen/animal_image_size"
                 android:layout_height="@dimen/animal_image_size"
+                android:padding="@dimen/input_label_vertical_spacing"
                 android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="@dimen/row_view_in_between_gap_more"
