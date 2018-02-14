@@ -321,8 +321,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         if (lastMarker != null) {
             lastMarker.remove();
         }
-        googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
-        lastMarker = googleMap.addMarker(new MarkerOptions().position(latLng));
+        if(googleMap!=null) {
+            googleMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, INITIAL_ZOOM));
+            lastMarker = googleMap.addMarker(new MarkerOptions().position(latLng));
+        }
     }
 
     /**
@@ -371,8 +373,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
             ft.add(R.id.mapLayout, mapFragment, "mapFragment");
             ft.commit();
             fm.executePendingTransactions();
-            mapFragment.getMapAsync(this);
         }
+        mapFragment.getMapAsync(this);
     }
 
     private void setError(TextInputLayout inputLayout, String error) {
