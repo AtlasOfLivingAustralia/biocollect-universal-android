@@ -104,7 +104,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                launchLoginActivity();
+                setDrawerMenuClicked(R.id.nav_logout);
             }
         });
     }
