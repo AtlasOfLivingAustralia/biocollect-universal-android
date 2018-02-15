@@ -1,6 +1,7 @@
 package fragments.addtrack;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -68,6 +69,7 @@ import static android.app.Activity.RESULT_OK;
 public class AddTrackFragment extends BaseMainActivityFragment {
 
     private final int NUMBER_OF_FRAGMENTS = 4;
+    private final int PROJECT_LIST_REQUEST_CODE = 1;
 
     @BindView(R.id.pager)
     ViewPager pager;
@@ -115,7 +117,13 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         pager.setOffscreenPageLimit(3);
         project = sharedPreferences.getSelectedProject();
         if (project == null) {
-            showSnackBarMessage(getString(R.string.project_selection_message));
+            AtlasDialogManager.alertBox(getContext(), getString(R.string.project_selection_message), getString(R.string.project_selection_title), getString(R.string.setting), (dialogInterface, i) -> {
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.PROJECT_SELECTION);
+                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
+                intent.putExtras(bundle);
+                startActivityForResult(intent, PROJECT_LIST_REQUEST_CODE);
+            }, true);
         }
 
         //set the localized labels
@@ -268,6 +276,24 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     });
                 }
             });
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == PROJECT_LIST_REQUEST_CODE) {
+            if (resultCode == RESULT_OK) {
+                project = sharedPreferences.getSelectedProject();
+                if (project != null) {
+                    trackModel.projectName = project.name;
+                    trackModel.projectId = project.projectId;
+                    trackModel.type = getString(R.string.project_type);
+                    trackModel.activityId = project.projectActivityId;
+                }
+            }else{
+                setDrawerMenuChecked(R.id.home);
+                setDrawerMenuClicked(R.id.home);
+            }
         }
     }
 

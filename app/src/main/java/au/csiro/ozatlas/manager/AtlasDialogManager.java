@@ -87,12 +87,30 @@ public class AtlasDialogManager {
      * @param positiveClickListener listener when the user click "OK" or positive button
      */
     public static void alertBox(Context context, String message, String title, DialogInterface.OnClickListener positiveClickListener) {
-        alertBox(context, message, title, "OK", positiveClickListener, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                // cancel the dialog box
-                dialog.cancel();
-            }
+        alertBox(context, message, title, "OK", positiveClickListener, (dialog, id) -> {
+            // cancel the dialog box
+            dialog.cancel();
         });
+    }
+
+    /**
+     * @param context
+     * @param message               message to show in the Alert Dialog
+     * @param title                 Dialog Title
+     * @param positiveClickListener listener when the user click "OK" or positive button
+     */
+    public static void alertBox(Context context, String message, String title, String positiveText, DialogInterface.OnClickListener positiveClickListener, boolean isOnlyPositiveButton) {
+        if(isOnlyPositiveButton) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(context);
+            builder.setMessage(message)
+                    .setCancelable(false)
+                    .setTitle(title)
+                    .setPositiveButton(positiveText, positiveClickListener);
+            AlertDialog alert = builder.create();
+            alert.show();
+        }else{
+            alertBox(context, message, title, positiveText, positiveClickListener);
+        }
     }
 
     /**
