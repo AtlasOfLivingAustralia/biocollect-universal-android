@@ -327,8 +327,6 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 }
             }
 
-            //holder.commonName.setText(getString(R.string.common_name, species.commonName));
-
             if (selections != null) {
                 if (selections[position]) {
                     holder.delete.setBackgroundResource(R.drawable.filled_circle);
@@ -339,40 +337,8 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 }
             }
 
-            /*if (species.kvpValues != null) {
-                for (KvpValues kvpValues : species.kvpValues) {
-                    if (kvpValues.key.equals("Image")) {
-                        Glide.with(getActivity())
-                                .load(kvpValues.value)
-                                .placeholder(R.drawable.no_image_available)
-                                .crossFade()
-                                .listener(new RequestListener<String, GlideDrawable>() {
-                                    @Override
-                                    public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
-                                        holder.image.setColorFilter(Color.WHITE);
-                                        return false;
-                                    }
-
-                                    @Override
-                                    public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
-                                        holder.image.clearColorFilter();
-                                        return false;
-                                    }
-                                })
-                                .into(holder.image);
-                    }
-                }
-            }*/
             if (species.kvpValues != null) {
                 for (KvpValues kvpValues : species.kvpValues) {
-                    /*if (kvpValues.key.equals("Adult  Size")) {
-                        Log.d("SPECIES", kvpValues.key+ "    "+kvpValues.value);
-                        holder.kingdomName.setText(kvpValues.value);
-                    }
-                    if (kvpValues.key.equals("Body  Cover")) {
-                        holder.kingdomName.append("   " + kvpValues.value);
-                    }*/
-
                     if (kvpValues.key.equals("Warlpiri name")) {
                         holder.kingdomName.setText(getString(R.string.warlpiri_name, kvpValues.value));
                     }

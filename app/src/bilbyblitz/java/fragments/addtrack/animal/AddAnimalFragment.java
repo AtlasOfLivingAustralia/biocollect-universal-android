@@ -51,6 +51,7 @@ import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
+import au.csiro.ozatlas.model.KvpValues;
 import au.csiro.ozatlas.model.SearchSpecies;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -176,7 +177,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
 
-        if(savedInstanceState!=null){
+        if (savedInstanceState != null) {
             needLocationUpdate = savedInstanceState.getBoolean(getString(R.string.acquire_GPS_location_parameter));
             mCurrentPhotoPath = savedInstanceState.getString(getString(R.string.photo_path_parameter));
             sightingEvidenceTable = Parcels.unwrap(savedInstanceState.getParcelable(getString(R.string.sighting_model_parameter)));
@@ -184,7 +185,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 sightingEvidenceTable = new SightingEvidenceTable();
             else
                 setValues();
-        }else {
+        } else {
             Bundle bundle = getArguments();
             if (bundle == null) {
                 sightingEvidenceTable = new SightingEvidenceTable();
@@ -384,7 +385,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                             if (isAdded() && collection.size() > 0) {
                                 SearchSpecies species = collection.first();
                                 sightingEvidenceTable.species = new Species(species);
-                                editSpeciesName.setText(sightingEvidenceTable.species.name);
+                                editSpeciesName.setText(sightingEvidenceTable.species.vernacularName);
                                 results.removeAllChangeListeners();
                             }
                         });
