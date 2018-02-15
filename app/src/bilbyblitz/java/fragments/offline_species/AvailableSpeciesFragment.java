@@ -170,6 +170,7 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         switch (item.getItemId()) {
             case R.id.select:
                 if (selectedPosition != -1) {
+                    sharedPreferences.writeSpeciesFilter(null);
                     Intent intent = new Intent();
                     intent.putExtra(getString(R.string.species_parameter), filterSpecies.get(selectedPosition).realmId);
                     getActivity().setResult(Activity.RESULT_OK, intent);
