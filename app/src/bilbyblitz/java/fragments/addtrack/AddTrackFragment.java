@@ -1,14 +1,12 @@
 package fragments.addtrack;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -17,24 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import org.parceler.Parcels;
-
-import java.util.UUID;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
-import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.Utils;
-import au.csiro.ozatlas.model.ImageUploadResponse;
 import au.csiro.ozatlas.model.Project;
-import au.csiro.ozatlas.model.map.CheckMapInfo;
-import au.csiro.ozatlas.model.map.MapResponse;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -43,22 +32,12 @@ import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
 import fragments.draft.DraftTrackListFragment;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
-import model.map.Extent;
-import model.map.Geometry;
-import model.map.MapModel;
-import model.map.Site;
 import model.track.BilbyBlitzData;
 import model.track.BilbyBlitzOutput;
-import model.track.BilbyLocation;
-import model.track.ImageModel;
 import model.track.TrackModel;
-import retrofit2.Response;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -69,7 +48,6 @@ import static android.app.Activity.RESULT_OK;
 public class AddTrackFragment extends BaseMainActivityFragment {
 
     private final int NUMBER_OF_FRAGMENTS = 4;
-    private final int PROJECT_LIST_REQUEST_CODE = 1;
 
     @BindView(R.id.pager)
     ViewPager pager;
@@ -118,11 +96,8 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         project = sharedPreferences.getSelectedProject();
         if (project == null) {
             AtlasDialogManager.alertBox(getContext(), getString(R.string.project_selection_message), getString(R.string.project_selection_title), getString(R.string.setting), (dialogInterface, i) -> {
-                Bundle bundle = new Bundle();
-                bundle.putSerializable(getString(R.string.fragment_type_parameter), SingleFragmentActivity.FragmentType.PROJECT_SELECTION);
-                Intent intent = new Intent(getActivity(), SingleFragmentActivity.class);
-                intent.putExtras(bundle);
-                startActivityForResult(intent, PROJECT_LIST_REQUEST_CODE);
+                setDrawerMenuChecked(R.id.nav_setting);
+                setDrawerMenuClicked(R.id.nav_setting);
             }, true);
         }
 
@@ -162,7 +137,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 RealmQuery<TrackModel> query = realm.where(TrackModel.class).equalTo("realmId", primaryKey);
                 RealmResults<TrackModel> results = query.findAllAsync();
                 results.addChangeListener(element -> {
-                    if(isAdded()) {
+                    if (isAdded()) {
                         trackModel = realm.copyFromRealm(element.first());
                         AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_gps_location_in_edit), getString(R.string.gps_edit_title), "ADD", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
@@ -188,12 +163,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private void defaultSetup() {
         trackModel = new TrackModel();
         trackModel.outputs = new RealmList<>();
-        if (project != null) {
-            trackModel.projectName = project.name;
-            trackModel.projectId = project.projectId;
-            trackModel.type = getString(R.string.project_type);
-            trackModel.activityId = project.projectActivityId;
-        }
         BilbyBlitzOutput output = new BilbyBlitzOutput();
         output.selectFromSitesOnly = false;
         output.data = new BilbyBlitzData();
@@ -226,22 +195,18 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         switch (item.getItemId()) {
             //when the user will press the submit menu item
             case R.id.save:
-                if (project != null) {
-                    if (practiseView) {
-                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), (dialog, which) -> {
-                            AtlasManager.hideKeyboard(getActivity());
-                            setDrawerMenuChecked(R.id.home);
-                            setDrawerMenuClicked(R.id.home);
-                        });
-                    } else {
-                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.track_save_message),
-                                getString(R.string.track_save_title),
-                                getString(R.string.save), (dialog, which) -> {
-                                    saveLocally(true);
-                                });
-                    }
+                if (practiseView) {
+                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), (dialog, which) -> {
+                        AtlasManager.hideKeyboard(getActivity());
+                        setDrawerMenuChecked(R.id.home);
+                        setDrawerMenuClicked(R.id.home);
+                    });
                 } else {
-                    showSnackBarMessage(getString(R.string.project_selection_message));
+                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.track_save_message),
+                            getString(R.string.track_save_title),
+                            getString(R.string.save), (dialog, which) -> {
+                                saveLocally(true);
+                            });
                 }
                 break;
         }
@@ -279,24 +244,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         }
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == PROJECT_LIST_REQUEST_CODE) {
-            if (resultCode == RESULT_OK) {
-                project = sharedPreferences.getSelectedProject();
-                if (project != null) {
-                    trackModel.projectName = project.name;
-                    trackModel.projectId = project.projectId;
-                    trackModel.type = getString(R.string.project_type);
-                    trackModel.activityId = project.projectActivityId;
-                }
-            }else{
-                setDrawerMenuChecked(R.id.home);
-                setDrawerMenuClicked(R.id.home);
-            }
-        }
-    }
-
     private long getPrimaryKeyValue() {
         Number number = realm.where(TrackModel.class).max("realmId");
         if (number == null)
@@ -323,7 +270,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         @Override
         public Fragment getItem(int position) {
             //return registeredFragments.get(position);
-            switch (position){
+            switch (position) {
                 case 0:
                     return new TrackersFragment();
                 case 1:
@@ -356,7 +303,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         @Override
         public Object instantiateItem(ViewGroup container, int position) {
             Fragment f = (Fragment) super.instantiateItem(container, position);
-            switch (position){
+            switch (position) {
                 case 0:
                     registeredFragments.put(0, f);
                     break;

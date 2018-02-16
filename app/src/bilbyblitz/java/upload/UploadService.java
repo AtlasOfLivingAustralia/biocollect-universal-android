@@ -24,6 +24,7 @@ import au.csiro.ozatlas.manager.AtlasManager;
 import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.ImageUploadResponse;
+import au.csiro.ozatlas.model.Project;
 import au.csiro.ozatlas.model.map.CheckMapInfo;
 import au.csiro.ozatlas.model.map.MapResponse;
 import io.reactivex.disposables.CompositeDisposable;
@@ -80,56 +81,67 @@ public class UploadService extends BaseIntentService {
         //project = sharedPreferences.getSelectedProject();
 
         if (AtlasManager.isNetworkAvailable(this)) {
-            realm = Realm.getDefaultInstance();
+            Project project = sharedPreferences.getSelectedProject();
+            if (project != null) {
+                realm = Realm.getDefaultInstance();
 
-            ArrayList<Long> sightPrimarykeys = null;
-            if (intent != null) {
-                sightPrimarykeys = (ArrayList<Long>) intent.getSerializableExtra(getString(R.string.primary_keys_parameter));
-            }
+                ArrayList<Long> sightPrimarykeys = null;
+                if (intent != null) {
+                    sightPrimarykeys = (ArrayList<Long>) intent.getSerializableExtra(getString(R.string.primary_keys_parameter));
+                }
 
         /*
         get the primary keys of the models to upload
          */
-            RealmResults<TrackModel> result;
-            if (sightPrimarykeys == null) {
-                result = realm.where(TrackModel.class).findAll();
-            } else {
-                RealmQuery<TrackModel> query = realm.where(TrackModel.class);
-                query.equalTo("realmId", sightPrimarykeys.get(0));
-                if (sightPrimarykeys.size() > 1) {
-                    for (int i = 1; i < sightPrimarykeys.size(); i++) {
-                        query.or().equalTo("realmId", sightPrimarykeys.get(i));
+                RealmResults<TrackModel> result;
+                if (sightPrimarykeys == null) {
+                    result = realm.where(TrackModel.class).findAll();
+                } else {
+                    RealmQuery<TrackModel> query = realm.where(TrackModel.class);
+                    query.equalTo("realmId", sightPrimarykeys.get(0));
+                    if (sightPrimarykeys.size() > 1) {
+                        for (int i = 1; i < sightPrimarykeys.size(); i++) {
+                            query.or().equalTo("realmId", sightPrimarykeys.get(i));
+                        }
                     }
+                    result = query.findAll();
                 }
-                result = query.findAll();
-            }
 
-            //upload the sights
-            Iterator<TrackModel> sightIterator = result.iterator();
-            while (sightIterator.hasNext()) {
-                trackCount++;
-                TrackModel trackModel = sightIterator.next();
-                //only those which are not being uploaded right now
-                if (trackModel.isValid() && !trackModel.upLoading && getValidated(realm.copyFromRealm(trackModel))) {
-                    realm.beginTransaction();
-                    trackModel.upLoading = true;
-                    realm.commitTransaction();
-                    EventBus.getDefault().post(new UploadNotificationModel(UploadNotification.UPLOAD_STARTED, trackCount));
-                    MapModel mapModel = getMapModel(trackModel.projectName, trackModel.activityId, trackModel.projectId, trackModel.outputs.get(0).data.tempLocations);
-                    if (mapModel != null) {
-                        uploadMap(trackModel, mapModel);
+                //upload the sights
+                Iterator<TrackModel> sightIterator = result.iterator();
+                while (sightIterator.hasNext()) {
+                    trackCount++;
+                    TrackModel trackModel = sightIterator.next();
+                    //only those which are not being uploaded right now
+                    if (trackModel.isValid() && !trackModel.upLoading && getValidated(realm.copyFromRealm(trackModel))) {
+                        realm.beginTransaction();
+                        trackModel.upLoading = true;
+                        realm.commitTransaction();
+                        EventBus.getDefault().post(new UploadNotificationModel(UploadNotification.UPLOAD_STARTED, trackCount));
+
+                        trackModel.projectName = project.name;
+                        trackModel.projectId = project.projectId;
+                        trackModel.type = getString(R.string.project_type);
+                        trackModel.activityId = project.projectActivityId;
+                        trackModel.outputs.get(0).data.organisationName = project.name;
+
+                        MapModel mapModel = getMapModel(trackModel.projectName, trackModel.activityId, trackModel.projectId, trackModel.outputs.get(0).data.tempLocations);
+                        if (mapModel != null) {
+                            uploadMap(trackModel, mapModel);
+                        } else {
+                            postNotification(ERROR_NOTIFICATION_ID, "Please complete the Track information.");
+                        }
                     } else {
-                        //uploadPhotos(trackModel);
                         postNotification(ERROR_NOTIFICATION_ID, "Please complete the Track information.");
                     }
-                } else {
-                    postNotification(ERROR_NOTIFICATION_ID, "Please complete the Track information.");
                 }
-            }
 
-            Log.d("", result.size() + "");
-            if (realm != null)
-                realm.close();
+                Log.d("", result.size() + "");
+                if (realm != null)
+                    realm.close();
+            } else {
+                postNotification(ERROR_NOTIFICATION_ID, getString(R.string.project_selection_message));
+            }
         }
     }
 

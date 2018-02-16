@@ -1,6 +1,7 @@
 package fragments.setting;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -31,6 +32,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.fragments.BaseListWithRefreshFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
+import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.Project;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
@@ -136,21 +138,29 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                 .subscribeWith(new DisposableObserver<List<Project>>() {
                     @Override
                     public void onNext(List<Project> value) {
+                        hideProgressDialog();
                         boolean found = false;
                         if (value != null) {
                             for (Project project : value) {
                                 if (project.status.equals("active")) {
+                                    if (sharedPreferences.getSelectedProject() != null && !sharedPreferences.getSelectedProject().projectId.equals(project.projectId)) {
+                                        AtlasDialogManager.alertBox(getContext(), getString(R.string.change_project_message), getString(R.string.project_selection_title), getString(R.string.select), (dialogInterface, i) -> {
+                                            sharedPreferences.writeSelectedProject(project);
+                                            getActivity().setResult(Activity.RESULT_OK);
+                                            getActivity().finish();
+                                        });
+                                        found = true;
+                                        break;
+                                    }
+                                }else{
                                     sharedPreferences.writeSelectedProject(project);
-                                    found = true;
-                                    break;
+                                    getActivity().setResult(Activity.RESULT_OK);
+                                    getActivity().finish();
                                 }
                             }
                         }
                         if (!found) {
                             showSnackBarMessage(getString(R.string.project_id_missing));
-                        } else {
-                            getActivity().setResult(Activity.RESULT_OK);
-                            getActivity().finish();
                         }
                     }
 
@@ -164,7 +174,6 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                     @Override
                     public void onComplete() {
                         Log.d(TAG, "onComplete");
-                        hideProgressDialog();
                     }
                 }));
     }
