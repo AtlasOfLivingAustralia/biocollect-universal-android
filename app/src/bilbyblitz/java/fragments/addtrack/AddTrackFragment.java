@@ -139,13 +139,13 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                 results.addChangeListener(element -> {
                     if (isAdded()) {
                         trackModel = realm.copyFromRealm(element.first());
-                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_gps_location_in_edit), getString(R.string.gps_edit_title), "ADD", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                acquireGPSLocation = true;
-                                tabSetup();
-                                results.removeAllChangeListeners();
-                            }
+                        AtlasDialogManager.alertBox(getActivity(), getString(R.string.add_gps_location_in_edit), getString(R.string.gps_edit_title), "ADD", (dialog, id) -> {
+                            dialog.dismiss();
+                            acquireGPSLocation = true;
+                            tabSetup();
+                            results.removeAllChangeListeners();
                         }, "NO", (dialog, which) -> {
+                            dialog.dismiss();
                             acquireGPSLocation = false;
                             tabSetup();
                         });
@@ -205,6 +205,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
                     AtlasDialogManager.alertBox(getActivity(), getString(R.string.track_save_message),
                             getString(R.string.track_save_title),
                             getString(R.string.save), (dialog, which) -> {
+                                dialog.dismiss();
                                 saveLocally(true);
                             });
                 }
@@ -212,7 +213,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         }
         return true;
     }
-
 
     public void saveLocally(boolean goToDraft) {
         if (trackModel != null && !trackModel.isManaged()) {

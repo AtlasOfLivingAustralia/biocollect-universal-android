@@ -60,8 +60,6 @@ public class UploadService extends BaseIntentService {
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
     private Realm realm;
     private int imageUploadCount;
-    //private Project project;
-    private int successCount = 1;
     private int trackCount = 0;
 
     /**
@@ -110,21 +108,21 @@ public class UploadService extends BaseIntentService {
                 //upload the sights
                 Iterator<TrackModel> sightIterator = result.iterator();
                 while (sightIterator.hasNext()) {
+                    imageUploadCount = 0;
                     trackCount++;
                     TrackModel trackModel = sightIterator.next();
                     //only those which are not being uploaded right now
                     if (trackModel.isValid() && !trackModel.upLoading && getValidated(realm.copyFromRealm(trackModel))) {
                         realm.beginTransaction();
                         trackModel.upLoading = true;
-                        realm.commitTransaction();
-                        EventBus.getDefault().post(new UploadNotificationModel(UploadNotification.UPLOAD_STARTED, trackCount));
-
                         trackModel.projectName = project.name;
                         trackModel.projectId = project.projectId;
                         trackModel.type = getString(R.string.project_type);
                         trackModel.activityId = project.projectActivityId;
                         trackModel.outputs.get(0).data.organisationName = project.name;
+                        realm.commitTransaction();
 
+                        EventBus.getDefault().post(new UploadNotificationModel(UploadNotification.UPLOAD_STARTED, trackCount));
                         MapModel mapModel = getMapModel(trackModel.projectName, trackModel.activityId, trackModel.projectId, trackModel.outputs.get(0).data.tempLocations);
                         if (mapModel != null) {
                             uploadMap(trackModel, mapModel);
@@ -318,7 +316,6 @@ public class UploadService extends BaseIntentService {
                     public void onNext(Response<Void> value) {
                         Log.d("UPLOAD BIlBY", "onNext" + value.code() + value.message());
                         if (value.isSuccessful()) {
-                            successCount++;
                             postNotification(SUCCESS_NOTIFICATION_ID, Utils.ordinal(trackCount) + " track has been successfully uploaded");
                             realm.beginTransaction();
                             trackModel.deleteFromRealm();

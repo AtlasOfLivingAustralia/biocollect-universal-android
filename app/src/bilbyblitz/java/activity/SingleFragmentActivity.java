@@ -43,6 +43,9 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
     @BindView(R.id.fab)
     FloatingActionButton fab;
 
+    private boolean isHomeButton = false;
+    private String title = "";
+
     @Override
     protected void setLanguageValues(Language language) {
     }
@@ -91,6 +94,10 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
                 fragment.setArguments(bundle);
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
             }
+        }else{
+            isHomeButton = savedInstanceState.getBoolean("IS_HOME");
+            this.title = savedInstanceState.getString("TITLE");
+            setTitle(title, isHomeButton);
         }
 
         //set the localized labels
@@ -115,12 +122,22 @@ public class SingleFragmentActivity extends BilbyBlitzBaseActivity implements Ma
      * @param homeButton
      */
     public void setTitle(String str, boolean homeButton) {
+        this.isHomeButton = homeButton;
+        this.title = str;
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(homeButton);
             getSupportActionBar().setTitle(str);
         } else {
             setTitle(str);
         }
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        savedInstanceState.putString("TITLE", title);
+        savedInstanceState.putBoolean("IS_HOME", isHomeButton);
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     @Override
