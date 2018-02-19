@@ -223,7 +223,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         RealmResults<TrackModel> results = realm.where(TrackModel.class).findAllAsync();
         results.addChangeListener((collection, changeSet) -> {
             trackModels.clear();
-            trackModels.addAll(collection);
+            trackModels.addAll(realm.copyFromRealm(collection));
             sightAdapter.selectionRefresh();
             updateTotal();
             sightAdapter.notifyDataSetChanged();
@@ -278,7 +278,6 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
                         ArrayList<Long> keys = new ArrayList<>();
                         keys.add(trackModels.get(position).realmId);
                         mServiceIntent.putExtra(getString(R.string.primary_keys_parameter), keys);
-                        // Starts the IntentService to download the RSS feed data
                         getActivity().startService(mServiceIntent);
                         break;
                 }

@@ -143,15 +143,17 @@ public class ProjectListFragment extends BaseListWithRefreshFragment {
                         if (value != null) {
                             for (Project project : value) {
                                 if (project.status.equals("active")) {
+                                    found = true;
                                     if (sharedPreferences.getSelectedProject() != null && !sharedPreferences.getSelectedProject().projectId.equals(project.projectId)) {
                                         AtlasDialogManager.alertBox(getContext(), getString(R.string.change_project_message), getString(R.string.project_selection_title), getString(R.string.select), (dialogInterface, i) -> {
                                             sharedPreferences.writeSelectedProject(project);
                                             getActivity().setResult(Activity.RESULT_OK);
                                             getActivity().finish();
                                         });
-                                        found = true;
-                                        break;
+                                    }else if(sharedPreferences.getSelectedProject() != null && sharedPreferences.getSelectedProject().projectId.equals(project.projectId)){
+                                        getActivity().finish();
                                     }
+                                    break;
                                 }else{
                                     sharedPreferences.writeSelectedProject(project);
                                     getActivity().setResult(Activity.RESULT_OK);
