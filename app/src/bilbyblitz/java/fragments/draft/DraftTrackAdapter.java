@@ -98,7 +98,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
 
     @Override
     public void onBindViewHolder(final DraftTrackViewHolders trackViewHolders, int position) {
-        TrackModel trackModel = realm.copyFromRealm(trackModels.get(position));
+        TrackModel trackModel = trackModels.get(position);
         //if the trackModel is being uploaded then show the upload image or show the checkbox
         if (trackModel.upLoading) {
             trackViewHolders.uploadImage.setVisibility(View.VISIBLE);
@@ -129,7 +129,6 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                 trackViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(output.data.surveyDate, "dd MMM, yyyy"));
                 trackViewHolders.user.setText(output.data.recordedBy);
                 trackViewHolders.name.setText(trackModel.outputs.get(0).data.organisationName);
-                //trackViewHolders.name.setText(output.data.surveyType);
                 if (output.data.sightingEvidenceTable != null) {
                     trackViewHolders.type.setText("");
                     for (SightingEvidenceTable sightingEvidenceTable : output.data.sightingEvidenceTable)
@@ -139,16 +138,19 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                     if (output.data.sightingEvidenceTable.size() > 0) {
                         SightingEvidenceTable sightingEvidenceTable = output.data.sightingEvidenceTable.first();
                         if ((sightingEvidenceTable != null ? sightingEvidenceTable.mPhotoPath : null) != null) {
+                            trackViewHolders.image.clearColorFilter();
                             trackViewHolders.image.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+                        }else{
+                            trackViewHolders.image.setColorFilter(Color.WHITE);
                         }
                     }
                 }
             } else {
-                trackViewHolders.image.setColorFilter(Color.GRAY);
+                trackViewHolders.image.setColorFilter(Color.WHITE);
                 trackViewHolders.type.setText("");
             }
         } else {
-            trackViewHolders.image.setColorFilter(Color.GRAY);
+            trackViewHolders.image.setColorFilter(Color.WHITE);
         }
     }
 

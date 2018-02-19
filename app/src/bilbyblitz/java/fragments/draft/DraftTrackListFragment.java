@@ -223,7 +223,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         RealmResults<TrackModel> results = realm.where(TrackModel.class).findAllAsync();
         results.addChangeListener((collection, changeSet) -> {
             trackModels.clear();
-            trackModels.addAll(realm.copyFromRealm(collection));
+            trackModels.addAll(collection);
             sightAdapter.selectionRefresh();
             updateTotal();
             sightAdapter.notifyDataSetChanged();

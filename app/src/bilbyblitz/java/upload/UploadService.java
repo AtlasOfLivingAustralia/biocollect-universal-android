@@ -12,6 +12,8 @@ import android.support.v4.app.NotificationCompat;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -310,6 +312,7 @@ public class UploadService extends BaseIntentService {
      * @param trackModel
      */
     private void saveData(final TrackModel trackModel) {
+        Log.d(TAG, new Gson().toJson(realm.copyFromRealm(trackModel)));
         mCompositeDisposable.add(restClient.getService().postTracks(trackModel.activityId, realm.copyFromRealm(trackModel))
                 .subscribeWith(new DisposableObserver<Response<Void>>() {
                     @Override
