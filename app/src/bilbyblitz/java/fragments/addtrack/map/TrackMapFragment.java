@@ -217,16 +217,19 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         }
 
         if (bilbyBlitzData.surveyStartTime != null) {
-            editStartTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyStartTime, TIME_FORMAT).toUpperCase());
+            editStartTime.setText(bilbyBlitzData.surveyStartTime);
         } else {
             editStartTime.setText(AtlasDateTimeUtils.getStringFromDate(now.getTime(), TIME_FORMAT).toUpperCase());
+        }
+
+        if (bilbyBlitzData.surveyFinishTime != null) {
+            editEndTime.setText(bilbyBlitzData.surveyFinishTime);
         }
 
         if (bilbyBlitzData.tempLocations != null)
             locations = bilbyBlitzData.tempLocations;
 
         gpsMessageTextView.setText(getString(R.string.number_of_location, locations.size()));
-        editEndTime.setText(AtlasDateTimeUtils.getFormattedDayTime(bilbyBlitzData.surveyFinishTime, TIME_FORMAT).toUpperCase());
 
         surveySpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.survey_type), bilbyBlitzData.surveyType));
         siteSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.site_type), bilbyBlitzData.siteChoice));
@@ -468,8 +471,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.surveyType = surveySpinner.getSelectedItemPosition() == 0 ? null : surveyTypeEnglishValues[surveySpinner.getSelectedItemPosition()];
         bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : siteTypeEnglishValues[siteSpinner.getSelectedItemPosition()];
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
-        bilbyBlitzData.surveyStartTime = AtlasDateTimeUtils.getFormattedDayTime(editStartTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
-        bilbyBlitzData.surveyFinishTime = AtlasDateTimeUtils.getFormattedDayTime(editEndTime.getText().toString(), TIME_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
+        bilbyBlitzData.surveyStartTime = editStartTime.getText().toString() ;
+        bilbyBlitzData.surveyFinishTime = editEndTime.getText().toString(); 
         bilbyBlitzData.tempLocations = locations;
         if (locations.size() == 1) {
             BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.00001, locations.get(0).longitude + +0.00001);
