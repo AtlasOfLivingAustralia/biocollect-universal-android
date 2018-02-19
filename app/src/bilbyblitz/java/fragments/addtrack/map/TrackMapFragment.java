@@ -472,7 +472,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
         bilbyBlitzData.siteChoice = siteSpinner.getSelectedItemPosition() == 0 ? null : siteTypeEnglishValues[siteSpinner.getSelectedItemPosition()];
         bilbyBlitzData.surveyDate = AtlasDateTimeUtils.getFormattedDayTime(editDate.getText().toString(), DATE_FORMAT, AtlasDateTimeUtils.DEFAULT_DATE_FORMAT);
         bilbyBlitzData.surveyStartTime = editStartTime.getText().toString() ;
-        bilbyBlitzData.surveyFinishTime = editEndTime.getText().toString(); 
+        bilbyBlitzData.surveyFinishTime = editEndTime.getText().toString();
         bilbyBlitzData.tempLocations = locations;
         if (locations.size() == 1) {
             BilbyLocation bilbyLocation = new BilbyLocation(locations.get(0).latitude + 0.00001, locations.get(0).longitude + +0.00001);

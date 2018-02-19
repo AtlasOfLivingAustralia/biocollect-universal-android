@@ -111,7 +111,7 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         recyclerView.addItemDecoration(itemDecoration);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         recyclerView.setLayoutManager(mLayoutManager);
-        sightAdapter = new DraftTrackAdapter(trackModels, getActivity(), onClickListener, onLongClickListener, this);
+        sightAdapter = new DraftTrackAdapter(trackModels, onClickListener, onLongClickListener, this);
         recyclerView.setAdapter(sightAdapter);
 
         //refresh layout setup

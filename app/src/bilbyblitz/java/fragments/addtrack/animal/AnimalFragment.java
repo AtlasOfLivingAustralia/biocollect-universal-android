@@ -100,14 +100,14 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //outState.putString("TrackMapFragmentGPSButton", startGPSButton.getText().toString());
+        outState.putInt("editRequestPosition", editRequestPosition);
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
-            //String string = savedInstanceState.getString("TrackMapFragmentGPSButton");
+            editRequestPosition = savedInstanceState.getInt("editRequestPosition");
         }
     }
 

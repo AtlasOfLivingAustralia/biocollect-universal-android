@@ -35,7 +35,6 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
     Realm realm;
     private List<TrackModel> trackModels;
     private boolean[] selection;
-    private Context context;
     private View.OnClickListener onClickListener;
     private View.OnLongClickListener onLongClickListener;
     private MoreButtonListener moreButtonListener;
@@ -44,15 +43,13 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
      * constructor
      *
      * @param trackModels         trackModels to show
-     * @param context
      * @param onClickListener     a click listener for the checkbox
      * @param onLongClickListener a long click listener to delete the draft sight
      * @param moreButtonListener  a click listener for the popup menu items
      */
-    public DraftTrackAdapter(List<TrackModel> trackModels, Context context, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener, MoreButtonListener moreButtonListener) {
+    public DraftTrackAdapter(List<TrackModel> trackModels, View.OnClickListener onClickListener, View.OnLongClickListener onLongClickListener, MoreButtonListener moreButtonListener) {
         this.trackModels = trackModels;
         selection = new boolean[trackModels.size()];
-        this.context = context;
         this.onClickListener = onClickListener;
         this.onLongClickListener = onLongClickListener;
         this.moreButtonListener = moreButtonListener;
