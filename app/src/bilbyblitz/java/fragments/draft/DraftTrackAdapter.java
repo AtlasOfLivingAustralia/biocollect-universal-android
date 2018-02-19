@@ -3,6 +3,7 @@ package fragments.draft;
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -133,7 +134,11 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                     trackViewHolders.type.setText("");
                     for (SightingEvidenceTable sightingEvidenceTable : output.data.sightingEvidenceTable)
                         if (sightingEvidenceTable.species != null)
-                            trackViewHolders.type.append(sightingEvidenceTable.species.name + ", ");
+                            trackViewHolders.type.append(sightingEvidenceTable.species.vernacularName + ", ");
+
+                    if(!TextUtils.isEmpty(trackViewHolders.type.getText())){
+                        trackViewHolders.type.setText(trackViewHolders.type.getText().subSequence(0, trackViewHolders.type.getText().length()-2));
+                    }
 
                     if (output.data.sightingEvidenceTable.size() > 0) {
                         SightingEvidenceTable sightingEvidenceTable = output.data.sightingEvidenceTable.first();
