@@ -2,6 +2,7 @@ package fragments.addtrack.animal;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -37,23 +38,23 @@ import static android.app.Activity.RESULT_OK;
 public class AnimalFragment extends BaseMainActivityFragment implements ValidationCheck, BilbyDataManager {
     private final int ADD_ANIMAL_REQUEST_CODE = 1;
     private final int EDIT_ANIMAL_REQUEST_CODE = 2;
+
     @BindView(R.id.listView)
     ListView listView;
     @BindView(R.id.total)
     TextView total;
+
     private RealmList<SightingEvidenceTable> sightingEvidenceTables = new RealmList<>();
     private SightingEvidenceTableAdapter sightingEvidenceTableAdapter;
     private int editRequestPosition = -1;
-    private BilbyBlitzData bilbyBlitzData;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_animal, container, false);
-        //setTitle(getString(R.string.setting));
         ButterKnife.bind(this, view);
 
         if (getParentFragment() instanceof AddTrackFragment) {
-            bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
+            BilbyBlitzData bilbyBlitzData = ((AddTrackFragment) getParentFragment()).getBilbyBlitzData();
             if (bilbyBlitzData.sightingEvidenceTable != null)
                 sightingEvidenceTables = bilbyBlitzData.sightingEvidenceTable;
             else
@@ -77,7 +78,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
                 sightingEvidenceTableAdapter.notifyDataSetChanged();
                 showHeaderMessage();
             });
-            return false;
+            return true;
         });
 
         sightingEvidenceTableAdapter = new SightingEvidenceTableAdapter();
