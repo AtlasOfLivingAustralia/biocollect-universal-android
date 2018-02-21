@@ -1,8 +1,16 @@
 package service;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.support.annotation.Nullable;
 import android.util.Log;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -10,6 +18,7 @@ import java.util.List;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseIntentService;
+import au.csiro.ozatlas.model.KvpValues;
 import au.csiro.ozatlas.model.SearchSpecies;
 import au.csiro.ozatlas.rest.NetworkClient;
 import io.reactivex.observers.DisposableObserver;
@@ -70,6 +79,21 @@ public class FetchListSpeciesService extends BaseIntentService {
             try {
                 species.realmId = species.guid + species.id;
                 Log.d(TAG + "ID", species.guid + "   " + species.id + "   " + species.realmId);
+                if (species.kvpValues != null) {
+                    for (KvpValues kvpValues : species.kvpValues) {
+                        if (kvpValues.key.equals("Warlpiri name")) {
+                            species.warlpiriName = kvpValues.value;
+                        }
+
+                        if (kvpValues.key.equals("vernacular name")) {
+                            species.vernacularName = kvpValues.value;
+                        }
+
+                        if (kvpValues.key.equals("Image")) {
+                            species.imageUrl = kvpValues.value;
+                        }
+                    }
+                }
                 realm.copyToRealm(species);
             } catch (RealmPrimaryKeyConstraintException exception) {
                 Log.d(TAG, getString(R.string.duplicate_entry));

@@ -134,9 +134,9 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     // Use Async API to move Realm queries off the main thread.
                     // Realm currently doesn't support the standard Schedulers.
                     return realm.where(SearchSpecies.class)
-                            .contains("commonName", string, Case.INSENSITIVE)
+                            .contains("scientificName", string, Case.INSENSITIVE)
                             .or()
-                            .contains("name", string, Case.INSENSITIVE)
+                            .contains("vernacularName", string, Case.INSENSITIVE)
                             .findAllAsync()
                             .asFlowable();
                 })
@@ -338,36 +338,24 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                 }
             }
 
-            if (species.kvpValues != null) {
-                for (KvpValues kvpValues : species.kvpValues) {
-                    if (kvpValues.key.equals("Warlpiri name")) {
-                        holder.kingdomName.setText(getString(R.string.warlpiri_name, kvpValues.value));
-                    }
-
-                    if (kvpValues.key.equals("vernacular name")) {
-                        holder.speciesName.setText(kvpValues.value);
-                    }
-
-                    if (kvpValues.key.equals("Image")) {
-                        Glide.with(getContext())
-                                .load(kvpValues.value).listener(new RequestListener<Drawable>() {
-                            @Override
-                            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                                holder.image.setImageResource(R.drawable.no_image_available);
-                                holder.image.setColorFilter(Color.WHITE);
-                                return false;
-                            }
-
-                            @Override
-                            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                                holder.image.clearColorFilter();
-                                holder.image.setImageDrawable(resource);
-                                return false;
-                            }
-                        }).into(holder.image);
-                    }
+            holder.kingdomName.setText(getString(R.string.warlpiri_name, species.warlpiriName));
+            holder.speciesName.setText(species.vernacularName);
+            Glide.with(getContext())
+                    .load(species.imageUrl).listener(new RequestListener<Drawable>() {
+                @Override
+                public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                    holder.image.setImageResource(R.drawable.no_image_available);
+                    holder.image.setColorFilter(Color.WHITE);
+                    return false;
                 }
-            }
+
+                @Override
+                public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                    holder.image.clearColorFilter();
+                    holder.image.setImageDrawable(resource);
+                    return false;
+                }
+            }).into(holder.image);
         }
 
         class SpeciesViewHolder extends RecyclerView.ViewHolder {

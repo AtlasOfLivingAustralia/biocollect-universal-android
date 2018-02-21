@@ -18,7 +18,7 @@ public interface SpeciesListApiService {
     @GET("/ws/speciesList")
     Observable<SpeciesGroupList> getGroupList(@Query("max") Integer max, @Query("offset") Integer offset);
 
-    //http://lists.ala.org.au/ws/speciesListItems/dr1266
+    //https://lists.ala.org.au/ws/speciesListItems/dr8016?includeKVP=true
     @GET("/ws/speciesListItems/{dataResourceId}?includeKVP=true")
     Observable<List<SearchSpecies>> getSpeciesList(@Path("dataResourceId") String dataResourceId);
 }

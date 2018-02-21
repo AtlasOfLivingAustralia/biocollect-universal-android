@@ -48,4 +48,13 @@ public class SearchSpecies extends RealmObject {
     @SerializedName("kvpValues")
     @ParcelPropertyConverter(RealmListParcelConverter.class)
     public RealmList<KvpValues> kvpValues;
+    @Expose
+    @SerializedName("vernacularName")
+    public String vernacularName;
+    @Expose
+    @SerializedName("imageUrl")
+    public String imageUrl;
+    @Expose
+    @SerializedName("warlpiriName")
+    public String warlpiriName;
 }
