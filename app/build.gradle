@@ -7,7 +7,7 @@ android {
     signingConfigs {
         config {
             //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-            keyAlias 'au.csiro.ala.bilbyblitz'
+            keyAlias 'au.csiro.ala.biocollect'
             keyPassword ${key.password}
             storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
             storePassword ${key.password}
@@ -36,8 +36,8 @@ android {
     productFlavors {
         biocollect {
             applicationIdSuffix '.ala.biocollect'
-            versionCode 9
-            versionName '1.1.5'
+            versionCode 10
+            versionName '1.1.6'
         }
         ozatlas {
             applicationIdSuffix '.ala.mobile.ozatlas'

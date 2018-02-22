@@ -2,6 +2,7 @@ package fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -40,7 +41,9 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
     TextView total;
 
     private List<Projects> projects = new ArrayList<>();
+    private int totalProjects;
     private Boolean myProjects = false;
+
     /**
      * onClick listener for the recyclerview item
      */
@@ -62,19 +65,24 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
             }
         }
     };
-    private int totalProjects;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         hideFloatingButton();
 
-        //for my projects
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
+        if(savedInstanceState!=null){
+            myProjects = savedInstanceState.getBoolean(getString(R.string.user_project_parameter));
+        }else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
+            }
+        }
+
+        if (myProjects) {
             setTitle(getString(R.string.my_project_title));
         } else {
             setTitle(getString(R.string.all_project_title));
@@ -97,6 +105,12 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
         fetchItems(null, 0);
 
         return view;
+    }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(getString(R.string.user_project_parameter), myProjects);
     }
 
     @Override

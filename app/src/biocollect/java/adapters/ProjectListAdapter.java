@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions;
 
 import java.util.List;
 
@@ -17,6 +17,7 @@ import au.csiro.ozatlas.base.BaseRecyclerWithFooterViewAdapter;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.Utils;
+import au.csiro.ozatlas.view.GlideApp;
 import model.Projects;
 
 /**
@@ -70,11 +71,15 @@ public class ProjectListAdapter extends BaseRecyclerWithFooterViewAdapter {
             projectViewHolders.type.setText(Utils.nullCheck(project.organisationName));
             projectViewHolders.user.setText(Utils.nullCheck(project.projectType));
             projectViewHolders.time.setText(AtlasDateTimeUtils.getFormattedDayTime(Utils.nullCheck(project.startDate), "dd MMM, yyyy"));
-            Glide.with(projectViewHolders.image.getContext())
+
+            GlideApp
+                    .with(projectViewHolders.image.getContext())
                     .load(project.urlImage)
-                    .placeholder(R.drawable.no_image_available)
-                    .crossFade()
+                    .placeholder(R.drawable.no_image_available) // can also be a drawable
+                    .error(R.drawable.no_image_available) // will be displayed if the image cannot be loaded
+                    .transition(DrawableTransitionOptions.withCrossFade())
                     .into(projectViewHolders.image);
+
             projectViewHolders.infoButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

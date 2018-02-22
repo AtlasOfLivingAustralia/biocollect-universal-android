@@ -70,11 +70,6 @@ public class LoginActivity extends BaseActivity {
                 return false;
             }
         });
-        //test code
-        if (BuildConfig.DEBUG) {
-            //editUsername.setText("sadat.sadat@csiro.au");
-            //editPassword.setText("password");
-        }
     }
 
     @Override
