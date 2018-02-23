@@ -69,7 +69,7 @@
     <string name="add_photo">Add Photo</string>
     <string name="ground_type">How soft is the ground for leaving tracks?</string>
     <string name="detailed_habitat">Detailed habitat</string>
-    <string name="vegetation">Vegetation type</string>
+    <string name="vegetation">Vegetation Type</string>
     <string name="countryType">Country Type</string>
     <string name="tracking_event_type">Tracking event type</string>
     <string name="trackability">Trackability</string>

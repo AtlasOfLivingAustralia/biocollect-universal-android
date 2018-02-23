@@ -202,7 +202,13 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
             if (sightingEvidenceTable.mPhotoPath != null) {
                 holder.imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
             }
-            holder.name.setText(sightingEvidenceTable.species == null ? "" : sightingEvidenceTable.species.vernacularName);
+
+            if (sightingEvidenceTable.species != null)
+                if (sightingEvidenceTable.species.vernacularName != null)
+                    holder.name.setText(sightingEvidenceTable.species.vernacularName);
+                else
+                    holder.name.setText(sightingEvidenceTable.species.name);
+
             holder.whatSeen.setText(sightingEvidenceTable.typeOfSign);
             holder.recent.setText(sightingEvidenceTable.evidenceAgeClass);
 
