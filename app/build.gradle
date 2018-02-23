@@ -5,9 +5,17 @@ apply plugin: 'io.fabric'
 
 android {
     signingConfigs {
-        config {
+        config_biocollect {
             //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
             keyAlias 'au.csiro.ala.biocollect'
+            keyPassword ${key.password}
+            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
+            storePassword ${key.password}
+        }
+
+        config_biocontrolhub {
+            //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+            keyAlias 'au.org.ala.biocontrolhu'
             keyPassword ${key.password}
             storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
             storePassword ${key.password}
@@ -28,7 +36,7 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            signingConfig signingConfigs.config
+            //signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -43,11 +51,13 @@ android {
             applicationIdSuffix '.ala.mobile.ozatlas'
             versionCode 14
             versionName '2.1.2'
+            signingConfig signingConfigs.config_biocollect
         }
         biocontrolhub {
             applicationIdSuffix '.ala.biocontrolhub'
             versionCode 5
             versionName '1.0.3'
+            signingConfig signingConfigs.config_biocontrolhub
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
