@@ -20,6 +20,14 @@ android {
             storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
             storePassword ${key.password}
         }
+
+        config_bilbyblitz {
+            //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
+            keyAlias 'au.csiro.ala.bilbyblitz'
+            keyPassword ${key.password}
+            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
+            storePassword ${key.password}
+        }
     }
     compileSdkVersion 27
     flavorDimensions "versionCode"
@@ -63,6 +71,7 @@ android {
             applicationIdSuffix '.ala.bilbyblitz'
             versionCode 14
             versionName '1.0'
+            signingConfig signingConfigs.config_bilbyblitz
         }
     }
 
