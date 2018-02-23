@@ -65,6 +65,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     private String viewQuery;
     private int totalSighting;
     private String projectId;
+    private String projectName;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -76,24 +77,23 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         if (savedInstanceState != null) {
             this.viewQuery = savedInstanceState.getString(getString(R.string.myview_parameter));
             projectId = savedInstanceState.getString(getString(R.string.project_id_parameter));
+            projectName = savedInstanceState.getString(getString(R.string.project_name_parameter));
         } else {
             Bundle bundle = getArguments();
             if (bundle != null) {
                 this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
                 projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
-                if (projectId != null) {
-                    String title = bundle.getString(getString(R.string.project_name_parameter));
-                    setTitle(title);
-                }
+                projectName = bundle.getString(getString(R.string.project_name_parameter));
             }
         }
 
-        if(viewQuery==null && projectId==null){
+        if (viewQuery == null && projectId == null) {
             setTitle(getString(R.string.all_record_title));
-        }else{
-            if (viewQuery != null) {
+        } else {
+            if (projectId == null) {
                 setTitle(getString(R.string.my_record_title));
-            } else if (projectId != null) {
+            } else{
+                setTitle(projectName);
                 getSurveys(projectId);
             }
         }
@@ -123,6 +123,7 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         super.onSaveInstanceState(outState);
         outState.putString(getString(R.string.myview_parameter), viewQuery);
         outState.putString(getString(R.string.project_id_parameter), projectId);
+        outState.putString(getString(R.string.project_name_parameter), projectName);
     }
 
     @Override
