@@ -38,21 +38,27 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
         setContentView(R.layout.activity_with_single_fragment);
         ButterKnife.bind(this);
 
-        Fragment fragment = null;
-        Bundle bundle = getIntent().getExtras();
-        if (bundle != null) {
-            FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
-            setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
-            switch (fragmentType) {
-                case WEB_FRAGMENT:
-                    fragment = new WebViewFragment();
-                    break;
-                case RECORD_LIST:
-                    fragment = new SightingListFragment();
-                    break;
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
+
+        if(savedInstanceState==null) {
+            Fragment fragment = null;
+            Bundle bundle = getIntent().getExtras();
+            if (bundle != null) {
+                FragmentType fragmentType = (FragmentType) bundle.getSerializable(getString(R.string.fragment_type_parameter));
+                setTitle(bundle.getString(getString(R.string.title_parameter), getString(R.string.title_activity_main)), true);
+                switch (fragmentType) {
+                    case WEB_FRAGMENT:
+                        fragment = new WebViewFragment();
+                        break;
+                    case RECORD_LIST:
+                        fragment = new SightingListFragment();
+                        break;
+                }
+                fragment.setArguments(bundle);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
             }
-            fragment.setArguments(bundle);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         }
     }
 

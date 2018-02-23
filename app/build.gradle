@@ -46,8 +46,8 @@ android {
         }
         biocontrolhub {
             applicationIdSuffix '.ala.biocontrolhub'
-            versionCode 4
-            versionName '1.0.2'
+            versionCode 5
+            versionName '1.0.3'
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'

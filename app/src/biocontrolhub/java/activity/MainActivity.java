@@ -53,12 +53,6 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        });
 
         //Navigation Drawer setup
         final DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -78,12 +72,14 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         navigationView.setNavigationItemSelectedListener(this);
         updateNavigationHeader();
 
-        if (BuildConfig.DEBUG) {
-            setDrawerMenuClicked(R.id.home);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        } else {
-            navigationView.getMenu().findItem(R.id.home).setChecked(true);
-            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
+        if(savedInstanceState==null) {
+            if (BuildConfig.DEBUG) {
+                setDrawerMenuClicked(R.id.home);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
+            } else {
+                navigationView.getMenu().findItem(R.id.home).setChecked(true);
+                getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
+            }
         }
     }
 

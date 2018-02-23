@@ -2,6 +2,7 @@ package fragments;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -72,10 +73,16 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
         setHasOptionsMenu(true);
         hideFloatingButton();
 
-        //for my projects
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
+        if(savedInstanceState!=null){
+            myProjects = savedInstanceState.getBoolean(getString(R.string.user_project_parameter));
+        }else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
+            }
+        }
+
+        if (myProjects) {
             setTitle(getString(R.string.my_project_title));
         } else {
             setTitle(getString(R.string.all_project_title));
@@ -99,6 +106,13 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
 
         return view;
     }
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putBoolean(getString(R.string.user_project_parameter), myProjects);
+    }
+
 
     @Override
     public void onResume() {

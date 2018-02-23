@@ -1,6 +1,7 @@
 package fragments;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -65,36 +66,37 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
     private String viewQuery;
     private int totalSighting;
     private String projectId;
-    //private Boolean myProjects = false;
+    private String projectName;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_swipe_refresh_recyclerview, container, false);
         ButterKnife.bind(this, view);
         setHasOptionsMenu(true);
         hideFloatingButton();
 
-        //for my sighting
-        Bundle bundle = getArguments();
-        if (bundle != null) {
-            this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
-            projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
-            //myProjects = bundle.getBoolean(getString(R.string.user_project_parameter));
-
-            if (projectId != null) {
-                String title = bundle.getString(getString(R.string.project_name_parameter));
-                setTitle(title);
-            } else {
-                setTitle(getString(R.string.my_record_title));
+        if (savedInstanceState != null) {
+            this.viewQuery = savedInstanceState.getString(getString(R.string.myview_parameter));
+            projectId = savedInstanceState.getString(getString(R.string.project_id_parameter));
+            projectName = savedInstanceState.getString(getString(R.string.project_name_parameter));
+        } else {
+            Bundle bundle = getArguments();
+            if (bundle != null) {
+                this.viewQuery = bundle.getString(getString(R.string.myview_parameter));
+                projectId = bundle.getString(getString(R.string.project_id_parameter)); //"bb227dec-f7d7-4bdf-873d-41924c102e1d"; //
+                projectName = bundle.getString(getString(R.string.project_name_parameter));
             }
+        }
 
-            if (/*myProjects &&*/ projectId != null) {
+        if (viewQuery == null && projectId == null) {
+            setTitle(getString(R.string.all_record_title));
+        } else {
+            if (projectId == null) {
+                setTitle(getString(R.string.my_record_title));
+            } else{
+                setTitle(projectName);
                 getSurveys(projectId);
             }
-        } else {
-            //from all data
-            viewQuery = "allrecords";
-            setTitle(getString(R.string.all_record_title));
         }
 
         //recyclerView setup
@@ -115,6 +117,15 @@ public class SightingListFragment extends BaseListWithRefreshIncludingSearchFrag
         fetchItems(null, 0);
 
         return view;
+    }
+
+
+    @Override
+    public void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(getString(R.string.myview_parameter), viewQuery);
+        outState.putString(getString(R.string.project_id_parameter), projectId);
+        outState.putString(getString(R.string.project_name_parameter), projectName);
     }
 
     @Override
