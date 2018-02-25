@@ -1,6 +1,5 @@
 package fragments.addtrack;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
@@ -32,6 +31,7 @@ import fragments.addtrack.country.TrackCountryFragment;
 import fragments.addtrack.map.TrackMapFragment;
 import fragments.addtrack.trackers.TrackersFragment;
 import fragments.draft.DraftTrackListFragment;
+import io.realm.Realm;
 import io.realm.RealmList;
 import io.realm.RealmQuery;
 import io.realm.RealmResults;
@@ -197,6 +197,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             case R.id.save:
                 if (practiseView) {
                     AtlasDialogManager.alertBox(getActivity(), getString(R.string.close_message), getString(R.string.close_title), (dialog, which) -> {
+                        dialog.dismiss();
                         AtlasManager.hideKeyboard(getActivity());
                         setDrawerMenuChecked(R.id.home);
                         setDrawerMenuClicked(R.id.home);
@@ -225,22 +226,20 @@ public class AddTrackFragment extends BaseMainActivityFragment {
             if (trackModel.realmId == null) {
                 trackModel.realmId = getPrimaryKeyValue();
             }
-            realm.executeTransactionAsync(realm -> {
-                realm.insertOrUpdate(trackModel);
+
+            realm.executeTransactionAsync(realm -> realm.insertOrUpdate(trackModel), () -> {
                 if (goToDraft && isAdded()) {
-                    getActivity().runOnUiThread(() -> {
-                        AtlasManager.hideKeyboard(getActivity());
-                        if (getActivity() instanceof SingleFragmentActivity) {
-                            getActivity().setResult(RESULT_OK);
-                            getActivity().finish();
-                        } else {
-                            showSnackBarMessage(getString(R.string.successful_local_save));
-                            setDrawerMenuChecked(R.id.nav_review_track);
-                            getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
-                        }
-                    });
+                    AtlasManager.hideKeyboard(getActivity());
+                    if (getActivity() instanceof SingleFragmentActivity) {
+                        getActivity().setResult(RESULT_OK);
+                        getActivity().finish();
+                    } else {
+                        showSnackBarMessage(getString(R.string.successful_local_save));
+                        setDrawerMenuChecked(R.id.nav_review_track);
+                        getFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new DraftTrackListFragment()).commit();
+                    }
                 }
-            });
+            }, error -> showSnackBarMessage(error.getMessage()));
         }
     }
 

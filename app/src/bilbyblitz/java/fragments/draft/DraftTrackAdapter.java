@@ -145,11 +145,14 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                         }else{
                             trackViewHolders.image.setColorFilter(Color.WHITE);
                         }
-                    }
+                    }else
+                        trackViewHolders.image.setColorFilter(Color.WHITE);
+                }else {
+                    trackViewHolders.image.setColorFilter(Color.WHITE);
+                    trackViewHolders.type.setText("");
                 }
             } else {
                 trackViewHolders.image.setColorFilter(Color.WHITE);
-                trackViewHolders.type.setText("");
             }
         } else {
             trackViewHolders.image.setColorFilter(Color.WHITE);

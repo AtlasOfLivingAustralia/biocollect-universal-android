@@ -167,11 +167,18 @@ public class UploadService extends BaseIntentService {
                 mapModel.site.extent.geometry.centre[1] = tempLocations.get(0).latitude;
             }
             mapModel.site.extent.geometry.coordinates = new Double[tempLocations.size()][2];
+            //mapModel.site.extent.geometry.coordinates = new Double[3000][2];
             for (int i = 0; i < tempLocations.size(); i++) {
                 BilbyLocation bilbyLocation = tempLocations.get(i);
                 mapModel.site.extent.geometry.coordinates[i][0] = bilbyLocation.longitude;
                 mapModel.site.extent.geometry.coordinates[i][1] = bilbyLocation.latitude;
             }
+
+            /*for (int i = 1; i < 3000; i++) {
+                mapModel.site.extent.geometry.coordinates[i][0] = mapModel.site.extent.geometry.coordinates[i-1][0] + .01;
+                mapModel.site.extent.geometry.coordinates[i][1] = mapModel.site.extent.geometry.coordinates[i-1][1] + .01;
+            }*/
+
             return mapModel;
         }
         return null;

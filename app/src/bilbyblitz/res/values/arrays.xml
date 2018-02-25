@@ -15,7 +15,7 @@
 
     <string-array name="site_type">
         <item>Select Option</item>
-        <item>Targetted</item>
+        <item>Targeted</item>
         <item>Anywhere</item>
     </string-array>
 
