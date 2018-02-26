@@ -36,9 +36,12 @@ import java.io.File;
 import java.io.FileFilter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
@@ -63,6 +66,7 @@ public class FileUtils {
     public static final String MIME_TYPE_APP = "application/*";
     public static final String HIDDEN_PREFIX = ".";
     public static final int IMAGE_FILE_WIDTH = 800;
+    public static final String LOCAL_FOLDER_NAME = "tracks";
     /**
      * TAG for log messages.
      */
@@ -85,6 +89,57 @@ public class FileUtils {
                     f2.getName().toLowerCase());
         }
     };
+
+    /* Checks if external storage is available for read and write */
+    public static boolean isExternalStorageWritable() {
+        String state = Environment.getExternalStorageState();
+        if (Environment.MEDIA_MOUNTED.equals(state)) {
+            return true;
+        }
+        return false;
+    }
+
+    public static File createLocalAppDirIfNotExists() {
+        File file = new File(Environment.getExternalStorageDirectory(), LOCAL_FOLDER_NAME);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("Track", "Problem creating folder");
+            }
+        }
+        return file;
+    }
+
+    public static File createTrackDirIfNotExists(String dirName) {
+        File file = new File(new File(Environment.getExternalStorageDirectory(), LOCAL_FOLDER_NAME), dirName);
+        if (!file.exists()) {
+            if (!file.mkdirs()) {
+                Log.e("Track", "Problem creating folder");
+            }
+        }
+        return file;
+    }
+
+    public static void writeToFile(File dir, String fileName, String content) throws IOException {
+        File file = new File(dir, fileName);
+        try (OutputStreamWriter stream = new OutputStreamWriter(new FileOutputStream(file))) {
+            stream.write(content);
+        }
+    }
+
+
+    public static void copy(File src, File dst) throws IOException {
+        try (InputStream in = new FileInputStream(src)) {
+            try (OutputStream out = new FileOutputStream(dst)) {
+                // Transfer bytes from in to out
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+            }
+        }
+    }
+
     /**
      * File (not directories) filter.
      *

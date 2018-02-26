@@ -158,6 +158,7 @@
     <string name="successful_local_save">Successfully saved under review tracks.</string>
     <string name="draft_track_plural">Following %1$d tracks are not yet submitted to the server</string>
     <string name="draft_track_singular">Following %1$d track is not yet submitted to the server</string>
+    <string name="save_locally_message">Your track information has been saved in %1$s</string>
 
     <string name="location_found_plural">%1$d locations are recorded.</string>
     <string name="location_found_singular">1 location is recorded.</string>

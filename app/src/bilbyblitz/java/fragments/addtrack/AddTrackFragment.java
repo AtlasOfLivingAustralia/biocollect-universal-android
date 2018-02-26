@@ -58,7 +58,6 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     private boolean practiseView;
     private TrackModel trackModel;
 
-    private Project project;
     private TrackerPagerAdapter pagerAdapter;
     private TabLayout.OnTabSelectedListener tabSelectedListener = new TabLayout.OnTabSelectedListener() {
         @Override
@@ -93,7 +92,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
         ButterKnife.bind(this, view);
 
         pager.setOffscreenPageLimit(3);
-        project = sharedPreferences.getSelectedProject();
+        Project project = sharedPreferences.getSelectedProject();
         if (project == null) {
             AtlasDialogManager.alertBox(getContext(), getString(R.string.project_selection_message), getString(R.string.project_selection_title), getString(R.string.setting), (dialogInterface, i) -> {
                 setDrawerMenuChecked(R.id.nav_setting);
@@ -121,7 +120,7 @@ public class AddTrackFragment extends BaseMainActivityFragment {
     }
 
     @Override
-    public void onSaveInstanceState(Bundle outState) {
+    public void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
         outState.putBoolean(getString(R.string.acquire_GPS_location_parameter), acquireGPSLocation);
         outState.putBoolean(getString(R.string.practise_parameter), practiseView);

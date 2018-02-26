@@ -2,6 +2,7 @@ package fragments.draft;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -14,10 +15,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,19 +32,28 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
+import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
+import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.view.ItemOffsetDecoration;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import io.realm.OrderedCollectionChangeSet;
-import io.realm.OrderedRealmCollectionChangeListener;
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.observers.DisposableObserver;
+import io.reactivex.schedulers.Schedulers;
 import io.realm.RealmResults;
+import model.track.SightingEvidenceTable;
 import model.track.TrackModel;
 import upload.UploadService;
 
 import static android.app.Activity.RESULT_OK;
+import static au.csiro.ozatlas.manager.FileUtils.copy;
+import static au.csiro.ozatlas.manager.FileUtils.createLocalAppDirIfNotExists;
+import static au.csiro.ozatlas.manager.FileUtils.createTrackDirIfNotExists;
+import static au.csiro.ozatlas.manager.FileUtils.writeToFile;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -265,26 +280,94 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         PopupMenu popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater = popup.getMenuInflater();
         inflater.inflate(R.menu.draft_menu, popup.getMenu());
-        popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                //do your things in each of the following cases
-                switch (item.getItemId()) {
-                    case R.id.delete:
-                        delete(position);
-                        break;
-                    case R.id.upload:
-                        Intent mServiceIntent = new Intent(getActivity(), UploadService.class);
-                        ArrayList<Long> keys = new ArrayList<>();
-                        keys.add(trackModels.get(position).realmId);
-                        mServiceIntent.putExtra(getString(R.string.primary_keys_parameter), keys);
-                        getActivity().startService(mServiceIntent);
-                        break;
-                }
-                return true;
+        popup.setOnMenuItemClickListener(item -> {
+            //do your things in each of the following cases
+            switch (item.getItemId()) {
+                case R.id.delete:
+                    delete(position);
+                    break;
+                case R.id.upload:
+                    Intent mServiceIntent = new Intent(getActivity(), UploadService.class);
+                    ArrayList<Long> keys = new ArrayList<>();
+                    keys.add(trackModels.get(position).realmId);
+                    mServiceIntent.putExtra(getString(R.string.primary_keys_parameter), keys);
+                    getActivity().startService(mServiceIntent);
+                    break;
+                case R.id.save_locally:
+                    checkSavePerimission(trackModels.get(position));
+                    break;
             }
+            return true;
         });
         popup.show();
+    }
+
+
+    void checkSavePerimission(TrackModel trackModel) {
+        try {
+            MarshMallowPermission marshMallowPermission = new MarshMallowPermission(this);
+            if (!marshMallowPermission.isPermissionGrantedForExternalStorage()) {
+                marshMallowPermission.requestPermissionForExternalStorage();
+            } else {
+                saveTracksInFiles(trackModel);
+            }
+        } catch (Exception ex) {
+            Toast.makeText(getContext(), "Error:" + ex, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    void saveTracksInFiles(TrackModel trackModel) {
+        mCompositeDisposable.add(Observable.just(trackModel).subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread()).subscribeWith(new DisposableObserver<TrackModel>() {
+                    @Override
+                    public void onNext(TrackModel trackModel) {
+                        try {
+                            if (FileUtils.isExternalStorageWritable()) {
+                                createLocalAppDirIfNotExists();
+                                File dir = createTrackDirIfNotExists("tracks-".concat(String.valueOf(trackModel.realmId)));
+                                writeToFile(dir, "tracks ".concat(String.valueOf(trackModel.realmId)).concat(".txt"), new Gson().toJson(realm.copyFromRealm(trackModel)));
+                                if (trackModel.outputs.get(0).data.locationImage != null && trackModel.outputs.get(0).data.locationImage.size() > 0) {
+                                    File source = new File(trackModel.outputs.get(0).data.locationImage.get(0).mPhotoPath);
+                                    copy(source, new File(dir, source.getName()));
+                                }
+                                if (trackModel.outputs.get(0).data.sightingEvidenceTable != null && trackModel.outputs.get(0).data.sightingEvidenceTable.size() > 0) {
+                                    for (SightingEvidenceTable sightingEvidenceTable : trackModel.outputs.get(0).data.sightingEvidenceTable) {
+                                        File source = new File(sightingEvidenceTable.mPhotoPath);
+                                        copy(source, new File(dir, source.getName()));
+                                    }
+                                }
+                                showSnackBarMessage(getString(R.string.save_locally_message, "tracks-".concat(String.valueOf(trackModel.realmId).concat("/").concat("tracks ".concat(String.valueOf(trackModel.realmId)).concat(".txt")))));
+                            }
+                        } catch (IOException e) {
+                            onError(e);
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        showSnackBarMessage(e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+                    }
+                }));
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MarshMallowPermission.EXTERNAL_STORAGE_PERMISSION_REQUEST_CODE: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //saveTracksInFiles();
+                } else {
+                    // permission denied, boo! Disable the functionality that depends on this permission.
+                }
+                return;
+            }
+        }
     }
 
     @Override
