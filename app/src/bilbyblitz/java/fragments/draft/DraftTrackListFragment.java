@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Environment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.PopupMenu;
@@ -23,6 +24,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +53,8 @@ import upload.UploadService;
 
 import static android.app.Activity.RESULT_OK;
 import static au.csiro.ozatlas.manager.FileUtils.copy;
+import static au.csiro.ozatlas.manager.FileUtils.createFolder;
 import static au.csiro.ozatlas.manager.FileUtils.createLocalAppDirIfNotExists;
-import static au.csiro.ozatlas.manager.FileUtils.createTrackDirIfNotExists;
 import static au.csiro.ozatlas.manager.FileUtils.writeToFile;
 
 /**
@@ -323,20 +325,26 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
                     public void onNext(TrackModel trackModel) {
                         try {
                             if (FileUtils.isExternalStorageWritable()) {
-                                createLocalAppDirIfNotExists();
-                                File dir = createTrackDirIfNotExists("tracks-".concat(String.valueOf(trackModel.realmId)));
-                                writeToFile(dir, "tracks ".concat(String.valueOf(trackModel.realmId)).concat(".txt"), new Gson().toJson(realm.copyFromRealm(trackModel)));
+                                final String appDirectoryName = "tracks";
+                                final File rootDir = new File(Environment.getExternalStorageDirectory(), appDirectoryName);
+                                createFolder(rootDir);
+                                final File file = new File(rootDir, appDirectoryName + System.currentTimeMillis() + ".txt");
+                                FileOutputStream fOut = new FileOutputStream(file);
+                                fOut.write(new Gson().toJson(realm.copyFromRealm(trackModel)).getBytes());
+                                fOut.flush();
+                                fOut.close();
+
                                 if (trackModel.outputs.get(0).data.locationImage != null && trackModel.outputs.get(0).data.locationImage.size() > 0) {
                                     File source = new File(trackModel.outputs.get(0).data.locationImage.get(0).mPhotoPath);
-                                    copy(source, new File(dir, source.getName()));
+                                    copy(source, new File(rootDir, source.getName()));
                                 }
                                 if (trackModel.outputs.get(0).data.sightingEvidenceTable != null && trackModel.outputs.get(0).data.sightingEvidenceTable.size() > 0) {
                                     for (SightingEvidenceTable sightingEvidenceTable : trackModel.outputs.get(0).data.sightingEvidenceTable) {
                                         File source = new File(sightingEvidenceTable.mPhotoPath);
-                                        copy(source, new File(dir, source.getName()));
+                                        copy(source, new File(rootDir, source.getName()));
                                     }
                                 }
-                                showSnackBarMessage(getString(R.string.save_locally_message, "tracks-".concat(String.valueOf(trackModel.realmId).concat("/").concat("tracks ".concat(String.valueOf(trackModel.realmId)).concat(".txt")))));
+                                showSnackBarMessage(getString(R.string.save_locally_message, rootDir.getAbsoluteFile()));
                             }
                         } catch (IOException e) {
                             onError(e);

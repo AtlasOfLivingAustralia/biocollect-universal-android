@@ -99,23 +99,24 @@ public class FileUtils {
         return false;
     }
 
-    public static File createLocalAppDirIfNotExists() {
-        File file = new File(Environment.getExternalStorageDirectory(), LOCAL_FOLDER_NAME);
+    public static void createFolder(File file){
         if (!file.exists()) {
             if (!file.mkdirs()) {
                 Log.e("Track", "Problem creating folder");
             }
         }
+    }
+
+    public static File createLocalAppDirIfNotExists() {
+        //File file = new File(Environment.getExternalStorageDirectory(), LOCAL_FOLDER_NAME);
+        File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), LOCAL_FOLDER_NAME);
+        createFolder(file);
         return file;
     }
 
     public static File createTrackDirIfNotExists(String dirName) {
         File file = new File(new File(Environment.getExternalStorageDirectory(), LOCAL_FOLDER_NAME), dirName);
-        if (!file.exists()) {
-            if (!file.mkdirs()) {
-                Log.e("Track", "Problem creating folder");
-            }
-        }
+        createFolder(file);
         return file;
     }
 
