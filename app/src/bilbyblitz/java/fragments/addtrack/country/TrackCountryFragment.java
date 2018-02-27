@@ -223,11 +223,9 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     }
 
     private void setThumbnail(ImageView imageView, String path) {
-        Bitmap bitmap = FileUtils.getBitmapFromFilePath(path);
+        Bitmap bitmap = FileUtils.getThumbnailBitmapFromFilePath(path);
         if (bitmap != null) {
-            int nh = (int) (bitmap.getHeight() * (512.0 / bitmap.getWidth()));
-            Bitmap scaled = Bitmap.createScaledBitmap(bitmap, 512, nh, true);
-            imageView.setImageBitmap(scaled);
+            imageView.setImageBitmap(bitmap);
         }
     }
 

@@ -690,7 +690,7 @@ public class FileUtils {
 
 
     // Decodes image and scales it to reduce memory consumption
-    private static Bitmap decodeFile(File f, int requiredSize) {
+    public static Bitmap decodeFile(File f, int requiredSize) {
         try {
             // Decode image size
             BitmapFactory.Options o = new BitmapFactory.Options();
@@ -749,6 +749,14 @@ public class FileUtils {
         if (imgFile.exists()) {
             return BitmapFactory.decodeFile(imgFile.getAbsolutePath());
 
+        }
+        return null;
+    }
+
+    public static Bitmap getThumbnailBitmapFromFilePath(String path) {
+        File imgFile = new File(path);
+        if (imgFile.exists()) {
+            return decodeFile(imgFile, IMAGE_FILE_WIDTH);
         }
         return null;
     }
