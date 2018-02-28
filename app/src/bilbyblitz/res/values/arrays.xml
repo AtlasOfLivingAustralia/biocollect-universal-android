@@ -30,7 +30,7 @@
         <item>Trackplot 2ha 100m x 200m</item>
         <item>Incidental</item>
         <item>Road</item>
-        <item>Mankarr Survey</item>
+        <item>KJ Mankarr Survey</item>
     </string-array>
 
     <string-array name="survey_type_adithinngithigh">
@@ -38,7 +38,7 @@
         <item>Trackplot 2ha 100m x 200m</item>
         <item>Pardany-para-mi</item>
         <item>Yirdiyi</item>
-        <item>Mankarr Survey</item>
+        <item>KJ Mankarr Survey</item>
     </string-array>
 
     <string-array name="country_type_values">
