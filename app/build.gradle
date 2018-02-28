@@ -69,7 +69,7 @@ android {
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
-            versionCode 14
+            versionCode 15
             versionName '1.0'
             signingConfig signingConfigs.config_bilbyblitz
         }
