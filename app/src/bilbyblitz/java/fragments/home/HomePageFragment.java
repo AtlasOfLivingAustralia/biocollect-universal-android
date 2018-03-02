@@ -1,6 +1,7 @@
 package fragments.home;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,7 +35,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
     private ArrayAdapter itemAdapter;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_homepage, container, false);
         setTitle(getString(R.string.app_name));
         ButterKnife.bind(this, view);
@@ -50,38 +51,27 @@ public class HomePageFragment extends BaseMainActivityFragment {
         prepareItemList();
         itemAdapter = new HomePageItemAdapter();
         listView.setAdapter(itemAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //subtracting 1 due to adding header
-                if (position > 0) {
-                    HomePageListItem item = listItems.get(position - 1);
-                    if (item.isForWebView) {
-                        startWebViewActivity(item.url, item.text, false);
-                    } else if (item.text.equals(getString(R.string.add_track))) {
-                        setDrawerMenuChecked(R.id.nav_add_track);
-                        setDrawerMenuClicked(R.id.nav_add_track);
-                    } else if (item.text.equals(getString(R.string.practise_track))) {
-                        setDrawerMenuChecked(R.id.nav_practise_track);
-                        setDrawerMenuClicked(R.id.nav_practise_track);
-                    } else if (item.text.equals(getString(R.string.review_track))) {
-                        setDrawerMenuChecked(R.id.nav_review_track);
-                        setDrawerMenuClicked(R.id.nav_review_track);
-                    } else if (item.text.equals(getString(R.string.my_track))) {
-                        setDrawerMenuChecked(R.id.nav_my_track);
-                        setDrawerMenuClicked(R.id.nav_my_track);
-                    } else if (item.text.equals(getString(R.string.setting))) {
-                        setDrawerMenuChecked(R.id.nav_setting);
-                        setDrawerMenuClicked(R.id.nav_setting);
-                    } else if (item.text.equals(getString(R.string.help))) {
-                        setDrawerMenuClicked(R.id.nav_help);
-                    } else if (item.text.equals(getString(R.string.contact))) {
-                        setDrawerMenuClicked(R.id.nav_contact);
-                    } else if (item.text.equals(getString(R.string.about))) {
-                        setDrawerMenuClicked(R.id.nav_about);
-                    } else if (item.text.equals(getString(R.string.partners))) {
-                        setDrawerMenuClicked(R.id.nav_partners);
-                    }
+        listView.setOnItemClickListener((parent, view1, position, id) -> {
+            //subtracting 1 due to adding header
+            if (position > 0) {
+                HomePageListItem item = listItems.get(position - 1);
+                if (item.isForWebView) {
+                    startWebViewActivity(item.url, item.text, false);
+                } else if (item.text.equals(getString(R.string.add_track))) {
+                    setDrawerMenuChecked(R.id.nav_add_track);
+                    setDrawerMenuClicked(R.id.nav_add_track);
+                } else if (item.text.equals(getString(R.string.practise_track))) {
+                    setDrawerMenuChecked(R.id.nav_practise_track);
+                    setDrawerMenuClicked(R.id.nav_practise_track);
+                } else if (item.text.equals(getString(R.string.review_track))) {
+                    setDrawerMenuChecked(R.id.nav_review_track);
+                    setDrawerMenuClicked(R.id.nav_review_track);
+                } else if (item.text.equals(getString(R.string.my_track))) {
+                    setDrawerMenuChecked(R.id.nav_my_track);
+                    setDrawerMenuClicked(R.id.nav_my_track);
+                } else if (item.text.equals(getString(R.string.setting))) {
+                    setDrawerMenuChecked(R.id.nav_setting);
+                    setDrawerMenuClicked(R.id.nav_setting);
                 }
             }
         });
@@ -150,6 +140,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listItems.add(item);
         item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_partners;
+        item.url = getString(R.string.partners_url);
         item.text = getString(R.string.partners);
         item.textResource = R.string.partners;
         item.languageKey = "partners";
@@ -158,6 +149,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_help_outline_black_24dp;
         item.text = getString(R.string.help);
+        item.url = getString(R.string.help_url);
         item.textResource = R.string.help;
         item.languageKey = "help";
         item.isForWebView = true;
@@ -166,12 +158,14 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item.icon = R.drawable.ic_icon_transparent;
         item.text = getString(R.string.about);
         item.textResource = R.string.about;
+        item.url = getString(R.string.about_url);
         item.languageKey = "about";
         item.isForWebView = true;
         listItems.add(item);
         item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_mail_outline_black_24dp;
         item.text = getString(R.string.contact);
+        item.url = getString(R.string.contact_us_url);
         item.textResource = R.string.contact;
         item.languageKey = "contact";
         item.isForWebView = true;
@@ -179,6 +173,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item = new BilbyHomePageListItem();
         item.icon = R.drawable.ic_info_outline_black_24dp;
         item.text = getString(R.string.biocollect);
+        item.url = getString(R.string.biocollect_url);
         item.textResource = R.string.biocollect;
         item.languageKey = "biocollect";
         item.isForWebView = true;

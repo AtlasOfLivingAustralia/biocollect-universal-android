@@ -75,7 +75,7 @@ public class LocationUpdatesService extends Service {
      */
     private LocationCallback mLocationCallback;
 
-    private Handler mServiceHandler;
+    //private Handler mServiceHandler;
 
     /**
      * The current location.
@@ -100,9 +100,9 @@ public class LocationUpdatesService extends Service {
         createLocationRequest();
         getLastLocation();
 
-        HandlerThread handlerThread = new HandlerThread(TAG);
-        handlerThread.start();
-        mServiceHandler = new Handler(handlerThread.getLooper());
+        //HandlerThread handlerThread = new HandlerThread(TAG);
+        //handlerThread.start();
+        //mServiceHandler = new Handler(handlerThread.getLooper());
     }
 
     @Override
@@ -128,7 +128,7 @@ public class LocationUpdatesService extends Service {
 
     @Override
     public void onDestroy() {
-        mServiceHandler.removeCallbacksAndMessages(null);
+        //mServiceHandler.removeCallbacksAndMessages(null);
     }
 
     /**
