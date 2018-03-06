@@ -109,7 +109,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     @Override
     public void showProgressDialog(boolean isCancelable) {
         if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
             mProgressDialog = new ProgressDialog(this, R.style.OSSProgressBarTheme);
             mProgressDialog.getWindow().setDimAmount(0.2f);
             mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
