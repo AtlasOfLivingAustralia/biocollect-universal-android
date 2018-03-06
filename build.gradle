@@ -29,8 +29,7 @@ allprojects {
 }
 
 ext {
-    buildToolsVersion = "26.0.2"
-    supportLibraryVersion = "25.3.1"
+    supportLibraryVersion = "27.1.0"
     junitVersion = "4.12"
     mockitoVersion = "1.10.19"
     gms_library_version = '11.0.4'
