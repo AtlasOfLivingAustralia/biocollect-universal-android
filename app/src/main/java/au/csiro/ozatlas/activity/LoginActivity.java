@@ -3,8 +3,11 @@ package au.csiro.ozatlas.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
+import android.support.test.espresso.IdlingResource;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -25,6 +28,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+import android.support.test.espresso.idling.CountingIdlingResource;
 
 /**
  * Created by sad038 on 6/4/17.
@@ -48,6 +52,7 @@ public class LoginActivity extends BaseActivity {
     CoordinatorLayout coordinatorLayout;
 
     private EcoDataApiService ecoDataApiService;
+    CountingIdlingResource countingIdlingResource = new CountingIdlingResource("LOGIN_CALL");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,7 @@ public class LoginActivity extends BaseActivity {
                 return false;
             }
         });
+        countingIdlingResource.increment();
     }
 
     @Override
@@ -92,6 +98,7 @@ public class LoginActivity extends BaseActivity {
                 .subscribeWith(new DisposableObserver<LoginResponse>() {
                     @Override
                     public void onNext(LoginResponse value) {
+                        countingIdlingResource.decrement();
                         sharedPreferences.writeAuthKey(value.authKey);
                         sharedPreferences.writeUserDisplayName((value.firstName + " " + value.lastName).trim());
                         sharedPreferences.writeUsername(username);
@@ -101,6 +108,7 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
+                        countingIdlingResource.decrement();
                         Log.d(TAG, "onError");
                         hideProgressDialog();
                         handleError(coordinatorLayout, e, 400, getString(R.string.login_error));
@@ -152,5 +160,14 @@ public class LoginActivity extends BaseActivity {
     void registerLabel() {
         Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(getString(R.string.register_url)));
         startActivity(browserIntent);
+    }
+
+    /**
+     * Only called from test
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        return countingIdlingResource;
     }
 }
