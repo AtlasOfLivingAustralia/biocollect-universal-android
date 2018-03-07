@@ -28,12 +28,15 @@ import android.support.v7.widget.AppCompatSpinner;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -49,6 +52,7 @@ import com.google.android.gms.maps.model.PolylineOptions;
 import java.util.Calendar;
 
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.fragments.CustomMapFragment;
 import au.csiro.ozatlas.manager.AtlasDateTimeDialogManager;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -99,6 +103,8 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     TextView gpsMessageTextView;
     @BindView(R.id.inputLayoutEndTime)
     TextInputLayout inputLayoutEndTime;
+    @BindView(R.id.scrollView)
+    ScrollView scrollView;
 
     /**
      * Date Picker Listener
@@ -116,6 +122,7 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     private Marker lastMarker;
     private RealmList<BilbyLocation> locations = new RealmList<>();
     private GoogleMap googleMap;
+    private CustomMapFragment mapFragment;
     // The BroadcastReceiver used to listen from broadcasts from the service.
     private MyReceiver myReceiver;
     // A reference to the service used to get location updates.
@@ -369,9 +376,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         FragmentManager fm = getChildFragmentManager();
-        SupportMapFragment mapFragment = (SupportMapFragment) fm.findFragmentByTag("mapFragment");
+        mapFragment = (CustomMapFragment) fm.findFragmentByTag("mapFragment");
         if (mapFragment == null) {
-            mapFragment = new SupportMapFragment();
+            mapFragment = new CustomMapFragment();
             FragmentTransaction ft = fm.beginTransaction();
             ft.add(R.id.mapLayout, mapFragment, "mapFragment");
             ft.commit();
@@ -415,7 +422,9 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        mapFragment.setListener(() -> scrollView.requestDisallowInterceptTouchEvent(true));
         this.googleMap = googleMap;
+        this.googleMap.getUiSettings().setZoomControlsEnabled(true);
         googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
         polylineOptions = new PolylineOptions()
                 .color(ContextCompat.getColor(getContext(), R.color.colorPrimary))
