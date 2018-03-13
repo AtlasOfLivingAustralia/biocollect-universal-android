@@ -80,7 +80,7 @@ public class UploadService extends BaseIntentService {
     protected void onHandleIntent(@Nullable Intent intent) {
         if (AtlasManager.isNetworkAvailable(this)) {
             Project project = sharedPreferences.getSelectedProject();
-            if (project != null) {
+            if (project != null && project.projectId!=null && project.projectActivityId!=null) {
                 realm = Realm.getDefaultInstance();
 
                 ArrayList<Long> sightPrimarykeys = null;
