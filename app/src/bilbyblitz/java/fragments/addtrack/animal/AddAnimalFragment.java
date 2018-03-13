@@ -51,7 +51,6 @@ import au.csiro.ozatlas.manager.FileUtils;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.MarshMallowPermission;
 import au.csiro.ozatlas.manager.Utils;
-import au.csiro.ozatlas.model.KvpValues;
 import au.csiro.ozatlas.model.SearchSpecies;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -222,7 +221,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         howRecentSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.how_recent_values), sightingEvidenceTable.evidenceAgeClass));
         animalAgeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.animal_age_values), sightingEvidenceTable.ageClassOfAnimal));
         if (sightingEvidenceTable.mPhotoPath != null) {
-            imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+            imageView.setImageBitmap(FileUtils.getBigThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
         }
         if (sightingEvidenceTable.observationLatitude != null)
             editLatitude.setText(String.valueOf(sightingEvidenceTable.observationLatitude));
@@ -339,7 +338,7 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
     }
 
     private void setThumbnail(ImageView imageView, String path) {
-        Bitmap bitmap = FileUtils.getThumbnailBitmapFromFilePath(path);
+        Bitmap bitmap = FileUtils.getBigThumbnailBitmapFromFilePath(path);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }

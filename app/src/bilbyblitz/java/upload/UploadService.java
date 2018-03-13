@@ -78,8 +78,6 @@ public class UploadService extends BaseIntentService {
      */
     @Override
     protected void onHandleIntent(@Nullable Intent intent) {
-        //project = sharedPreferences.getSelectedProject();
-
         if (AtlasManager.isNetworkAvailable(this)) {
             Project project = sharedPreferences.getSelectedProject();
             if (project != null) {

@@ -141,7 +141,7 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                         SightingEvidenceTable sightingEvidenceTable = output.data.sightingEvidenceTable.first();
                         if ((sightingEvidenceTable != null ? sightingEvidenceTable.mPhotoPath : null) != null) {
                             trackViewHolders.image.clearColorFilter();
-                            trackViewHolders.image.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+                            trackViewHolders.image.setImageBitmap(FileUtils.getSmallThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
                         }else{
                             trackViewHolders.image.setColorFilter(Color.WHITE);
                         }

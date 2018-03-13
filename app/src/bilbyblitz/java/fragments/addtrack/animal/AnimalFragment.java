@@ -200,7 +200,7 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
             SightingEvidenceTableViewHolder holder = (SightingEvidenceTableViewHolder) rowView.getTag();
             final SightingEvidenceTable sightingEvidenceTable = sightingEvidenceTables.get(position);
             if (sightingEvidenceTable.mPhotoPath != null) {
-                holder.imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+                holder.imageView.setImageBitmap(FileUtils.getSmallThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
             }
 
             if (sightingEvidenceTable.species != null)

@@ -223,7 +223,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     }
 
     private void setThumbnail(ImageView imageView, String path) {
-        Bitmap bitmap = FileUtils.getThumbnailBitmapFromFilePath(path);
+        Bitmap bitmap = FileUtils.getBigThumbnailBitmapFromFilePath(path);
         if (bitmap != null) {
             imageView.setImageBitmap(bitmap);
         }
@@ -359,7 +359,7 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
     @Override
     public void setBilbyBlitzData() {
         if (bilbyBlitzData.locationImage != null && bilbyBlitzData.locationImage.size() > 0) {
-            imageView.setImageBitmap(FileUtils.getBitmapFromFilePath(bilbyBlitzData.locationImage.get(0).mPhotoPath));
+            imageView.setImageBitmap(FileUtils.getBigThumbnailBitmapFromFilePath(bilbyBlitzData.locationImage.get(0).mPhotoPath));
         }
         editCountryName.setText(bilbyBlitzData.countryName);
         if (bilbyBlitzData.foodPlants != null) {

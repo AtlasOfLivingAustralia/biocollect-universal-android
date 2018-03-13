@@ -66,6 +66,7 @@ public class FileUtils {
     public static final String MIME_TYPE_APP = "application/*";
     public static final String HIDDEN_PREFIX = ".";
     public static final int IMAGE_FILE_WIDTH = 800;
+    public static final int SMALL_THUMBNAIL_IMAGE_FILE_WIDTH = 400;
     public static final String LOCAL_FOLDER_NAME = "tracks";
     /**
      * TAG for log messages.
@@ -753,7 +754,16 @@ public class FileUtils {
         return null;
     }
 
-    public static Bitmap getThumbnailBitmapFromFilePath(String path) {
+    public static Bitmap getSmallThumbnailBitmapFromFilePath(String path) {
+        File imgFile = new File(path);
+        if (imgFile.exists()) {
+            return decodeFile(imgFile, SMALL_THUMBNAIL_IMAGE_FILE_WIDTH);
+        }
+        return null;
+    }
+
+
+    public static Bitmap getBigThumbnailBitmapFromFilePath(String path) {
         File imgFile = new File(path);
         if (imgFile.exists()) {
             return decodeFile(imgFile, IMAGE_FILE_WIDTH);
