@@ -54,8 +54,6 @@ import upload.UploadService;
 import static android.app.Activity.RESULT_OK;
 import static au.csiro.ozatlas.manager.FileUtils.copy;
 import static au.csiro.ozatlas.manager.FileUtils.createFolder;
-import static au.csiro.ozatlas.manager.FileUtils.createLocalAppDirIfNotExists;
-import static au.csiro.ozatlas.manager.FileUtils.writeToFile;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -241,6 +239,10 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         results.addChangeListener((collection, changeSet) -> {
             trackModels.clear();
             trackModels.addAll(collection);
+            realm.beginTransaction();
+            for(TrackModel trackModel:trackModels)
+            trackModel.upLoading = true;
+            realm.commitTransaction();
             sightAdapter.selectionRefresh();
             updateTotal();
             sightAdapter.notifyDataSetChanged();
@@ -248,7 +250,6 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
             if (swipeRefreshLayout.isRefreshing())
                 swipeRefreshLayout.setRefreshing(false);
         });
-
     }
 
     /**
@@ -281,7 +282,10 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
     public void onMoreButtonClick(View view, final int position) {
         PopupMenu popup = new PopupMenu(getActivity(), view);
         MenuInflater inflater = popup.getMenuInflater();
-        inflater.inflate(R.menu.draft_menu, popup.getMenu());
+        if (trackModels.get(position).upLoading)
+            inflater.inflate(R.menu.draft_menu_force_upload, popup.getMenu());
+        else
+            inflater.inflate(R.menu.draft_menu, popup.getMenu());
         popup.setOnMenuItemClickListener(item -> {
             //do your things in each of the following cases
             switch (item.getItemId()) {
@@ -294,6 +298,18 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
                     keys.add(trackModels.get(position).realmId);
                     mServiceIntent.putExtra(getString(R.string.primary_keys_parameter), keys);
                     getActivity().startService(mServiceIntent);
+                    break;
+                case R.id.force_upload:
+                    AtlasDialogManager.alertBox(getActivity(), getString(R.string.force_upload_message), getString(R.string.fore_upload_title), (dialogInterface, i) -> {
+                        Intent mForceServiceIntent = new Intent(getActivity(), UploadService.class);
+                        realm.beginTransaction();
+                        trackModels.get(position).upLoading = false;
+                        realm.commitTransaction();
+                        ArrayList<Long> forceKeys = new ArrayList<>();
+                        forceKeys.add(trackModels.get(position).realmId);
+                        mForceServiceIntent.putExtra(getString(R.string.primary_keys_parameter), forceKeys);
+                        getActivity().startService(mForceServiceIntent);
+                    });
                     break;
                 case R.id.save_locally:
                     checkSavePerimission(trackModels.get(position));

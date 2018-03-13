@@ -75,7 +75,9 @@
     <string name="upload_message">Would you like to upload all your draft sightings? Alternatively you can select some of them to upload.</string>
     <string name="currently_uploading_message">This is sight is being uploaded now.</string>
     <string name="delete_sight_title">Delete Sight</string>
+    <string name="fore_upload_title">Force Upload</string>
     <string name="delete_sight_message">Would you like to delete this sight?</string>
+    <string name="force_upload_message">There is a possibility of duplication of this track in the server. Are you sure to proceed?</string>
     <string name="generic_error">Something is wrong.</string>
     <string name="login_error">Invalid Login Information</string>
     <string name="logout_title">Logout</string>

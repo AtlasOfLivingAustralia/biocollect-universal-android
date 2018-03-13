@@ -175,12 +175,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         sharedPreferences.writeAuthKey("");
         sharedPreferences.writeUserId("");
         if (realm != null)
-            realm.executeTransactionAsync(new Realm.Transaction() {
-                @Override
-                public void execute(Realm realm) {
-                    realm.deleteAll();
-                }
-            });
+            realm.executeTransactionAsync(realm -> realm.deleteAll());
         Intent intent = new Intent(this, LoginActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(intent);
