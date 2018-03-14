@@ -1,5 +1,6 @@
 package au.csiro.ozatlas.application;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.support.multidex.MultiDexApplication;
 
@@ -20,6 +21,7 @@ import di.DaggerAppComponent;
  * Application class to initialise Realm
  * and Dagger
  */
+@SuppressLint("Registered")
 public class BaseApplication extends MultiDexApplication {
     protected static AppComponent component;
     /**
