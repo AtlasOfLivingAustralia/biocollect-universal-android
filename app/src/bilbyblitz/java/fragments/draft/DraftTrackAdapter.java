@@ -1,7 +1,8 @@
 package fragments.draft;
 
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -133,21 +134,27 @@ public class DraftTrackAdapter extends RecyclerView.Adapter<DraftTrackViewHolder
                         if (sightingEvidenceTable.species != null)
                             trackViewHolders.type.append(sightingEvidenceTable.species.vernacularName + ", ");
 
-                    if(!TextUtils.isEmpty(trackViewHolders.type.getText())){
-                        trackViewHolders.type.setText(trackViewHolders.type.getText().subSequence(0, trackViewHolders.type.getText().length()-2));
+                    if (!TextUtils.isEmpty(trackViewHolders.type.getText())) {
+                        trackViewHolders.type.setText(trackViewHolders.type.getText().subSequence(0, trackViewHolders.type.getText().length() - 2));
                     }
 
+                    trackViewHolders.image.setImageResource(R.drawable.ic_camera_alt_black_48dp);
                     if (output.data.sightingEvidenceTable.size() > 0) {
                         SightingEvidenceTable sightingEvidenceTable = output.data.sightingEvidenceTable.first();
                         if ((sightingEvidenceTable != null ? sightingEvidenceTable.mPhotoPath : null) != null) {
-                            trackViewHolders.image.clearColorFilter();
-                            trackViewHolders.image.setImageBitmap(FileUtils.getSmallThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
-                        }else{
+                            Bitmap bitmap = FileUtils.getSmallThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath);
+                            if (bitmap != null) {
+                                trackViewHolders.image.clearColorFilter();
+                                trackViewHolders.image.setImageBitmap(bitmap);
+                            }else {
+                                trackViewHolders.image.setColorFilter(ContextCompat.getColor(trackViewHolders.image.getContext(), R.color.red));
+                            }
+                        } else {
                             trackViewHolders.image.setColorFilter(Color.WHITE);
                         }
-                    }else
+                    } else
                         trackViewHolders.image.setColorFilter(Color.WHITE);
-                }else {
+                } else {
                     trackViewHolders.image.setColorFilter(Color.WHITE);
                     trackViewHolders.type.setText("");
                 }

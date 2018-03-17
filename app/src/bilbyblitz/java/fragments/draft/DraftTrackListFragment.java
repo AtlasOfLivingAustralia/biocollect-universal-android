@@ -239,10 +239,6 @@ public class DraftTrackListFragment extends BaseMainActivityFragment implements 
         results.addChangeListener((collection, changeSet) -> {
             trackModels.clear();
             trackModels.addAll(collection);
-            realm.beginTransaction();
-            for(TrackModel trackModel:trackModels)
-            trackModel.upLoading = true;
-            realm.commitTransaction();
             sightAdapter.selectionRefresh();
             updateTotal();
             sightAdapter.notifyDataSetChanged();

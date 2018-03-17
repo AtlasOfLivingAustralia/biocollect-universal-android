@@ -1,9 +1,12 @@
 package fragments.addtrack.animal;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -200,7 +203,17 @@ public class AnimalFragment extends BaseMainActivityFragment implements Validati
             SightingEvidenceTableViewHolder holder = (SightingEvidenceTableViewHolder) rowView.getTag();
             final SightingEvidenceTable sightingEvidenceTable = sightingEvidenceTables.get(position);
             if (sightingEvidenceTable.mPhotoPath != null) {
-                holder.imageView.setImageBitmap(FileUtils.getSmallThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+                Bitmap bitmap = FileUtils.getSmallThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath);
+                if (bitmap != null) {
+                    holder.imageView.clearColorFilter();
+                    holder.imageView.setImageBitmap(bitmap);
+                }else {
+                    holder.imageView.setImageResource(R.drawable.ic_camera_alt_black_48dp);
+                    holder.imageView.setColorFilter(ContextCompat.getColor(getContext(), R.color.red));
+                }
+            } else {
+                holder.imageView.setImageResource(R.drawable.ic_camera_alt_black_48dp);
+                holder.imageView.setColorFilter(Color.WHITE);
             }
 
             if (sightingEvidenceTable.species != null)

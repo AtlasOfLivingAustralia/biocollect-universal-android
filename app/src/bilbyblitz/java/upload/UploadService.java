@@ -252,7 +252,11 @@ public class UploadService extends BaseIntentService {
 
                             @Override
                             public void onError(Throwable e) {
-                                makeUploadingFalse(trackModel, getString(R.string.species_photo_upload_fail));
+                                if(e instanceof IllegalStateException){
+                                    onComplete();
+                                }else {
+                                    makeUploadingFalse(trackModel, getString(R.string.species_photo_upload_fail));
+                                }
                             }
 
                             @Override
@@ -298,7 +302,11 @@ public class UploadService extends BaseIntentService {
 
                         @Override
                         public void onError(Throwable e) {
-                            makeUploadingFalse(trackModel, getString(R.string.country_photo_upload_fail));
+                            if(e instanceof IllegalStateException){
+                                onComplete();
+                            }else {
+                                makeUploadingFalse(trackModel, getString(R.string.country_photo_upload_fail));
+                            }
                         }
 
                         @Override

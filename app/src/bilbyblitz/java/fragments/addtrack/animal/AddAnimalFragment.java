@@ -221,7 +221,9 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
         howRecentSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.how_recent_values), sightingEvidenceTable.evidenceAgeClass));
         animalAgeSpinner.setSelection(Utils.stringSearchInArray(getResources().getStringArray(R.array.animal_age_values), sightingEvidenceTable.ageClassOfAnimal));
         if (sightingEvidenceTable.mPhotoPath != null) {
-            imageView.setImageBitmap(FileUtils.getBigThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath));
+            Bitmap bitmap = FileUtils.getBigThumbnailBitmapFromFilePath(sightingEvidenceTable.mPhotoPath);
+            if (bitmap != null)
+                imageView.setImageBitmap(bitmap);
         }
         if (sightingEvidenceTable.observationLatitude != null)
             editLatitude.setText(String.valueOf(sightingEvidenceTable.observationLatitude));
