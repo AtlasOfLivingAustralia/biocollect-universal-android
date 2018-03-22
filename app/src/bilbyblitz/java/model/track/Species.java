@@ -45,6 +45,7 @@ public class Species extends RealmObject {
         this.guid = searchSpecies.guid;
         this.commonName = searchSpecies.commonName;
         this.name = searchSpecies.name;
+        this.guid = searchSpecies.lsid;
         this.scientificName = searchSpecies.scientificName;
         this.outputSpeciesId = searchSpecies.outputSpeciesId;
         if (searchSpecies.kvpValues != null) {

@@ -52,7 +52,7 @@ public class LoginActivity extends BaseActivity {
     CoordinatorLayout coordinatorLayout;
 
     private EcoDataApiService ecoDataApiService;
-    CountingIdlingResource countingIdlingResource = new CountingIdlingResource("LOGIN_CALL");
+    //CountingIdlingResource countingIdlingResource = new CountingIdlingResource("LOGIN_CALL");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +75,7 @@ public class LoginActivity extends BaseActivity {
                 return false;
             }
         });
-        countingIdlingResource.increment();
+        //countingIdlingResource.increment();
     }
 
     @Override
@@ -98,7 +98,7 @@ public class LoginActivity extends BaseActivity {
                 .subscribeWith(new DisposableObserver<LoginResponse>() {
                     @Override
                     public void onNext(LoginResponse value) {
-                        countingIdlingResource.decrement();
+                        //countingIdlingResource.decrement();
                         sharedPreferences.writeAuthKey(value.authKey);
                         sharedPreferences.writeUserDisplayName((value.firstName + " " + value.lastName).trim());
                         sharedPreferences.writeUsername(username);
@@ -108,7 +108,7 @@ public class LoginActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        countingIdlingResource.decrement();
+                        //countingIdlingResource.decrement();
                         Log.d(TAG, "onError");
                         hideProgressDialog();
                         handleError(coordinatorLayout, e, 400, getString(R.string.login_error));
@@ -168,6 +168,6 @@ public class LoginActivity extends BaseActivity {
     @VisibleForTesting
     @NonNull
     public IdlingResource getIdlingResource() {
-        return countingIdlingResource;
+        return null;//countingIdlingResource;
     }
 }
