@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -32,6 +33,8 @@ import butterknife.ButterKnife;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -321,10 +324,11 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 speciesAnimalViewHolders.name.setText(animal.name);
                 speciesAnimalViewHolders.count.setText(getString(R.string.species_count, animal.count));
                 speciesAnimalViewHolders.family.setText(animal.commonName == null ? animal.family : animal.commonName);
+
                 Glide.with(getActivity())
                         .load(getString(R.string.explore_image_url, animal.guid))
-                        .placeholder(R.drawable.no_image_available)
-                        .crossFade()
+                        .apply(new RequestOptions().placeholder(R.drawable.no_image_available))
+                        .transition(withCrossFade())
                         .into(speciesAnimalViewHolders.icon);
             }
         }
