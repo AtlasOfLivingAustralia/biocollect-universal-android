@@ -4,29 +4,7 @@ apply plugin: 'io.fabric'
 
 
 android {
-    signingConfigs {
-        config_biocollect {
-            //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-            keyAlias 'au.csiro.ala.biocollect'
-            keyPassword ${key.password}
-            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
-            storePassword ${key.password}
-        }
 
-        config_biocontrolhub {
-            keyAlias 'au.org.ala.biocontrolhu'
-            keyPassword ${key.password}
-            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
-            storePassword ${key.password}
-        }
-
-        config_bilbyblitz {
-            keyAlias 'au.csiro.ala.bilbyblitz'
-            keyPassword ${key.password}
-            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
-            storePassword ${key.password}
-        }
-    }
     compileSdkVersion 27
     flavorDimensions "versionCode"
 
@@ -57,19 +35,19 @@ android {
             applicationIdSuffix '.ala.mobile.ozatlas'
             versionCode 14
             versionName '2.1.2'
-            signingConfig signingConfigs.config_biocollect
+
         }
         biocontrolhub {
             applicationIdSuffix '.ala.biocontrolhub'
             versionCode 5
             versionName '1.0.3'
-            signingConfig signingConfigs.config_biocontrolhub
+
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
             versionCode 21
             versionName '1.0.1'
-            signingConfig signingConfigs.config_bilbyblitz
+
         }
     }
 
