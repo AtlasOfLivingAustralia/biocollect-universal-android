@@ -6,11 +6,11 @@
     android:background="@color/colorPrimary"
     android:ellipsize="marquee"
     android:gravity="center"
-    android:maxLines="1"
     android:paddingBottom="2dp"
     android:paddingLeft="@dimen/input_label_horizontal_spacing"
     android:paddingRight="2dp"
     android:paddingTop="2dp"
     android:textColor="@android:color/white"
     android:textSize="@dimen/default_input_font_size"
-    android:textStyle="bold" />
+    android:textStyle="bold"
+    android:singleLine="true" />
