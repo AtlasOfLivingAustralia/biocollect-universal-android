@@ -70,8 +70,8 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
         holder.spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int p, long id) {
-                sightingPhotos.get(position).licence = attributionMapStrings[p];
-                sightingPhotos.get(position).licensePosition = p;
+                sightingPhotos.get(holder.getAdapterPosition()).licence = attributionMapStrings[p];
+                sightingPhotos.get(holder.getAdapterPosition()).licensePosition = p;
             }
 
             @Override
@@ -87,7 +87,7 @@ public class ImageUploadAdapter extends RecyclerView.Adapter<ImageViewHolders> {
         holder.attributionEditText.addTextChangedListener(new SimpleTextWatcher() {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                sightingPhotos.get(position).attribution = s.toString();
+                sightingPhotos.get(holder.getAdapterPosition()).attribution = s.toString();
             }
         });
     }
