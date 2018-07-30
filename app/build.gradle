@@ -8,23 +8,23 @@ android {
         config_biocollect {
             //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
             keyAlias 'au.csiro.ala.biocollect'
-            keyPassword ${key.password}
-            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
-            storePassword ${key.password}
+            keyPassword ${biocollect.key.password}
+            storeFile file(${biocollect.keystore.path})
+            storePassword ${biocollect.key.password}
         }
 
         config_biocontrolhub {
             keyAlias 'au.org.ala.biocontrolhu'
-            keyPassword ${key.password}
-            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
-            storePassword ${key.password}
+            keyPassword ${biocontrolhub.key.alias}
+            storeFile file(${biocontrolhub.keystore.path})
+            storePassword ${biocontrolhub.key.password}
         }
 
         config_bilbyblitz {
             keyAlias 'au.csiro.ala.bilbyblitz'
-            keyPassword ${key.password}
-            storeFile file('/Users/sad038/Downloads/AndroidKeyStore')
-            storePassword ${key.password}
+            keyPassword ${bilbyblitz.key.alias}
+            storeFile file(${bilbyblitz.keystore.path})
+            storePassword ${bilbyblitz.key.password}
         }
     }
     compileSdkVersion 27
