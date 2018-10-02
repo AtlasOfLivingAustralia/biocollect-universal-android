@@ -2,9 +2,34 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
+    signingConfigs {
 
+        config_biocollect {
+            keyAlias keystoreProperties['biocollect.keyAlias']
+            keyPassword keystoreProperties['biocollect.keyPassword']
+            storeFile file(keystoreProperties['biocollect.storeFile'])
+            storePassword keystoreProperties['biocollect.storePassword']
+        }
+
+        config_biocontrolhub {
+            keyAlias keystoreProperties['biocontrolhub.keyAlias']
+            keyPassword keystoreProperties['biocontrolhub.keyPassword']
+            storeFile file(keystoreProperties['biocontrolhub.storeFile'])
+            storePassword keystoreProperties['biocontrolhub.storePassword']
+        }
+
+        config_bilbyblitz {
+            keyAlias keystoreProperties['bilbyblitz.keyAlias']
+            keyPassword keystoreProperties['bilbyblitz.keyPassword']
+            storeFile file(keystoreProperties['bilbyblitz.storeFile'])
+            storePassword keystoreProperties['bilbyblitz.storePassword']
+        }
+    }
     compileSdkVersion 27
     flavorDimensions "versionCode"
 
@@ -20,7 +45,6 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            //signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -30,6 +54,7 @@ android {
             applicationIdSuffix '.ala.biocollect'
             versionCode 10
             versionName '1.1.6'
+            signingConfig signingConfigs.config_biocollect
         }
         ozatlas {
             applicationIdSuffix '.ala.mobile.ozatlas'
@@ -41,12 +66,14 @@ android {
             applicationIdSuffix '.ala.biocontrolhub'
             versionCode 5
             versionName '1.0.3'
+            signingConfig signingConfigs.config_biocontrolhub
 
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
-            versionCode 21
-            versionName '1.0.1'
+            versionCode 22
+            versionName '1.1'
+            signingConfig signingConfigs.config_bilbyblitz
 
         }
     }
