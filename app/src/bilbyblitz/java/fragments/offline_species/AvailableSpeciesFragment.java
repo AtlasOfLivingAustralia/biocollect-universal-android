@@ -295,12 +295,18 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
 
     @Override
     protected void setLanguageValues(Language language) {
+        speciesAdapter.setLanguageValues(language);
     }
 
     /**
      * Adapters for Species ListView
      */
     private class SpeciesAdapter extends RecyclerView.Adapter<SpeciesAdapter.SpeciesViewHolder> {
+
+        private Language language;
+        public void setLanguageValues(Language language) {
+            this.language = language;
+        }
 
         @Override
         public int getItemCount() {
@@ -318,15 +324,18 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
         public void onBindViewHolder(final SpeciesAdapter.SpeciesViewHolder holder, final int position) {
             final SearchSpecies species = AvailableSpeciesFragment.this.filterSpecies.get(position);
 
-            if (species.scientificName != null) {
-                holder.commonName.setText(getString(R.string.scientific_name, species.scientificName));
-            } else {
-                if (species.kingdom == null) {
-                    holder.commonName.setText(getString(R.string.kingdom_name, "Undefined"));
-                } else {
-                    holder.commonName.setText(getString(R.string.kingdom_name, species.kingdom));
-                }
+            StringBuilder commonAndScientificName = new StringBuilder();
+            if (species.commonName != null) {
+                commonAndScientificName.append(species.commonName);
             }
+
+            if (species.scientificName != null) {
+                if (commonAndScientificName.length() > 0) {
+                    commonAndScientificName.append(", ");
+                }
+                commonAndScientificName.append(species.scientificName);
+            }
+            holder.commonName.setText(commonAndScientificName.toString());
 
             if (selections != null) {
                 if (selections[position]) {
@@ -337,9 +346,18 @@ public class AvailableSpeciesFragment extends BaseMainActivityFragment implement
                     holder.delete.setImageResource(0);
                 }
             }
+            switch (language) {
+                case WARLPIRI:
+                    holder.speciesName.setText(species.warlpiriName);
+                    break;
+                case WARUMUNGU:
+                    holder.speciesName.setText(species.warumunguName);
+                    break;
+                default:
+                    holder.speciesName.setText(species.vernacularName);
+                    break;
+            }
 
-            holder.kingdomName.setText(getString(R.string.warlpiri_name, species.warlpiriName));
-            holder.speciesName.setText(species.vernacularName);
             Glide.with(getContext())
                     .load(species.imageUrl).listener(new RequestListener<Drawable>() {
                 @Override

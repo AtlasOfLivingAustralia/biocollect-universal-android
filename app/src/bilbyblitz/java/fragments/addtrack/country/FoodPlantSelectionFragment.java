@@ -122,6 +122,9 @@ public class FoodPlantSelectionFragment extends BaseMainActivityFragment {
             case WARLPIRI:
                 foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type_adithinngithigh));
                 break;
+            case WARUMUNGU:
+                foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type_warumungu));
+                break;
             default:
                 foodPlants = Arrays.asList(getResources().getStringArray(R.array.food_plant_type));
                 break;

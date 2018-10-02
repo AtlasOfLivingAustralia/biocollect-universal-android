@@ -30,6 +30,12 @@ import static model.EventBusPosts.FETCH_SPECIES_LIST;
 
 public class FetchListSpeciesService extends BaseIntentService {
 
+    /** The key name in the species list key value pair set that holds the Warumungu species name. (note spelling error) */
+    private static final String WARUMUNGU_NAME_KEY = "Waramungu";
+    private static final String WARLPIRI_NAME_KEY = "Warlpiri name";
+    private static final String IMAGE_KEY = "Image";
+    private static final String VERNACULAR_NAME_KEY = "vernacular name";
+
     private Realm realm;
     private SpeciesListApiService speciesListApiService;
 
@@ -81,15 +87,19 @@ public class FetchListSpeciesService extends BaseIntentService {
                 Log.d(TAG + "ID", species.guid + "   " + species.id + "   " + species.realmId);
                 if (species.kvpValues != null) {
                     for (KvpValues kvpValues : species.kvpValues) {
-                        if (kvpValues.key.equals("Warlpiri name")) {
+                        if (kvpValues.key.equals(WARLPIRI_NAME_KEY)) {
                             species.warlpiriName = kvpValues.value;
                         }
 
-                        if (kvpValues.key.equals("vernacular name")) {
+                        if (kvpValues.key.equals(VERNACULAR_NAME_KEY)) {
                             species.vernacularName = kvpValues.value;
                         }
 
-                        if (kvpValues.key.equals("Image")) {
+                        if (kvpValues.key.equals(WARUMUNGU_NAME_KEY)) {
+                            species.warumunguName = kvpValues.value;
+                        }
+
+                        if (kvpValues.key.equals(IMAGE_KEY)) {
                             species.imageUrl = kvpValues.value;
                         }
                     }
