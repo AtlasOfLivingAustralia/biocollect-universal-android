@@ -14,4 +14,4 @@ android:
     - extra
 
 script:
-- "./gradlew build test"
+- "./gradlew assembleDebug"

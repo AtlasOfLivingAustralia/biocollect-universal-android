@@ -2,29 +2,32 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
 
 android {
     signingConfigs {
+
         config_biocollect {
-            //keytool -list -v -keystore "%USERPROFILE%\.android\debug.keystore" -alias androiddebugkey -storepass android -keypass android
-            keyAlias 'au.csiro.ala.biocollect'
-            keyPassword ${biocollect.key.password}
-            storeFile file(${biocollect.keystore.path})
-            storePassword ${biocollect.key.password}
+            keyAlias keystoreProperties['biocollect.keyAlias']
+            keyPassword keystoreProperties['biocollect.keyPassword']
+            storeFile file(keystoreProperties['biocollect.storeFile'])
+            storePassword keystoreProperties['biocollect.storePassword']
         }
 
         config_biocontrolhub {
-            keyAlias 'au.org.ala.biocontrolhu'
-            keyPassword ${biocontrolhub.key.alias}
-            storeFile file(${biocontrolhub.keystore.path})
-            storePassword ${biocontrolhub.key.password}
+            keyAlias keystoreProperties['biocontrolhub.keyAlias']
+            keyPassword keystoreProperties['biocontrolhub.keyPassword']
+            storeFile file(keystoreProperties['biocontrolhub.storeFile'])
+            storePassword keystoreProperties['biocontrolhub.storePassword']
         }
 
         config_bilbyblitz {
-            keyAlias 'au.csiro.ala.bilbyblitz'
-            keyPassword ${bilbyblitz.key.alias}
-            storeFile file(${bilbyblitz.keystore.path})
-            storePassword ${bilbyblitz.key.password}
+            keyAlias keystoreProperties['bilbyblitz.keyAlias']
+            keyPassword keystoreProperties['bilbyblitz.keyPassword']
+            storeFile file(keystoreProperties['bilbyblitz.storeFile'])
+            storePassword keystoreProperties['bilbyblitz.storePassword']
         }
     }
     compileSdkVersion 27
@@ -42,7 +45,6 @@ android {
         release {
             minifyEnabled true
             shrinkResources true
-            //signingConfig signingConfigs.config
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -52,6 +54,7 @@ android {
             applicationIdSuffix '.ala.biocollect'
             versionCode 10
             versionName '1.1.6'
+            signingConfig signingConfigs.config_biocollect
         }
         ozatlas {
             applicationIdSuffix '.ala.mobile.ozatlas'
@@ -63,12 +66,14 @@ android {
             applicationIdSuffix '.ala.biocontrolhub'
             versionCode 5
             versionName '1.0.3'
+            signingConfig signingConfigs.config_biocontrolhub
 
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
-            versionCode 21
-            versionName '1.0.1'
+            versionCode 22
+            versionName '1.1'
+            signingConfig signingConfigs.config_bilbyblitz
 
         }
     }
