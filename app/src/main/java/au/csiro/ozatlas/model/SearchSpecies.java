@@ -60,4 +60,7 @@ public class SearchSpecies extends RealmObject {
     @Expose
     @SerializedName("warlpiriName")
     public String warlpiriName;
+    @Expose
+    @SerializedName("warumunguName")
+    public String warumunguName;
 }
