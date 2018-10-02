@@ -2,9 +2,13 @@ apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
 apply plugin: 'io.fabric'
 
-def keystorePropertiesFile = rootProject.file("keystore.properties")
+// Optionally load the information required for signing the apk.  This is optional because
+// travis runs the debug build and doesn't need this to be checked in.
 def keystoreProperties = new Properties()
-keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+def keystorePropertiesFile = new File(rootProject.path, "keystore.properties")
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
 
 android {
     signingConfigs {
@@ -12,21 +16,28 @@ android {
         config_biocollect {
             keyAlias keystoreProperties['biocollect.keyAlias']
             keyPassword keystoreProperties['biocollect.keyPassword']
-            storeFile file(keystoreProperties['biocollect.storeFile'])
+            if (keystoreProperties['biocollect.storeFile']) {
+                storeFile file(keystoreProperties['biocollect.storeFile'])
+            }
             storePassword keystoreProperties['biocollect.storePassword']
         }
 
         config_biocontrolhub {
             keyAlias keystoreProperties['biocontrolhub.keyAlias']
             keyPassword keystoreProperties['biocontrolhub.keyPassword']
-            storeFile file(keystoreProperties['biocontrolhub.storeFile'])
+            if (keystoreProperties['biocontrolhub.storeFile']) {
+                storeFile file(keystoreProperties['biocontrolhub.storeFile'])
+            }
             storePassword keystoreProperties['biocontrolhub.storePassword']
         }
 
         config_bilbyblitz {
             keyAlias keystoreProperties['bilbyblitz.keyAlias']
             keyPassword keystoreProperties['bilbyblitz.keyPassword']
-            storeFile file(keystoreProperties['bilbyblitz.storeFile'])
+            if (keystoreProperties['bilbyblitz.storeFile']) {
+                storeFile file(keystoreProperties['bilbyblitz.storeFile'])
+            }
+
             storePassword keystoreProperties['bilbyblitz.storePassword']
         }
     }
