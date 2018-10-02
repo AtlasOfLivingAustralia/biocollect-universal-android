@@ -5,9 +5,12 @@ apply plugin: 'io.fabric'
 // Optionally load the information required for signing the apk.  This is optional because
 // travis runs the debug build and doesn't need this to be checked in.
 def keystoreProperties = new Properties()
-def keystorePropertiesFile = new File(rootProject.path, "keystore.properties")
+def keystorePropertiesFile = new File("keystore.properties")
 if (keystorePropertiesFile.exists()) {
     keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+else {
+    logger.warn("No keystore.properties file exists, only debug builds are available")
 }
 
 android {
