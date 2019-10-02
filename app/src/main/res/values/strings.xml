@@ -135,4 +135,5 @@
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
     <string name="project_info_url">https://biocollect.ala.org.au/ala/project/index/%1$s?mobile=true</string>
     <string name="explore_image_url">https://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
+    <string name="logged_in_message">You\'re currently logged in as %1$s</string>
 </resources>

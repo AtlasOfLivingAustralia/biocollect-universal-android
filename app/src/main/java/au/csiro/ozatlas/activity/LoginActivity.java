@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
-import android.support.test.espresso.IdlingResource;
+//import android.support.test.espresso.IdlingResource;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -28,7 +28,7 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import android.support.test.espresso.idling.CountingIdlingResource;
+//import android.support.test.espresso.idling.CountingIdlingResource;
 
 /**
  * Created by sad038 on 6/4/17.
@@ -109,7 +109,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         //countingIdlingResource.decrement();
-                        Log.d(TAG, "onError");
+                        Log.d(TAG, "onError", e);
                         hideProgressDialog();
                         handleError(coordinatorLayout, e, 400, getString(R.string.login_error));
                     }
@@ -162,12 +162,12 @@ public class LoginActivity extends BaseActivity {
         startActivity(browserIntent);
     }
 
-    /**
-     * Only called from test
-     */
-    @VisibleForTesting
-    @NonNull
-    public IdlingResource getIdlingResource() {
-        return null;//countingIdlingResource;
-    }
+//    /**
+//     * Only called from test
+//     */
+//    @VisibleForTesting
+//    @NonNull
+//    public IdlingResource getIdlingResource() {
+//        return null;//countingIdlingResource;
+//    }
 }

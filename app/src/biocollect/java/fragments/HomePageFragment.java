@@ -75,23 +75,23 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     private void setupHeader(View header) {
         TextView nameTV = (TextView) header.findViewById(R.id.name);
-        TextView logoutTV = (TextView) header.findViewById(R.id.logoutButton);
+//        TextView logoutTV = (TextView) header.findViewById(R.id.logoutButton);
         String name = sharedPreferences.getUserDisplayName();
         if (name == null || name.equals(""))
             nameTV.setText(getString(R.string.welcome_message, getString(R.string.app_name)));
         else
             nameTV.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
-        logoutTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        launchLoginActivity();
-                    }
-                });
-            }
-        });
+//        logoutTV.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        launchLoginActivity();
+//                    }
+//                });
+//            }
+//        });
     }
 
     /**

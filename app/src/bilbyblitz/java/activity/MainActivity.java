@@ -57,7 +57,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         menu.findItem(R.id.nav_practise_track).setTitle(localisedString("practise_track", R.string.practise_track));
         menu.findItem(R.id.nav_review_track).setTitle(localisedString("review_track", R.string.review_track));
         menu.findItem(R.id.nav_setting).setTitle(localisedString("setting", R.string.setting));
-        menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
+//        menu.findItem(R.id.nav_logout).setTitle(localisedString("logout", R.string.logout));
         menu.findItem(R.id.nav_help).setTitle(localisedString("help", R.string.help));
         menu.findItem(R.id.nav_contact).setTitle(localisedString("contact", R.string.contact));
         menu.findItem(R.id.nav_about).setTitle(localisedString("about", R.string.about));
@@ -137,13 +137,13 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
         int id = item.getItemId();
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        } else if (id == R.id.nav_logout) {
-            AtlasDialogManager.alertBox(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    launchLoginActivity();
-                }
-            });
+//        } else if (id == R.id.nav_logout) {
+//            AtlasDialogManager.alertBox(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    launchLoginActivity();
+//                }
+//            });
         } else if (id == R.id.nav_setting) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new SettingFragment()).commit();
         } else if (id == R.id.nav_add_track) {

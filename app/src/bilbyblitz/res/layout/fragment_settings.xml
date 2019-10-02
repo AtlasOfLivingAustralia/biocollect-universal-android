@@ -71,6 +71,43 @@
                 android:textSize="@dimen/smaller_input_font_size" />
         </LinearLayout>
 
+        <include
+            layout="@layout/horizonal_line"
+            android:layout_width="match_parent"
+            android:layout_height=".8dp" />
+
+        <LinearLayout
+            android:id="@+id/logout_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_input_medium_views"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/input_label_horizontal_spacing"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                style="@style/InputLabel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/logout" />
+
+            <TextView
+                android:id="@+id/logout_settings_small_text"
+                style="@style/TextAppearance.AppCompat.Small"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
+                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
+                android:text="@string/logged_in_message"
+                android:textSize="@dimen/smaller_input_font_size"
+                />
+        </LinearLayout>
+
         <!--<TextView
             android:id="@+id/offlineHeading"
             style="@android:style/TextAppearance.DeviceDefault.Medium"

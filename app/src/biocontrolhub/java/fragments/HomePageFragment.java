@@ -72,19 +72,19 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     private void setupHeader(View header) {
         TextView name = (TextView) header.findViewById(R.id.name);
-        TextView logout = (TextView) header.findViewById(R.id.logoutButton);
+//        TextView logout = (TextView) header.findViewById(R.id.logoutButton);
         name.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        launchLoginActivity();
-                    }
-                });
-            }
-        });
+//        logout.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        launchLoginActivity();
+//                    }
+//                });
+//            }
+//        });
     }
 
     /**
