@@ -15,6 +15,9 @@ before_install:
   - yes | sdkmanager "platforms;android-26"
   - yes | sdkmanager "platforms;android-25"
   - yes | sdkmanager "platforms;android-18"
+  - yes | sdkmanager "platforms;android-22"
+  - yes | sdkmanager "system-images;android-18;armeabi-v7a"
+  - yes | sdkmanager "system-images;android-22;armeabi-v7a"
 
 android:
   components:
