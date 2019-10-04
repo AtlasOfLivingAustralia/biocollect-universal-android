@@ -4,6 +4,7 @@ import android.content.Context;
 
 import androidx.test.platform.app.InstrumentationRegistry;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -15,6 +16,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class ExampleInstrumentedTest {
     @Test
+    @Ignore
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
