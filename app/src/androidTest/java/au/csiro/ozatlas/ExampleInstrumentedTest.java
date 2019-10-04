@@ -1,8 +1,8 @@
 package au.csiro.ozatlas;
 
 import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 
-import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Ignore;
 import org.junit.Test;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
  */
 public class ExampleInstrumentedTest {
     @Test
-    @Ignore
+    @Ignore // not all au.csiro.ozatlas
     public void useAppContext() throws Exception {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
