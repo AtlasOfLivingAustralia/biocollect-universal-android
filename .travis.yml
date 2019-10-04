@@ -14,10 +14,6 @@ before_install:
   - yes | sdkmanager "platforms;android-27"
   - yes | sdkmanager "platforms;android-26"
   - yes | sdkmanager "platforms;android-25"
-  - yes | sdkmanager "platforms;android-18"
-  - yes | sdkmanager "platforms;android-22"
-  - yes | sdkmanager "system-images;android-18;default;armeabi-v7a"
-  - yes | sdkmanager "system-images;android-22;google_apis;armeabi-v7a"
 
 android:
   components:
@@ -26,15 +22,6 @@ android:
     - build-tools-27.0.3
     - android-27
     - extra
-    - sys-img-x86-android-26
-    - sys-img-armeabi-v7a-android-18
-
-before_script:
-  - android list targets
-  - echo no | android create avd --force -n test -t android-18 --abi armeabi-v7a -c 100M
-  - emulator -avd test -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
 
 script:
-- "./gradlew assembleDebug connectedCheck"
+- "./gradlew assembleDebug check"
