@@ -14,6 +14,7 @@ before_install:
   - yes | sdkmanager "platforms;android-27"
   - yes | sdkmanager "platforms;android-26"
   - yes | sdkmanager "platforms;android-25"
+  - yes | sdkmanager "platforms;android-18"
 
 android:
   components:
