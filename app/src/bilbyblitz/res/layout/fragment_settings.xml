@@ -20,11 +20,12 @@
             android:gravity="center_vertical"
             android:minHeight="@dimen/minimum_height_bigger_input_views"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+            android:paddingStart="@dimen/input_label_horizontal_spacing"
+            android:paddingEnd="@dimen/input_label_horizontal_spacing">
 
             <TextView
                 android:id="@+id/projectHeading"
-                style="@style/InputLabel"
+                style="@style/SettingsLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
@@ -32,12 +33,10 @@
 
             <TextView
                 android:id="@+id/projectDescription"
-                style="@style/TextAppearance.AppCompat.Small"
+                style="@style/SettingsSubLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
-                android:text="@string/no_selected_project"
-                android:textSize="@dimen/smaller_input_font_size" />
+                android:text="@string/no_selected_project" />
         </LinearLayout>
 
         <include
@@ -53,11 +52,12 @@
             android:gravity="center_vertical"
             android:minHeight="@dimen/minimum_height_input_medium_views"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/input_label_horizontal_spacing">
+            android:paddingStart="@dimen/input_label_horizontal_spacing"
+            android:paddingEnd="@dimen/input_label_horizontal_spacing">
 
             <TextView
                 android:id="@+id/languageHeading"
-                style="@style/InputLabel"
+                style="@style/SettingsLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
@@ -65,10 +65,10 @@
 
             <Spinner
                 android:id="@+id/languageSpinner"
-                style="@style/TextAppearance.AppCompat.Medium"
+                style="@style/SettingsSubLabel"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="@dimen/smaller_input_font_size" />
+                />
         </LinearLayout>
 
         <include
@@ -86,25 +86,24 @@
             android:gravity="center_vertical"
             android:minHeight="@dimen/minimum_height_input_medium_views"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/input_label_horizontal_spacing"
+            android:paddingStart="@dimen/input_label_horizontal_spacing"
+            android:paddingEnd="@dimen/input_label_horizontal_spacing"
             android:clickable="true"
             android:focusable="true">
             <TextView
-                style="@style/InputLabel"
-                android:layout_width="match_parent"
+                android:id="@+id/logout_settings_label"
+                style="@style/SettingsLabel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="1dp"
                 android:text="@string/logout" />
 
             <TextView
                 android:id="@+id/logout_settings_small_text"
-                style="@style/TextAppearance.AppCompat.Small"
-                android:layout_width="match_parent"
+                style="@style/SettingsSubLabel"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="@dimen/input_label_horizontal_spacing"
-                android:layout_marginStart="@dimen/input_label_horizontal_spacing"
                 android:text="@string/logged_in_message"
-                android:textSize="@dimen/smaller_input_font_size"
                 />
         </LinearLayout>
 

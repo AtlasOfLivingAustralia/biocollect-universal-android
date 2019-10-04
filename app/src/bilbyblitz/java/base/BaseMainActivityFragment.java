@@ -6,6 +6,7 @@ import android.view.View;
 import activity.MainActivity;
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
+import au.csiro.ozatlas.manager.Language;
 import fragments.BilbyBlitzBaseFragment;
 
 /**
@@ -84,5 +85,9 @@ public abstract class BaseMainActivityFragment extends BilbyBlitzBaseFragment im
     public void setDrawerMenuClicked(int menuRes) {
         if (mainActivityFragmentListener != null)
             mainActivityFragmentListener.setDrawerMenuClicked(menuRes);
+    }
+
+    @Override
+    protected void setLanguageValues(Language language) {
     }
 }

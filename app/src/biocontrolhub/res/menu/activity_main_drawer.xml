@@ -51,14 +51,10 @@
             android:title="@string/biocollect_title" />
     </group>
 
-    <item android:title="Account">
-        <menu>
-            <item
-                android:id="@+id/nav_logout"
-                android:icon="@drawable/ic_exit_to_app_black_24dp"
-                android:title="Logout" />
-        </menu>
-    </item>
+    <item
+        android:id="@+id/nav_setting"
+        android:icon="@drawable/ic_settings_black_36dp"
+        android:title="@string/setting" />
 
     <group
         android:id="@+id/version"

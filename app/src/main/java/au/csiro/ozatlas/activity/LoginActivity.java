@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.TextInputLayout;
-//import android.support.test.espresso.IdlingResource;
+import android.support.test.espresso.IdlingResource;
 import android.util.Log;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import activity.MainActivity;
-import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -28,7 +27,6 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-//import android.support.test.espresso.idling.CountingIdlingResource;
 
 /**
  * Created by sad038 on 6/4/17.
@@ -162,12 +160,12 @@ public class LoginActivity extends BaseActivity {
         startActivity(browserIntent);
     }
 
-//    /**
-//     * Only called from test
-//     */
-//    @VisibleForTesting
-//    @NonNull
-//    public IdlingResource getIdlingResource() {
-//        return null;//countingIdlingResource;
-//    }
+    /**
+     * Only called from test
+     */
+    @VisibleForTesting
+    @NonNull
+    public IdlingResource getIdlingResource() {
+        return null;//countingIdlingResource;
+    }
 }

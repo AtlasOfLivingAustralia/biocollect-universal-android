@@ -122,6 +122,8 @@
     <string name="total_species_count">Total Species: %1$d</string>
     <string name="last_update_date">Last Update: %1$s</string>
 
+    <string name="setting">Settings</string>
+
     <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
