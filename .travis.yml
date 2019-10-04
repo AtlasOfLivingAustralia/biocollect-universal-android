@@ -26,6 +26,7 @@ android:
     - sys-img-armeabi-v7a-android-18
 
 before_script:
+  - android list targets
   - echo no | android create avd --force -n test -t android-18 --abi armeabi-v7a -c 100M
   - emulator -avd test -no-audio -no-window &
   - android-wait-for-emulator
