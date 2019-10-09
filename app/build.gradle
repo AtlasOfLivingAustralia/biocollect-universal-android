@@ -44,6 +44,16 @@ android {
 
             storePassword keystoreProperties['bilbyblitz.storePassword']
         }
+
+        config_ozatlas {
+            keyAlias keystoreProperties['ozatlas.keyAlias']
+            keyPassword keystoreProperties['ozatlas.keyPassword']
+            if (keystoreProperties['ozatlas.storeFile']) {
+                storeFile file(keystoreProperties['ozatlas.storeFile'])
+            }
+
+            storePassword keystoreProperties['ozatlas.storePassword']
+        }
     }
     compileSdkVersion 27
     flavorDimensions "versionCode"
@@ -75,7 +85,7 @@ android {
             applicationIdSuffix '.ala.mobile.ozatlas'
             versionCode 14
             versionName '2.1.2'
-
+            signingConfig signingConfigs.config_ozatlas
         }
         biocontrolhub {
             applicationIdSuffix '.ala.biocontrolhub'
