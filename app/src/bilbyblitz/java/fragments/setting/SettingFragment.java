@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -14,12 +13,11 @@ import org.greenrobot.eventbus.EventBus;
 
 import activity.SingleFragmentActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.fragments.settings.BaseSettingsFragment;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.Project;
-import base.BaseMainActivityFragment;
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import fragments.CustomSpinnerAdapter;
 import language.LanguageManager;
@@ -30,7 +28,7 @@ import static android.app.Activity.RESULT_OK;
  * Created by sad038 on 19/9/17.
  */
 
-public class SettingFragment extends BaseMainActivityFragment {
+public class SettingFragment extends BaseSettingsFragment {
 
     private final int PROJECT_LIST_REQUEST_CODE = 1;
     @BindView(R.id.languageSpinner)
@@ -87,17 +85,13 @@ public class SettingFragment extends BaseMainActivityFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_settings, container, false);
-        setTitle(getString(R.string.setting));
-        ButterKnife.bind(this, view);
-
-        hideFloatingButton();
+        final View view = super.onCreateView(inflater, container, savedInstanceState);
 
         //language selection spinner setup
         String[] languages = getResources().getStringArray(R.array.bilby_language);
         //ArrayAdapter adapter = ArrayAdapter.createFromResource(getContext(), R.array.bilby_language, R.layout.item_textview);
         languageSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.bilby_language), R.layout.item_textview));
-        //adapter.setDropDownViewResource(R.layout.dropdown_item_textview);
+
         int position = Utils.stringSearchInArray(languages, sharedPreferences.getLanguage());
         languageSpinner.setSelection(position == -1 ? 0 : position, false);
         languageSpinner.setOnItemSelectedListener(onLanguageSelectedListener);

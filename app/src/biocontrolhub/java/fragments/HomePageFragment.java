@@ -1,6 +1,5 @@
 package fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.manager.AtlasDialogManager;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -72,19 +70,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     private void setupHeader(View header) {
         TextView name = (TextView) header.findViewById(R.id.name);
-        TextView logout = (TextView) header.findViewById(R.id.logoutButton);
         name.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        launchLoginActivity();
-                    }
-                });
-            }
-        });
     }
 
     /**

@@ -25,6 +25,7 @@ import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
+import au.csiro.ozatlas.fragments.settings.BaseSettingsFragment;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
@@ -132,13 +133,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
         int id = item.getItemId();
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        } else if (id == R.id.nav_logout) {
-            AtlasDialogManager.alertBox(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    launchLoginActivity();
-                }
-            });
+        } else if (id == R.id.nav_setting) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new BaseSettingsFragment()).commit();
         } else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } else if (id == R.id.nav_my_sighting) {

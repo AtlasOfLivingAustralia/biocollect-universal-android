@@ -1,6 +1,5 @@
 package activity;
 
-import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,13 +25,12 @@ import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.base.MainActivityFragmentListener;
-import au.csiro.ozatlas.manager.AtlasDialogManager;
+import au.csiro.ozatlas.fragments.settings.BaseSettingsFragment;
 import au.csiro.ozatlas.manager.AtlasManager;
 import fragments.HomePageFragment;
 import fragments.ProjectListFragment;
 import fragments.SightingListFragment;
 
-import static au.csiro.ozatlas.R.id.coordinatorLayout;
 
 /**
  * This activity holds most of the basic fragments or functionality that a user can do
@@ -135,13 +133,8 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
 
         if (id == R.id.home) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new HomePageFragment()).commit();
-        } else if (id == R.id.nav_logout) {
-            AtlasDialogManager.alertBox(this, getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    launchLoginActivity();
-                }
-            });
+        } else if ( id == R.id.nav_setting) {
+            getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new BaseSettingsFragment()).commit();
         } else if (id == R.id.nav_all_projects) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, new ProjectListFragment()).commit();
         } else if (id == R.id.nav_my_projects) {
@@ -159,11 +152,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_contact) {
-            startWebViewActivity("https://www.ala.org.au/who-we-are/contact-us/", getString(R.string.contact_us_title), false);
+            startWebViewActivity("https://www.ala.org.au/contact-us/", getString(R.string.contact_us_title), false);
         } else if (id == R.id.nav_about_biocollect) {
             startWebViewActivity("https://www.ala.org.au/biocollect/", getString(R.string.about_title), false);
         } else if (id == R.id.nav_about_ala) {
-            startWebViewActivity("https://www.ala.org.au/who-we-are/", getString(R.string.about_ala_title), false);
+            startWebViewActivity("https://www.ala.org.au/about-ala/", getString(R.string.about_ala_title), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
