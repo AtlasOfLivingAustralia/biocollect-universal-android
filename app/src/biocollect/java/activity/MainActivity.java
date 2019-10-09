@@ -152,11 +152,11 @@ public class MainActivity extends BaseActivity implements NavigationView.OnNavig
             fragment.setArguments(bundle);
             getSupportFragmentManager().beginTransaction().replace(R.id.fragmentHolder, fragment).commit();
         } else if (id == R.id.nav_contact) {
-            startWebViewActivity("https://www.ala.org.au/who-we-are/contact-us/", getString(R.string.contact_us_title), false);
+            startWebViewActivity("https://www.ala.org.au/contact-us/", getString(R.string.contact_us_title), false);
         } else if (id == R.id.nav_about_biocollect) {
             startWebViewActivity("https://www.ala.org.au/biocollect/", getString(R.string.about_title), false);
         } else if (id == R.id.nav_about_ala) {
-            startWebViewActivity("https://www.ala.org.au/who-we-are/", getString(R.string.about_ala_title), false);
+            startWebViewActivity("https://www.ala.org.au/about-ala/", getString(R.string.about_ala_title), false);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

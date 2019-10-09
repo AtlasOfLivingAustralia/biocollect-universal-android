@@ -107,7 +107,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item = new HomePageListItem();
         item.icon = R.drawable.ic_mail_outline_black_24dp;
         item.text = getString(R.string.contact_us_title);
-        item.url = "https://www.ala.org.au/who-we-are/contact-us/";
+        item.url = "https://www.ala.org.au/contact-us/";
         item.isForWebView = true;
         listItems.add(item);
         item = new HomePageListItem();
@@ -118,7 +118,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listItems.add(item);
         item = new HomePageListItem();
         item.icon = R.drawable.ala_transparent;
-        item.url = "https://www.ala.org.au/who-we-are/";
+        item.url = "https://www.ala.org.au/about-ala/";
         item.text = getString(R.string.about_ala_title);
         item.isForWebView = true;
         listItems.add(item);
