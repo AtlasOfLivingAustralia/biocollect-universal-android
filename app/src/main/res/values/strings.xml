@@ -91,6 +91,8 @@
     <string name="tags_name">Tags: %1$s</string>
     <string name="kingdom_name">Kingdom: %1$s</string>
     <string name="warlpiri_name">Warlpiri: %1$s</string>
+    <string name="warumumgu_name">Warumungu: %1$s</string>
+
     <string name="scientific_name">Scientific Name: %1$s</string>
     <string name="common_name">Common Name: %1$s</string>
     <string name="album_name">Atlas Camera</string>
@@ -120,17 +122,20 @@
     <string name="total_species_count">Total Species: %1$d</string>
     <string name="last_update_date">Last Update: %1$s</string>
 
+    <string name="setting">Settings</string>
+
     <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
 
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
-    <string name="bio_cache_url">http://biocache.ala.org.au/</string>
+    <string name="bio_cache_url">https://biocache.ala.org.au/</string>
     <string name="species_list_url">https://lists.ala.org.au/</string>
-    <string name="bie_url">http://bie.ala.org.au/</string>
+    <string name="bie_url">https://bie.ala.org.au/</string>
     <string name="survey_entry_url">https://biocollect.ala.org.au/bioActivity/mobileCreate/%1$s</string>
     <string name="sighting_edit_url">https://biocollect.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
     <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
     <string name="project_info_url">https://biocollect.ala.org.au/ala/project/index/%1$s?mobile=true</string>
-    <string name="explore_image_url">http://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
+    <string name="explore_image_url">https://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
+    <string name="logged_in_message">You\'re currently logged in as %1$s</string>
 </resources>

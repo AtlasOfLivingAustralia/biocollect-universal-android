@@ -2,6 +2,7 @@ package fragments.offline_species;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetBehavior;
@@ -13,14 +14,17 @@ import android.widget.CheckBox;
 
 import org.parceler.Parcels;
 
+import activity.BilbyBlitzActivityListener;
+import activity.BilbyBlitzBaseActivity;
 import au.csiro.ozatlas.R;
+import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.model.SpeciesFilter;
 
 /**
  * Created by sad038 on 5/6/17.
  */
 
-public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFragment {
+public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFragment implements BilbyBlitzActivityListener {
     private SpeciesFilter speciesFilter;
     private SpeciesFilterBottomSheetListener bottomSheetListener;
     private BottomSheetBehavior.BottomSheetCallback mBottomSheetBehaviorCallback = new BottomSheetBehavior.BottomSheetCallback() {
@@ -36,7 +40,7 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
         public void onSlide(@NonNull View bottomSheet, float slideOffset) {
         }
     };
-
+    protected BilbyBlitzActivityListener bilbyBlitzActivityListener;
     private SpeciesFilter getSpeciesFilter() {
         return speciesFilter;
     }
@@ -79,12 +83,19 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
         }
 
         checkBoxSpikes.setChecked(speciesFilter.isBodyCoverSpikes);
+        checkBoxSpikes.setText(localisedString("spikes", R.string.spikes));
         checkBoxScales.setChecked(speciesFilter.isBodyCoverScales);
+        checkBoxScales.setText(localisedString("scales", R.string.scales));
         checkBoxFeather.setChecked(speciesFilter.isBodyCoverFeather);
+        checkBoxFeather.setText(localisedString("feather", R.string.feathers));
         checkBoxFur.setChecked(speciesFilter.isBodyCoverFur);
+        checkBoxFur.setText(localisedString("fur", R.string.fur));
         checkBoxLarge.setChecked(speciesFilter.isSizeLarge);
+        checkBoxLarge.setText(localisedString("large", R.string.large));
         checkBoxMedium.setChecked(speciesFilter.isSizeMedium);
+        checkBoxMedium.setText(localisedString("medium", R.string.medium));
         checkBoxSmall.setChecked(speciesFilter.isSizeSmall);
+        checkBoxSmall.setText(localisedString("small", R.string.small));
 
         CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams) ((View) contentView.getParent()).getLayoutParams();
         CoordinatorLayout.Behavior behavior = params.getBehavior();
@@ -100,5 +111,51 @@ public class SpeciesFilterBottomSheetDialogFragment extends BottomSheetDialogFra
 
     public interface SpeciesFilterBottomSheetListener {
         void onDoneFiltering(SpeciesFilter speciesFilter);
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof BilbyBlitzBaseActivity) {
+            bilbyBlitzActivityListener = (BilbyBlitzBaseActivity) context;
+        }
+    }
+
+    /**
+     * localised a string if a translation is being chosen
+     *
+     * @param key
+     * @param defaultRes
+     * @return
+     */
+    @Override
+    public String localisedString(String key, int defaultRes) {
+        if (bilbyBlitzActivityListener != null)
+            return bilbyBlitzActivityListener.localisedString(key, defaultRes);
+        return null;
+    }
+
+    /**
+     * localised a string if a translation is being chosen
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public String localisedString(String key) {
+        if (bilbyBlitzActivityListener != null)
+            return bilbyBlitzActivityListener.localisedString(key);
+        return null;
+    }
+
+    /**
+     * loading the language file
+     *
+     * @param fileName
+     */
+    @Override
+    public void loadLanguageFile(String fileName, Language language) {
+        if (bilbyBlitzActivityListener != null)
+            bilbyBlitzActivityListener.loadLanguageFile(fileName, language);
     }
 }

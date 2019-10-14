@@ -128,6 +128,15 @@ public class TrackCountryFragment extends BaseMainActivityFragment implements Va
                 weatherSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.weather_value_adithinngithigh), R.layout.item_textview));
                 fireSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.fire_type_adithinngithigh), R.layout.item_textview));
                 break;
+            case WARUMUNGU:
+                countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.country_type_values_warumungu), R.layout.item_textview));
+                vegetationSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.vegetation_type_warumungu), R.layout.item_textview));
+                disturbanceSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.disturbance_values_warumungu), R.layout.item_textview));
+                groundTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.ground_values_warumungu), R.layout.item_textview));
+                clearGroundSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.clear_ground_type_warumungu), R.layout.item_textview));
+                weatherSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.weather_value_warumungu), R.layout.item_textview));
+                fireSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.fire_type_warumungu), R.layout.item_textview));
+                break;
             default:
                 countryTypeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), countryTypeEnglishValues, R.layout.item_textview));
                 vegetationSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), vegetationEnglishValues, R.layout.item_textview));

@@ -147,6 +147,11 @@ public class AddAnimalFragment extends BaseMainActivityFragment {
                 howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values_adithinngithigh), R.layout.item_textview));
                 animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values_adithinngithigh), R.layout.item_textview));
                 break;
+            case WARUMUNGU:
+                whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.what_see_values_warumungu), R.layout.item_textview));
+                howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.how_recent_values_warumungu), R.layout.item_textview));
+                animalAgeSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.animal_age_values_warumungu), R.layout.item_textview));
+                break;
             default:
                 whatSeenSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), whatSeeEnglishValues, R.layout.item_textview));
                 howRecentSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), recentEnglishValues, R.layout.item_textview));

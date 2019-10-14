@@ -10,6 +10,7 @@ import android.widget.CheckBox;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -21,6 +22,8 @@ import au.csiro.ozatlas.base.MoreButtonListener;
 import au.csiro.ozatlas.manager.AtlasDateTimeUtils;
 import au.csiro.ozatlas.model.AddSight;
 import au.csiro.ozatlas.model.RealmString;
+
+import static com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions.withCrossFade;
 
 /**
  * Created by sad038 on 13/4/17.
@@ -139,8 +142,8 @@ public class DraftSightAdapter extends RecyclerView.Adapter<DraftSightViewHolder
                     sightViewHolders.image.clearColorFilter();
                     Glide.with(context)
                             .load(sight.outputs.get(0).data.sightingPhoto.get(0).filePath)
-                            .placeholder(R.drawable.ala_transparent)
-                            .crossFade()
+                            .apply(new RequestOptions().placeholder(R.drawable.ala_transparent))
+                            .transition(withCrossFade())
                             .into(sightViewHolders.image);
                 } else {
                     sightViewHolders.image.setColorFilter(Color.GRAY);

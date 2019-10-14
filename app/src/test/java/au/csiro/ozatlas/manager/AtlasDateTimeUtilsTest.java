@@ -27,7 +27,7 @@ public class AtlasDateTimeUtilsTest {
         calendar.set(Calendar.YEAR, 2017);
         calendar.set(Calendar.MONTH, 5);
         calendar.set(Calendar.DAY_OF_MONTH, 30);
-        calendar.set(Calendar.HOUR, 10);
+        calendar.set(Calendar.HOUR_OF_DAY, 10);
         calendar.set(Calendar.MINUTE, 49);
         calendar.set(Calendar.SECOND, 30);
         calendar.set(Calendar.MILLISECOND, 0);

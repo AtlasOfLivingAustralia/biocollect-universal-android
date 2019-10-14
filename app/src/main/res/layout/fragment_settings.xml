@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin">
+
+
+        <LinearLayout
+            android:id="@+id/logout_settings_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/input_view_top_small_margin"
+            android:layout_marginTop="@dimen/input_view_top_small_margin"
+            android:background="?attr/selectableItemBackground"
+            android:gravity="center_vertical"
+            android:minHeight="@dimen/minimum_height_input_medium_views"
+            android:orientation="vertical"
+            android:paddingStart="@dimen/input_label_horizontal_spacing"
+            android:paddingEnd="@dimen/input_label_horizontal_spacing"
+            android:clickable="true"
+            android:focusable="true">
+            <TextView
+                android:id="@+id/logout_settings_label"
+                style="@style/SettingsLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="1dp"
+                android:text="@string/logout" />
+
+            <TextView
+                android:id="@+id/logout_settings_small_text"
+                style="@style/SettingsSubLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/logged_in_message"
+                />
+        </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import activity.MainActivity;
-import au.csiro.ozatlas.BuildConfig;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
@@ -28,7 +27,6 @@ import butterknife.OnClick;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
-import android.support.test.espresso.idling.CountingIdlingResource;
 
 /**
  * Created by sad038 on 6/4/17.
@@ -109,7 +107,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         //countingIdlingResource.decrement();
-                        Log.d(TAG, "onError");
+                        Log.d(TAG, "onError", e);
                         hideProgressDialog();
                         handleError(coordinatorLayout, e, 400, getString(R.string.login_error));
                     }

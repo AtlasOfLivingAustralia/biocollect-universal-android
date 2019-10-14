@@ -3,6 +3,7 @@
     <string-array name="bilby_language">
         <item>English</item>
         <item>Warlpiri</item>
+        <item>Warumungu</item>
         <!--<item>Barngarla</item>
         <item>Burdana</item>-->
     </string-array>
@@ -25,6 +26,12 @@
         <item>Jaala</item>
     </string-array>
 
+    <string-array name="site_type_warumungu">
+        <item>Manu</item>
+        <item>Jungajunganta manu</item>
+        <item>Wanjakana</item>
+    </string-array>
+
     <string-array name="survey_type">
         <item>Select Option</item>
         <item>Trackplot 2ha 100m x 200m</item>
@@ -38,6 +45,14 @@
         <item>Trackplot 2ha 100m x 200m</item>
         <item>Pardany-para-mi</item>
         <item>Yirdiyi</item>
+        <item>KJ Mankarr Survey</item>
+    </string-array>
+
+    <string-array name="survey_type_warumungu">
+        <item>Select Option</item>
+        <item>Trackplot 2ha 100m x 200m</item>
+        <item>Mukku</item>
+        <item>Yuwaji</item>
         <item>KJ Mankarr Survey</item>
     </string-array>
 
@@ -71,6 +86,21 @@
         <item>Other</item>
     </string-array>
 
+    <string-array name="country_type_values_warumungu">
+        <item>Select Option</item>
+        <item>Sand dune</item>
+        <item>Julypu- warinyi</item>
+        <item>Wangarri-warinyi</item>
+        <item>Jurtujunrtu-warinyi</item>
+        <item>Wangarri wangarri-warinyi</item>
+        <item>Karlampi warinyi</item>
+        <item>Wankarr-warinyi</item>
+        <item>Salt lake</item>
+        <item>Warnirr- warinyi</item>
+        <item>Narra mangkuru warinyi</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="tracking_event_values">
         <item>Select Option</item>
         <item>First time</item>
@@ -101,6 +131,14 @@
         <item>No recent disturbance</item>
     </string-array>
 
+    <string-array name="disturbance_values_warumungu">
+        <item>Select Option</item>
+        <item>Wurttu</item>
+        <item>Ngapa</item>
+        <item>purnu</item>
+        <item>No recent disturbance</item>
+    </string-array>
+
     <string-array name="ground_values">
         <item>Select Option</item>
         <item>Soft (lots of little tracks)</item>
@@ -115,6 +153,13 @@
         <item>puta karlipa yitaki mani</item>
     </string-array>
 
+    <string-array name="ground_values_warumungu">
+        <item>Select Option</item>
+        <item>Manya</item>
+        <item>Tajjatajja</item>
+        <item>Wilyarr</item>
+    </string-array>
+
     <string-array name="clear_ground_type">
         <item>Select Option</item>
         <item>Lots of clear ground</item>
@@ -127,6 +172,13 @@
         <item>Marna wurnturu-wurnturu</item>
         <item>Marna wita-kari wita-kari</item>
         <item>Marna kutu-kutu</item>
+    </string-array>
+
+    <string-array name="clear_ground_type_warumungu">
+        <item>Select Option</item>
+        <item>Warkirr</item>
+        <item>Some clear ground</item>
+        <item>Muru warinyi</item>
     </string-array>
 
     <string-array name="vegetation_type">
@@ -151,6 +203,17 @@
         <item>Marna panu-kari</item>
     </string-array>
 
+    <string-array name="vegetation_type_warumungu">
+        <item>Select Option</item>
+        <item>Muna -warinyi</item>
+        <item>Mangkkuru</item>
+        <item>Buffel grassland</item>
+        <item>Urlu -warinyi</item>
+        <item>Parlinywarri- warinyi</item>
+        <item>Muru -warinyi</item>
+        <item>Other</item>
+    </string-array>
+
     <string-array name="food_plant_type">
         <item>Grass seeds</item>
         <item>Yakirra grass</item>
@@ -169,6 +232,15 @@
         <item>Ngamarna / puurda / yaljirrpa / ngarlaji</item>
     </string-array>
 
+    <string-array name="food_plant_type_warumungu">
+        <item>Ngarli</item>
+        <item>Yakirra grass</item>
+        <item>Wirilki-kari</item>
+        <item>Kunampi muru-warinyi</item>
+        <item>Kinyuwurru</item>
+        <item>Manaji</item>
+    </string-array>
+
     <string-array name="weather_value">
         <item>Select Option</item>
         <item>Cloudy</item>
@@ -183,6 +255,14 @@
         <item>Wanta</item>
         <item>Warlpa / mayawurnpa</item>
         <item>Rdiwaraji</item>
+    </string-array>
+
+    <string-array name="weather_value_warumungu">
+        <item>Select Option</item>
+        <item>Martayipuru</item>
+        <item>Kilyirri</item>
+        <item>Wurttu puru</item>
+        <item>Lapurra</item>
     </string-array>
 
     <string-array name="fire_type">
@@ -201,6 +281,15 @@
         <item>Tingkirrkari-tingkirrkari / yarlu-yarlu</item>
         <item>Tarlajirri / tarltarlpanu</item>
         <item>Pukulyu</item>
+    </string-array>
+
+    <string-array name="fire_type_warumungu">
+        <item>Select Option</item>
+        <item>Payintalki</item>
+        <item>Payintampal kuraly-partan</item>
+        <item>Mature herbs with small grasses</item>
+        <item>Kupunjuku</item>
+        <item>Kupunjukupurta</item>
     </string-array>
 
     <string-array name="what_see_values">
@@ -227,6 +316,18 @@
         <item>parngirni ngama-ku / murluru-ku</item>
     </string-array>
 
+    <string-array name="what_see_values_warumungu">
+        <item>Select Option</item>
+        <item>Kuyu</item>
+        <item>Jina </item>
+        <item>Kuna</item>
+        <item>Warakul / Pirntirnurru / Ngurraji</item>
+        <item>Ngattu</item>
+        <item>Warntan</item>
+        <item>Ngamurunjjan wirilki-ki</item>
+        <item>Ngamurunjjan pingala-ka</item>
+    </string-array>
+
     <string-array name="how_recent_values">
         <item>Select Option</item>
         <item>Fresh (1 – 2 days)</item>
@@ -241,6 +342,13 @@
         <item>nyurru-warnu</item>
     </string-array>
 
+    <string-array name="how_recent_values_warumungu">
+        <item>Select Option</item>
+        <item>Payintalki</item>
+        <item>Wanjjalalki</item>
+        <item>Yurrmulalki</item>
+    </string-array>
+
     <string-array name="animal_age_values">
         <item>Select Option</item>
         <item>Big adult</item>
@@ -253,6 +361,13 @@
         <item>wiri-jarlu</item>
         <item>wiri wita-karri-karri</item>
         <item>kurdu</item>
+    </string-array>
+
+    <string-array name="animal_age_values_warumungu">
+        <item>Select Option</item>
+        <item>Kumpilpi</item>
+        <item>Kumppu</item>
+        <item>Pulungu</item>
     </string-array>
 
 </resources>

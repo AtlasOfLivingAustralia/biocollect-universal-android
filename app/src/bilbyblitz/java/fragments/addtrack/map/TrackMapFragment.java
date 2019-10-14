@@ -187,6 +187,10 @@ public class TrackMapFragment extends BaseMainActivityFragment implements Valida
                 surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type_adithinngithigh), R.layout.item_textview));
                 siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type_adithinngithigh), R.layout.item_textview));
                 break;
+            case WARUMUNGU:
+                surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.survey_type_warumungu), R.layout.item_textview));
+                siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), getResources().getStringArray(R.array.site_type_warumungu), R.layout.item_textview));
+                break;
             default:
                 surveySpinner.setAdapter(new CustomSpinnerAdapter(getContext(), surveyTypeEnglishValues, R.layout.item_textview));
                 siteSpinner.setAdapter(new CustomSpinnerAdapter(getContext(), siteTypeEnglishValues, R.layout.item_textview));

@@ -58,14 +58,14 @@
                 android:maxLines="1"
                 android:textSize="@dimen/smaller_input_font_size" />
 
-            <TextView
-                android:id="@+id/kingdom_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/row_view_in_between_top_gap"
-                android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="@dimen/smaller_input_font_size" />
+            <!--<TextView-->
+                <!--android:id="@+id/kingdom_name"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="@dimen/row_view_in_between_top_gap"-->
+                <!--android:ellipsize="end"-->
+                <!--android:maxLines="1"-->
+                <!--android:textSize="@dimen/smaller_input_font_size" />-->
         </LinearLayout>
 
     </RelativeLayout>

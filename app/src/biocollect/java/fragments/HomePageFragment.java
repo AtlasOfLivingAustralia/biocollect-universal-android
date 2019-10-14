@@ -1,6 +1,5 @@
 package fragments;
 
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import au.csiro.ozatlas.R;
-import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.model.HomePageListItem;
 import base.BaseMainActivityFragment;
 import butterknife.BindView;
@@ -75,23 +73,11 @@ public class HomePageFragment extends BaseMainActivityFragment {
      */
     private void setupHeader(View header) {
         TextView nameTV = (TextView) header.findViewById(R.id.name);
-        TextView logoutTV = (TextView) header.findViewById(R.id.logoutButton);
         String name = sharedPreferences.getUserDisplayName();
         if (name == null || name.equals(""))
             nameTV.setText(getString(R.string.welcome_message, getString(R.string.app_name)));
         else
             nameTV.setText(getString(R.string.good_day_message, sharedPreferences.getUserDisplayName()));
-        logoutTV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AtlasDialogManager.alertBox(getActivity(), getString(R.string.logout_message), getString(R.string.logout_title), getString(R.string.logout_title), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        launchLoginActivity();
-                    }
-                });
-            }
-        });
     }
 
     /**
@@ -121,7 +107,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         item = new HomePageListItem();
         item.icon = R.drawable.ic_mail_outline_black_24dp;
         item.text = getString(R.string.contact_us_title);
-        item.url = "https://www.ala.org.au/who-we-are/contact-us/";
+        item.url = "https://www.ala.org.au/contact-us/";
         item.isForWebView = true;
         listItems.add(item);
         item = new HomePageListItem();
@@ -132,7 +118,7 @@ public class HomePageFragment extends BaseMainActivityFragment {
         listItems.add(item);
         item = new HomePageListItem();
         item.icon = R.drawable.ala_transparent;
-        item.url = "https://www.ala.org.au/who-we-are/";
+        item.url = "https://www.ala.org.au/about-ala/";
         item.text = getString(R.string.about_ala_title);
         item.isForWebView = true;
         listItems.add(item);
