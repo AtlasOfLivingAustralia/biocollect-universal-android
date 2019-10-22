@@ -149,7 +149,10 @@ public class AtlasDialogManager {
         final View view = LayoutInflater.from(context).inflate(R.layout.dialog_text_input, null);
         final EditText input = view.findViewById(R.id.dialog_text_input_input);
         final TextView messageView = view.findViewById(R.id.dialog_text_input_message);
+
+        input.setHint(editTextHint);
         messageView.setText(message);
+
         builder.setView(view);
         builder.setPositiveButton(positiveButtonLabel, (dialog, which) -> {
             onClickListener.apply(input.getText());
@@ -160,18 +163,16 @@ public class AtlasDialogManager {
         }));
         final Dialog dialog = builder.create();
 
-        input.setHint(editTextHint);
-
         input.setOnFocusChangeListener((focusView, focus) -> {
 
             Log.d(TAG, "EditText input focus changed " + focus);
             if (focus) {
-                dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE);
+                dialog.getWindow().setSoftInputMode(SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             }
 
             if (!focus) {
                 InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(view.getWindowToken(),0);
+                imm.hideSoftInputFromWindow(focusView.getWindowToken(),0);
             }
         });
 
