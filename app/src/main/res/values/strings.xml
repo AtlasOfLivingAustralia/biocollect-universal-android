@@ -139,4 +139,10 @@
     <string name="explore_image_url">https://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
     <string name="logged_in_message">You\'re currently logged in as %1$s</string>
     <string name="error_try_again">An error has occured, please check your network connection and try again.</string>
+    <string name="hint_password">Password</string>
+    <string name="logout_no_network">You must have a network connection to log out.</string>
+    <string name="please_wait">Please wait</string>
+    <string name="logout_progress">Logout in progress</string>
+    <string name="logout_failed">Logout failed</string>
+    <string name="logout_failed_message">Unable to logout, please check your password and network connection and try again</string>
 </resources>
