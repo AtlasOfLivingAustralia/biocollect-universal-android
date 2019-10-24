@@ -14,6 +14,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.provider.Settings;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
@@ -278,15 +279,9 @@ public class WebViewFragment extends BaseMainActivityFragment {
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 hideProgressDialog();
-                final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
-                alertDialog.setTitle("Error");
-                alertDialog.setMessage(description);
-                alertDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        return;
-                    }
-                });
-                alertDialog.show();
+                Log.e(TAG, "Got " + description + " while accessing " + failingUrl + " with error code " + errorCode);
+
+                Snackbar.make(getView(), R.string.error_try_again, Snackbar.LENGTH_SHORT).show();
             }
 
             @TargetApi(android.os.Build.VERSION_CODES.M)

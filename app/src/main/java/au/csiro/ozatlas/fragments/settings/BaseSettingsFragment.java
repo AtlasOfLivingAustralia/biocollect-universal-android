@@ -29,6 +29,12 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
 
         logoutSmallText.setText(getLoggedInShortMessage());
 
+        configureLogoutButton(logoutButton);
+
+        return view;
+    }
+
+    protected void configureLogoutButton(View logoutButton) {
         logoutButton.setOnClickListener(logoutView ->
                 AtlasDialogManager.alertBox(
                         getActivity(),
@@ -38,8 +44,6 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
                         (dialog, which) -> launchLoginActivity()
                 )
         );
-
-        return view;
     }
 
     private String getLoggedInShortMessage() {
