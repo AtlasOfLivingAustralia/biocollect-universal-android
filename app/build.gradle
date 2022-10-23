@@ -55,12 +55,12 @@ android {
             storePassword keystoreProperties['ozatlas.storePassword']
         }
     }
-    compileSdkVersion 27
+    compileSdkVersion 28
     flavorDimensions "versionCode"
 
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 27
+        minSdkVersion 16
+        targetSdkVersion 28
         applicationId 'au.org'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
