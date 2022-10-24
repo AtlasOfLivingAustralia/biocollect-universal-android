@@ -50,7 +50,9 @@ public class ProjectListFragment extends BaseListWithRefreshIncludingSearchFragm
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            int position = recyclerView.getChildAdapterPosition(v);
+            int position = recyclerView.getChildLayoutPosition(v);
+            Log.d("RECYCLER VIEW POSITION", Integer.toString(position));
+            Log.d("RECYCLER VIEW POSITION", Integer.toString(position));
             if (!projects.get(position).isExternal) {
                 Bundle bundle = new Bundle();
                 bundle.putString(getString(R.string.project_id_parameter), projects.get(position).projectId);
