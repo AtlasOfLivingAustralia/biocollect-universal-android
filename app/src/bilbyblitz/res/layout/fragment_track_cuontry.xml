@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/country_type" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/countryTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
@@ -79,7 +79,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/vegetation" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/vegetationSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
@@ -150,7 +150,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/fire" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/fireSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
@@ -189,7 +189,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/how_clear_ground" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/clearGroundSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
@@ -221,7 +221,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/disturbance" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/disturbanceSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
@@ -253,7 +253,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/ground_type" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/groundTypeSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"
@@ -286,7 +286,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/weather_tracking" />
 
-            <android.support.v7.widget.AppCompatSpinner
+            <androidx.appcompat.widget.AppCompatSpinner
                 android:id="@+id/weatherSpinner"
                 style="@style/TextAppearance.AppCompat.Medium"
                 android:layout_width="match_parent"

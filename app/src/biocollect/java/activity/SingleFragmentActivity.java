@@ -3,10 +3,10 @@ package activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,8 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.ContactUsFragment;
 import fragments.SightingListFragment;
-
-import static au.csiro.ozatlas.R.id.coordinatorLayout;
 
 /**
  * Created by sad038 on 21/4/17.

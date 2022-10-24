@@ -1,6 +1,6 @@
 package au.csiro.ozatlas.base;
 
-import android.support.design.widget.CoordinatorLayout;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.widget.EditText;
 
 /**
