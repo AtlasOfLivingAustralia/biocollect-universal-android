@@ -166,7 +166,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     public void showMultiLineSnackBarMessage(String string) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setMaxLines(5);
         snackbar.show();
     }

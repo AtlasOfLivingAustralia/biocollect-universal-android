@@ -142,8 +142,8 @@ dependencies {
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
     //image download
-    implementation 'com.github.bumptech.glide:glide:4.6.1'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.6.1'
+    implementation 'com.github.bumptech.glide:glide:4.14.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
     //ciruclar imageview
     implementation 'de.hdodenhof:circleimageview:2.1.0'
     //cardview
