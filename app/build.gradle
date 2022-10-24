@@ -64,6 +64,9 @@ android {
         applicationId 'au.org'
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
+        manifestPlaceholders = [
+                'appAuthRedirectScheme': 'au.org.ala'
+        ]
     }
 
     buildTypes {
@@ -143,6 +146,8 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    // OIDC authentication
+    implementation 'net.openid:appauth:0.11.1'
     //image download
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'

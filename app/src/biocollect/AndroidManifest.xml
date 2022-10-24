@@ -47,6 +47,18 @@
         </activity>
 
         <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="au.org.ala.biocollect"
+                    android:path="/auth/signin"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="au.csiro.ozatlas.activity.LoginActivity"
             android:label="@string/title_activity_main"
             android:theme="@style/LoginTheme" />
