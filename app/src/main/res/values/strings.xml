@@ -79,7 +79,7 @@
     <string name="delete_sight_message">Would you like to delete this sight?</string>
     <string name="force_upload_message">There is a possibility of duplication of this track in the server. Are you sure to proceed?</string>
     <string name="generic_error">Something is wrong.</string>
-    <string name="login_error">Invalid Login Information</string>
+    <string name="login_error">An error occurred while logging in.</string>
     <string name="logout_title">Logout</string>
     <string name="permission_denied">Those Permissions are needed. </string>
     <string name="nothing_to_upload">There is no draft record to upload</string>
@@ -145,4 +145,6 @@
     <string name="logout_progress">Logout in progress</string>
     <string name="logout_failed">Logout failed</string>
     <string name="logout_failed_message">Unable to logout, please check your password and network connection and try again</string>
+
+    <string name="oidc_discovery_url">https://auth.ala.org.au/cas/oidc/.well-known</string>
 </resources>

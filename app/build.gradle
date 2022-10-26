@@ -65,7 +65,7 @@ android {
         multiDexEnabled true
         testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
         manifestPlaceholders = [
-                'appAuthRedirectScheme': 'au.org.ala'
+                'appAuthRedirectScheme': 'au.org.ala.auth'
         ]
     }
 
@@ -157,6 +157,8 @@ dependencies {
     implementation 'androidx.cardview:cardview:1.0.0'
     //top snackbar
     implementation 'com.androidadvance:topsnackbar:1.1.1'
+    // loading button
+    implementation 'br.com.simplepass:loading-button-android:2.2.0'
     //Event Bus
     implementation 'org.greenrobot:eventbus:3.1.1'
     //android support

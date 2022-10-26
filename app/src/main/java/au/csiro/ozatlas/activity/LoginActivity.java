@@ -3,7 +3,14 @@ package au.csiro.ozatlas.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import com.google.android.material.textfield.TextInputLayout;
@@ -13,6 +20,10 @@ import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Button;
+
+import au.csiro.ozatlas.BuildConfig;
+import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
 
 import activity.MainActivity;
 import au.csiro.ozatlas.R;
@@ -28,6 +39,13 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.observers.DisposableObserver;
 import io.reactivex.schedulers.Schedulers;
 
+import net.openid.appauth.*;
+import net.openid.appauth.AuthState.AuthStateAction;
+
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Locale;
+
 /**
  * Created by sad038 on 6/4/17.
  */
@@ -35,21 +53,16 @@ import io.reactivex.schedulers.Schedulers;
 
 /**
  * This Activity is to facilitate the Login
- * functionlity for the users
+ * functionality for the users
  */
 public class LoginActivity extends BaseActivity {
-    @BindView(R.id.inputLayoutUsername)
-    TextInputLayout inputLayoutUsername;
-    @BindView(R.id.editUsername)
-    EditText editUsername;
-    @BindView(R.id.inputLayoutPassword)
-    TextInputLayout inputLayoutPassword;
-    @BindView(R.id.editPassword)
-    EditText editPassword;
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
     private EcoDataApiService ecoDataApiService;
+    private AuthorizationService mAuthService;
+    private AuthorizationServiceConfiguration mAuthServiceConfig;
+    private ActivityResultLauncher<Intent> activityResultLauncher;
     //CountingIdlingResource countingIdlingResource = new CountingIdlingResource("LOGIN_CALL");
 
     @Override
@@ -58,22 +71,46 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
-        //rest client service
+        // REST client service
         ecoDataApiService = new NetworkClient(getString(R.string.ecodata_url)).getRetrofit().create(EcoDataApiService.class);
 
-        //setting the id of previous successful logged in user
-        editUsername.setText(sharedPreferences.getUsername());
-        editPassword.setImeActionLabel("Login", EditorInfo.IME_ACTION_DONE);
-        editPassword.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if (actionId == EditorInfo.IME_ACTION_DONE) {
-                    loginButton();
-                }
-                return false;
+        // Setting the id of previous successful logged in user
+        // sharedPreferences.getUsername()
+
+        // Initializing Authentication
+        mAuthService = new AuthorizationService(this);
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            AuthorizationResponse authResp = AuthorizationResponse.fromIntent(result.getData());
+            if (authResp != null) {
+                mAuthService.performTokenRequest(
+                        authResp.createTokenExchangeRequest(),
+                        (resp, ex) -> {
+                            if (resp != null) { // If the exchange was successful
+                                Log.d(TAG, String.format("Successful exchange! %s %s", resp.tokenType, resp.accessToken));
+                            } else {
+                                handleError(coordinatorLayout, ex, 400, getString(R.string.login_error));
+                                Log.d(TAG, Log.getStackTraceString(ex));
+                            }
+                        });
             }
         });
-        //countingIdlingResource.increment();
+
+        CircularProgressButton btn = (CircularProgressButton) findViewById(R.id.loginButton);
+        btn.startAnimation();
+
+        AuthorizationServiceConfiguration.fetchFromIssuer(
+                Uri.parse(getString(R.string.oidc_discovery_url)),
+                (serviceConfiguration, ex) -> {
+                    if (ex != null) {
+                        Log.e(TAG, "failed to fetch configuration");
+                        return;
+                    }
+                    Log.d(TAG, serviceConfiguration.toJsonString());
+                    mAuthServiceConfig = serviceConfiguration;
+                    btn.revertAnimation();
+                });
+
+        // countingIdlingResource.increment();
     }
 
     @Override
@@ -129,26 +166,24 @@ public class LoginActivity extends BaseActivity {
     @OnClick(R.id.loginButton)
     void loginButton() {
         AtlasManager.hideKeyboard(this);
-        if (getValidated())
-            postLogin(editUsername.getText().toString(), editPassword.getText().toString());
-    }
+//        if (getValidated())
+//            postLogin(editUsername.getText().toString(), editPassword.getText().toString());
+        Boolean isDebug = false;
+        AuthorizationRequest authRequest =
+                new AuthorizationRequest.Builder(
+                        mAuthServiceConfig,
+                        String.format(isDebug ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
+                        ResponseTypeValues.CODE,
+                        Uri.parse(String.format("au.org.ala.auth:/%s/signin", BuildConfig.FLAVOR))).build();
 
-    private boolean getValidated() {
-        boolean value = true;
-        if (!validate(editUsername)) {
-            inputLayoutUsername.setError(getString(R.string.username_missing_error));
-            value = false;
-        } else {
-            inputLayoutUsername.setError("");
-        }
+        Log.d(TAG, String.format(
+                "%s | %s",
+                String.format("%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
+                String.format("au.org.ala.auth:/%s/signin", BuildConfig.FLAVOR))
+        );
 
-        if (!validate(editPassword)) {
-            inputLayoutPassword.setError(getString(R.string.password_missing_error));
-            value = false;
-        } else {
-            inputLayoutPassword.setError("");
-        }
-        return value;
+        Intent authIntent = mAuthService.getAuthorizationRequestIntent(authRequest);
+        activityResultLauncher.launch(authIntent);
     }
 
     /**
