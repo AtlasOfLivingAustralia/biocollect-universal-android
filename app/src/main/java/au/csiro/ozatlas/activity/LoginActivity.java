@@ -13,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
+
+import com.auth0.android.jwt.JWT;
 import com.google.android.material.textfield.TextInputLayout;
 import androidx.test.espresso.IdlingResource;
 import android.util.Log;
@@ -79,25 +81,12 @@ public class LoginActivity extends BaseActivity {
 
         // Initializing Authentication
         mAuthService = new AuthorizationService(this);
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            AuthorizationResponse authResp = AuthorizationResponse.fromIntent(result.getData());
-            if (authResp != null) {
-                mAuthService.performTokenRequest(
-                        authResp.createTokenExchangeRequest(),
-                        (resp, ex) -> {
-                            if (resp != null) { // If the exchange was successful
-                                Log.d(TAG, String.format("Successful exchange! %s %s", resp.tokenType, resp.accessToken));
-                            } else {
-                                handleError(coordinatorLayout, ex, 400, getString(R.string.login_error));
-                                Log.d(TAG, Log.getStackTraceString(ex));
-                            }
-                        });
-            }
-        });
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this.handleAuthResponse());
 
         CircularProgressButton btn = (CircularProgressButton) findViewById(R.id.loginButton);
         btn.startAnimation();
 
+        // Fetch the OIDC discovery document from the issuer
         AuthorizationServiceConfiguration.fetchFromIssuer(
                 Uri.parse(getString(R.string.oidc_discovery_url)),
                 (serviceConfiguration, ex) -> {
@@ -117,6 +106,37 @@ public class LoginActivity extends BaseActivity {
     public void onResume() {
         super.onResume();
         sendAnalyticsScreenName("Login Activity", TAG);
+    }
+
+    /**
+     * Creates an ActivityResultCallback to handle authorization responses
+     */
+    private ActivityResultCallback<ActivityResult> handleAuthResponse() {
+        return result -> {
+            // Create a new AuthorizationResponse from the resulting intent
+            AuthorizationResponse authResp = AuthorizationResponse.fromIntent(result.getData());
+
+            // Ensure that the auth response is valid
+            if (authResp != null) {
+                showProgressDialog();
+
+                // Exchange the authorization code for access & id tokens
+                mAuthService.performTokenRequest(
+                        authResp.createTokenExchangeRequest(),
+                        (resp, ex) -> {
+                            hideProgressDialog();
+                            if (resp != null) { // If the exchange was successful
+                                JWT accessJwt = new JWT(resp.accessToken);
+                                JWT idJwt = new JWT(resp.idToken);
+                                Log.d(TAG, String.format("accessToken %s", accessJwt.getSubject()));
+                                Log.d(TAG, String.format("idToken %s", idJwt.getAudience()));
+                            } else {
+                                handleError(coordinatorLayout, ex, 400, getString(R.string.login_error));
+                                Log.d(TAG, Log.getStackTraceString(ex));
+                            }
+                        });
+            }
+        };
     }
 
     /**
@@ -168,11 +188,11 @@ public class LoginActivity extends BaseActivity {
         AtlasManager.hideKeyboard(this);
 //        if (getValidated())
 //            postLogin(editUsername.getText().toString(), editPassword.getText().toString());
-        Boolean isDebug = false;
+        Boolean useTestClient = true;
         AuthorizationRequest authRequest =
                 new AuthorizationRequest.Builder(
                         mAuthServiceConfig,
-                        String.format(isDebug ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
+                        String.format(useTestClient ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
                         ResponseTypeValues.CODE,
                         Uri.parse(String.format("au.org.ala.auth:/%s/signin", BuildConfig.FLAVOR))).build();
 

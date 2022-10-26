@@ -112,8 +112,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
 }
 
@@ -146,8 +146,9 @@ dependencies {
     implementation 'io.reactivex.rxjava2:rxjava:2.1.7'
     implementation 'com.jakewharton.retrofit:retrofit2-rxjava2-adapter:1.0.0'
     implementation 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
-    // OIDC authentication
+    // OIDC authentication & JWT
     implementation 'net.openid:appauth:0.11.1'
+    implementation 'com.auth0.android:jwtdecode:2.0.1'
     //image download
     implementation 'com.github.bumptech.glide:glide:4.14.2'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.14.2'
