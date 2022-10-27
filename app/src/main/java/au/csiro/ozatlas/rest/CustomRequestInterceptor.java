@@ -30,7 +30,7 @@ public class CustomRequestInterceptor implements Interceptor {
         Request request;
         final Request.Builder builder = chain.request().newBuilder().addHeader("Accept", "application/json");
         if (!sharedPreferences.getAuthKey().equals("")) {
-            builder.addHeader("authKey", sharedPreferences.getAuthKey());
+            builder.addHeader("Authorization", String.format("Bearer %s", sharedPreferences.getAuthKey()));
             final String existingUserNameHeader = chain.request().header("userName");
             if (existingUserNameHeader == null || existingUserNameHeader.isEmpty()) {
                 builder.addHeader("userName", sharedPreferences.getUsername());

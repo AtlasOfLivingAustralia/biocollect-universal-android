@@ -164,6 +164,7 @@
   "delete_sight_message": "Would you like to delete this sight?",
   "generic_error": "Something is wrong.",
   "login_error": "An error occurred while logging in.",
+  "discovery_error": "An error occurred while performing OIDC discovery",
   "logout_title": "Logout",
   "permission_denied": "Those Permissions are needed. ",
   "nothing_to_upload": "There is no draft record to upload",

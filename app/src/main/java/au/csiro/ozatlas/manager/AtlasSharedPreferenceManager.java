@@ -221,7 +221,7 @@ public class AtlasSharedPreferenceManager {
         HashMap<String, String> map = new HashMap<String, String>();
         String key = getAuthKey();
         if (!key.equals(""))
-            map.put("authKey", key);
+            map.put("Authorization", String.format("Bearer %s", key));
         String username = getUsername();
         if (!username.equals(""))
             map.put("userName", username);

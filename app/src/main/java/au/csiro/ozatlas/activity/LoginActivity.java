@@ -31,22 +31,11 @@ import activity.MainActivity;
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.base.BaseActivity;
 import au.csiro.ozatlas.manager.AtlasManager;
-import au.csiro.ozatlas.model.LoginResponse;
-import au.csiro.ozatlas.rest.EcoDataApiService;
-import au.csiro.ozatlas.rest.NetworkClient;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.observers.DisposableObserver;
-import io.reactivex.schedulers.Schedulers;
 
 import net.openid.appauth.*;
-import net.openid.appauth.AuthState.AuthStateAction;
-
-import java.net.URI;
-import java.util.HashMap;
-import java.util.Locale;
 
 /**
  * Created by sad038 on 6/4/17.
@@ -61,7 +50,6 @@ public class LoginActivity extends BaseActivity {
     @BindView(R.id.coordinatorLayout)
     CoordinatorLayout coordinatorLayout;
 
-    private EcoDataApiService ecoDataApiService;
     private AuthorizationService mAuthService;
     private AuthorizationServiceConfiguration mAuthServiceConfig;
     private ActivityResultLauncher<Intent> activityResultLauncher;
@@ -72,12 +60,6 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
-
-        // REST client service
-        ecoDataApiService = new NetworkClient(getString(R.string.ecodata_url)).getRetrofit().create(EcoDataApiService.class);
-
-        // Setting the id of previous successful logged in user
-        // sharedPreferences.getUsername()
 
         // Initializing Authentication
         mAuthService = new AuthorizationService(this);
@@ -92,14 +74,14 @@ public class LoginActivity extends BaseActivity {
                 (serviceConfiguration, ex) -> {
                     if (ex != null) {
                         Log.e(TAG, "failed to fetch configuration");
+                        handleError(coordinatorLayout, ex, 400, getString(R.string.discovery_error));
+                        Log.e(TAG, Log.getStackTraceString(ex));
                         return;
                     }
                     Log.d(TAG, serviceConfiguration.toJsonString());
                     mAuthServiceConfig = serviceConfiguration;
                     btn.revertAnimation();
                 });
-
-        // countingIdlingResource.increment();
     }
 
     @Override
@@ -124,12 +106,20 @@ public class LoginActivity extends BaseActivity {
                 mAuthService.performTokenRequest(
                         authResp.createTokenExchangeRequest(),
                         (resp, ex) -> {
-                            hideProgressDialog();
                             if (resp != null) { // If the exchange was successful
-                                JWT accessJwt = new JWT(resp.accessToken);
                                 JWT idJwt = new JWT(resp.idToken);
-                                Log.d(TAG, String.format("accessToken %s", accessJwt.getSubject()));
-                                Log.d(TAG, String.format("idToken %s", idJwt.getAudience()));
+
+                                // Update shared preferences
+                                sharedPreferences.writeAuthKey(resp.accessToken);
+                                sharedPreferences.writeUserDisplayName(idJwt.getClaim("name").asString());
+                                sharedPreferences.writeUsername(idJwt.getClaim("email").asString());
+                                sharedPreferences.writeUserId(idJwt.getClaim("userid").asString());
+
+                                // Navigate to the main activity
+                                hideProgressDialog();
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                startActivity(intent);
+                                finish();
                             } else {
                                 handleError(coordinatorLayout, ex, 400, getString(R.string.login_error));
                                 Log.d(TAG, Log.getStackTraceString(ex));
@@ -137,47 +127,6 @@ public class LoginActivity extends BaseActivity {
                         });
             }
         };
-    }
-
-    /**
-     * make a network call for getting the AuthKey and user display name
-     *
-     * @param username login username
-     * @param password user's password
-     */
-    private void postLogin(final String username, String password) {
-        showProgressDialog();
-        mCompositeDisposable.add(ecoDataApiService.login(username, password)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(new DisposableObserver<LoginResponse>() {
-                    @Override
-                    public void onNext(LoginResponse value) {
-                        //countingIdlingResource.decrement();
-                        sharedPreferences.writeAuthKey(value.authKey);
-                        sharedPreferences.writeUserDisplayName((value.firstName + " " + value.lastName).trim());
-                        sharedPreferences.writeUsername(username);
-                        sharedPreferences.writeUserId(value.userId);
-                        Log.d(TAG, "onNext");
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        //countingIdlingResource.decrement();
-                        Log.d(TAG, "onError", e);
-                        hideProgressDialog();
-                        handleError(coordinatorLayout, e, 400, getString(R.string.login_error));
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        hideProgressDialog();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
-                        finish();
-                        Log.d(TAG, "onComplete");
-                    }
-                }));
     }
 
     /**
