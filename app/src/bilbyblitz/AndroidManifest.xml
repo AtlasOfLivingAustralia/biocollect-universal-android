@@ -65,12 +65,12 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/map_key" />
 
-        <service android:name="au.csiro.ozatlas.fcm.AtlasFirebaseMessagingService">
+        <service android:name="au.csiro.ozatlas.fcm.AtlasFirebaseMessagingService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <service android:name="au.csiro.ozatlas.fcm.AtlasFirebaseInstanceIDService">
+        <service android:name="au.csiro.ozatlas.fcm.AtlasFirebaseInstanceIDService" android:exported="false">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
