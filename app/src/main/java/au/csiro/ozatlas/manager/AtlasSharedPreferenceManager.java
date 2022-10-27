@@ -76,7 +76,7 @@ public class AtlasSharedPreferenceManager {
      * @param idToken
      */
     public void writeIdToken(String idToken) {
-        sharedPreferences.edit().putString("AUTH_ID_TOKEN", idToken);
+        sharedPreferences.edit().putString("AUTH_ID_TOKEN", idToken).apply();
     }
 
     /**
@@ -92,7 +92,7 @@ public class AtlasSharedPreferenceManager {
      * @param discovery
      */
     public void writeAuthServiceConfig(AuthorizationServiceConfiguration discovery) {
-        sharedPreferences.edit().putString("AUTH_OIDC_DISCOVERY", discovery.toJsonString());
+        sharedPreferences.edit().putString("AUTH_OIDC_DISCOVERY", discovery.toJsonString()).apply();
     }
 
     /**
@@ -102,7 +102,7 @@ public class AtlasSharedPreferenceManager {
         try {
             return AuthorizationServiceConfiguration.fromJson(sharedPreferences.getString("AUTH_OIDC_DISCOVERY", ""));
         } catch (JSONException err) {
-            Log.d("Shared Preferences", Log.getStackTraceString(err));
+            Log.w("Shared Preferences", "No AuthorizationServiceConfiguration has been stored, returning null...");
         }
 
         return null;

@@ -61,7 +61,7 @@ public class LoginActivity extends BaseActivity {
 
         // Initializing Authentication
         mAuthService = new AuthorizationService(this);
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this.handleAuthResponse());
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), this.handleLoginResponse());
 
         CircularProgressButton btn = (CircularProgressButton) findViewById(R.id.loginButton);
         btn.startAnimation();
@@ -71,7 +71,6 @@ public class LoginActivity extends BaseActivity {
                 Uri.parse(getString(R.string.oidc_discovery_url)),
                 (serviceConfiguration, ex) -> {
                     if (ex != null) {
-                        Log.e(TAG, "failed to fetch configuration");
                         handleError(coordinatorLayout, ex, 400, getString(R.string.discovery_error));
                         Log.e(TAG, Log.getStackTraceString(ex));
                         return;
@@ -89,9 +88,9 @@ public class LoginActivity extends BaseActivity {
     }
 
     /**
-     * Creates an ActivityResultCallback to handle authorization responses
+     * Creates an ActivityResultCallback to handle login responses
      */
-    private ActivityResultCallback<ActivityResult> handleAuthResponse() {
+    private ActivityResultCallback<ActivityResult> handleLoginResponse() {
         return result -> {
             // Create a new AuthorizationResponse from the resulting intent
             AuthorizationResponse authResp = AuthorizationResponse.fromIntent(result.getData());
@@ -121,9 +120,12 @@ public class LoginActivity extends BaseActivity {
                                 finish();
                             } else {
                                 handleError(coordinatorLayout, ex, 400, getString(R.string.login_error));
-                                Log.d(TAG, Log.getStackTraceString(ex));
+                                Log.e(TAG, Log.getStackTraceString(ex));
                             }
                         });
+            } else {
+                AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());
+                Log.e(TAG, Log.getStackTraceString(authEx));
             }
         };
     }
@@ -137,21 +139,22 @@ public class LoginActivity extends BaseActivity {
 //        if (getValidated())
 //            postLogin(editUsername.getText().toString(), editPassword.getText().toString());
         Boolean useTestClient = true;
-        AuthorizationRequest authRequest =
+        AuthorizationRequest loginRequest =
                 new AuthorizationRequest.Builder(
                         sharedPreferences.getAuthServiceConfig(),
                         String.format(useTestClient ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
                         ResponseTypeValues.CODE,
-                        Uri.parse(String.format("au.org.ala.auth:/%s/signin", BuildConfig.FLAVOR))).build();
+                        Uri.parse(String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))).build();
 
         Log.d(TAG, String.format(
                 "%s | %s",
                 String.format("%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
-                String.format("au.org.ala.auth:/%s/signin", BuildConfig.FLAVOR))
+                String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))
         );
 
-        Intent authIntent = mAuthService.getAuthorizationRequestIntent(authRequest);
-        activityResultLauncher.launch(authIntent);
+        activityResultLauncher.launch(
+                mAuthService.getAuthorizationRequestIntent(loginRequest)
+        );
     }
 
     /**
