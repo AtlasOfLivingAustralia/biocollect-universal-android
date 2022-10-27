@@ -3,8 +3,15 @@ package au.csiro.ozatlas.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
+
+import net.openid.appauth.AuthorizationServiceConfiguration;
+import net.openid.appauth.AuthorizationServiceDiscovery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +69,43 @@ public class AtlasSharedPreferenceManager {
      */
     public String getAuthKey() {
         return sharedPreferences.getString("AUTH_KEY", "");
+    }
+
+    /**
+     * Write id token
+     * @param idToken
+     */
+    public void writeIdToken(String idToken) {
+        sharedPreferences.edit().putString("AUTH_ID_TOKEN", idToken);
+    }
+
+    /**
+     * get the ID token
+     * @return
+     */
+    public String getIdToken() {
+        return sharedPreferences.getString("AUTH_ID_TOKEN", "");
+    }
+
+    /**
+     * write the OIDC discovery document
+     * @param discovery
+     */
+    public void writeAuthServiceConfig(AuthorizationServiceConfiguration discovery) {
+        sharedPreferences.edit().putString("AUTH_OIDC_DISCOVERY", discovery.toJsonString());
+    }
+
+    /**
+     * get the OIDC discovery document
+     */
+    public AuthorizationServiceConfiguration getAuthServiceConfig() {
+        try {
+            return AuthorizationServiceConfiguration.fromJson(sharedPreferences.getString("AUTH_OIDC_DISCOVERY", ""));
+        } catch (JSONException err) {
+            Log.d("Shared Preferences", Log.getStackTraceString(err));
+        }
+
+        return null;
     }
 
     /**

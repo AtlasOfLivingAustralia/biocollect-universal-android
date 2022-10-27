@@ -1,10 +1,13 @@
 package au.csiro.ozatlas.fragments.settings;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.openid.appauth.*;
 
 import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.manager.AtlasDialogManager;
@@ -28,7 +31,6 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         hideFloatingButton();
 
         logoutSmallText.setText(getLoggedInShortMessage());
-
         configureLogoutButton(logoutButton);
 
         return view;
@@ -36,13 +38,15 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
 
     protected void configureLogoutButton(View logoutButton) {
         logoutButton.setOnClickListener(logoutView ->
-                AtlasDialogManager.alertBox(
-                        getActivity(),
-                        getString(R.string.logout_message),
-                        getString(R.string.logout_title),
-                        getString(R.string.logout_title),
-                        (dialog, which) -> launchLoginActivity()
-                )
+                {
+                    AtlasDialogManager.alertBox(
+                            getActivity(),
+                            getString(R.string.logout_message),
+                            getString(R.string.logout_title),
+                            getString(R.string.logout_title),
+                            (dialog, which) -> launchLoginActivity()
+                    );
+                }
         );
     }
 
@@ -50,5 +54,10 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         return getString(R.string.logged_in_message, sharedPreferences.getUsername());
     }
 
-
+    private void handleLogout() {
+        EndSessionRequest endSessionRequest = new EndSessionRequest.Builder(sharedPreferences.getAuthServiceConfig())
+                .setIdTokenHint(sharedPreferences.getIdToken())
+                .setPostLogoutRedirectUri(Uri.parse("au.org.ala.auth"))
+                .build();
+    }
 }

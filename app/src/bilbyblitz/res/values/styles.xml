@@ -47,7 +47,7 @@
         <item name="colorAccent">#79c1f9</item>
 
         <item name="android:textColorHint">@color/primaryDark</item>
-        <!--<item name="textColorError">@android:color/white</item>-->
+        <!--<item name="colorError">@android:color/white</item>-->
     </style>
 
     <!--date and time picker-->

@@ -51,9 +51,7 @@ public class LoginActivity extends BaseActivity {
     CoordinatorLayout coordinatorLayout;
 
     private AuthorizationService mAuthService;
-    private AuthorizationServiceConfiguration mAuthServiceConfig;
     private ActivityResultLauncher<Intent> activityResultLauncher;
-    //CountingIdlingResource countingIdlingResource = new CountingIdlingResource("LOGIN_CALL");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +77,7 @@ public class LoginActivity extends BaseActivity {
                         return;
                     }
                     Log.d(TAG, serviceConfiguration.toJsonString());
-                    mAuthServiceConfig = serviceConfiguration;
+                    sharedPreferences.writeAuthServiceConfig(serviceConfiguration);
                     btn.revertAnimation();
                 });
     }
@@ -111,6 +109,7 @@ public class LoginActivity extends BaseActivity {
 
                                 // Update shared preferences
                                 sharedPreferences.writeAuthKey(resp.accessToken);
+                                sharedPreferences.writeIdToken(resp.idToken);
                                 sharedPreferences.writeUserDisplayName(idJwt.getClaim("name").asString());
                                 sharedPreferences.writeUsername(idJwt.getClaim("email").asString());
                                 sharedPreferences.writeUserId(idJwt.getClaim("userid").asString());
@@ -140,7 +139,7 @@ public class LoginActivity extends BaseActivity {
         Boolean useTestClient = true;
         AuthorizationRequest authRequest =
                 new AuthorizationRequest.Builder(
-                        mAuthServiceConfig,
+                        sharedPreferences.getAuthServiceConfig(),
                         String.format(useTestClient ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
                         ResponseTypeValues.CODE,
                         Uri.parse(String.format("au.org.ala.auth:/%s/signin", BuildConfig.FLAVOR))).build();
