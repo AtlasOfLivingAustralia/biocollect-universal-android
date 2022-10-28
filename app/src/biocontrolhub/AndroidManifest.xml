@@ -52,6 +52,17 @@
             android:theme="@style/LoginTheme" />
 
         <activity
+            android:name="net.openid.appauth.RedirectUriReceiverActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
+                <data android:scheme="au.org.ala.biocontrolhub"/>
+            </intent-filter>
+        </activity>
+
+        <activity
             android:name="activity.SingleFragmentActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main" />
