@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground">
@@ -88,4 +88,4 @@
                 android:textSize="@dimen/smaller_input_font_size" />
         </RelativeLayout>
     </RelativeLayout>
-</androidx.appcompat.widget.CardView>
+</androidx.cardview.widget.CardView>

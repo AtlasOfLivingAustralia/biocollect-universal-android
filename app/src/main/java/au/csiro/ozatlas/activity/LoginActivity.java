@@ -129,7 +129,8 @@ public class LoginActivity extends BaseActivity {
                                 Log.e(TAG, Log.getStackTraceString(respEx));
                             }
                         });
-            } else {
+            } else if (authEx.code != 1 || authEx.type != 0) {
+                // If the user didn't cancel the flow, log the error
                 Log.e(TAG, Log.getStackTraceString(authEx));
             }
         };

@@ -7,16 +7,12 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import com.google.android.material.snackbar.Snackbar;
-import androidx.appcompat.app.AlertDialog;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.TextView;
-
-import com.crashlytics.android.Crashlytics;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -27,15 +23,10 @@ import au.csiro.ozatlas.manager.AtlasDialogManager;
 import au.csiro.ozatlas.manager.Language;
 import au.csiro.ozatlas.manager.Utils;
 import au.csiro.ozatlas.model.Project;
-import au.csiro.ozatlas.rest.EcoDataApiService;
-import au.csiro.ozatlas.rest.NetworkClient;
 import butterknife.BindView;
 import butterknife.OnClick;
 import fragments.CustomSpinnerAdapter;
-import io.fabric.sdk.android.Fabric;
-import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
-import io.reactivex.schedulers.Schedulers;
 import language.LanguageManager;
 
 import static android.app.Activity.RESULT_OK;
@@ -57,9 +48,6 @@ public class SettingFragment extends BaseSettingsFragment {
     TextView languageHeading;
 
     protected CompositeDisposable mCompositeDisposable = new CompositeDisposable();
-
-    // TODO Daggerise
-    private EcoDataApiService ecoDataApiService;
 
     /*@BindView(R.id.offlineHeading)
     TextView offlineHeading;
@@ -120,9 +108,6 @@ public class SettingFragment extends BaseSettingsFragment {
         //set the localized labels
         setLanguageValues(sharedPreferences.getLanguageEnumLanguage());
 
-        // TODO Daggerise
-        ecoDataApiService = new NetworkClient(getString(R.string.ecodata_url)).getRetrofit().create(EcoDataApiService.class);
-
         return view;
     }
 
@@ -137,26 +122,26 @@ public class SettingFragment extends BaseSettingsFragment {
 
                     final String username = sharedPreferences.getUsername();
                     final String pwd = password.toString();
-                    mCompositeDisposable.add(
-                        ecoDataApiService.login(username, pwd)
-                            .subscribeOn(Schedulers.io())
-                            .observeOn(AndroidSchedulers.mainThread())
-                            .subscribe(
-                                (loginResponse) -> {
-                                    Log.i(TAG, "Logout complete for " + loginResponse.userId);
-                                    // Launching the login activity effectively logs the user out.
-                                    progressDialog.dismiss();
-                                    launchLoginActivity();
-                                },
-                                (error) -> {
-                                    Log.e(TAG, "Couldn't logout user", error);
-                                    Fabric.getLogger().e("Couldn't logout user", error.getMessage());
-                                    Crashlytics.logException(error);
-                                    progressDialog.cancel();
-                                    new AlertDialog.Builder(getContext()).setTitle(R.string.logout_failed).setMessage(R.string.logout_failed_message).setNeutralButton(android.R.string.ok, (d, w) -> {} ).setCancelable(false).create().show();
-                                }
-                             )
-                    );
+//                    mCompositeDisposable.add(
+//                        ecoDataApiService.login(username, pwd)
+//                            .subscribeOn(Schedulers.io())
+//                            .observeOn(AndroidSchedulers.mainThread())
+//                            .subscribe(
+//                                (loginResponse) -> {
+//                                    Log.i(TAG, "Logout complete for " + loginResponse.userId);
+//                                    // Launching the login activity effectively logs the user out.
+//                                    progressDialog.dismiss();
+//                                    launchLoginActivity();
+//                                },
+//                                (error) -> {
+//                                    Log.e(TAG, "Couldn't logout user", error);
+//                                    Fabric.getLogger().e("Couldn't logout user", error.getMessage());
+//                                    Crashlytics.logException(error);
+//                                    progressDialog.cancel();
+//                                    new AlertDialog.Builder(getContext()).setTitle(R.string.logout_failed).setMessage(R.string.logout_failed_message).setNeutralButton(android.R.string.ok, (d, w) -> {} ).setCancelable(false).create().show();
+//                                }
+//                             )
+//                    );
                 });
             } else {
                 Snackbar.make(getView(), R.string.logout_no_network, Snackbar.LENGTH_SHORT).show();

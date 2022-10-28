@@ -90,7 +90,7 @@
             android:layout_height="@dimen/map_height"
             android:layout_marginTop="@dimen/input_view_top_margin" />
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -110,9 +110,9 @@
                 android:inputType="date"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutstartTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,9 +132,9 @@
                 android:inputType="date"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutEndTime"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -154,6 +154,6 @@
                 android:inputType="date"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>

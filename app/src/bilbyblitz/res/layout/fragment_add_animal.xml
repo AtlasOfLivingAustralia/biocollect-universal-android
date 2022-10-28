@@ -19,7 +19,7 @@
             android:layout_marginTop="@dimen/input_view_top_margin"
             android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutSpeciesName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
@@ -37,7 +37,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:textSize="@dimen/default_input_font_size" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -173,7 +173,7 @@
             android:layout_marginTop="4dp"
             android:orientation="horizontal">
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutLatitude"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -191,9 +191,9 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:textSize="@dimen/default_input_font_size" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
 
-            <android.support.design.widget.TextInputLayout
+            <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/inputLayoutLongitude"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -211,7 +211,7 @@
                     android:inputType="text"
                     android:maxLines="1"
                     android:textSize="@dimen/default_input_font_size" />
-            </android.support.design.widget.TextInputLayout>
+            </com.google.android.material.textfield.TextInputLayout>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

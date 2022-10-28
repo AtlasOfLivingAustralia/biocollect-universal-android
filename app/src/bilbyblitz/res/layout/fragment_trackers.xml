@@ -13,7 +13,7 @@
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingTop="@dimen/activity_vertical_margin">
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutOrganisationName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -29,10 +29,10 @@
                 android:inputType="textMultiLine"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutLeadTracker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,9 +48,9 @@
                 android:inputType="textMultiLine"
                 android:maxLines="1"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutOtherTracker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -66,9 +66,9 @@
                 android:inputType="textMultiLine"
                 android:maxLines="3"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <android.support.design.widget.TextInputLayout
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/inputLayoutComments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -84,6 +84,6 @@
                 android:inputType="textMultiLine"
                 android:minLines="3"
                 android:textSize="@dimen/default_input_font_size" />
-        </android.support.design.widget.TextInputLayout>
+        </com.google.android.material.textfield.TextInputLayout>
     </LinearLayout>
 </ScrollView>

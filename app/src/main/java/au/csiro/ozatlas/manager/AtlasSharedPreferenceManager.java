@@ -273,7 +273,7 @@ public class AtlasSharedPreferenceManager {
 
     public Map getHeaderMap() {
         HashMap<String, String> map = new HashMap<String, String>();
-        String key = getAuthState().getAccessToken();
+        String key = getAuthKey();
         if (!key.equals(""))
             map.put("Authorization", String.format("Bearer %s", key));
         String username = getUsername();
