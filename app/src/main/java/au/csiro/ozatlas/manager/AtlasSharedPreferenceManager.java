@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.google.gson.Gson;
 
+import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationServiceConfiguration;
 import net.openid.appauth.AuthorizationServiceDiscovery;
 
@@ -72,19 +73,28 @@ public class AtlasSharedPreferenceManager {
     }
 
     /**
-     * Write id token
-     * @param idToken
+     * Write AuthState
      */
-    public void writeIdToken(String idToken) {
-        sharedPreferences.edit().putString("AUTH_ID_TOKEN", idToken).apply();
+    public void writeAuthState(AuthState state) {
+        sharedPreferences.edit().putString("AUTH_STATE", state.jsonSerializeString()).apply();
     }
 
     /**
-     * get the ID token
-     * @return
+     * Get AuthState
      */
-    public String getIdToken() {
-        return sharedPreferences.getString("AUTH_ID_TOKEN", "");
+    public AuthState getAuthState() {
+        try {
+            String authStateString = sharedPreferences.getString("AUTH_STATE", "");
+            if (authStateString == null || authStateString.length() == 0) {
+                return null;
+            } else {
+                AuthState.jsonDeserialize(authStateString);
+            }
+        } catch (JSONException ex) {
+            Log.e("Preference Manager", Log.getStackTraceString(ex));
+        }
+
+        return null;
     }
 
     /**
@@ -263,7 +273,7 @@ public class AtlasSharedPreferenceManager {
 
     public Map getHeaderMap() {
         HashMap<String, String> map = new HashMap<String, String>();
-        String key = getAuthKey();
+        String key = getAuthState().getAccessToken();
         if (!key.equals(""))
             map.put("Authorization", String.format("Bearer %s", key));
         String username = getUsername();

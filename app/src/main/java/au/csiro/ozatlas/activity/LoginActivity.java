@@ -51,6 +51,7 @@ public class LoginActivity extends BaseActivity {
     CoordinatorLayout coordinatorLayout;
 
     private AuthorizationService mAuthService;
+    private AuthState mAuthState;
     private ActivityResultLauncher<Intent> activityResultLauncher;
 
     @Override
@@ -75,8 +76,7 @@ public class LoginActivity extends BaseActivity {
                         Log.e(TAG, Log.getStackTraceString(ex));
                         return;
                     }
-                    Log.d(TAG, serviceConfiguration.toJsonString());
-                    sharedPreferences.writeAuthServiceConfig(serviceConfiguration);
+                    mAuthState = new AuthState(serviceConfiguration);
                     btn.revertAnimation();
                 });
     }
@@ -94,21 +94,27 @@ public class LoginActivity extends BaseActivity {
         return result -> {
             // Create a new AuthorizationResponse from the resulting intent
             AuthorizationResponse authResp = AuthorizationResponse.fromIntent(result.getData());
+            AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());
+            mAuthState.update(authResp, authEx);
+
 
             // Ensure that the auth response is valid
             if (authResp != null) {
                 showProgressDialog();
-
                 // Exchange the authorization code for access & id tokens
                 mAuthService.performTokenRequest(
                         authResp.createTokenExchangeRequest(),
-                        (resp, ex) -> {
+                        (resp, respEx) -> {
                             if (resp != null) { // If the exchange was successful
                                 JWT idJwt = new JWT(resp.idToken);
 
+                                // Update the auth state
+                                mAuthState.update(resp, respEx);
+
+
                                 // Update shared preferences
                                 sharedPreferences.writeAuthKey(resp.accessToken);
-                                sharedPreferences.writeIdToken(resp.idToken);
+                                sharedPreferences.writeAuthState(mAuthState);
                                 sharedPreferences.writeUserDisplayName(idJwt.getClaim("name").asString());
                                 sharedPreferences.writeUsername(idJwt.getClaim("email").asString());
                                 sharedPreferences.writeUserId(idJwt.getClaim("userid").asString());
@@ -119,12 +125,11 @@ public class LoginActivity extends BaseActivity {
                                 startActivity(intent);
                                 finish();
                             } else {
-                                handleError(coordinatorLayout, ex, 400, getString(R.string.login_error));
-                                Log.e(TAG, Log.getStackTraceString(ex));
+                                handleError(coordinatorLayout, respEx, 400, getString(R.string.login_error));
+                                Log.e(TAG, Log.getStackTraceString(respEx));
                             }
                         });
             } else {
-                AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());
                 Log.e(TAG, Log.getStackTraceString(authEx));
             }
         };
@@ -141,7 +146,7 @@ public class LoginActivity extends BaseActivity {
         Boolean useTestClient = true;
         AuthorizationRequest loginRequest =
                 new AuthorizationRequest.Builder(
-                        sharedPreferences.getAuthServiceConfig(),
+                        mAuthState.getAuthorizationServiceConfiguration(),
                         String.format(useTestClient ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
                         ResponseTypeValues.CODE,
                         Uri.parse(String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))).build();

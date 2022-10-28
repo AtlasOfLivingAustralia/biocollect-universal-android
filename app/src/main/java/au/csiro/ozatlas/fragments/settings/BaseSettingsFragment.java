@@ -109,7 +109,7 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
     }
 
     private void performLogoutRequest() {
-        String idToken = sharedPreferences.getIdToken();
+        AuthState authState = sharedPreferences.getAuthState();
 
         // Create a hashmap for the additional parameters
         String redirectUri = String.format("au.org.ala.auth:/%s/signout", BuildConfig.FLAVOR);
@@ -124,10 +124,10 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         Log.d(TAG, String.format("LOGOUT URI: %s", logoutRequest.build().toUri().toString()));
 
         // Warn if we don't have an ID token stored
-        if (idToken == null || idToken.length() == 0) {
+        if (authState == null || authState.getIdToken() == null) {
             Log.w(TAG, "idToken string is null/empty!");
         } else {
-            logoutRequest.setIdTokenHint(idToken);
+            logoutRequest.setIdTokenHint(authState.getIdToken());
         }
 
         // Launch the logout request
