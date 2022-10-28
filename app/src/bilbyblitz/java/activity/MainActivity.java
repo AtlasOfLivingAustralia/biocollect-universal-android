@@ -201,12 +201,12 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            fab.setVisibility(View.VISIBLE);
+                            fab.show();
                         }
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            fab.setVisibility(View.INVISIBLE);
+                            fab.hide();
                         }
                     }).start();
     }
@@ -222,7 +222,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            fab.setVisibility(View.VISIBLE);
+                            fab.show();
                         }
                     }).start();
     }

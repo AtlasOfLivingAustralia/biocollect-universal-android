@@ -4,7 +4,9 @@
     android:layout_height="wrap_content"
     android:foreground="?attr/selectableItemBackground">
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="@dimen/row_padding_smaller">
@@ -32,7 +34,7 @@
             android:padding="3dp"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_done_white_24dp"
-            android:tint="@android:color/white" />
+            app:tint="@android:color/white" />
 
         <RelativeLayout
             android:layout_width="match_parent"
