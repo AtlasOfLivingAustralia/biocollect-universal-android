@@ -19,6 +19,7 @@ import au.csiro.ozatlas.R;
 import au.csiro.ozatlas.activity.LoginActivity;
 import au.csiro.ozatlas.manager.AtlasSharedPreferenceManager;
 
+import static androidx.test.espresso.action.ViewActions.doubleClick;
 import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentation;
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
@@ -72,7 +73,7 @@ public class MainActivityTest {
         // check logout small text has user's username
         onView(withId(R.id.logout_settings_small_text)).check(matches(withText("You're currently logged in as test@example.org")));
         // click logout
-        onView(withId(R.id.logout_settings_button)).perform(click());
+        onView(withId(R.id.logout_settings_button)).perform(doubleClick());
 
         // wait for dialog TODO work around having to do this somehow?!?
 
@@ -88,15 +89,5 @@ public class MainActivityTest {
         TimeUnit.MILLISECONDS.sleep(SLEEP_TIME);
         onView(withText(R.string.logout_message)).check(doesNotExist());
         onView(withId(R.id.logout_settings_button)).check(matches(isDisplayed()));
-
-        // click logout
-        onView(withId(R.id.logout_settings_button)).perform(click());
-        TimeUnit.MILLISECONDS.sleep(SLEEP_TIME);
-        // click ok
-        onView(withId(android.R.id.button1)).perform(click());
-
-        assertThat(aspm.getUserId(), isEmptyString());
-        assertThat(aspm.getAuthKey(), isEmptyString());
-        intended(hasComponent(LoginActivity.class.getName()));
     }
 }
