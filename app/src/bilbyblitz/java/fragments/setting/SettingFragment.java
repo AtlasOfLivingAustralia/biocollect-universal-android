@@ -2,6 +2,7 @@ package fragments.setting;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -115,33 +116,8 @@ public class SettingFragment extends BaseSettingsFragment {
     protected void configureLogoutButton(View logoutButton) {
         logoutButton.setOnClickListener((view) -> {
             if (isNetworkAvailable()) {
-                AtlasDialogManager.messageBox(getContext(), getString(R.string.logout_title), getString(R.string.logout_message, sharedPreferences.getUsername()), R.string.password_hint, android.R.string.yes, android.R.string.no, (password) -> {
-
-                    ProgressDialog progressDialog = ProgressDialog.show(getContext(), getString(R.string.please_wait),
-                            getString(R.string.logout_progress), true);
-
-                    final String username = sharedPreferences.getUsername();
-                    final String pwd = password.toString();
-//                    mCompositeDisposable.add(
-//                        ecoDataApiService.login(username, pwd)
-//                            .subscribeOn(Schedulers.io())
-//                            .observeOn(AndroidSchedulers.mainThread())
-//                            .subscribe(
-//                                (loginResponse) -> {
-//                                    Log.i(TAG, "Logout complete for " + loginResponse.userId);
-//                                    // Launching the login activity effectively logs the user out.
-//                                    progressDialog.dismiss();
-//                                    launchLoginActivity();
-//                                },
-//                                (error) -> {
-//                                    Log.e(TAG, "Couldn't logout user", error);
-//                                    Fabric.getLogger().e("Couldn't logout user", error.getMessage());
-//                                    Crashlytics.logException(error);
-//                                    progressDialog.cancel();
-//                                    new AlertDialog.Builder(getContext()).setTitle(R.string.logout_failed).setMessage(R.string.logout_failed_message).setNeutralButton(android.R.string.ok, (d, w) -> {} ).setCancelable(false).create().show();
-//                                }
-//                             )
-//                    );
+                AtlasDialogManager.alertBox(getContext(), getString(R.string.logout_message), getString(R.string.logout_title), (DialogInterface.OnClickListener) (dialogInterface, i) -> {
+                    super.handleLogout();
                 });
             } else {
                 Snackbar.make(getView(), R.string.logout_no_network, Snackbar.LENGTH_SHORT).show();

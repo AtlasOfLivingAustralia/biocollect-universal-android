@@ -135,11 +135,10 @@ public class LoginActivity extends BaseActivity {
         AtlasManager.hideKeyboard(this);
 //        if (getValidated())
 //            postLogin(editUsername.getText().toString(), editPassword.getText().toString());
-        Boolean useTestClient = true;
         AuthorizationRequest loginRequest =
                 new AuthorizationRequest.Builder(
                         mAuthState.getAuthorizationServiceConfiguration(),
-                        String.format(useTestClient ? "oidc-expo-test" : "%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
+                        String.format("%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
                         ResponseTypeValues.CODE,
                         Uri.parse(String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))).build();
 

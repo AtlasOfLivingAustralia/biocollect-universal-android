@@ -75,7 +75,7 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         return getString(R.string.logged_in_message, sharedPreferences.getUsername());
     }
 
-    private void handleLogout() {
+    protected void handleLogout() {
         AuthorizationServiceConfiguration authServiceConfig = sharedPreferences.getAuthServiceConfig();
 
         // Ensure that an authorization service config is supplied
