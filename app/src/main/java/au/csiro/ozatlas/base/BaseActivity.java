@@ -8,6 +8,9 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +18,14 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -60,6 +65,12 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (getApplicationContext().getPackageName().equals("au.org.ala.mobile.ozatlas") || getApplicationContext().getPackageName().equals("au.org.ala.bilbyblitz"))
             realm = Realm.getDefaultInstance();
+
+        PeriodicWorkRequest authRefreshWorkRequest = new PeriodicWorkRequest.Builder(BaseAuthWorker.class, 15, TimeUnit.MINUTES).build();
+        Log.d(TAG, "STARTING AUTH REFRESH MANAGER");
+        WorkManager workManager = WorkManager.getInstance(this.getApplicationContext());
+        workManager.enqueue(authRefreshWorkRequest);
+
     }
 
     @Override

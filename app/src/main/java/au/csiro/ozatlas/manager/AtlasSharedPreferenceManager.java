@@ -88,7 +88,7 @@ public class AtlasSharedPreferenceManager {
             if (authStateString == null || authStateString.length() == 0) {
                 return null;
             } else {
-                AuthState.jsonDeserialize(authStateString);
+                return AuthState.jsonDeserialize(authStateString);
             }
         } catch (JSONException ex) {
             Log.e("Preference Manager", Log.getStackTraceString(ex));

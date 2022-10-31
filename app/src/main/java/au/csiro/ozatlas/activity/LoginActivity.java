@@ -7,22 +7,14 @@ import android.os.Bundle;
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.annotation.VisibleForTesting;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import com.auth0.android.jwt.JWT;
-import com.google.android.material.textfield.TextInputLayout;
 import androidx.test.espresso.IdlingResource;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.inputmethod.EditorInfo;
-import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Button;
 
 import au.csiro.ozatlas.BuildConfig;
 import br.com.simplepass.loadingbutton.customViews.CircularProgressButton;
@@ -110,7 +102,6 @@ public class LoginActivity extends BaseActivity {
 
                                 // Update the auth state
                                 mAuthState.update(resp, respEx);
-
 
                                 // Update shared preferences
                                 sharedPreferences.writeAuthKey(resp.accessToken);
