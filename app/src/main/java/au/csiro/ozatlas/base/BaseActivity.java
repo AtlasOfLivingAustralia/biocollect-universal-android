@@ -23,6 +23,8 @@ import android.util.Log;
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import net.openid.appauth.AuthState;
+
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 import java.util.concurrent.TimeUnit;
@@ -77,7 +79,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     public void onResume() {
         super.onResume();
         //checking the authkey from sharedpreference. Launch LoginActivity in case there is not key
-        if (!(this instanceof LoginActivity) && sharedPreferences.getAuthKey().equals("")) {
+        AuthState authState = sharedPreferences.getAuthState();
+        if (!(this instanceof LoginActivity) && (sharedPreferences.getAuthKey().equals("") || authState == null || authState.hasClientSecretExpired())) {
             launchLoginActivity();
         }
     }
