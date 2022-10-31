@@ -25,7 +25,7 @@ public interface AppComponent {
 
     void inject(BaseIntentService intentService);
 
-    void inject(CustomRequestInterceptor customRequestInterceptor);
-
     void inject(BaseAuthWorker baseAuthWorker);
+
+    void inject(CustomRequestInterceptor customRequestInterceptor);
 }

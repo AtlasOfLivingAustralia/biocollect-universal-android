@@ -3,6 +3,7 @@ package di;
 import javax.inject.Singleton;
 
 import au.csiro.ozatlas.base.BaseActivity;
+import au.csiro.ozatlas.base.BaseAuthWorker;
 import au.csiro.ozatlas.base.BaseFragment;
 import au.csiro.ozatlas.base.BaseIntentService;
 import au.csiro.ozatlas.di.AnalyticsModule;
@@ -23,6 +24,8 @@ public interface AppComponent {
     void inject(BaseFragment fragment);
 
     void inject(BaseIntentService baseIntentService);
+
+    void inject(BaseAuthWorker baseAuthWorker);
 
     void inject(CustomRequestInterceptor customRequestInterceptor);
 }
