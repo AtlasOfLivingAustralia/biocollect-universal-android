@@ -8,6 +8,7 @@ import com.google.android.material.snackbar.Snackbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.PeriodicWorkRequest;
 import androidx.work.WorkManager;
 
@@ -69,9 +70,8 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
             realm = Realm.getDefaultInstance();
 
         PeriodicWorkRequest authRefreshWorkRequest = new PeriodicWorkRequest.Builder(BaseAuthWorker.class, 15, TimeUnit.MINUTES).build();
-        Log.d(TAG, "STARTING AUTH REFRESH MANAGER");
         WorkManager workManager = WorkManager.getInstance(this.getApplicationContext());
-        workManager.enqueue(authRefreshWorkRequest);
+        workManager.enqueueUniquePeriodicWork("BaseAuthWorker", ExistingPeriodicWorkPolicy.KEEP , authRefreshWorkRequest);
 
     }
 
