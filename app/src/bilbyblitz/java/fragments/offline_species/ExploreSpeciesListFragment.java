@@ -366,6 +366,8 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 RequestOptions options = new RequestOptions()
                         .placeholder(R.drawable.no_image_available)
                         .error(R.drawable.no_image_available);
+                Log.d("IMAGE TEST", animal.guid);
+                // Log.d("IMAGE TEST", animal.guid);
                 Glide.with(getActivity())
                         .load(getString(R.string.explore_image_url, animal.guid))
                         .listener(new RequestListener<Drawable>() {

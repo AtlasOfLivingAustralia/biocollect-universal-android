@@ -147,5 +147,6 @@
     <string name="logout_failed">Logout failed</string>
     <string name="logout_failed_message">Unable to logout, please check your password and network connection and try again</string>
 
-    <string name="oidc_discovery_url">https://auth.ala.org.au/cas/oidc/.well-known</string>
+    <string name="oidc_discovery_url">CHANGE-ME</string>
+    <string name="oidc_client_id">CHANGE-ME</string>
 </resources>

@@ -99,7 +99,8 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         // Build the logout request
         EndSessionRequest.Builder logoutRequest = new EndSessionRequest.Builder(authState.getAuthorizationServiceConfiguration())
                 .setPostLogoutRedirectUri(Uri.parse(redirectUri))
-                .setAdditionalParameters(additionalParams);
+                .setAdditionalParameters(additionalParams)
+                .setState(null);
 
         Log.d(TAG, String.format("LOGOUT URI: %s", logoutRequest.build().toUri().toString()));
 
@@ -119,11 +120,18 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
             // Ensure that the logout request was successful
             if (authResp != null) {
                 Log.d(TAG, authResp.jsonSerializeString());
+                launchLoginActivity();
             } else {
                 AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());
+                AtlasDialogManager.alertBox(
+                        getActivity(),
+                        getString(R.string.logout_message),
+                        getString(R.string.logout_title),
+                        getString(R.string.logout_title),
+                        (dialog, which) -> handleLogout()
+                );
+                AtlasDialogManager.alertBoxForMessage(getActivity(), authEx.getMessage(), "OK");
             }
-
-            launchLoginActivity();
         };
     }
 }
