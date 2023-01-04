@@ -98,27 +98,6 @@ public class AtlasSharedPreferenceManager {
     }
 
     /**
-     * write the OIDC discovery document
-     * @param discovery
-     */
-    public void writeAuthServiceConfig(AuthorizationServiceConfiguration discovery) {
-        sharedPreferences.edit().putString("AUTH_OIDC_DISCOVERY", discovery.toJsonString()).apply();
-    }
-
-    /**
-     * get the OIDC discovery document
-     */
-    public AuthorizationServiceConfiguration getAuthServiceConfig() {
-        try {
-            return AuthorizationServiceConfiguration.fromJson(sharedPreferences.getString("AUTH_OIDC_DISCOVERY", ""));
-        } catch (JSONException err) {
-            Log.w("Shared Preferences", "No AuthorizationServiceConfiguration has been stored, returning null...");
-        }
-
-        return null;
-    }
-
-    /**
      * write userId
      *
      * @param userId

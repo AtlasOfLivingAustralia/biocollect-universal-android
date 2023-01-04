@@ -76,32 +76,11 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
     }
 
     protected void handleLogout() {
-        AuthorizationServiceConfiguration authServiceConfig = sharedPreferences.getAuthServiceConfig();
+        AuthState authState = sharedPreferences.getAuthState();
 
         // Ensure that an authorization service config is supplied
-        if (authServiceConfig == null) {
-            Log.d(TAG, "AuthorizationServiceConfig is NULL, FETCHING");
-            showProgressDialog();
-
-            // If not, fetch a new one
-            AuthorizationServiceConfiguration.fetchFromIssuer(
-                    Uri.parse(getString(R.string.oidc_discovery_url)),
-                    (serviceConfiguration, ex) -> {
-                        hideProgressDialog();
-                        if (ex != null) {
-                            AtlasDialogManager.alertBox(
-                                    getActivity(),
-                                    getString(R.string.generic_error),
-                                    getString(R.string.discovery_error),
-                                    (dialog, which) -> {}
-                            );
-                            Log.e(TAG, Log.getStackTraceString(ex));
-                        } else {
-                            Log.d(TAG, serviceConfiguration.toJsonString());
-                            sharedPreferences.writeAuthServiceConfig(serviceConfiguration);
-                            performLogoutRequest();
-                        }
-                    });
+        if (authState.getAuthorizationServiceConfiguration() == null) {
+            launchLoginActivity();
         } else {
             Log.d(TAG, "AuthorizationServiceConfig is NOT NULL");
             performLogoutRequest();
@@ -112,23 +91,17 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         AuthState authState = sharedPreferences.getAuthState();
 
         // Create a hashmap for the additional parameters
-        String redirectUri = String.format("au.org.ala.auth:/%s/signout", BuildConfig.FLAVOR);
+        String redirectUri = String.format("au.org.ala.%s:/signout", BuildConfig.FLAVOR);
         HashMap<String, String> additionalParams = new HashMap<String, String>();
-        additionalParams.put("service", redirectUri);
+        additionalParams.put("client_id", getString(R.string.oidc_client_id));
+        additionalParams.put("logout_uri", redirectUri);
 
         // Build the logout request
-        EndSessionRequest.Builder logoutRequest = new EndSessionRequest.Builder(sharedPreferences.getAuthServiceConfig())
+        EndSessionRequest.Builder logoutRequest = new EndSessionRequest.Builder(authState.getAuthorizationServiceConfiguration())
                 .setPostLogoutRedirectUri(Uri.parse(redirectUri))
                 .setAdditionalParameters(additionalParams);
 
         Log.d(TAG, String.format("LOGOUT URI: %s", logoutRequest.build().toUri().toString()));
-
-        // Warn if we don't have an ID token stored
-        if (authState == null || authState.getIdToken() == null) {
-            Log.w(TAG, "idToken string is null/empty!");
-        } else {
-            logoutRequest.setIdTokenHint(authState.getIdToken());
-        }
 
         // Launch the logout request
         activityResultLauncher.launch(

@@ -10,5 +10,6 @@
     <string name="sighting_edit_url">https://biocollect-test.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
-    <string name="oidc_discovery_url">https://auth-test.ala.org.au/cas/oidc/.well-known</string>
+    <string name="oidc_discovery_url">https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_dqIVUS9bF</string>
+    <string name="oidc_client_id">5mqnuhdf75ru6fc153hjifdtsn</string>
 </resources>

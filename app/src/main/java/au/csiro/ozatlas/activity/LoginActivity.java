@@ -29,6 +29,9 @@ import butterknife.OnClick;
 
 import net.openid.appauth.*;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 /**
  * Created by sad038 on 6/4/17.
  */
@@ -62,13 +65,37 @@ public class LoginActivity extends BaseActivity {
         // Fetch the OIDC discovery document from the issuer
         AuthorizationServiceConfiguration.fetchFromIssuer(
                 Uri.parse(getString(R.string.oidc_discovery_url)),
-                (serviceConfiguration, ex) -> {
+                (serviceConfig, ex) -> {
                     if (ex != null) {
                         handleError(coordinatorLayout, ex, 400, getString(R.string.discovery_error));
                         Log.e(TAG, Log.getStackTraceString(ex));
                         return;
                     }
-                    mAuthState = new AuthState(serviceConfiguration);
+
+                    // Hack-in the cognito /logout endpoint, as it is not supplied
+                    // via end_session_endpoint (/logout isn't OIDC compliant anyway)
+                    if (serviceConfig.endSessionEndpoint == null) {
+                        try {
+                            JSONObject configJson = serviceConfig.toJson();
+                            String endSessionEndpoint = serviceConfig.tokenEndpoint
+                                    .toString()
+                                    .replaceFirst("oauth2/token", "logout");
+
+                            // Append the end_session_endpoint to the JSON object
+                            configJson.put("endSessionEndpoint", endSessionEndpoint);
+                            configJson.getJSONObject("discoveryDoc").put("end_session_endpoint", endSessionEndpoint);
+
+                            mAuthState = new AuthState(AuthorizationServiceConfiguration.fromJson(configJson));
+                            sharedPreferences.writeAuthState(mAuthState);
+                        } catch (JSONException e) {
+                            handleError(coordinatorLayout, ex, 400, getString(R.string.discovery_error));
+                            Log.e(TAG, Log.getStackTraceString(ex));
+                            return;
+                        }
+                    } else {
+                        mAuthState = new AuthState(serviceConfig);
+                        sharedPreferences.writeAuthState(mAuthState);
+                    }
                     btn.revertAnimation();
                 });
     }
@@ -138,13 +165,13 @@ public class LoginActivity extends BaseActivity {
         AuthorizationRequest loginRequest =
                 new AuthorizationRequest.Builder(
                         mAuthState.getAuthorizationServiceConfiguration(),
-                        String.format("%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
+                        getString(R.string.oidc_client_id),
                         ResponseTypeValues.CODE,
                         Uri.parse(String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))).build();
 
         Log.d(TAG, String.format(
                 "%s | %s",
-                String.format("%s-mobile-auth-%s", BuildConfig.FLAVOR, BuildConfig.BUILD_TYPE),
+                getString(R.string.oidc_client_id),
                 String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))
         );
 
