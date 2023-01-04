@@ -125,8 +125,6 @@
 
     <string name="setting">Settings</string>
 
-    <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
-
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
     <string name="bio_cache_url">https://biocache.ala.org.au/</string>
