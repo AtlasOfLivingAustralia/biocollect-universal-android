@@ -93,7 +93,7 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         // Create a hashmap for the additional parameters
         String redirectUri = String.format("au.org.ala.%s:/signout", BuildConfig.FLAVOR);
         HashMap<String, String> additionalParams = new HashMap<String, String>();
-        additionalParams.put("client_id", getString(R.string.oidc_client_id));
+        additionalParams.put("client_id", getString(R.string.client_id));
         additionalParams.put("logout_uri", redirectUri);
 
         // Build the logout request
@@ -117,9 +117,10 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         return result -> {
             EndSessionResponse authResp = EndSessionResponse.fromIntent(result.getData());
 
+            boolean cognitoEnabled = getString(R.string.cognito_enabled).equals("true");
+
             // Ensure that the logout request was successful
-            if (authResp != null) {
-                Log.d(TAG, authResp.jsonSerializeString());
+            if (authResp != null || !cognitoEnabled) {
                 launchLoginActivity();
             } else {
                 AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());

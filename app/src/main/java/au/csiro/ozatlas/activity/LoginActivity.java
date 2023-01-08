@@ -62,9 +62,18 @@ public class LoginActivity extends BaseActivity {
         CircularProgressButton btn = (CircularProgressButton) findViewById(R.id.loginButton);
         btn.startAnimation();
 
+        // Retrieve the cognito configuration
+        boolean cognitoEnabled = getString(R.string.cognito_enabled).equals("true");
+        String cognitoRegion = getString(R.string.cognito_region);
+        String cognitoUserPool = getString(R.string.cognito_user_pool);
+
+        String discoveryUrl = cognitoEnabled ?
+                String.format("https://cognito-idp.%s.amazonaws.com/%s_%s", cognitoRegion, cognitoRegion, cognitoUserPool) :
+                getString(R.string.cas_oidc_discovery);
+
         // Fetch the OIDC discovery document from the issuer
         AuthorizationServiceConfiguration.fetchFromIssuer(
-                Uri.parse(getString(R.string.oidc_discovery_url)),
+                Uri.parse(discoveryUrl),
                 (serviceConfig, ex) -> {
                     if (ex != null) {
                         handleError(coordinatorLayout, ex, 400, getString(R.string.discovery_error));
@@ -116,6 +125,7 @@ public class LoginActivity extends BaseActivity {
             AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());
             mAuthState.update(authResp, authEx);
 
+            boolean cognitoEnabled = getString(R.string.cognito_enabled).equals("true");
 
             // Ensure that the auth response is valid
             if (authResp != null) {
@@ -125,7 +135,7 @@ public class LoginActivity extends BaseActivity {
                         authResp.createTokenExchangeRequest(),
                         (resp, respEx) -> {
                             if (resp != null) { // If the exchange was successful
-                                JWT idJwt = new JWT(resp.idToken);
+                                JWT idJwt = new JWT(cognitoEnabled ? resp.idToken : resp.accessToken);
 
                                 // Update the auth state
                                 mAuthState.update(resp, respEx);
@@ -133,9 +143,15 @@ public class LoginActivity extends BaseActivity {
                                 // Update shared preferences
                                 sharedPreferences.writeAuthKey(resp.accessToken);
                                 sharedPreferences.writeAuthState(mAuthState);
-                                sharedPreferences.writeUserDisplayName(idJwt.getClaim("name").asString());
                                 sharedPreferences.writeUsername(idJwt.getClaim("email").asString());
-                                sharedPreferences.writeUserId(idJwt.getClaim("userid").asString());
+                                sharedPreferences.writeUserId(idJwt.getClaim(cognitoEnabled ? "custom:userid" : "userid").asString());
+                                sharedPreferences.writeUserDisplayName(
+                                        String.format(
+                                                "%s %s",
+                                                idJwt.getClaim("given_name").asString(),
+                                                idJwt.getClaim("family_name").asString()
+                                        )
+                                );
 
                                 // Navigate to the main activity
                                 hideProgressDialog();
@@ -165,15 +181,9 @@ public class LoginActivity extends BaseActivity {
         AuthorizationRequest loginRequest =
                 new AuthorizationRequest.Builder(
                         mAuthState.getAuthorizationServiceConfiguration(),
-                        getString(R.string.oidc_client_id),
+                        getString(R.string.client_id),
                         ResponseTypeValues.CODE,
                         Uri.parse(String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))).build();
-
-        Log.d(TAG, String.format(
-                "%s | %s",
-                getString(R.string.oidc_client_id),
-                String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))
-        );
 
         activityResultLauncher.launch(
                 mAuthService.getAuthorizationRequestIntent(loginRequest)

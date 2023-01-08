@@ -10,6 +10,10 @@
     <string name="sighting_edit_url">https://biocollect-test.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
-    <string name="oidc_discovery_url">https://cognito-idp.ap-southeast-2.amazonaws.com/ap-southeast-2_dqIVUS9bF</string>
-    <string name="oidc_client_id">5mqnuhdf75ru6fc153hjifdtsn</string>
+    <string name="cas_oidc_discovery">https://auth-test.ala.org.au/cas/oidc</string>
+    <string name="cognito_enabled">false</string>
+    <string name="cognito_region">ap-southeast-2</string>
+    <string name="cognito_user_pool">dqIVUS9bF</string>
+    <string name="client_id">5mqnuhdf75ru6fc153hjifdtsn</string>
+    <string name="scope">email openid profile ala/attrs ala/roles</string>
 </resources>
