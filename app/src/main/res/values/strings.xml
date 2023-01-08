@@ -149,6 +149,6 @@
     <string name="cognito_enabled">true</string>
     <string name="cognito_region">ap-southeast-2</string>
     <string name="cognito_user_pool">CHANGE-ME</string>
-    <string name="client_id">CHANGE-ME</string>
-    <string name="scope">CHANGE-ME</string>
+    <string name="client_id">oidc-mobile-auth</string>
+    <string name="scope">email openid profile ala/attrs ala/roles</string>
 </resources>
