@@ -68,7 +68,7 @@
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
-                <data android:scheme="au.org.ala.bilbyblitz"/>
+                <data android:scheme="bilbyblitz"/>
             </intent-filter>
         </activity>
 

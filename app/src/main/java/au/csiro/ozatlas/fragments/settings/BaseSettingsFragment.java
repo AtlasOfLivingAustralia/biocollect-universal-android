@@ -91,7 +91,7 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
         AuthState authState = sharedPreferences.getAuthState();
 
         // Create a hashmap for the additional parameters
-        String redirectUri = String.format("au.org.ala.%s:/signout", BuildConfig.FLAVOR);
+        String redirectUri = String.format("%s://signout", BuildConfig.FLAVOR);
         HashMap<String, String> additionalParams = new HashMap<String, String>();
         additionalParams.put("client_id", getString(R.string.client_id));
         additionalParams.put("logout_uri", redirectUri);
@@ -124,14 +124,16 @@ public class BaseSettingsFragment extends BaseMainActivityFragment {
                 launchLoginActivity();
             } else {
                 AuthorizationException authEx = AuthorizationException.fromIntent(result.getData());
-                AtlasDialogManager.alertBox(
-                        getActivity(),
-                        getString(R.string.logout_message),
-                        getString(R.string.logout_title),
-                        getString(R.string.logout_title),
-                        (dialog, which) -> handleLogout()
-                );
-                AtlasDialogManager.alertBoxForMessage(getActivity(), authEx.getMessage(), "OK");
+                if (authEx.code != 1) {
+                    AtlasDialogManager.alertBox(
+                            getActivity(),
+                            getString(R.string.logout_message),
+                            getString(R.string.logout_title),
+                            getString(R.string.logout_title),
+                            (dialog, which) -> handleLogout()
+                    );
+                    AtlasDialogManager.alertBoxForMessage(getActivity(), authEx.getMessage(), "OK");
+                }
             }
         };
     }

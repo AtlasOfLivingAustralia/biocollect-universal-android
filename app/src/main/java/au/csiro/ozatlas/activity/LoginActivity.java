@@ -183,7 +183,7 @@ public class LoginActivity extends BaseActivity {
                         mAuthState.getAuthorizationServiceConfiguration(),
                         getString(R.string.client_id),
                         ResponseTypeValues.CODE,
-                        Uri.parse(String.format("au.org.ala.%s:/signin", BuildConfig.FLAVOR))).build();
+                        Uri.parse(String.format("%s://signin", BuildConfig.FLAVOR))).build();
 
         activityResultLauncher.launch(
                 mAuthService.getAuthorizationRequestIntent(loginRequest)
