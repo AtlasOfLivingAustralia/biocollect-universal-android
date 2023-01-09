@@ -146,7 +146,7 @@
     <string name="logout_failed_message">Unable to logout, please check your password and network connection and try again</string>
 
     <string name="cas_oidc_discovery">https://auth.ala.org.au/cas/oidc</string>
-    <string name="cognito_enabled">true</string>
+    <string name="cognito_enabled">false</string>
     <string name="cognito_region">ap-southeast-2</string>
     <string name="cognito_user_pool">CHANGE-ME</string>
     <string name="client_id">oidc-mobile-auth</string>
