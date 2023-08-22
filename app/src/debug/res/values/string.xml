@@ -11,9 +11,11 @@
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
     <string name="cas_oidc_discovery">https://auth-test.ala.org.au/cas/oidc</string>
-    <string name="cognito_enabled">true</string>
+    <string name="cognito_enabled">false</string>
     <string name="cognito_region">ap-southeast-2</string>
-    <string name="cognito_user_pool">ocv7P5MnT</string>
-    <string name="client_id">irphnmpnfcssiafqgatc47alk</string>
+    <string name="cognito_user_pool">OOXU9GW39</string>
+    <string name="client_id">5mqnuhdf75ru6fc153hjifdtsn</string>
+    <!--    Cognito client ID-->
+    <!--    <string name="client_id">3evrluqa40pn11u2f2hqah813r</string>-->
     <string name="scope">email openid profile ala/attrs ala/roles</string>
 </resources>
