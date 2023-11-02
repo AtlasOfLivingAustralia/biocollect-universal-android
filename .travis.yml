@@ -31,7 +31,7 @@ before_install:
   - yes | $ANDROID_HOME/cmdline-tools/bin/sdkmanager "build-tools;${ANDROID_BUILD_TOOLS_VERSION}" --sdk_root=$ANDROID_HOME
 
 before_script:
-  - touch local.properties
+  - echo 'MAPS_API_KEY=placeholderKey' > local.properties
   - chmod +x gradlew
 script:
   - "./gradlew assembleDebug check"
