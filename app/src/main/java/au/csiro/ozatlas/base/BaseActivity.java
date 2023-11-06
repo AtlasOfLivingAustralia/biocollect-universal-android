@@ -3,11 +3,15 @@ package au.csiro.ozatlas.base;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v7.app.AppCompatActivity;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.work.ExistingPeriodicWorkPolicy;
+import androidx.work.PeriodicWorkRequest;
+import androidx.work.WorkManager;
+
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,12 +19,16 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.util.Log;
 
 import com.google.firebase.analytics.FirebaseAnalytics;
 import com.jakewharton.retrofit2.adapter.rxjava2.HttpException;
 
+import net.openid.appauth.AuthState;
+
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -60,13 +68,19 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (getApplicationContext().getPackageName().equals("au.org.ala.mobile.ozatlas") || getApplicationContext().getPackageName().equals("au.org.ala.bilbyblitz"))
             realm = Realm.getDefaultInstance();
+
+        PeriodicWorkRequest authRefreshWorkRequest = new PeriodicWorkRequest.Builder(BaseAuthWorker.class, 15, TimeUnit.MINUTES).build();
+        WorkManager workManager = WorkManager.getInstance(this.getApplicationContext());
+        workManager.enqueueUniquePeriodicWork("BaseAuthWorker", ExistingPeriodicWorkPolicy.KEEP , authRefreshWorkRequest);
+
     }
 
     @Override
     public void onResume() {
         super.onResume();
         //checking the authkey from sharedpreference. Launch LoginActivity in case there is not key
-        if (!(this instanceof LoginActivity) && sharedPreferences.getAuthKey().equals("")) {
+        AuthState authState = sharedPreferences.getAuthState();
+        if (!(this instanceof LoginActivity) && (sharedPreferences.getAuthKey().equals("") || authState == null || authState.hasClientSecretExpired())) {
             launchLoginActivity();
         }
     }
@@ -162,7 +176,7 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
     public void showMultiLineSnackBarMessage(CoordinatorLayout coordinatorLayout, String string) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setMaxLines(5);
         snackbar.show();
     }

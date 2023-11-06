@@ -6,10 +6,10 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.widget.RecyclerView;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -366,6 +366,8 @@ public class ExploreSpeciesListFragment extends BaseListWithRefreshFragment {
                 RequestOptions options = new RequestOptions()
                         .placeholder(R.drawable.no_image_available)
                         .error(R.drawable.no_image_available);
+                Log.d("IMAGE TEST", animal.guid);
+                // Log.d("IMAGE TEST", animal.guid);
                 Glide.with(getActivity())
                         .load(getString(R.string.explore_image_url, animal.guid))
                         .listener(new RequestListener<Drawable>() {

@@ -3,8 +3,16 @@ package au.csiro.ozatlas.manager;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.google.gson.Gson;
+
+import net.openid.appauth.AuthState;
+import net.openid.appauth.AuthorizationServiceConfiguration;
+import net.openid.appauth.AuthorizationServiceDiscovery;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -62,6 +70,31 @@ public class AtlasSharedPreferenceManager {
      */
     public String getAuthKey() {
         return sharedPreferences.getString("AUTH_KEY", "");
+    }
+
+    /**
+     * Write AuthState
+     */
+    public void writeAuthState(AuthState state) {
+        sharedPreferences.edit().putString("AUTH_STATE", state.jsonSerializeString()).apply();
+    }
+
+    /**
+     * Get AuthState
+     */
+    public AuthState getAuthState() {
+        try {
+            String authStateString = sharedPreferences.getString("AUTH_STATE", "");
+            if (authStateString == null || authStateString.length() == 0) {
+                return null;
+            } else {
+                return AuthState.jsonDeserialize(authStateString);
+            }
+        } catch (JSONException ex) {
+            Log.e("Preference Manager", Log.getStackTraceString(ex));
+        }
+
+        return null;
     }
 
     /**
@@ -221,7 +254,7 @@ public class AtlasSharedPreferenceManager {
         HashMap<String, String> map = new HashMap<String, String>();
         String key = getAuthKey();
         if (!key.equals(""))
-            map.put("authKey", key);
+            map.put("Authorization", String.format("Bearer %s", key));
         String username = getUsername();
         if (!username.equals(""))
             map.put("userName", username);

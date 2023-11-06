@@ -3,10 +3,10 @@ package activity;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.snackbar.Snackbar;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
@@ -21,8 +21,6 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import fragments.ContactUsFragment;
 import fragments.SightingListFragment;
-
-import static au.csiro.ozatlas.R.id.coordinatorLayout;
 
 /**
  * Created by sad038 on 21/4/17.
@@ -168,7 +166,7 @@ public class SingleFragmentActivity extends BaseActivity implements MainActivity
     public void showMultiLineSnackBarMessage(String string) {
         Snackbar snackbar = Snackbar.make(coordinatorLayout, string, Snackbar.LENGTH_LONG);
         View snackbarView = snackbar.getView();
-        TextView textView = (TextView) snackbarView.findViewById(android.support.design.R.id.snackbar_text);
+        TextView textView = (TextView) snackbarView.findViewById(com.google.android.material.R.id.snackbar_text);
         textView.setMaxLines(5);
         snackbar.show();
     }

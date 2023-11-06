@@ -79,7 +79,8 @@
     <string name="delete_sight_message">Would you like to delete this sight?</string>
     <string name="force_upload_message">There is a possibility of duplication of this track in the server. Are you sure to proceed?</string>
     <string name="generic_error">Something is wrong.</string>
-    <string name="login_error">Invalid Login Information</string>
+    <string name="login_error">An error occurred while logging in.</string>
+    <string name="discovery_error">An error occurred while performing OIDC discovery.</string>
     <string name="logout_title">Logout</string>
     <string name="permission_denied">Those Permissions are needed. </string>
     <string name="nothing_to_upload">There is no draft record to upload</string>
@@ -124,8 +125,6 @@
 
     <string name="setting">Settings</string>
 
-    <string name="map_key">AIzaSyApH8-iLdRdomeh1bwzCicpKySpOBiZY00</string>
-
     <string name="ecodata_url">https://ecodata.ala.org.au/</string>
     <string name="biocollect_url">https://biocollect.ala.org.au/</string>
     <string name="bio_cache_url">https://biocache.ala.org.au/</string>
@@ -136,13 +135,20 @@
     <string name="sighting_detail_url">https://biocollect.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
     <string name="register_url">https://auth.ala.org.au/userdetails/registration/createAccount</string>
     <string name="project_info_url">https://biocollect.ala.org.au/ala/project/index/%1$s?mobile=true</string>
-    <string name="explore_image_url">https://ozatlas-proxy.ala.org.au/image/thumbnail/%1$s</string>
+    <string name="explore_image_url">https://biocollect.ala.org.au/species/speciesImage?id=%1$s</string>
     <string name="logged_in_message">You\'re currently logged in as %1$s</string>
-    <string name="error_try_again">An error has occured, please check your network connection and try again.</string>
+    <string name="error_try_again">An error has occurred, please check your network connection and try again.</string>
     <string name="hint_password">Password</string>
     <string name="logout_no_network">You must have a network connection to log out.</string>
     <string name="please_wait">Please wait</string>
     <string name="logout_progress">Logout in progress</string>
     <string name="logout_failed">Logout failed</string>
     <string name="logout_failed_message">Unable to logout, please check your password and network connection and try again</string>
+
+    <string name="cas_oidc_discovery">https://auth.ala.org.au/cas/oidc</string>
+    <string name="cognito_enabled">false</string>
+    <string name="cognito_region">ap-southeast-2</string>
+    <string name="cognito_user_pool">CHANGE-ME</string>
+    <string name="client_id">oidc-mobile-auth</string>
+    <string name="scope">email openid profile ala/attrs ala/roles</string>
 </resources>

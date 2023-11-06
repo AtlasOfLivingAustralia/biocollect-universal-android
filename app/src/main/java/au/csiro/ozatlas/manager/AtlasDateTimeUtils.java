@@ -47,7 +47,7 @@ public class AtlasDateTimeUtils {
     public static String getFormattedDayTime(String dateString, String senderFormat, String expectedFormat) {
         SimpleDateFormat sdf = getSimpleFormatter(senderFormat);
         try {
-            return getSimpleFormatter(expectedFormat).format(sdf.parse(dateString));
+            return getSimpleFormatter(expectedFormat).format(sdf.parse(dateString)).replace(".", "");
         } catch (ParseException p) {
             Log.d(TAG, p.getMessage());
         } catch (Exception e) {

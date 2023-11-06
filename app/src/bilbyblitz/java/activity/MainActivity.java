@@ -5,15 +5,15 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.navigation.NavigationView;
+import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -201,12 +201,12 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            fab.setVisibility(View.VISIBLE);
+                            fab.show();
                         }
 
                         @Override
                         public void onAnimationEnd(Animator animation) {
-                            fab.setVisibility(View.INVISIBLE);
+                            fab.hide();
                         }
                     }).start();
     }
@@ -222,7 +222,7 @@ public class MainActivity extends BilbyBlitzBaseActivity implements NavigationVi
                     .setListener(new AnimatorListenerAdapter() {
                         @Override
                         public void onAnimationStart(Animator animation) {
-                            fab.setVisibility(View.VISIBLE);
+                            fab.show();
                         }
                     }).start();
     }

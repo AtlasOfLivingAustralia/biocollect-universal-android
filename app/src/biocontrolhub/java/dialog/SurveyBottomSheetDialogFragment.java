@@ -1,12 +1,13 @@
 package dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialogFragment;
-import android.support.design.widget.CoordinatorLayout;
+import androidx.annotation.NonNull;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -42,9 +43,9 @@ public class SurveyBottomSheetDialogFragment extends BottomSheetDialogFragment {
         }
     };
 
+    @SuppressLint({"", "RestrictedApi"})
     @Override
     public void setupDialog(Dialog dialog, int style) {
-        //noinspection RestrictedApi
         super.setupDialog(dialog, style);
         View contentView = View.inflate(getContext(), R.layout.fragment_survey_bottom_sheet, null);
         dialog.setContentView(contentView);

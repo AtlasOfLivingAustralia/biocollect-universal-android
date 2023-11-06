@@ -4,8 +4,18 @@
     <string name="biocollect_url">https://biocollect-test.ala.org.au/</string>
     <string name="ecodata_url">https://ecodata-test.ala.org.au/</string>
 
+    <string name="project_info_url">https://biocollect-test.ala.org.au/ala/project/index/%1$s?mobile=true</string>
+
     <string name="survey_entry_url">https://biocollect-test.ala.org.au/bioActivity/mobileCreate/%1$s</string>
     <string name="sighting_edit_url">https://biocollect-test.ala.org.au/bioActivity/mobileEdit/%1$s?mobile=true</string>
     <string name="sighting_detail_url">https://biocollect-test.ala.org.au/bioActivity/index/%1$s?mobile=true</string>
 
+    <string name="cas_oidc_discovery">https://auth-test.ala.org.au/cas/oidc</string>
+    <string name="cognito_enabled">false</string>
+    <string name="cognito_region">ap-southeast-2</string>
+    <string name="cognito_user_pool">OOXU9GW39</string>
+    <string name="client_id">5mqnuhdf75ru6fc153hjifdtsn</string>
+    <!--    Cognito client ID-->
+    <!--    <string name="client_id">3evrluqa40pn11u2f2hqah813r</string>-->
+    <string name="scope">email openid profile ala/attrs ala/roles</string>
 </resources>
