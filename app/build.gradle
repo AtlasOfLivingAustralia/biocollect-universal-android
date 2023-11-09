@@ -60,7 +60,7 @@ android {
     flavorDimensions "versionCode"
 
     defaultConfig {
-        minSdkVersion 24
+        minSdkVersion 30
         targetSdkVersion 33
         applicationId 'au.org'
         multiDexEnabled true
