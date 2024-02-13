@@ -68,11 +68,6 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
         if (getApplicationContext().getPackageName().equals("au.org.ala.mobile.ozatlas") || getApplicationContext().getPackageName().equals("au.org.ala.bilbyblitz"))
             realm = Realm.getDefaultInstance();
-
-        PeriodicWorkRequest authRefreshWorkRequest = new PeriodicWorkRequest.Builder(BaseAuthWorker.class, 15, TimeUnit.MINUTES).build();
-        WorkManager workManager = WorkManager.getInstance(this.getApplicationContext());
-        workManager.enqueueUniquePeriodicWork("BaseAuthWorker", ExistingPeriodicWorkPolicy.KEEP , authRefreshWorkRequest);
-
     }
 
     @Override
@@ -83,6 +78,11 @@ public class BaseActivity extends AppCompatActivity implements BaseActivityFragm
         if (!(this instanceof LoginActivity) && (sharedPreferences.getAuthKey().equals("") || authState == null || authState.hasClientSecretExpired())) {
             launchLoginActivity();
         }
+
+        Log.d(TAG, "Resuming, performing token refresh check...");
+        PeriodicWorkRequest authRefreshWorkRequest = new PeriodicWorkRequest.Builder(BaseAuthWorker.class, PeriodicWorkRequest.MIN_PERIODIC_INTERVAL_MILLIS, TimeUnit.MILLISECONDS).build();
+        WorkManager workManager = WorkManager.getInstance(this.getApplicationContext());
+        workManager.enqueueUniquePeriodicWork("BaseAuthWorker", ExistingPeriodicWorkPolicy.REPLACE , authRefreshWorkRequest);
     }
 
     @Override

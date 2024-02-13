@@ -51,6 +51,7 @@ public class BaseAuthWorker extends Worker {
                         authState.update(resp, respEx);
 
                         if (respEx == null) {
+                            Log.d(TAG, "Token refreshed successfully!");
                             sharedPreferences.writeAuthState(authState);
                             sharedPreferences.writeAuthKey(resp.accessToken);
                         } else {
