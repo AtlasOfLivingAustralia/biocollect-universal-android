@@ -81,20 +81,20 @@ android {
     productFlavors {
         biocollect {
             applicationIdSuffix '.ala.biocollect'
-            versionCode 13
+            versionCode 14
             versionName '1.2.2'
             signingConfig signingConfigs.config_biocollect
         }
         biocontrolhub {
             applicationIdSuffix '.ala.biocontrolhub'
-            versionCode 8
+            versionCode 9
             versionName '1.2.2'
             signingConfig signingConfigs.config_biocontrolhub
 
         }
         bilbyblitz {
             applicationIdSuffix '.ala.bilbyblitz'
-            versionCode 26
+            versionCode 27
             versionName '1.2.2'
             signingConfig signingConfigs.config_bilbyblitz
 
